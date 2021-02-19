@@ -1,0 +1,13 @@
+﻿<ns3:eDocumentRegistrationResponse xmlns:ns3="http://drsv2_1.ws.bg.lr.gov/" xmlns:ns2="http://www.oscre.org/ns/eRegFinal/2012/RequestApplicationToChangeRegisterV2_1" xmlns:ns4="http://www.oscre.org/ns/eRegFinal/2012/ResponseApplicationToChangeRegisterV2_0">
+ <return>
+ <ns4:GatewayResponse>
+ <ns4:TypeCode>10</ns4:TypeCode>
+ <ns4:Acknowledgement>
+ <ns4:UniqueID>scenario4</ns4:UniqueID>
+ <ns4:MessageDescription>Your application has been accepted</ns4:MessageDescription>
+<ns4:PriorityDateTime>server time here</ns4:PriorityDateTime>
+<ns4:ABR>G333YYZ</ns4:ABR>
+ </ns4:Acknowledgement>
+ </ns4:GatewayResponse>
+ </return>
+ </ns3:eDocumentRegistrationResponse>

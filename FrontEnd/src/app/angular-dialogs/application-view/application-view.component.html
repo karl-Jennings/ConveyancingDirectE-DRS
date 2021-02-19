@@ -1,0 +1,129 @@
+<!-- <h2 mat-dialog-title>
+    <div class="row justify-content-between">
+        <div class="col-auto">
+            Applications
+        </div>
+        <div class="col-auto on-hover" (click)="onNoClick()">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+    </div>
+</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="row">
+        <div class="col pl-0 pr-0">
+            <form [formGroup]="applicationGroup">
+                <div class="col-12">
+                    <h4 class="font-weight-bold mb-0">Attach the application forms and supporting documents</h4>
+                    <h4 class="mb-0">Attach any further applications or supporting documents from the drop-down list
+                        below
+                    </h4>
+                </div>
+                <div class="col-6 mt-3">
+                    <mat-form-field class="w-100">
+                        <mat-label>Application/document</mat-label>
+                        <input required formControlName="Type" type="text"
+                            placeholder="Select Application/document type" matInput
+                            [formControl]="documentTypeController" [matAutocomplete]="documentTypeAuto">
+                        <button mat-button matSuffix mat-icon-button aria-label="Clear"
+                            (click)="documentTypeController.setValue([]);">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-autocomplete autoActiveFirstOption #documentTypeAuto="matAutocomplete"
+                            [displayWith]="displayFnRegType">
+                            <mat-option *ngFor="let option of documentTypeOptions | async" [value]="option">
+                                <h5 class="mb-0"> {{option.Title}}</h5>
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="col-12"> </div>
+                <div class="col-12 mt-3 ">
+                    <div class="input-group mb-0 input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text md-addon">
+                                <h5 class="mb-0">MD REF:</h5>
+                            </span>
+                        </div>
+                        <input required formControlName="Reference" class="form-control">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text md-addon">
+                                <h5 class="mb-0">Charge Date: </h5>
+                            </span>
+                        </div>
+                        <input formControlName="ChargeDate" type="date" class="form-control">
+                    </div>
+                </div>
+                <div class="col-12"> </div>
+                <div class="col-12 mt-3">
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" #file class="custom-file-input" accept=".*" (change)="uploadFile()" />
+                            <label class="custom-file-label" for="inputGroupFile01">{{fileName}} </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mt-3">
+                    <h4 class="font-weight-bold mb-0">Fee</h4>
+                    <h4 class="mb-0">Enter the expected fee for the application. See the Fees Calculator for guidance.
+                    </h4>
+                    <h4 class="mb-0">If the application attracts a fee the following VDD account will be debited:
+                        3236987.
+                    </h4>
+
+                    <mat-form-field class="example-form-field w-25 mt-3">
+                        <mat-label>Expected fee: £</mat-label>
+                        <input required formControlName="Fee" matInput type="number" #txtPoint>
+                        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="txtPoint.value=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-12"> </div>
+                <div class="col-6 mt-3">
+                    <label id="example-radio-group-label">Certification*</label>
+                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                        formControlName="CertificationType">
+                        <mat-radio-button class="example-radio-button" *ngFor="let item of certificates" [value]="item">
+                            {{item.Title}} </mat-radio-button>
+                    </mat-radio-group>
+                    <button (click)="AttachApplication()" class="mr-1" mat-flat-button color="primary">Attach</button>
+                    <button (click)="ClearFields()" class="btn-warning" mat-flat-button>Clear</button>
+
+                </div>
+            </form>
+            <div class="col-12 mt-3">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="grey lighten-3 ">
+                            <th scope="col">Attachment</th>
+                            <th scope="col">Certification</th>
+                            <th scope="col">Files</th>
+                            <th scope="col">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of applicationFormList" class="{{item.IsSelected ? 'light-blue-row' : ''}}"
+                            (click)="SelectAppRow(item.LocalId)">
+                            <td> {{item.Type.Title}}</td>
+                            <td> {{item.CertificationType.Title}}</td>
+                            <td> </td>
+                            <td class="py-0">
+                                <button mat-icon-button (click)="RemoveApplication(item)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="true" (click)="SubmitForm()" class="text-success"
+        cdkFocusInitial>Submit</button>
+</mat-dialog-actions> -->

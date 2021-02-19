@@ -1,0 +1,46 @@
+<div class="container-fluid h-100 bg-light">
+    <div class="row justify-content-center h-100">
+        <div class="col-auto my-auto" style="width: 400px;">
+            <mdb-card class="text-center">
+                <!--Card image-->
+                <div class="row justify-content-center mt-4">
+                    <div class="col-8">
+                        <img class="img-fluid"
+                            src="../../assets/img/logo.jpg" />
+
+                    </div>
+                </div>
+                <!--Card content-->
+                <mdb-card-body>
+                    <form [formGroup]="userGroup">
+
+                        <!--Title-->
+                        <mdb-card-title>
+                            <h3 class="font-weight-bold">eDRS Login</h3>
+                        </mdb-card-title>
+                        <!--Text-->
+                        <mat-form-field class="d-block">
+                            <mat-label>Email</mat-label>
+                            <input matInput formControlName="email" (keyup.enter)="doLogin()" required>
+                        </mat-form-field>
+                        <mat-form-field class="d-block">
+                            <mat-label>Password</mat-label>
+                            <input matInput type="password" formControlName="password" required
+                                (keyup.enter)="doLogin()">
+                        </mat-form-field>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <button mat-flat-button class="btn-block" color="primary" (click)="doLogin()">
+                                    <i class="fas fa-spinner fa-spin " *ngIf="showProgress"></i>
+                                    {{showProgress == true ? 'Please wait...' : 'Login'}}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </mdb-card-body>
+            </mdb-card>
+
+        </div>
+    </div>
+</div>

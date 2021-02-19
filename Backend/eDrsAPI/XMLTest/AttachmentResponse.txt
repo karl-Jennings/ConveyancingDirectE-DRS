@@ -1,0 +1,11 @@
+﻿<ns3:newAttachmentResponse xmlns:ns3="http://attachmentv2_1.ws.bg.lr.gov/" xmlns:ns2="http://www.oscre.org/ns/eRegFinal/2012/RequestAttachmentV2_1" xmlns:ns4="http://www.oscre.org/ns/eReg-Final/2012/ResponseAttachmentV2_0">
+ <return>
+ <ns4:GatewayResponse>
+ <ns4:TypeCode>10</ns4:TypeCode>
+ <ns4:Acknowledgement>
+ <ns4:UniqueID>your message id from the request here</ns4:UniqueID>
+<ns4:MessageDescription>Your attachment has been received</ns4:MessageDescription>
+ </ns4:Acknowledgement>
+ </ns4:GatewayResponse>
+ </return>
+ </ns3:newAttachmentResponse>

@@ -1,0 +1,77 @@
+<h2 mat-dialog-title>
+    <div class="row justify-content-between">
+        <div class="col-auto">
+            Response from the Gateway
+        </div>
+        <div class="col-auto on-hover" (click)="onNoClick()">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+    </div>
+</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="row">
+        <div class="col">
+            <p class="text-success">
+                {{result.Acknowledgement.MessageDescription}}
+            </p>
+        </div>
+    </div>
+
+    <div class="row w-50">
+        <div class="col-6">
+            <h4 class="mb-1">Type Code:</h4>
+        </div>
+        <div class="col-6">
+            <h4 class="mb-1 font-weight-bold">{{result.TypeCode}}
+            </h4>
+        </div>
+        <div class="col-6">
+            <h4 class="mb-1">ABR:
+            </h4>
+        </div>
+        <div class="col-6">
+            <h4 class="mb-1 font-weight-bold">{{result.Acknowledgement.ABR}}
+            </h4>
+        </div>
+    </div>
+
+    <!-- <table class="table table-bordered mt-2">
+        <thead>
+            <tr class="grey lighten-3">
+                <th scope="col" class="py-2">Title number</th>
+                <th scope="col" class="py-2">Property</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="py-2">ND66321</td>
+                <td class="py-2"> </td>
+            </tr>
+            <tr>
+                <td>ND6834</td>
+                <td> </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr class="grey lighten-3 ">
+                <th scope="col">Attachment</th>
+                <th scope="col">Certification</th>
+                <th scope="col">Files</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ADV Adverse possession of registered land</td>
+                <td> </td>
+                <td> </td>
+            </tr>
+        </tbody>
+    </table> -->
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="true" class="text-success" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

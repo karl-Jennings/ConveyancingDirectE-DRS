@@ -1,0 +1,11 @@
+ .mat-success {
+     background-color: #007969 !important;
+ }
+
+ ::ng-deep.on-hover:hover {
+     cursor: pointer;
+ }
+
+ ::ng-deep .light-blue-row {
+     background: lightblue !important;
+ }

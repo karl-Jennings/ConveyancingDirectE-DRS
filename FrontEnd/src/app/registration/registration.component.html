@@ -1,0 +1,47 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-12 mt-1">
+            <mdb-card class="mb-3" borderColor="border-dark">
+                <mdb-card-header class="py-2">Overview</mdb-card-header>
+                <mdb-card-body>
+                    <div class="row">
+                        <div class="col my-auto">
+                            <p> There are limitations on electronic lodgement of this application</p>
+                        </div>
+                        <div class="col-auto">
+                            <button mat-stroked-button color="primary">View Limitation</button>
+                        </div>
+                    </div>
+                </mdb-card-body>
+            </mdb-card>
+        </div>
+        <div class="col-12 p-4">
+            <div class="row">
+                <div class="col">
+                    <h4 class="font-weight-bold mb-0">Type of Registration</h4>
+                    <h4 class="mb-0">Choose which type of registration you require from the option below</h4>
+                </div>
+                <div class="col-auto my-auto">
+                    <button mat-stroked-button color="primary">View application definition</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-radio-group [(ngModel)]="selectedRegistration" aria-labelledby="example-radio-group-label"
+                        (change)="RegistrationTypeChange()" class="example-radio-group">
+                        <mat-radio-button class="example-radio-button" *ngFor="let item of registrationTypes"
+                            [value]="item">
+                            <div [innerHtml]="item.TypeName"></div>
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-right my-auto">
+                    <a routerLink="{{nextPath}}" mat-flat-button class="btn-success">Next</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
