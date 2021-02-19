@@ -1,5 +1,5 @@
 ﻿
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
@@ -101,12 +101,11 @@ namespace LrApiManager.SOAPManager
 
         public LeaseExtensionPollResponse GetPoolResponse()
         {
-            //Directory.CreateDirectory("XMLTest");
-            //var rootFolder = new PhysicalFileProvider(
-            //    Path.Combine(Directory.GetCurrentDirectory(), "XMLTest")).Root;
+            Directory.CreateDirectory("XMLTest");
+            var rootFolder = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "XMLTest")).Root;
 
-            //string xml = System.IO.File.ReadAllText(rootFolder + @"PoolResponse.txt");
-            string xml = System.IO.File.ReadAllText(@"E:\Accura-tech\eDRSDEV\Backend\eDrsAPI\XMLTest\LeaseExtensionPoolResponse.txt");
+            string xml = System.IO.File.ReadAllText(rootFolder + @"LeaseExtensionPool.txt");
+            //string xml = System.IO.File.ReadAllText(@"E:\Accura-tech\eDRSDEV\Backend\eDrsAPI\XMLTest\LeaseExtensionPoolResponse.txt");
 
             xml = xml.Replace("ns3:", "");
             xml = xml.Replace("ns4:", "");

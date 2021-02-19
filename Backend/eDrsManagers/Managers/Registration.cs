@@ -177,7 +177,7 @@ namespace eDrsManagers.Managers
                             TitleNumberId = s.TitleNumberId,
                             CreatedDate = s.CreatedDate,
                             TitleNumberCode = s.TitleNumberCode,
-
+                            LesseeTitleNumber = s.LesseeTitleNumber
                         }).ToList(),
                         RegistrationTypeId = sel.RegistrationTypeId,
                         ApplicationAffects = sel.ApplicationAffects,

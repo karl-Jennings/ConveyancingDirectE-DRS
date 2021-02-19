@@ -34,8 +34,6 @@ export class ViewDocumentRegistrationsComponent implements OnInit {
       console.log(res)
     })
 
-
-
     this.registrationService.GetRegistrations(this.regType).subscribe(res => {
       this.dataSource = res
     })

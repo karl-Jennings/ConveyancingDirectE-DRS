@@ -227,7 +227,6 @@ export class RemovalOfDefaultComponent implements OnInit {
       LocalId: this.titleId++,
       TitleNumberCode: this.txtTitle.value,
       IsSelected: false,
-      PropertyName: ""
     }
 
     if (this.titleList.find(s => s.LocalId == this.selectedTitleNumber) == null) {

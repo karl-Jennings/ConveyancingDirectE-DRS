@@ -118,13 +118,13 @@ export class LeaseExtensionComponent implements OnInit {
       TitleNumberId: 0,
       TitleNumberCode: ['', Validators.required],
       LesseeTitleNumber: ['', Validators.required],
-      CreatedDate: [],
-      UpdatedDate: [],
+      CreatedDate: [new Date().toISOString().substring(0, 10)],
+      UpdatedDate: [new Date().toISOString().substring(0, 10)],
       LocalId: [0],
       IsSelected: [false],
-      TitleType: [''],
       Status: true,
       DocumentReferenceId: 0,
+      DocumentReference: null,
     });
 
     this.applicationGroup = this.formBuilder.group({
@@ -236,7 +236,7 @@ export class LeaseExtensionComponent implements OnInit {
     var insertObj: TitleNumber = {
 
     }
-    if (this.applicationGroup.valid) {
+    if (this.titleGroup.valid) {
 
       insertObj = this.titleGroup.value;
       insertObj.LocalId = this.titleId++
@@ -280,11 +280,10 @@ export class LeaseExtensionComponent implements OnInit {
       TitleNumberId: 0,
       TitleNumberCode: '',
       LesseeTitleNumber: '',
-      CreatedDate: [],
-      UpdatedDate: [],
+      CreatedDate: new Date(),
+      UpdatedDate: new Date(),
       LocalId: 0,
       IsSelected: [false],
-      TitleType: '',
       Status: true,
       DocumentReferenceId: 0,
     })
@@ -299,9 +298,6 @@ export class LeaseExtensionComponent implements OnInit {
     }
 
   }
-
-
-
 
   // For Applications
 
