@@ -272,11 +272,24 @@ export class LeaseExtensionComponent implements OnInit {
   }
 
   ClearTitleFields() {
-    this.titleSaveBtn = "Add";
-    this.selectedTitleNumber = 0;
-    this.txtTitle.setValue([])
+    this.titleSaveBtn = "Add"
 
-    this.titleList?.forEach(s => s.IsSelected = false);
+    this.titleList.forEach(x => x.IsSelected = false);
+    this.selectedTitleNumber = 0;
+    this.titleGroup.patchValue({
+      TitleNumberId: 0,
+      TitleNumberCode: '',
+      LesseeTitleNumber: '',
+      CreatedDate: [],
+      UpdatedDate: [],
+      LocalId: 0,
+      IsSelected: [false],
+      TitleType: '',
+      Status: true,
+      DocumentReferenceId: 0,
+    })
+
+
   }
 
   RemoveTitle(id: any) {
@@ -284,6 +297,7 @@ export class LeaseExtensionComponent implements OnInit {
     if (this.selectedTitleNumber == id) {
       this.selectedTitleNumber = undefined;
     }
+
   }
 
 
