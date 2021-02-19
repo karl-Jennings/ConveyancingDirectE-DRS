@@ -348,3 +348,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+Backend/eDrsAPI/appsettings.Development.json
+FrontEnd/src/environments/environment.ts
+Backend/eDrsAPI/appsettings.json 
