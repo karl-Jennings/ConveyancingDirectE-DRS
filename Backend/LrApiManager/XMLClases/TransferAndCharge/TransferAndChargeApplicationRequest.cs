@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace LrApiManager.XMLClases.TransferOfPart
+namespace LrApiManager.XMLClases.TransferAndChargeApplicationRequest
 {
 
-
-    public class TransferOfPartApplicationRequest
+    public class TransferAndChargeApplicationRequest
     {
         public string AdditionalProviderFilter { get; set; }
         public string MessageId { get; set; }
@@ -24,18 +21,28 @@ namespace LrApiManager.XMLClases.TransferOfPart
         public string ApplicationDate { get; set; }
         public bool DisclosableOveridingInterests { get; set; }
         public string PostcodeOfProperty { get; set; }
-        public List<Transferofpart> Titles { get; set; }
-        public List<Otherapplication> Applications { get; set; }
+        public string LocalAuthority { get; set; }
+        public List<Dealing> Titles { get; set; }
+        public ApplicationsObject Applications { get; set; }
         public List<Supportingdocument> SupportingDocuments { get; set; }
-        public Representations Representations { get; set; }
+        public RepresentationsObject Representations { get; set; }
         public List<Party> Parties { get; set; }
+
+        public List<Additionalpartynotification> AdditionalPartyNotifications { get; set; }
+
         public string Notes { get; set; }
         public string ApplicationAffects { get; set; }
-    }    
+    }
 
-    public class Transferofpart
+
+    public class Dealing
     {
-        public TitleNumber[] TransferorTitles { get; set; }
+        public Dealingtitles DealingTitles { get; set; }
+    }
+
+    public class Dealingtitles
+    {
+        public TitleNumber[] TitleNumber { get; set; }
     }
 
     public class TitleNumber
@@ -43,12 +50,15 @@ namespace LrApiManager.XMLClases.TransferOfPart
         public string TitleString { get; set; }
     }
 
-    public class Applications
+
+    public class ApplicationsObject
     {
-        public List<Otherapplication> OtherApplication { get; set; }
+        public List<OtherapplicationObject> OtherApplication { get; set; }
+
+        public List<ChargeapplicationObject> ChargeApplication { get; set; }
     }
 
-    public class Otherapplication
+    public class OtherapplicationObject
     {
         public int Priority { get; set; }
         public int Value { get; set; }
@@ -56,12 +66,25 @@ namespace LrApiManager.XMLClases.TransferOfPart
         public Document Document { get; set; }
         public string Type { get; set; }
     }
+    public class ChargeapplicationObject
+    {
+        public int Priority { get; set; }
+        public decimal Value { get; set; }
+        public int FeeInPence { get; set; }
+        public Document Document { get; set; }
+        public string ChargeDate { get; set; }
+        public string MDRef { get; set; }
+        public string SortCode { get; set; }
+    }
+
+    public class Document
+    {
+        public string CertifiedCopy { get; set; }
+    }
 
     public class Supportingdocuments
     {
         public List<Supportingdocument> SupportingDocument { get; set; }
-
-        public List<Chargeapplication> ChargeApplication { get; set; }
     }
 
     public class Supportingdocument
@@ -70,32 +93,28 @@ namespace LrApiManager.XMLClases.TransferOfPart
         public int DocumentId { get; set; }
         public string DocumentName { get; set; }
     }
-    public class Chargeapplication
-    {
-        public int Priority { get; set; }
-        public string Value { get; set; }
-        public int FeeInPence { get; set; }
-        public Document Document { get; set; }
-        public string ChargeDate { get; set; }
-        public string MDRef { get; set; }
-        public string SortCode { get; set; }
-    }
-    public class Document
-    {
-        public string CertifiedCopy { get; set; }
-    }
 
-    public class Representations
+    public class RepresentationsObject
     {
-        public Lodgingconveyancer LodgingConveyancer { get; set; }
+        public LodgingconveyancerObject LodgingConveyancer { get; set; }
         public Certified Certified { get; set; }
+        public RepresentingConveyancerObject RepresentingConveyancer { get; set; }
+
+
     }
 
-    public class Lodgingconveyancer
+    public class LodgingconveyancerObject
     {
         public int RepresentativeId { get; set; }
     }
 
+    public class RepresentingConveyancerObject
+    {
+        public int RepresentativeId { get; set; }
+        public string ConveyancerName { get; set; }
+        public string Reference { get; set; }
+        public DXAddress DXAddress { get; set; }
+    }
     public class Certified
     {
         public int RepresentativeId { get; set; }
@@ -109,10 +128,11 @@ namespace LrApiManager.XMLClases.TransferOfPart
     public class Party
     {
         public bool IsApplicant { get; set; }
-        public Person Person { get; set; }
         public Company Company { get; set; }
+        public Person Person { get; set; }
         public List<Role> Roles { get; set; }
-        public Addressforservice AddressForService { get; set; }
+
+        public AddressForService AddressForService { get; set; }
     }
 
     public class Company
@@ -140,20 +160,23 @@ namespace LrApiManager.XMLClases.TransferOfPart
         public int Priority { get; set; }
     }
 
-    public class Addressforservice
+    public class AddressForService
     {
+
         /* String values are A1, B1 or TA, where A1 is the
-          address of the property(A1 register), B1 is current
-          proprietor address(B1 register) and TA is address from
-          Transfer/Assent. */
+           address of the property(A1 register), B1 is current
+           proprietor address(B1 register) and TA is address from
+           Transfer/Assent. */
         public string AddressForServiceOption { get; set; }
 
         public PostalAddress PostalAddress { get; set; }
 
         public List<AdditionalAddresses> AdditionalAddresses { get; set; }
+
     }
 
-    public class PostalAddress {
+    public class PostalAddress
+    {
 
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
@@ -167,26 +190,48 @@ namespace LrApiManager.XMLClases.TransferOfPart
 
     }
 
-    public class CareOfAddressType {
+    public class CareOfAddressType
+    {
         public string CareOfName { get; set; }
         public string CareOfReference { get; set; }
     }
 
-    public class AdditionalAddresses {
+    public class AdditionalAddresses
+    {
 
         public PostalAddress PostalAddress { get; set; }
         public EmailAddress EmailAddress { get; set; }
         public DXAddress DXAddress { get; set; }
     }
 
-    public class EmailAddress {
+    public class EmailAddress
+    {
         public string Email { get; set; }
     }
 
-    public class DXAddress{
+    public class DXAddress
+    {
 
         public CareOfAddressType CareOfAddressType { get; set; }
         public string DXNumber { get; set; }
         public string DXExchange { get; set; }
     }
+
+
+  
+    
+    public class Additionalpartynotification
+    {
+        public string Name { get; set; }
+        public string Reference { get; set; }
+        public Address Address { get; set; }
+    }
+
+    public class Address
+    {
+        public DXAddress DXAddress { get; set; }
+    }
+
+
+
 }

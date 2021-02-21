@@ -23,7 +23,7 @@ namespace LrApiManager.XMLClases.LeaseExtension
         public string ApplicationDate { get; set; }
         public bool DisclosableOveridingInterests { get; set; }
         public string PostcodeOfProperty { get; set; }
-        public Titles Titles { get; set; }
+        public List<Leaseextension> Titles { get; set; }
         public List<Otherapplication> Applications { get; set; }
         public List<Supportingdocument> SupportingDocuments { get; set; }
 
@@ -32,21 +32,21 @@ namespace LrApiManager.XMLClases.LeaseExtension
         public string Notes { get; set; }
         public string ApplicationAffects { get; set; }
     }
-
-    public class Titles
-    {
-        public Leaseextension LeaseExtension { get; set; }
-    }
+   
 
     public class Leaseextension
     {
-        public Lessortitles LessorTitles { get; set; }
-        public string LesseeTitle { get; set; }
+        public TitleNumber[] LessorTitles { get; set; }
+        public LesseeTitle[] LesseeTitle { get; set; }
     }
 
-    public class Lessortitles
+    public class TitleNumber
     {
-        public string TitleNumber { get; set; }
+        public string TitleString { get; set; }
+    }
+    public class LesseeTitle {
+
+        public string TitleString { get; set; }
     }
 
     public class Applications

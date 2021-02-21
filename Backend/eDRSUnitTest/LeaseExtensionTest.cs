@@ -22,22 +22,20 @@ namespace eDRSUnitTest
         {
             LeaseExtensionRequestManager LeaseExtensionRequestManager = new LeaseExtensionRequestManager();
 
+            TitleNumber[] TitleNumbers = { new TitleNumber { TitleString = "TitleNumbers1" }, new TitleNumber { TitleString = "TitleNumbers2" } };
 
-            Lessortitles lessortitles = new Lessortitles();
+            LesseeTitle[] LesseeTitles = { new LesseeTitle { TitleString = "LesseeTitle1" }, new LesseeTitle { TitleString = "LesseeTitle2" } };
 
-            lessortitles.TitleNumber = "GR518197";
 
             Leaseextension LeaseExtension = new Leaseextension
             {
-                LessorTitles = lessortitles,
-                LesseeTitle = "LesseeTitle"
+                LessorTitles = TitleNumbers,
+                LesseeTitle = LesseeTitles
 
             };
 
-            Titles titles1 = new Titles
-            {
-                LeaseExtension = LeaseExtension
-            };
+            List<Leaseextension> leaseextensions = new List<Leaseextension>();
+            leaseextensions.Add(LeaseExtension);
 
 
             //APPLICATIONS
@@ -137,7 +135,7 @@ namespace eDRSUnitTest
                     AP1WarningUnderstood = true,
                     ApplicationDate = "2012-02-08",
                     DisclosableOveridingInterests = false,
-                    Titles = titles1,
+                    Titles = leaseextensions,
                     Applications = otherapplications,
                     SupportingDocuments = supportingdocuments,
                     Representations = representations,

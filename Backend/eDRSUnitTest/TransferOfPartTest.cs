@@ -24,26 +24,15 @@ namespace eDRSUnitTest
 
 
             //TITLES
-            List<string> titles = new List<string>();
-            titles.Add("GR518197");
+            TitleNumber[] TitleNumbers = { new TitleNumber { TitleString = "123334" }, new TitleNumber { TitleString = "56789" } };
 
-            Transferortitles transferortitles = new Transferortitles();
+            Transferofpart transferortitles = new Transferofpart();
 
-            transferortitles.TitleNumber = titles;
+            transferortitles.TransferorTitles = TitleNumbers;
 
-            Transferofpart transferofpart = new Transferofpart
-            {
-                TransferorTitles = transferortitles
-            };
+            List<Transferofpart> transferofparts = new List<Transferofpart>();
 
-            Titles titles1 = new Titles
-            {
-                TransferOfPart = transferofpart
-            };
-
-            List<Titles> Titles = new List<Titles>();
-            Titles.Add(titles1);
-
+            transferofparts.Add(transferortitles);
 
             //APPLICATIONS
             Otherapplication otherapplication = new Otherapplication
@@ -103,16 +92,15 @@ namespace eDRSUnitTest
 
                 RepresentativeId = 1
             };
-
-            List<Lodgingconveyancer> lodgingconveyancers = new List<Lodgingconveyancer>();
-            lodgingconveyancers.Add(lodgingconveyancer);
-
-
-
+             
             Representations representations = new Representations
             {
 
-                LodgingConveyancer = lodgingconveyancers
+                LodgingConveyancer = lodgingconveyancer,
+                Certified=new Certified { 
+                RepresentativeId=1
+                }
+
             };
 
             List<Representations> representations1 = new List<Representations>();
@@ -128,12 +116,7 @@ namespace eDRSUnitTest
             List<Role> roles1 = new List<Role>();
             roles1.Add(role);
 
-            Roles roles = new Roles
-            {
-
-                Role = roles1
-            };
-
+           
             //Parties
             Party party = new Party
             {
@@ -143,7 +126,7 @@ namespace eDRSUnitTest
                 {
                     CompanyName = "Abbey National PLC"
                 },
-                Roles = roles
+                Roles = roles1
             };
 
 
@@ -177,11 +160,11 @@ namespace eDRSUnitTest
                     AP1WarningUnderstood = true,
                     ApplicationDate = "2012-02-08",
                     DisclosableOveridingInterests = false,
-                    Titles = Titles,
-                    Applications = applications,
-                    SupportingDocuments = Supportingdocuments,
-                    Representations = representations1,
-                    Parties = parties2,
+                    Titles = transferofparts,
+                    Applications = otherapplications,
+                    SupportingDocuments = supportingdocuments,
+                    Representations = representations,
+                    Parties = parties,
                     ApplicationAffects = "WHOLE"
                 }
 

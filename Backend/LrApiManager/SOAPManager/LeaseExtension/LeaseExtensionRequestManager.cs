@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -36,6 +36,8 @@ namespace LrApiManager.SOAPManager.LeaseExtension
             xmlString = xmlString.Replace("xmlns:xsd", "xmlns:ns3");
             xmlString = xmlString.Replace("http://www.w3.org/2001/XMLSchema-instance", "http://www.oscre.org/ns/eReg-Final/2012/RequestApplicationToChangeRegisterV2_1");
             xmlString = xmlString.Replace("http://www.w3.org/2001/XMLSchema", "http://drsv2_1.ws.bg.lr.gov/");
+            xmlString = xmlString.Replace("<TitleString>", "");
+            xmlString = xmlString.Replace("</TitleString>", "");
             xmlString = xmlString.Replace("<AdditionalProviderFilter>", "<arg0><AdditionalProviderFilter>");
             xmlString = xmlString.Replace("</eDocumentRegistration>", "</arg0></eDocumentRegistration>");
 
@@ -107,12 +109,11 @@ namespace LrApiManager.SOAPManager.LeaseExtension
 
         public ApplicationResponse GetApplicationResponse()
         {
-            Directory.CreateDirectory("XMLTest");
-            var rootFolder = new PhysicalFileProvider(
-                Path.Combine(Directory.GetCurrentDirectory(), "XMLTest")).Root;
+            //Directory.CreateDirectory("XMLTest");
+            //var rootFolder = new PhysicalFileProvider(
+            //    Path.Combine(Directory.GetCurrentDirectory(), "XMLTest")).Root;
 
-            string xml = System.IO.File.ReadAllText(rootFolder + @"ApplicationResponse.txt");
-            //string xml = System.IO.File.ReadAllText(@"D:/Development/EDRS Dev/ConveyancingDirect_e-DRS/Backend/eDrsAPI/XMLTest/ApplicationResponse.txt");
+            string xml = System.IO.File.ReadAllText(@"D:/Development/EDRS Dev/ConveyancingDirect_e-DRS/Backend/eDrsAPI/XMLTest/ApplicationResponse.txt");
 
             xml = xml.Replace("ns3:", "");
             xml = xml.Replace("ns4:", "");

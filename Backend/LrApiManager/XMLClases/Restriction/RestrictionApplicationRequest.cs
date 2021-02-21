@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace LrApiManager.XMLClases.Restriction
-{  
+{
 
     public class RestrictionApplicationRequest
     {
@@ -19,24 +19,20 @@ namespace LrApiManager.XMLClases.Restriction
         public int TelephoneNumber { get; set; }
         public bool AP1WarningUnderstood { get; set; }
         public string ApplicationDate { get; set; }
-        public bool DisclosableOveridingInterests { get; set; }      
+        public bool DisclosableOveridingInterests { get; set; }
         public string PostcodeOfProperty { get; set; }
         public string LocalAuthority { get; set; }
-        public List<Titles> Titles { get; set; }
-        public List<Applications> Applications { get; set; }
-        public List<Supportingdocuments> SupportingDocuments { get; set; }
-        public List<Representations> Representations { get; set; }
-        public List<Parties> Parties { get; set; }
+        public List<Dealing> Titles { get; set; }
+        public List<Otherapplication> Applications { get; set; }
+        public List<Supportingdocument> SupportingDocuments { get; set; }
+        public Representations Representations { get; set; }
+        public List<Party> Parties { get; set; }
 
         public string Notes { get; set; }
         public string ApplicationAffects { get; set; }
     }
 
-    public class Titles
-    {
-        public Dealing Dealing { get; set; }
-    }
-
+  
     public class Dealing
     {
         public Dealingtitles DealingTitles { get; set; }
@@ -44,8 +40,14 @@ namespace LrApiManager.XMLClases.Restriction
 
     public class Dealingtitles
     {
-        public List<string> TitleNumber { get; set; }
+        public TitleNumber[] TitleNumber { get; set; }
     }
+
+    public class TitleNumber
+    {
+        public string TitleString { get; set; }
+    }
+
 
     public class Applications
     {
@@ -92,10 +94,16 @@ namespace LrApiManager.XMLClases.Restriction
 
     public class Representations
     {
-        public List<Lodgingconveyancer> LodgingConveyancer { get; set; }
+        public Lodgingconveyancer LodgingConveyancer { get; set; }
+        public Certified Certified { get; set; }
     }
 
     public class Lodgingconveyancer
+    {
+        public int RepresentativeId { get; set; }
+    }
+
+    public class Certified
     {
         public int RepresentativeId { get; set; }
     }
@@ -110,7 +118,7 @@ namespace LrApiManager.XMLClases.Restriction
         public bool IsApplicant { get; set; }
         public Company Company { get; set; }
         public Person Person { get; set; }
-        public Roles Roles { get; set; }
+        public List<Role> Roles { get; set; }
 
         public AddressForService AddressForService { get; set; }
     }
