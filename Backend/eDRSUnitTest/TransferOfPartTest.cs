@@ -9,6 +9,7 @@ using LrApiManager.SOAPManager.TransferOfPart;
 using LrApiManager.XMLClases;
 using LrApiManager.XMLClases.TransferOfPart;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Document = LrApiManager.XMLClases.TransferOfPart.Document;
 
 namespace eDRSUnitTest
 {

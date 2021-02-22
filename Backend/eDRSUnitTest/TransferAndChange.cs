@@ -8,6 +8,8 @@ using LrApiManager.SOAPManager.TranferAndCharge;
 using LrApiManager.XMLClases;
 using LrApiManager.XMLClases.TransferAndChargeApplicationRequest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Address = LrApiManager.XMLClases.TransferAndChargeApplicationRequest.Address;
+using Document = LrApiManager.XMLClases.TransferAndChargeApplicationRequest.Document;
 
 namespace eDRSUnitTest
 {

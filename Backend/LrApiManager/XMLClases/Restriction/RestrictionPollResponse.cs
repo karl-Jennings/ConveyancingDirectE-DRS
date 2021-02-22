@@ -4,6 +4,7 @@ using System.Text;
 using LrApiManager.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using static LrApiManager.XMLClases.Restriction.Organization;
 
 namespace LrApiManager.XMLClases.Restriction
 {
@@ -11,10 +12,9 @@ namespace LrApiManager.XMLClases.Restriction
     public class RestrictionPollResponse
     {
         public string TypeCode { get; set; }
-
-        [JsonProperty("Results")]
-        [JsonConverter(typeof(CustomArrayConverter<Results>))]
-        public IEnumerable<Results> Results { get; set; }
+        public Acknowledgement Acknowledgement { get; set; }
+        public Rejection Rejection { get; set; }
+        public Results Results { get; set; }
     }
 
     public class Results
@@ -25,17 +25,45 @@ namespace LrApiManager.XMLClases.Restriction
         public string FeeAdjusted { get; set; }
         public string EarlyCompletionIndicator { get; set; }
         public string AdditionalDespatchItemsIndicator { get; set; }
-        public string ResultTypeCode { get; set; }
-
-        [JsonProperty("DespatchDocument")]
-        [JsonConverter(typeof(CustomArrayConverter<Despatchdocument>))]
-        public IEnumerable<Despatchdocument> DespatchDocument { get; set; }
+        public string ResultTypeCode { get; set; }   
+        public Despatchdocument DespatchDocument { get; set; }
 
         [JsonProperty("XmlRegisters")]
         [JsonConverter(typeof(CustomArrayConverter<Xmlregisters>))]
         public IEnumerable<Xmlregisters> XmlRegisters { get; set; }
     }
 
+    public class Acknowledgement
+    {
+        public string UniqueID { get; set; }
+        public string MessageDescription { get; set; }
+        public DateTime ExpectedResponseDateTime { get; set; }
+        public DateTime PriorityDateTime { get; set; }
+        public string ABR { get; set; }
+    }
+
+    public class Rejection
+    {
+        public string ExternalReference { get; set; }
+        public Rejectionresponse RejectionResponse { get; set; }
+    }
+
+    public class Rejectionresponse
+    {
+        public string Reason { get; set; }
+        public string Code { get; set; }
+        public string OtherDescription { get; set; }
+
+        [JsonProperty("ValidationErrors")]
+        [JsonConverter(typeof(CustomArrayConverter<Validationerror>))]
+        public IEnumerable<Validationerror> ValidationErrors { get; set; }
+    }
+
+    public class Validationerror
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
     public class Despatchdocument
     {
         public string filename { get; set; }
@@ -45,59 +73,59 @@ namespace LrApiManager.XMLClases.Restriction
 
     public class Xmlregisters
     {
-        public string TitleNumber { get; set; }
-
-        [JsonProperty("OCSummaryData")]
-        [JsonConverter(typeof(CustomArrayConverter<Ocsummarydata>))]
-        public IEnumerable<Ocsummarydata> OCSummaryData { get; set; }
-
-        [JsonProperty("XmlRegisterData")]
-        [JsonConverter(typeof(CustomArrayConverter<Xmlregisterdata>))]
-        public IEnumerable<Xmlregisterdata> XmlRegisterData { get; set; }
+        public string TitleNumber { get; set; }   
+        public Ocsummarydata OCSummaryData { get; set; }     
+        public Xmlregisterdata XmlRegisterData { get; set; }
     }
 
     public class Ocsummarydata
     {
         public DateTime OfficialCopyDateTime { get; set; }
         public string EditionDate { get; set; }
+        public Pricepaidentry PricePaidEntry { get; set; }
 
         [JsonProperty("PropertyAddress")]
         [JsonConverter(typeof(CustomArrayConverter<Propertyaddress>))]
         public IEnumerable<Propertyaddress> PropertyAddress { get; set; }
-
-        [JsonProperty("Title")]
-        [JsonConverter(typeof(CustomArrayConverter<TitleResponse>))]
-        public IEnumerable<TitleResponse> Title { get; set; }
-
-        [JsonProperty("RegisterEntryIndicators")]
-        [JsonConverter(typeof(CustomArrayConverter<Registerentryindicators>))]
-        public IEnumerable<Registerentryindicators> RegisterEntryIndicators { get; set; }
-
-        [JsonProperty("Proprietorship")]
-        [JsonConverter(typeof(CustomArrayConverter<Proprietorship>))]
-        public IEnumerable<Proprietorship> Proprietorship { get; set; }
-
-        [JsonProperty("RestrictionDetails")]
-        [JsonConverter(typeof(CustomArrayConverter<Restrictiondetails>))]
-        public IEnumerable<Restrictiondetails> RestrictionDetails { get; set; }
-
-        [JsonProperty("Charge")]
-        [JsonConverter(typeof(CustomArrayConverter<Charge>))]
-        public IEnumerable<Charge> Charge { get; set; }
-
-        [JsonProperty("DocumentDetails")]
-        [JsonConverter(typeof(CustomArrayConverter<Documentdetails>))]
-        public IEnumerable<Documentdetails> DocumentDetails { get; set; }
+        public Title Title { get; set; }
+        public Registerentryindicators RegisterEntryIndicators { get; set; }
+        public Proprietorship Proprietorship { get; set; }
+        public Lease Lease { get; set; }
+        public Restrictiondetails RestrictionDetails { get; set; }
+        public Charge Charge { get; set; }
+        public Agreednotice AgreedNotice { get; set; }
+        public Bankruptcy Bankruptcy { get; set; }
+        public Caution Caution { get; set; }
+        public Deedofpostponement DeedOfPostponement { get; set; }
+        public Greenoutentry GreenOutEntry { get; set; }
+        public Homerights HomeRights { get; set; }
+        public Rentcharge RentCharge { get; set; }
+        public Vendorslien VendorsLien { get; set; }
+        public Rightofpreemption RightOfPreEmption { get; set; }
+        public Documentdetails DocumentDetails { get; set; }
+        public Unilateralnoticedetails UnilateralNoticeDetails { get; set; }
+        public Deathofproprietor DeathOfProprietor { get; set; }
+        public Discountcharge DiscountCharge { get; set; }
+        public Equitablecharge EquitableCharge { get; set; }
+        public Notedcharge NotedCharge { get; set; }
+        public Creditorsnotice CreditorsNotice { get; set; }
+        public Unidentifiedentry UnidentifiedEntry { get; set; }
+        public Ccbientry CCBIEntry { get; set; }
     }
 
     public class Propertyaddress
     {
+        public PostcodeZone PostcodeZone { get; set; }
         public Addressline AddressLine { get; set; }
+
+
     }
 
     public class Addressline
     {
-        public string[] Line { get; set; }
+        [JsonProperty("Line")]
+        [JsonConverter(typeof(CustomArrayConverter<string>))]
+        public  IEnumerable<string> Line { get; set; }
     }
 
     public class TitleResponse
@@ -118,6 +146,7 @@ namespace LrApiManager.XMLClases.Restriction
         public string LandRegistryOfficeName { get; set; }
         public string LatestEditionDate { get; set; }
         public string RegistrationDate { get; set; }
+        public PostcodeZone PostcodeZone { get; set; }
     }
 
     public class Registerentryindicators
@@ -196,7 +225,10 @@ namespace LrApiManager.XMLClases.Restriction
 
     public class Addressline1
     {
-        public string[] Line { get; set; }
+
+        [JsonProperty("Line")]
+        [JsonConverter(typeof(CustomArrayConverter<string>))]
+        public IEnumerable<string> Line { get; set; }
     }
 
     public class Restrictiondetails
@@ -226,7 +258,10 @@ namespace LrApiManager.XMLClases.Restriction
     public class Entrydetails
     {
         public string EntryNumber { get; set; }
-        public string EntryText { get; set; }
+
+        [JsonProperty("EntryText")]
+        [JsonConverter(typeof(CustomArrayConverter<string>))]
+        public IEnumerable<string> EntryText { get; set; }
         public string SubRegisterCode { get; set; }
 
         [JsonProperty("Infills")]
@@ -271,7 +306,10 @@ namespace LrApiManager.XMLClases.Restriction
     public class Entrydetails1
     {
         public string EntryNumber { get; set; }
-        public string EntryText { get; set; }
+
+        [JsonProperty("EntryText")]
+        [JsonConverter(typeof(CustomArrayConverter<string>))]
+        public IEnumerable<string> EntryText { get; set; }
         public string RegistrationDate { get; set; }
         public string SubRegisterCode { get; set; }
 
@@ -310,116 +348,137 @@ namespace LrApiManager.XMLClases.Restriction
     public class Organization
     {
         public string Name { get; set; }
+
+
+        public class Address1
+        {
+            public PostcodeZone PostcodeZone { get; set; }
+
+            [JsonProperty("AddressLine")]
+            [JsonConverter(typeof(CustomArrayConverter<Addressline2>))]
+            public IEnumerable<Addressline2> AddressLine { get; set; }
+        }
+
+        public class PostcodeZone
+        {
+            [JsonProperty("Postcode")]
+            [JsonConverter(typeof(CustomArrayConverter<string>))]
+            public IEnumerable<string> Postcode { get; set; }
+        }
+
+        public class Addressline2
+        {
+            [JsonProperty("Line")]
+            [JsonConverter(typeof(CustomArrayConverter<string>))]
+            public IEnumerable<string> Line { get; set; }
+        }
+
+        public class Entrydetails2
+        {
+            public string EntryNumber { get; set; }
+
+            [JsonProperty("EntryText")]
+            [JsonConverter(typeof(CustomArrayConverter<string>))]
+            public IEnumerable<string> EntryText { get; set; }
+            public string RegistrationDate { get; set; }
+            public string SubRegisterCode { get; set; }
+        }
+
+        public class Documentdetails
+        {
+            [JsonProperty("Document")]
+            [JsonConverter(typeof(CustomArrayConverter<DocumentReponse>))]
+            public IEnumerable<DocumentReponse> Document { get; set; }
+        }
+
+        public class DocumentReponse
+        {
+            public string DocumentType { get; set; }
+            public string DocumentDate { get; set; }
+
+            [JsonProperty("EntryNumber")]
+            [JsonConverter(typeof(CustomArrayConverter<string>))]
+            public IEnumerable<string> EntryNumber { get; set; }
+            public string PlanOnlyIndicator { get; set; }
+            public string RegisterDescription { get; set; }
+        }
+
+        public class Xmlregisterdata
+        {
+            public string TitleNumber { get; set; }
+            public Propertyregister PropertyRegister { get; set; }
+            public Proprietorshipregister ProprietorshipRegister { get; set; }
+            public Chargesregister ChargesRegister { get; set; }
+        }
+
+        public class Propertyregister
+        {
+            public Districtdetails DistrictDetails { get; set; }
+
+            [JsonProperty("RegisterEntry")]
+            [JsonConverter(typeof(CustomArrayConverter<Registerentry>))]
+            public IEnumerable<Registerentry> RegisterEntry { get; set; }
+
+            [JsonProperty("Schedule")]
+            [JsonConverter(typeof(CustomArrayConverter<Schedule>))]
+            public IEnumerable<Schedule> Schedule { get; set; }
+        }
+
+        public class Districtdetails
+        {
+            [JsonProperty("EntryText")]
+            [JsonConverter(typeof(CustomArrayConverter<string>))]
+            public IEnumerable<string> EntryText { get; set; }
+        }
+
+        public class Registerentry
+        {
+            public string EntryNumber { get; set; }
+            public string EntryDate { get; set; }
+            public string EntryType { get; set; }
+            [JsonProperty("EntryText")]
+            [JsonConverter(typeof(CustomArrayConverter<string>))]
+            public IEnumerable<string> EntryText { get; set; }
+        }
+
+        public class Schedule
+        {
+            public string ScheduleType { get; set; }
+
+            [JsonProperty("ScheduleEntry")]
+            [JsonConverter(typeof(CustomArrayConverter<Scheduleentry>))]
+            public IEnumerable<Scheduleentry> ScheduleEntry { get; set; }
+        }
+
+        public class Scheduleentry
+        {
+            public string EntryNumber { get; set; }
+            public string EntryDate { get; set; }
+            public string EntryType { get; set; }
+
+            [JsonProperty("EntryText")]
+            [JsonConverter(typeof(CustomArrayConverter<string>))]
+            public IEnumerable<string> EntryText { get; set; }
+        }
+
+        public class Proprietorshipregister
+        {
+
+            [JsonProperty("RegisterEntry")]
+            [JsonConverter(typeof(CustomArrayConverter<Registerentry>))]
+            public IEnumerable<Registerentry> RegisterEntry { get; set; }
+        }
+
+
+        public class Chargesregister
+        {
+            [JsonProperty("RegisterEntry")]
+            [JsonConverter(typeof(CustomArrayConverter<Registerentry>))]
+            public IEnumerable<Registerentry> RegisterEntry { get; set; }
+        }
+
+
     }
-
-    public class Address1
-    {
-        [JsonProperty("PostcodeZone")]
-        [JsonConverter(typeof(CustomArrayConverter<Postcodezone>))]
-        public IEnumerable<Postcodezone> PostcodeZone { get; set; }
-
-        [JsonProperty("AddressLine")]
-        [JsonConverter(typeof(CustomArrayConverter<Addressline2>))]
-        public IEnumerable<Addressline2> AddressLine { get; set; }
-    }
-
-    public class Postcodezone
-    {
-        public string Postcode { get; set; }
-    }
-
-    public class Addressline2
-    {
-        public string[] Line { get; set; }
-    }
-
-    public class Entrydetails2
-    {
-        public string EntryNumber { get; set; }
-        public string EntryText { get; set; }
-        public string RegistrationDate { get; set; }
-        public string SubRegisterCode { get; set; }
-    }
-
-    public class Documentdetails
-    {
-        public DocumentReponse[] Document { get; set; }
-    }
-
-    public class DocumentReponse
-    {
-        public string DocumentType { get; set; }
-        public string DocumentDate { get; set; }
-        public string[] EntryNumber { get; set; }
-        public string PlanOnlyIndicator { get; set; }
-        public string RegisterDescription { get; set; }
-    }
-
-    public class Xmlregisterdata
-    {
-        public string TitleNumber { get; set; }
-
-        [JsonProperty("PropertyRegister")]
-        [JsonConverter(typeof(CustomArrayConverter<Propertyregister>))]
-        public  IEnumerable<Propertyregister> PropertyRegister { get; set; }
-
-        [JsonProperty("ProprietorshipRegister")]
-        [JsonConverter(typeof(CustomArrayConverter<Proprietorshipregister>))]
-        public IEnumerable<Proprietorshipregister> ProprietorshipRegister { get; set; }
-
-        [JsonProperty("ChargesRegister")]
-        [JsonConverter(typeof(CustomArrayConverter<Chargesregister>))]
-        public IEnumerable<Chargesregister> ChargesRegister { get; set; }
-    }
-
-    public class Propertyregister
-    {
-        [JsonProperty("DistrictDetails")]
-        [JsonConverter(typeof(CustomArrayConverter<Districtdetails>))]
-        public IEnumerable<Districtdetails> DistrictDetails { get; set; }
-
-        public Registerentry[] RegisterEntry { get; set; }
-    }
-
-    public class Districtdetails
-    {
-        public string EntryText { get; set; }
-    }
-
-    public class Registerentry
-    {
-        public string EntryNumber { get; set; }
-        public string EntryDate { get; set; }
-        public string EntryType { get; set; }
-        public string EntryText { get; set; }
-    }
-
-    public class Proprietorshipregister
-    {
-        public Registerentry1[] RegisterEntry { get; set; }
-    }
-
-    public class Registerentry1
-    {
-        public string EntryNumber { get; set; }
-        public string EntryDate { get; set; }
-        public string EntryType { get; set; }
-        public string EntryText { get; set; }
-    }
-
-    public class Chargesregister
-    {
-        public Registerentry2[] RegisterEntry { get; set; }
-    }
-
-    public class Registerentry2
-    {
-        public string EntryNumber { get; set; }
-        public string EntryType { get; set; }
-        public object EntryText { get; set; }
-        public string EntryDate { get; set; }
-    }
-
 
 
    

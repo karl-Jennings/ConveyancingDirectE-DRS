@@ -44,7 +44,7 @@ namespace eDRSUnitTest
                 Priority = 1,
                 Value = 0,
                 FeeInPence = 500,
-                Document = new Document
+                Document = new LrApiManager.XMLClases.LeaseExtension.Document
                 {
 
                     CertifiedCopy = "Original"
