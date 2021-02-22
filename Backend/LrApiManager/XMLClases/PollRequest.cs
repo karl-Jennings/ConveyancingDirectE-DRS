@@ -4,9 +4,9 @@ using System.Text;
 
 namespace LrApiManager.XMLClases
 {
-    public class PoolRequest
+    public class PollRequest
     {
-        public PoolRequest() { }
+        public PollRequest() { }
         public string MessageID { get; set; }
     }
 }

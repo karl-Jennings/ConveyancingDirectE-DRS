@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LrApiManager.SOAPManager;
-using LrApiManager.SOAPManager.Restriction;
 using LrApiManager.SOAPManager.LeaseExtension;
 using LrApiManager.XMLClases;
 using LrApiManager.XMLClases.LeaseExtension;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LrApiManager.XMLClases.PollResponse;
 
 namespace eDRSUnitTest
 {
@@ -177,9 +177,9 @@ namespace eDRSUnitTest
         [TestMethod]
         public void PoolRequest()
         {
-            LeaseExtensionPollRequest LeaseExtensionPollRequest = new LeaseExtensionPollRequest();
+            PollRequestManager restrictionPoolRequest = new PollRequestManager();
 
-            LeaseExtensionPollResponse restrictionPoolResponse = LeaseExtensionPollRequest.PoolRequest("test msg id");
+            PollResponse restrictionPoolResponse = restrictionPoolRequest.PoolRequest("test msg id");
         }
 
     }

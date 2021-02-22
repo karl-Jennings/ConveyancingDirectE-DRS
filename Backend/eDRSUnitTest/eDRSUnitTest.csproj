@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LeaseExtensionTest.cs" />
+    <Compile Include="RemortgageTest.cs" />
     <Compile Include="TransferAndChange.cs" />
     <Compile Include="TransferOfPartTest.cs" />
     <Compile Include="RestrictionTest.cs" />

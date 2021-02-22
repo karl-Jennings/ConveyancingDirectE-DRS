@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LrApiManager.SOAPManager;
-using LrApiManager.SOAPManager.Restriction;
 using LrApiManager.SOAPManager.TransferOfPart;
 using LrApiManager.XMLClases;
+using LrApiManager.XMLClases.PollResponse;
 using LrApiManager.XMLClases.TransferOfPart;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Document = LrApiManager.XMLClases.TransferOfPart.Document;
@@ -203,9 +203,9 @@ namespace eDRSUnitTest
         [TestMethod]
         public void PoolRequest()
         {
-            TransferOfPartPollRequest transferOfPartPollRequest = new TransferOfPartPollRequest();
+            PollRequestManager restrictionPoolRequest = new PollRequestManager();
 
-            TransferOfPartsPollResponse restrictionPoolResponse = transferOfPartPollRequest.PoolRequest("test msg id");
+            PollResponse restrictionPoolResponse = restrictionPoolRequest.PoolRequest("test msg id");
         }
 
     }
