@@ -100,12 +100,12 @@ namespace LrApiManager.SOAPManager
 
         public RestrictionPollResponse GetPoolResponse()
         {
-            //Directory.CreateDirectory("XMLTest");
-            //var rootFolder = new PhysicalFileProvider(
-            //    Path.Combine(Directory.GetCurrentDirectory(), "XMLTest")).Root;
+            Directory.CreateDirectory("XMLTest");
+            var rootFolder = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "XMLTest")).Root;
 
-            //string xml = System.IO.File.ReadAllText(rootFolder + @"PoolResponse.txt");
-            string xml = System.IO.File.ReadAllText(@"E:\Accura-tech\eDRS DEV2\Backend\eDrsAPI\XMLTest\PoolResponse.txt");
+            string xml = System.IO.File.ReadAllText(rootFolder + @"PoolResponse.txt");
+            //string xml = System.IO.File.ReadAllText(@"E:\Accura-tech\eDRS DEV2\Backend\eDrsAPI\XMLTest\PoolResponse.txt");
 
             xml = xml.Replace("ns3:", "");
             xml = xml.Replace("ns4:", "");

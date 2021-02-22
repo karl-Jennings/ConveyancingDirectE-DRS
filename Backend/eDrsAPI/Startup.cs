@@ -115,11 +115,9 @@ namespace eDrsAPI
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext context)
         {
             context.Database.Migrate();
-
-
+             
             app.UseDeveloperExceptionPage();
-
-
+             
             app.UseCors(MyAllowSpecificOrigins);
 
             app.UseHttpsRedirection();

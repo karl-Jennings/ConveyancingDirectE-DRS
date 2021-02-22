@@ -87,6 +87,14 @@ namespace eDrsManagers.Managers
             var deletingNotes = _context.AttachmentNotes
                 .Where(x => !viewModel.AttachmentNotes.Select(s => s.AttachmentNotesId).ToList().Contains(x.AttachmentNotesId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
 
+            if (viewModel.Representations != null)
+            {
+                var representations = _context.Representations
+                    .Where(x => !viewModel.Representations.Select(s => s.RepresentationId).ToList().Contains(x.RepresentationId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
+                _context.Representations.RemoveRange(representations);
+            }
+
+
 
             _context.TitleNumbers.RemoveRange(deletingTitle);
             _context.ApplicationForms.RemoveRange(deletingApplications);
@@ -215,14 +223,16 @@ namespace eDrsManagers.Managers
                             DocumentReferenceId = party.DocumentReferenceId,
                             CompanyOrForeName = party.CompanyOrForeName,
                             PartyId = party.PartyId,
-                            Roles = party.Roles
+                            Roles = party.Roles,
+                            AddressForService = party.AddressForService
                         }).ToList(),
                         Status = sel.Status,
                         AdditionalProviderFilter = sel.AdditionalProviderFilter,
                         ExternalReference = sel.ExternalReference,
                         Password = sel.Password,
                         AttachmentNotes = sel.AttachmentNotes,
-                        RequestLogs = sel.RequestLogs
+                        RequestLogs = sel.RequestLogs,
+                        Representations = sel.Representations,
 
                     })
                     .FirstOrDefault(s => s.Status && s.DocumentReferenceId == regId);

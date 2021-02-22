@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eDrsDB.Data;
 
 namespace eDrsDB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210222061728_representation")]
+    partial class representation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -237,9 +239,6 @@ namespace eDrsDB.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AddressForService")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CompanyOrForeName")
                         .HasColumnType("nvarchar(max)");
 
@@ -303,17 +302,17 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "trns_chrge",
                             TypeName = "Transfer and charge",
-                            UpdatedDate = new DateTime(2021, 2, 22, 16, 57, 48, 873, DateTimeKind.Local).AddTicks(6957),
+                            UpdatedDate = new DateTime(2021, 2, 22, 11, 47, 27, 463, DateTimeKind.Local).AddTicks(619),
                             Url = "transfer-and-charge"
                         },
                         new
                         {
                             RegistrationTypeId = 2L,
                             Status = true,
-                            TypeCode = "rem_gage",
+                            TypeCode = "lease_ext",
                             TypeName = "Remortgage",
-                            UpdatedDate = new DateTime(2021, 2, 22, 16, 57, 48, 875, DateTimeKind.Local).AddTicks(1795),
-                            Url = "remortgage"
+                            UpdatedDate = new DateTime(2021, 2, 22, 11, 47, 27, 464, DateTimeKind.Local).AddTicks(1967),
+                            Url = "lease-extension"
                         },
                         new
                         {
@@ -321,7 +320,7 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "new_lease",
                             TypeName = "Transfer of equity",
-                            UpdatedDate = new DateTime(2021, 2, 22, 16, 57, 48, 875, DateTimeKind.Local).AddTicks(1834),
+                            UpdatedDate = new DateTime(2021, 2, 22, 11, 47, 27, 464, DateTimeKind.Local).AddTicks(1999),
                             Url = "new-lease"
                         },
                         new
@@ -330,7 +329,7 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "rem_frm",
                             TypeName = "Restriction, hostile takeover",
-                            UpdatedDate = new DateTime(2021, 2, 22, 16, 57, 48, 875, DateTimeKind.Local).AddTicks(1838),
+                            UpdatedDate = new DateTime(2021, 2, 22, 11, 47, 27, 464, DateTimeKind.Local).AddTicks(2002),
                             Url = "removal-form"
                         },
                         new
@@ -339,7 +338,7 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "transfer",
                             TypeName = "Change of name",
-                            UpdatedDate = new DateTime(2021, 2, 22, 16, 57, 48, 875, DateTimeKind.Local).AddTicks(1841),
+                            UpdatedDate = new DateTime(2021, 2, 22, 11, 47, 27, 464, DateTimeKind.Local).AddTicks(2004),
                             Url = "transfer"
                         },
                         new
@@ -348,7 +347,7 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "transfer",
                             TypeName = "Dispositionary first lease",
-                            UpdatedDate = new DateTime(2021, 2, 22, 16, 57, 48, 875, DateTimeKind.Local).AddTicks(1844),
+                            UpdatedDate = new DateTime(2021, 2, 22, 11, 47, 27, 464, DateTimeKind.Local).AddTicks(2006),
                             Url = "transfer"
                         },
                         new
@@ -357,7 +356,7 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "transfer",
                             TypeName = "Transfer of part",
-                            UpdatedDate = new DateTime(2021, 2, 22, 16, 57, 48, 875, DateTimeKind.Local).AddTicks(1846),
+                            UpdatedDate = new DateTime(2021, 2, 22, 11, 47, 27, 464, DateTimeKind.Local).AddTicks(2009),
                             Url = "transfer"
                         },
                         new
@@ -366,7 +365,7 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "lease_ext",
                             TypeName = "Lease extension",
-                            UpdatedDate = new DateTime(2021, 2, 22, 16, 57, 48, 875, DateTimeKind.Local).AddTicks(1848),
+                            UpdatedDate = new DateTime(2021, 2, 22, 11, 47, 27, 464, DateTimeKind.Local).AddTicks(2011),
                             Url = "lease-extension"
                         });
                 });
@@ -562,8 +561,8 @@ namespace eDrsDB.Migrations
                             Designation = "admin",
                             Email = "dushyanthaccura@gmail.com",
                             Firstname = "Admin",
-                            PasswordHash = new byte[] { 145, 217, 35, 249, 160, 138, 130, 19, 36, 10, 242, 135, 50, 205, 105, 51, 61, 161, 14, 0, 161, 169, 119, 117, 106, 69, 205, 91, 96, 55, 179, 52, 63, 186, 150, 156, 5, 127, 96, 5, 248, 99, 115, 7, 49, 6, 185, 18, 161, 123, 108, 147, 38, 117, 45, 133, 134, 227, 162, 73, 244, 120, 103, 123 },
-                            PasswordSalt = new byte[] { 55, 119, 177, 150, 17, 155, 167, 80, 53, 191, 76, 232, 40, 99, 148, 12, 134, 53, 182, 89, 234, 19, 149, 113, 241, 78, 144, 217, 104, 200, 14, 115, 21, 254, 216, 164, 200, 199, 202, 58, 230, 69, 90, 208, 180, 196, 1, 5, 227, 158, 101, 232, 45, 145, 238, 247, 175, 146, 164, 16, 53, 245, 224, 94, 145, 24, 25, 47, 41, 71, 202, 249, 124, 123, 64, 26, 86, 7, 137, 6, 235, 95, 18, 231, 233, 205, 184, 239, 160, 36, 30, 207, 228, 37, 127, 131, 135, 28, 102, 199, 80, 4, 246, 18, 170, 20, 157, 246, 182, 81, 57, 51, 200, 53, 33, 90, 122, 23, 6, 85, 128, 141, 172, 121, 81, 198, 241, 253 },
+                            PasswordHash = new byte[] { 207, 12, 97, 75, 83, 59, 182, 220, 220, 150, 206, 128, 113, 78, 149, 165, 61, 43, 66, 35, 166, 131, 180, 203, 22, 82, 202, 132, 30, 183, 247, 188, 79, 201, 49, 142, 163, 209, 30, 89, 112, 232, 240, 225, 222, 235, 52, 211, 47, 171, 189, 37, 240, 81, 238, 247, 175, 147, 92, 236, 123, 0, 137, 44 },
+                            PasswordSalt = new byte[] { 201, 185, 184, 219, 158, 245, 23, 101, 187, 13, 177, 121, 116, 167, 241, 40, 4, 50, 215, 133, 178, 253, 6, 117, 107, 75, 166, 88, 113, 54, 189, 220, 27, 42, 179, 71, 215, 80, 102, 87, 104, 36, 169, 141, 191, 21, 82, 126, 54, 214, 209, 174, 184, 35, 242, 201, 72, 47, 211, 73, 48, 17, 89, 87, 138, 33, 113, 154, 179, 135, 125, 89, 40, 212, 1, 234, 206, 223, 211, 227, 75, 136, 143, 98, 46, 105, 167, 23, 32, 192, 123, 128, 17, 147, 190, 106, 26, 48, 198, 118, 230, 201, 34, 23, 137, 111, 27, 66, 16, 86, 18, 137, 40, 32, 254, 55, 134, 0, 41, 38, 111, 232, 4, 67, 7, 10, 211, 5 },
                             Status = true,
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });

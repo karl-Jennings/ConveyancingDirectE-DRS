@@ -1,27 +1,30 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ApplicationViewComponent } from '../angular-dialogs/application-view/application-view.component';
 import { ConfirmRegistrationComponent } from '../angular-dialogs/confirm-registration/confirm-registration.component';
 import { ApplicationForm, Document } from '../models/application-form';
 import { DocumentReference } from '../models/document-reference';
 import { Party } from '../models/party';
+import { Roles } from '../models/roles';
 import { SupportingDocuments } from '../models/supporting-documents';
 import { TitleNumber } from '../models/title-number';
 import { RegistrationService } from '../services/registration.service';
 import * as FileSaver from 'file-saver';
+import { DatePipe } from '@angular/common';
+import { CommonUtils } from 'src/environments/common-utils';
 import Swal from 'sweetalert2';
 import { AttachmentNotes } from '../models/attachment-notes';
 import { RequestLogs } from '../models/request-logs';
-import { Representation } from '../models/representation';
 
 @Component({
-  selector: 'app-transfer-and-charge',
-  templateUrl: './transfer-and-charge.component.html',
-  styleUrls: ['./transfer-and-charge.component.css']
+  selector: 'app-remortgage',
+  templateUrl: './remortgage.component.html',
+  styleUrls: ['./remortgage.component.css']
 })
-export class TransferAndChargeComponent implements OnInit {
+export class RemortgageComponent implements OnInit {
 
   rolesList: string[] = ["Borrower", "Lender", "Lessee", "Lessor", "PersonalRepresentative", "PowerOfAttorney", "Proprietor", "Third Party", "Transferee", "Transferor"];
   appTypeList: string[] = [
@@ -49,21 +52,18 @@ export class TransferAndChargeComponent implements OnInit {
   partyList: Party[] = [];
   notesList: AttachmentNotes[] = [];
   logsList: RequestLogs[] = [];
-  representationList: Representation[] = [];
 
   txtTitle: FormControl = new FormControl();
   applicationGroup!: FormGroup;
   supportingDocGroup!: FormGroup;
   partyGroup!: FormGroup;
   notesGroup!: FormGroup;
-  representationGroup!: FormGroup;
 
   selectedTitleNumber: number | undefined;
   selectedApplicationId: number | undefined;
   selectedsupportingDocId: number | undefined;
   selectedPartyId: number | undefined;
   selectedNotesId: number | undefined;
-  selectedRepId: number | undefined;
 
   documentReferenceGroup!: FormGroup;
 
@@ -78,12 +78,6 @@ export class TransferAndChargeComponent implements OnInit {
   supDocSaveBtn = "Add";
   partSaveBtn = "Add";
   notesSaveBtn = "Add";
-  repSaveBtn = "Add";
-
-  partyType = 'company';
-  appType = 'other';
-  repType = 'LodgingConveyancer';
-
 
   constructor(
     private dialog: MatDialog,
@@ -127,8 +121,7 @@ export class TransferAndChargeComponent implements OnInit {
       Priority: [1, Validators.required],
       Value: ['', Validators.required],
       FeeInPence: [0],
-      Variety: ['other'],
-      Type: [''],
+      Type: ['', Validators.required],
       LocalId: [0],
       IsSelected: [false],
       ApplicationFormId: 0,
@@ -136,9 +129,7 @@ export class TransferAndChargeComponent implements OnInit {
       DocumentReference: null,
       CertifiedCopy: [''],
       ExternalReference: ['', Validators.required],
-      Document: {},
-      ChargeDate: [new Date().toISOString().substring(0, 10), Validators.required],
-      MDRef: ['']
+      Document: {}
     });
 
     this.supportingDocGroup = this.formBuilder.group({
@@ -164,6 +155,7 @@ export class TransferAndChargeComponent implements OnInit {
       PartyId: 0,
       DocumentReferenceId: 0,
       DocumentReference: null,
+      AddressForService: [''],
     });
 
     this.notesGroup = this.formBuilder.group({
@@ -174,20 +166,6 @@ export class TransferAndChargeComponent implements OnInit {
       ApplicationService: ['', Validators.required],
       Notes: ['', Validators.required],
       AttachmentNotesId: 0,
-      LocalId: [0],
-      IsSelected: [false],
-      DocumentReferenceId: 0,
-      DocumentReference: null,
-    });
-
-    this.representationGroup = this.formBuilder.group({
-      RepresentationId: [0],
-      Type: ['LodgingConveyancer', Validators.required],
-      RepresentativeId: [0],
-      Name: [''],
-      Reference: [''],
-      DxNumber: 0,
-      DxExchange: [''],
       LocalId: [0],
       IsSelected: [false],
       DocumentReferenceId: 0,
@@ -228,13 +206,6 @@ export class TransferAndChargeComponent implements OnInit {
         this.notesList.forEach(s => {
           s.LocalId = this.appId++;
         })
-
-        this.representationList = res.Representations ?? [];
-
-        this.representationList.forEach(s => {
-          s.LocalId = this.appId++;
-        })
-
         this.logsList = res.RequestLogs ?? [];
 
       })
@@ -244,16 +215,9 @@ export class TransferAndChargeComponent implements OnInit {
       this.partyType = res
     })
 
-    this.applicationGroup.get('Variety')?.valueChanges.subscribe(res => {
-      this.appType = res
-    })
-
-    this.representationGroup.get('Type')?.valueChanges.subscribe(res => {
-      this.repType = res
-    })
-
   }
 
+  partyType = 'company';
 
   // Title Numbers
 
@@ -263,22 +227,22 @@ export class TransferAndChargeComponent implements OnInit {
     var insertObj: TitleNumber = {
       LocalId: this.titleId++,
       TitleNumberCode: this.txtTitle.value,
-      IsSelected: false
+      IsSelected: false,
     }
-    if (this.txtTitle.valid)
-      if (this.titleList.find(s => s.LocalId == this.selectedTitleNumber) == null) {
-        this.titleList.push(Object.assign({}, insertObj));
-      } else {
-        insertObj = this.titleList.find(s => s.LocalId == this.selectedTitleNumber)!;
-        this.titleList = this.titleList.filter(s => s.LocalId != this.selectedTitleNumber);
 
-        insertObj.TitleNumberCode = this.txtTitle.value;
+    if (this.titleList.find(s => s.LocalId == this.selectedTitleNumber) == null) {
+      this.titleList.push(Object.assign({}, insertObj));
+    } else {
+      insertObj = this.titleList.find(s => s.LocalId == this.selectedTitleNumber)!;
+      this.titleList = this.titleList.filter(s => s.LocalId != this.selectedTitleNumber);
 
-        this.titleList.push(Object.assign({}, insertObj));
-        this.titleList = this.titleList.sort((a, b) => {
-          return a.LocalId! - b.LocalId!;
-        });
-      }
+      insertObj.TitleNumberCode = this.txtTitle.value;
+
+      this.titleList.push(Object.assign({}, insertObj));
+      this.titleList = this.titleList.sort((a, b) => {
+        return a.LocalId! - b.LocalId!;
+      });
+    }
     this.ClearTitleFields();
 
 
@@ -414,10 +378,7 @@ export class TransferAndChargeComponent implements OnInit {
       DocumentReferenceId: 0,
       DocumentReference: null,
       Document: [],
-      ExternalReference: '',
-      Variety: 'other',
-      ChargeDate: new Date().toISOString().substring(0, 10),
-      MDRef: ''
+      ExternalReference: ''
     })
   }
 
@@ -508,7 +469,7 @@ export class TransferAndChargeComponent implements OnInit {
     }
   }
 
-  // For Parties
+  // For Supporting Documents
 
   partyId = 1;
   PushPartyToGrid() {
@@ -565,6 +526,7 @@ export class TransferAndChargeComponent implements OnInit {
       PartyId: 0,
       DocumentReferenceId: 0,
       DocumentReference: null,
+      AddressForService: '',
     })
   }
 
@@ -648,76 +610,6 @@ export class TransferAndChargeComponent implements OnInit {
     }
   }
 
-
-  // For Representation and Additional Parties
-
-  repId = 1;
-  PushRepToGrid() {
-
-    var insertObj: Representation = {
-
-    }
-    if (this.representationGroup.valid) {
-      insertObj = this.representationGroup.value;
-      insertObj.LocalId = this.repId++
-      insertObj.IsSelected = false;
-
-      if (this.representationList.find(s => s.LocalId == this.selectedRepId) == null) {
-        this.representationList.push(Object.assign({}, insertObj));
-      } else {
-
-        this.representationList = this.representationList.filter(s => s.LocalId != this.selectedRepId);
-        insertObj.LocalId = this.selectedRepId;
-        this.representationList.push(Object.assign({}, insertObj));
-        this.representationList = this.representationList.sort((a, b) => {
-          return a.LocalId! - b.LocalId!;
-        });
-      }
-      this.ClearRepFields();
-
-    }
-  }
-
-  SelectRepRow(id: any) {
-    this.repSaveBtn = "Update"
-    this.selectedRepId = id
-    this.representationList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
-    this.representationList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
-
-    var selectedObj: any = this.representationList?.find(s => s.LocalId == id);
-    this.selectedRepId = selectedObj.LocalId;
-    this.representationGroup.setValue(selectedObj);
-  }
-
-  ClearRepFields() {
-    this.repSaveBtn = "Add"
-
-    this.representationList.forEach(x => x.IsSelected = false);
-
-    this.selectedRepId = 0;
-    this.representationGroup.patchValue({
-      RepresentationId: 0,
-      Type: 'LodgingConveyancer',
-      RepresentativeId: 0,
-      Name: '',
-      Reference: '',
-      DxNumber: 0,
-      DxExchange: '',
-      LocalId: [0],
-      IsSelected: [false],
-      DocumentReferenceId: 0,
-      DocumentReference: null,
-    })
-  }
-
-  RemoveRep(id: any) {
-    this.representationList = this.representationList.filter(x => x.LocalId != id);
-    if (this.selectedRepId == id) {
-      this.selectedRepId = undefined;
-    }
-  }
-
-
   UpdateDatabase() {
 
     if (this.documentReferenceGroup.valid) {
@@ -728,20 +620,19 @@ export class TransferAndChargeComponent implements OnInit {
       documentRef.Parties = JSON.parse(JSON.stringify(this.partyList));
       documentRef.AttachmentNotes = JSON.parse(JSON.stringify(this.notesList));
       documentRef.RequestLogs = JSON.parse(JSON.stringify(this.logsList));
-      documentRef.Representations = JSON.parse(JSON.stringify(this.representationList));
 
       if (this.docRefId == 0) {
         this.registrationService.CreateRegistration(documentRef).subscribe((res) => {
           this.ShowResponse(res);
         }, () => {
-          this.toastr.error("Transfer of charge has not successfully updated", "Changes failed")
+          this.toastr.error("Remortgage has not successfully updated", "Changes failed")
 
         });
       } else {
         this.registrationService.UpdateRegistration(documentRef).subscribe((res) => {
           this.ShowResponse(res);
         }, () => {
-          this.toastr.error("Transfer of charge has not successfully updated", "Changes failed")
+          this.toastr.error("Remortgage has not successfully updated", "Changes failed")
 
         });
       }
