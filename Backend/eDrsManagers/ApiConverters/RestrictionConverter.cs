@@ -26,25 +26,22 @@ namespace eDrsManagers.ApiConverters
             RestrictionRequestManager restrictionServiceManager = new RestrictionRequestManager();
 
 
-            //TITLES
-            List<string> titles = new List<string>();
-            titles.Add("GR518197");
+            TitleNumber[] TitleNumbers = { new TitleNumber { TitleString = "123334" }, new TitleNumber { TitleString = "56789" } };
 
-            Dealingtitles dealingtitles = new Dealingtitles();
-            dealingtitles.TitleNumber = titles;
+
+            Dealingtitles Dealingtitles = new Dealingtitles
+            {
+                TitleNumber = TitleNumbers
+            };
 
             Dealing dealing = new Dealing
             {
-                DealingTitles = dealingtitles
+
+                DealingTitles = Dealingtitles
             };
 
-            LrApiManager.XMLClases.Restriction.Titles titles1 = new LrApiManager.XMLClases.Restriction.Titles
-            {
-                Dealing = dealing
-            };
-
-            List<Titles> Titles = new List<Titles>();
-            Titles.Add(titles1);
+            List<Dealing> Titles = new List<Dealing>();
+            Titles.Add(dealing);
 
 
             //APPLICATIONS
@@ -53,8 +50,9 @@ namespace eDrsManagers.ApiConverters
                 Priority = 1,
                 Value = 0,
                 FeeInPence = 500,
-                Document = new Document
+                Document = new LrApiManager.XMLClases.Restriction.Document
                 {
+
                     CertifiedCopy = "Original"
                 },
                 Type = "RX1"
@@ -64,15 +62,7 @@ namespace eDrsManagers.ApiConverters
             List<Otherapplication> otherapplications = new List<Otherapplication>();
             otherapplications.Add(otherapplication);
 
-            Applications applications1 = new Applications
-            {
 
-                OtherApplication = otherapplications
-
-            };
-
-            List<Applications> applications = new List<Applications>();
-            applications.Add(applications1);
 
             //SUPPORTING DOCUMENTS
             Supportingdocument Supportingdocument = new Supportingdocument
@@ -87,16 +77,6 @@ namespace eDrsManagers.ApiConverters
             List<Supportingdocument> supportingdocuments = new List<Supportingdocument>();
             supportingdocuments.Add(Supportingdocument);
 
-            Supportingdocuments supportingdocuments1 = new Supportingdocuments
-            {
-
-                SupportingDocument = supportingdocuments
-
-            };
-
-            List<Supportingdocuments> Supportingdocuments = new List<Supportingdocuments>();
-            Supportingdocuments.Add(supportingdocuments1);
-
 
             //LODGINGCONVENYANCER
             Lodgingconveyancer lodgingconveyancer = new Lodgingconveyancer
@@ -108,16 +88,13 @@ namespace eDrsManagers.ApiConverters
             List<Lodgingconveyancer> lodgingconveyancers = new List<Lodgingconveyancer>();
             lodgingconveyancers.Add(lodgingconveyancer);
 
-
-
             Representations representations = new Representations
             {
 
-                LodgingConveyancer = lodgingconveyancers
-            };
+                LodgingConveyancer = lodgingconveyancer,
 
-            List<Representations> representations1 = new List<Representations>();
-            representations1.Add(representations);
+
+            };
 
             // PARTY
             Role role = new Role
@@ -129,14 +106,8 @@ namespace eDrsManagers.ApiConverters
             List<Role> roles1 = new List<Role>();
             roles1.Add(role);
 
-            Roles roles = new Roles
-            {
-
-                Role = roles1
-            };
-
             //Parties
-            LrApiManager.XMLClases.Restriction.Party party = new LrApiManager.XMLClases.Restriction.Party
+            Party party = new Party
             {
 
                 IsApplicant = true,
@@ -144,24 +115,13 @@ namespace eDrsManagers.ApiConverters
                 {
                     CompanyName = "Abbey National PLC"
                 },
-                Roles = roles
+                Roles = roles1
             };
 
 
-            List<LrApiManager.XMLClases.Restriction.Party> parties = new List<LrApiManager.XMLClases.Restriction.Party>();
+            List<Party> parties = new List<Party>();
             parties.Add(party);
-
-            Parties parties1 = new Parties
-            {
-
-                Party = parties
-            };
-
-            List<Parties> parties2 = new List<Parties>();
-            parties2.Add(parties1);
-
-
-
+             
             RestrictionApplicationRequest restrictionApplicationRequest = new RestrictionApplicationRequest
             {
 
@@ -179,10 +139,10 @@ namespace eDrsManagers.ApiConverters
                     ApplicationDate = "2012-02-08",
                     DisclosableOveridingInterests = false,
                     Titles = Titles,
-                    Applications = applications,
-                    SupportingDocuments = Supportingdocuments,
-                    Representations = representations1,
-                    Parties = parties2,
+                    Applications = otherapplications,
+                    SupportingDocuments = supportingdocuments,
+                    Representations = representations,
+                    Parties = parties,
                     ApplicationAffects = "WHOLE"
                 }
 

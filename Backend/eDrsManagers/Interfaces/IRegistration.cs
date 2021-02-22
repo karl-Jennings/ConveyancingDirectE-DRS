@@ -18,6 +18,6 @@ namespace eDrsManagers.Interfaces
         ApplicationResponse UpdateRegistration(DocumentReference viewModel);
         bool DeleteRegistration(long regId);
         RegistrationType GetRegistrationType(long regType);
-        RestrictionPollResponse GetPollResponse(long regId);
+        dynamic GetPollResponse(long regId);
     }
 }

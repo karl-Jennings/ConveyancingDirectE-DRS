@@ -29,6 +29,7 @@ import { ApplicationViewComponent } from './angular-dialogs/application-view/app
 import { ViewDocumentRegistrationsComponent } from './view-document-registrations/view-document-registrations.component';
 import { RemovalOfDefaultComponent } from './removal-of-default/removal-of-default.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { TransferAndChargeComponent } from './transfer-and-charge/transfer-and-charge.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     LoginComponent,
     ViewDocumentRegistrationsComponent,
     ApplicationViewComponent,
-    RemovalOfDefaultComponent
+    RemovalOfDefaultComponent,
+    TransferAndChargeComponent
   ],
   imports: [
     BrowserModule,

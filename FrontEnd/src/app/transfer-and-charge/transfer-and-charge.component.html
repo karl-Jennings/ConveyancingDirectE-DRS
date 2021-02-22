@@ -1,0 +1,705 @@
+<div class="container-fluid pb-4">
+    <div class="row mb-1">
+        <div class="col-3">
+            <button mat-flat-button class="mr-1 w-100"
+                routerLink="/registration/transfer-and-charge/{{regType}}/view-all" color="primary">View
+                All</button>
+        </div>
+        <div class="col-12">
+            <hr>
+        </div>
+    </div>
+
+    <form [formGroup]="documentReferenceGroup">
+        <h4 class="font-weight-bold mb-0">Overview</h4>
+
+        <div class="row">
+            <div class="col-3">
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>Message ID</mat-label>
+                    <input readonly formControlName="MessageID" matInput type="text">
+                </mat-form-field>
+            </div>
+
+            <div class="col-3">
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>Additional Provider Filter</mat-label>
+                    <input formControlName="AdditionalProviderFilter" matInput type="text">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>External Reference</mat-label>
+                    <input formControlName="ExternalReference" matInput type="text">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>Your reference</mat-label>
+                    <input formControlName="Reference" matInput type="text">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>Total Fee In Pence</mat-label>
+                    <input formControlName="TotalFeeInPence" matInput type="number">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>Email</mat-label>
+                    <input formControlName="Email" matInput type="email">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>Telephone Number</mat-label>
+                    <input formControlName="TelephoneNumber" matInput type="text">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="w-100">
+                    <mat-label>AP1 Warning Understood</mat-label>
+                    <mat-select formControlName="AP1WarningUnderstood">
+                        <mat-option [value]="true">Yes </mat-option>
+                        <mat-option [value]="false">No </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>ApplicationDate</mat-label>
+                    <input formControlName="ApplicationDate" matInput type="date">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="w-100">
+                    <mat-label>Disclosable Overiding Interests</mat-label>
+                    <mat-select formControlName="DisclosableOveridingInterests">
+                        <mat-option [value]="true">Yes </mat-option>
+                        <mat-option [value]="false">No </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>Representative Id</mat-label>
+                    <input formControlName="RepresentativeId" matInput type="number">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>Application Affects</mat-label>
+                    <mat-select formControlName="ApplicationAffects">
+                        <mat-option [value]="'WHOLE'"> WHOLE </mat-option>
+                        <mat-option [value]="'PART'"> PART </mat-option>
+                    </mat-select>
+
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>Postcode Of Property</mat-label>
+                    <input formControlName="PostcodeOfProperty" matInput type="text">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>Local Authority</mat-label>
+                    <input formControlName="LocalAuthority" matInput type="text">
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <!-- <h4 class="mb-0">Enter any information relating to your application:</h4> -->
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>Compose a note</mat-label>
+                    <input formControlName="Notes" matInput type="text">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>Password</mat-label>
+                    <input type="password" formControlName="Password" matInput>
+                </mat-form-field>
+            </div>
+
+            <div class="col-12 text-right my-auto">
+                <a mat-flat-button href="http://landregistry.data.gov.uk/fees-calculator.html" target="_blank"
+                    class="mr-1" type="button" color="primary">Fee Calculator</a>
+
+            </div>
+
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-12 mt-3">
+            <mat-tab-group mat-align-tabs="start">
+
+                <!-- Title Numbers -->
+                <mat-tab label="Title">
+                    <div class="container-fluid" style="height: 600px; overflow: scroll;">
+                        <div class="row">
+                            <div class="col-12 mt-3">
+                                <div class="row">
+                                    <div class="col">
+                                        <mat-form-field class="example-form-field w-100">
+                                            <mat-label>Dealing Title number *</mat-label>
+                                            <input matInput type="text" [formControl]="txtTitle">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="mr-1 ml-auto" (click)="PushTitleToGrid()" mat-flat-button
+                                            color="primary"> {{titleSaveBtn}}</button>
+                                        <button (click)="ClearTitleFields()" class="btn-warning"
+                                            mat-flat-button>Clear</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <hr class="mb-0">
+                                <table mdbTable class="table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="font-weight-bold">Title Number</th>
+                                            <th class="font-weight-bold">Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr mdbTableCol *ngFor="let item of titleList"
+                                            class="{{item.IsSelected ? 'light-blue-row' : '' }}"
+                                            (click)="SelectTitleRow(item.LocalId)">
+                                            <th scope="row"> {{item.TitleNumberCode}}</th>
+                                            <th scope="row"> <button class="btn btn-danger btn-sm"
+                                                    (click)="RemoveTitle(item.LocalId)">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                                </button></th>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+                                <hr class="mt-0">
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <!--Application Forms -->
+                <mat-tab label="Applications">
+
+                    <div class="container-fluid" style="height: 600px; overflow: scroll;">
+                        <div class="row">
+                            <div class="col-12 mt-3">
+                                <form [formGroup]="applicationGroup">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Variety</mat-label>
+                                                <mat-select formControlName="Variety">
+                                                    <mat-option [value]="'other'">Other Application</mat-option>
+                                                    <mat-option [value]="'charge'">Charge Application</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3" *ngIf="appType == 'other'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Application Type</mat-label>
+                                                <mat-select formControlName="Type">
+                                                    <mat-option *ngFor="let item of appTypeList" [value]="item">{{item}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3" *ngIf="appType == 'charge'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>MD Ref</mat-label>
+                                                <input formControlName="MDRef" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Priority</mat-label>
+                                                <input formControlName="Priority" matInput type="number">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Value</mat-label>
+                                                <input formControlName="Value" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Fee In Pence</mat-label>
+                                                <input formControlName="FeeInPence" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>External Reference</mat-label>
+                                                <input formControlName="ExternalReference" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3 mb-2">
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" #file class="custom-file-input" accept=".*"
+                                                        (change)="uploadFile()" />
+                                                    <label class="custom-file-label" for="inputGroupFile01">{{fileName}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Certification Type</mat-label>
+                                                <mat-select formControlName="CertifiedCopy">
+                                                    <mat-option
+                                                        [value]="'I/We certify this attachment is a true copy of the original document'">
+                                                        I/We certify this attachment is a true copy of the original
+                                                        document
+                                                    </mat-option>
+                                                    <mat-option
+                                                        [value]="'I/We certify this attachment is a true copy of a document which is certified by a conveyancer to be a true copy of the original'">
+                                                        I/We certify this attachment is a true copy of a document which
+                                                        is certified by a conveyancer to be a true copy of the original
+                                                    </mat-option>
+                                                    <mat-option [value]="'This attachment is an uncertified copy'">
+                                                        This attachment is an uncertified copy
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3" *ngIf="appType == 'charge'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Charge Date</mat-label>
+                                                <input formControlName="ChargeDate" matInput type="date">
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <button class="mr-1 ml-auto" (click)="PushApplicationToGrid()"
+                                                mat-flat-button color="primary">{{appSaveBtn}}</button>
+                                            <button (click)="ClearAppFields()" class="btn-warning"
+                                                mat-flat-button>Clear</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <hr class="mb-0">
+
+                                <table mdbTable class="table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="font-weight-bold">Priority</th>
+                                            <th class="font-weight-bold">Value</th>
+                                            <th class="font-weight-bold">Fee In Pence</th>
+                                            <th class="font-weight-bold">Type</th>
+                                            <th class="font-weight-bold">Attachment</th>
+                                            <th class="font-weight-bold">Remove</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr mdbTableCol *ngFor="let item of applicationList"
+                                            class="{{item.IsSelected ? 'light-blue-row' : '' }}"
+                                            (click)="SelectAppRow(item.LocalId)">
+                                            <th scope="row"> {{item.Priority}}</th>
+                                            <th scope="row"> {{item.Value}}</th>
+                                            <th scope="row"> {{item.FeeInPence}}</th>
+                                            <th scope="row"> {{item.Type}}</th>
+                                            <th scope="row">
+                                                <button class="btn btn-primary btn-sm" (click)="DownloadAttached(item)">
+                                                    <i class="fa fa-paperclip" aria-hidden="true"></i> Download
+                                                </button>
+                                            </th>
+                                            <th scope="row">
+                                                <button class="btn btn-danger btn-sm" (click)="RemoveApp(item.LocalId)">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <hr class="mt-0">
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <!-- Supporting Documents -->
+                <mat-tab label="Supporting Documents">
+                    <div class="container-fluid" style="height: 600px; overflow: scroll;">
+                        <div class="row">
+                            <div class="col-12 mt-3">
+                                <form [formGroup]="supportingDocGroup">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Document Name</mat-label>
+                                                <mat-select formControlName="DocumentName">
+                                                    <mat-option *ngFor="let item of supDocNameList" [value]="item">
+                                                        {{item}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Certified Copy</mat-label>
+                                                <input formControlName="CertifiedCopy" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Document Id</mat-label>
+                                                <input formControlName="DocumentId" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <button class="mr-1 ml-auto" (click)="PushSupDocumentToGrid()"
+                                                mat-flat-button color="primary">{{supDocSaveBtn}}</button>
+                                            <button (click)="ClearSupDocFields()" class="btn-warning"
+                                                mat-flat-button>Clear</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <hr class="mb-0">
+                                <table mdbTable class="table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="font-weight-bold">Certified Copy</th>
+                                            <th class="font-weight-bold">Document Id</th>
+                                            <th class="font-weight-bold">Document Name</th>
+                                            <th class="font-weight-bold">Remove</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr mdbTableCol *ngFor="let item of supportingDocList"
+                                            class="{{item.IsSelected ? 'light-blue-row' : '' }}"
+                                            (click)="SelectSupDocRow(item.LocalId)">
+                                            <th scope="row"> {{item.CertifiedCopy}}</th>
+                                            <th scope="row"> {{item.DocumentId}}</th>
+                                            <th scope="row"> {{item.DocumentName}}</th>
+                                            <th scope="row">
+                                                <button class="btn btn-danger btn-sm"
+                                                    (click)="RemoveSupDoc(item.LocalId)">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <hr class="mt-0">
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <!-- Attachment Notes -->
+                <mat-tab label="Notes">
+                    <div class="container-fluid" style="height: 600px; overflow: scroll;">
+                        <div class="row">
+                            <div class="col-12 mt-3">
+                                <form [formGroup]="notesGroup">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Additional Provider Filter</mat-label>
+                                                <input formControlName="AdditionalProviderFilter" matInput type="text">
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Message ID</mat-label>
+                                                <input formControlName="MessageId" readonly matInput type="number">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>External Reference</mat-label>
+                                                <input formControlName="ExternalReference" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Application Message ID</mat-label>
+                                                <input formControlName="ApplicationMessageId" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Application Service</mat-label>
+                                                <input formControlName="ApplicationService" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Notes</mat-label>
+                                                <input formControlName="Notes" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <button class="mr-1 ml-auto" (click)="PushNotesToGrid()" mat-flat-button
+                                                color="primary">{{notesSaveBtn}}</button>
+                                            <button (click)="ClearNotesFields()" class="btn-warning"
+                                                mat-flat-button>Clear</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <hr class="mb-0">
+                                <table mdbTable class="table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="font-weight-bold">Additional Provider Filter</th>
+                                            <th class="font-weight-bold">External Reference</th>
+                                            <th class="font-weight-bold">Application Message ID</th>
+                                            <th class="font-weight-bold">Application Service</th>
+                                            <th class="font-weight-bold">Notes</th>
+                                            <th class="font-weight-bold">Remove</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr mdbTableCol *ngFor="let item of notesList"
+                                            class="{{item.IsSelected ? 'light-blue-row' : '' }}"
+                                            (click)="SelectNotesRow(item.LocalId)">
+                                            <th scope="row"> {{item.AdditionalProviderFilter}}</th>
+                                            <th scope="row"> {{item.ExternalReference}}</th>
+                                            <th scope="row"> {{item.ApplicationMessageId}}</th>
+                                            <th scope="row"> {{item.ApplicationService}}</th>
+                                            <th scope="row"> {{item.Notes}}</th>
+                                            <th scope="row">
+                                                <button class="btn btn-danger btn-sm"
+                                                    (click)="RemoveNotes(item.LocalId)">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <hr class="mt-0">
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <!-- Parties -->
+                <mat-tab label="Parties">
+
+                    <div class="container-fluid" style="height: 600px; overflow: scroll;">
+                        <div class="row">
+                            <div class="col-12 mt-3">
+                                <form [formGroup]="partyGroup">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Party type</mat-label>
+                                                <mat-select formControlName="PartyType">
+                                                    <mat-option [value]="'company'">Company</mat-option>
+                                                    <mat-option [value]="'person'">Person</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Is Applicant</mat-label>
+                                                <mat-select formControlName="IsApplicant">
+                                                    <mat-option [value]="true">Yes</mat-option>
+                                                    <mat-option [value]="false">No</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>{{partyType == 'company' ? 'Company Name' : 'Forename'}}
+                                                </mat-label>
+                                                <input formControlName="CompanyOrForeName" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3" *ngIf="partyType === 'person'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Surname</mat-label>
+                                                <input formControlName="Surname" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Roles</mat-label>
+                                                <mat-select formControlName="ViewModelRoles" multiple>
+                                                    <mat-select-trigger>
+
+                                                        {{partyGroup.controls['ViewModelRoles']?.value[0] ?
+                                                        partyGroup.controls['ViewModelRoles']?.value[0] : ''}}
+                                                        <span
+                                                            *ngIf="partyGroup.controls['ViewModelRoles'].value?.length > 1"
+                                                            class="example-additional-selection">
+                                                            (+{{partyGroup.controls['ViewModelRoles'].value.length - 1}}
+                                                            {{partyGroup.controls['ViewModelRoles'].value?.length ===
+                                                            2 ? 'other' : 'others'}})
+                                                        </span>
+                                                    </mat-select-trigger>
+                                                    <mat-option *ngFor="let item of rolesList" [value]="item">
+                                                        {{item}}</mat-option>
+
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="mr-1 ml-auto" (click)="PushPartyToGrid()" mat-flat-button
+                                                color="primary">{{partSaveBtn}}</button>
+                                            <button (click)="ClearPartyFields()" class="btn-warning"
+                                                mat-flat-button>Clear</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <hr class="mb-0">
+                                <table mdbTable class="table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="font-weight-bold">Is Applicant</th>
+                                            <th class="font-weight-bold">Company/Forename Name</th>
+                                            <th class="font-weight-bold">Surname</th>
+                                            <th class="font-weight-bold">Roles</th>
+                                            <th class="font-weight-bold">Remove</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr mdbTableCol *ngFor="let item of partyList"
+                                            class="{{item.IsSelected ? 'light-blue-row' : '' }}"
+                                            (click)="SelectPartyRow(item.LocalId)">
+                                            <th scope="row"> {{item.IsApplicant ? 'Yes' : 'No'}}</th>
+                                            <th scope="row"> {{item.CompanyOrForeName}}</th>
+                                            <th scope="row"> {{item.PartyType == 'person' ? item.Surname : ''}}</th>
+                                            <th scope="row">
+                                                <p class="mb-0" *ngFor="let subItem of item.ViewModelRoles">
+                                                    {{subItem}}
+                                                </p>
+                                            </th>
+                                            <th scope="row">
+                                                <button class="btn btn-danger btn-sm"
+                                                    (click)="RemoveParty(item.LocalId)">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <hr class="mt-0">
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <!-- Response Log -->
+                <mat-tab label="Response" *ngIf="docRefId != 0">
+                    <div class="container-fluid" style="height: 600px; overflow: scroll;">
+                        <div class="row">
+                            <div class="col-12 pt-3">
+                                <button mat-flat-button color="primary" type="button" (click)="SendPoolRequest()">Send
+                                    Poll Request</button>
+                            </div>
+
+                            <div class="col-12 pt-3">
+                                <h3 class="font-weight-bold">Application Responses</h3>
+                                <table class="table table-bordered mt-1">
+                                    <thead>
+                                        <tr class="grey lighten-3">
+                                            <th scope="col" class="py-2">Type Code</th>
+                                            <th scope="col" class="py-2">Message</th>
+                                            <th scope="col" class="py-2">Date & Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of logsList">
+                                            <ng-container *ngIf="item.Type == 'Application'">
+                                                <td class="py-2">{{item.TypeCode}}</td>
+                                                <td class="py-2">{{item.Description}}</td>
+                                                <td class="py-2">{{item.CreatedDate | date:'dd/MM/yyyy h:mm a'}}</td>
+                                            </ng-container>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-12 pt-3">
+                                <h3 class="font-weight-bold">Attachment Responses</h3>
+                                <table class="table table-bordered mt-1">
+                                    <thead>
+                                        <tr class="grey lighten-3">
+                                            <th scope="col" class="py-2">Attachment ID</th>
+                                            <th scope="col" class="py-2">Type Code</th>
+                                            <th scope="col" class="py-2">Message</th>
+                                            <th scope="col" class="py-2">Date & Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="py-2"></td>
+                                            <td class="py-2"></td>
+                                            <td class="py-2"></td>
+                                            <td class="py-2"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-12 pt-3">
+                                <h3 class="font-weight-bold">Poll Responses</h3>
+                                <table class="table table-bordered mt-1">
+                                    <thead>
+                                        <tr class="grey lighten-3">
+                                            <th scope="col" class="py-2">Type Code</th>
+                                            <th scope="col" class="py-2">Message</th>
+                                            <th scope="col" class="py-2">Dispatch Document</th>
+                                            <th scope="col" class="py-2">Date & Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of logsList">
+                                            <ng-container *ngIf="item.Type == 'Poll'">
+                                                <td class="py-2">{{item.TypeCode}}</td>
+                                                <td class="py-2">{{item.Description}}</td>
+                                                <td class="py-2">
+                                                    <button class="btn btn-primary btn-sm"
+                                                        (click)="DownloadAttachedPoll(item)">
+                                                        <i class="fa fa-paperclip" aria-hidden="true"></i> Download
+                                                    </button>
+                                                </td>
+                                                <td class="py-2">{{item.CreatedDate | date:'dd/MM/yyyy h:mm a'}}</td>
+                                            </ng-container>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+            </mat-tab-group>
+
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col text-right my-auto">
+            <button (click)="UpdateDatabase()" mat-flat-button type="button" class="btn-success">Submit</button>
+        </div>
+    </div>
+</div>
