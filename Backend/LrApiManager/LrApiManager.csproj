@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="XMLClases\Requestapplicationtochangeregisterv2_1.cs" />
+    <Compile Remove="XMLClases\SupportingClasses.cs" />
   </ItemGroup>
 
   <ItemGroup>

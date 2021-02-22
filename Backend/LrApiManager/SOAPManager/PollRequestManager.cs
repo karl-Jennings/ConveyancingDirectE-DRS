@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LrApiManager.XMLClases.PollResponse;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
@@ -7,17 +8,17 @@ using System.IO;
 using System.Net;
 using System.Xml;
 using System.Xml.Serialization;
-using LrApiManager.XMLClases;
 using Microsoft.Extensions.FileProviders;
-using LrApiManager.XMLClases.Restriction;
+using LrApiManager.XMLClases;
 
 namespace LrApiManager.SOAPManager
 {
-    public class RestrictionPollRequest
+
+    public class PollRequestManager
     {
-        public RestrictionPollResponse PoolRequest(string MessageID)
+        public PollResponse PoolRequest(string MessageID)
         {
-            PoolRequest PoolRequest = new PoolRequest
+            PollRequest PoolRequest = new PollRequest
             {
                 MessageID = MessageID
             };
@@ -53,7 +54,7 @@ namespace LrApiManager.SOAPManager
             ///GET RESPONSE FROM text file
             ///
 
-            RestrictionPollResponse _restrictionPoolResponse = GetPoolResponse();
+            PollResponse _restrictionPoolResponse = GetPoolResponse();
 
             return _restrictionPoolResponse;
             //Geting response from request  
@@ -98,14 +99,15 @@ namespace LrApiManager.SOAPManager
             return Req;
         }
 
-        public RestrictionPollResponse GetPoolResponse()
+        public PollResponse GetPoolResponse()
         {
-            Directory.CreateDirectory("XMLTest");
-            var rootFolder = new PhysicalFileProvider(
-                Path.Combine(Directory.GetCurrentDirectory(), "XMLTest")).Root;
+            //Directory.CreateDirectory("XMLTest");
+            //var rootFolder = new PhysicalFileProvider(
+            //    Path.Combine(Directory.GetCurrentDirectory(), "XMLTest")).Root;
 
-            string xml = System.IO.File.ReadAllText(rootFolder + @"PoolResponse.txt");
-            //string xml = System.IO.File.ReadAllText(@"E:\Accura-tech\eDRS DEV2\Backend\eDrsAPI\XMLTest\PoolResponse.txt");
+            //string xml = System.IO.File.ReadAllText(rootFolder + @"PoolResponse.txt");
+
+            string xml = System.IO.File.ReadAllText(@"E:\Accura-tech\eDRS DEV2\Backend\eDrsAPI\XMLTest\PoolResponse.txt");
 
             xml = xml.Replace("ns3:", "");
             xml = xml.Replace("ns4:", "");
@@ -125,10 +127,11 @@ namespace LrApiManager.SOAPManager
             _GatewayResponse = _GatewayResponse.Replace("#text", "byteArray");
 
             // Deserialize Jason to object
-            RestrictionPollResponse gatewayResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<RestrictionPollResponse>(_GatewayResponse);
+            PollResponse gatewayResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<PollResponse>(_GatewayResponse);
 
             return gatewayResponse;
         }
 
     }
+
 }

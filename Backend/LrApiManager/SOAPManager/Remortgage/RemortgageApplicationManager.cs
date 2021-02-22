@@ -7,31 +7,31 @@ using System.Xml;
 using LrApiManager.XMLClases;
 using System.Xml.XPath;
 using System.Xml.Serialization;
-using LrApiManager.XMLClases.Restriction;
+using LrApiManager.XMLClases.Remortgage;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.FileProviders;
 
-namespace LrApiManager.SOAPManager
+namespace LrApiManager.SOAPManager.Remortgage
 {
-    public class RestrictionRequestManager
+    public class RemortgageApplicationManager
     {
-        public RestrictionRequestManager()
+        public RemortgageApplicationManager()
         {
 
         }
-        public ApplicationResponse RequestRestrictionApplication(RestrictionApplicationRequest restrictionApplicationRequest)
+        public ApplicationResponse RequestRemortgageApplication(RemortgageApplicationRequest remortgageApplicationRequest)
         {
 
 
-            XmlDocument doc = SerializeToXml(restrictionApplicationRequest);
+            XmlDocument doc = SerializeToXml(remortgageApplicationRequest);
 
             string xmlString = doc.InnerXml;
 
             // Replace SOAP body root element properties
 
             // web service name=>eDocumentRegistration
-            xmlString = xmlString.Replace("RestrictionApplicationRequest", "eDocumentRegistration");
+            xmlString = xmlString.Replace("RemortgageApplicationRequest", "eDocumentRegistration");
             xmlString = xmlString.Replace("xmlns:xsi", "xmlns:ns2");
             xmlString = xmlString.Replace("xmlns:xsd", "xmlns:ns3");
             xmlString = xmlString.Replace("http://www.w3.org/2001/XMLSchema-instance", "http://www.oscre.org/ns/eReg-Final/2012/RequestApplicationToChangeRegisterV2_1");
@@ -39,6 +39,26 @@ namespace LrApiManager.SOAPManager
 
             xmlString = xmlString.Replace("<TitleString>", "");
             xmlString = xmlString.Replace("</TitleString>", "");
+
+            xmlString = xmlString.Replace("<ApplicationsObject>", "");
+            xmlString = xmlString.Replace("</ApplicationsObject>", "");
+
+            xmlString = xmlString.Replace("<OtherapplicationObject>", "");
+            xmlString = xmlString.Replace("</OtherapplicationObject>", "");
+
+            xmlString = xmlString.Replace("<ChargeapplicationObject>", "");
+            xmlString = xmlString.Replace("</ChargeapplicationObject>", "");
+
+            xmlString = xmlString.Replace("<RepresentationsObject>", "");
+            xmlString = xmlString.Replace("</RepresentationsObject>", "");
+
+            xmlString = xmlString.Replace("<LodgingconveyancerObject>", "");
+            xmlString = xmlString.Replace("</LodgingconveyancerObject>", "");
+
+            xmlString = xmlString.Replace("<RepresentingConveyancerObject>", "");
+            xmlString = xmlString.Replace("</RepresentingConveyancerObject>", "");
+
+
             xmlString = xmlString.Replace("<AdditionalProviderFilter>", "<arg0><AdditionalProviderFilter>");
             xmlString = xmlString.Replace("</eDocumentRegistration>", "</arg0></eDocumentRegistration>");
 

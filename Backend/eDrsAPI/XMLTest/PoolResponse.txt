@@ -13,54 +13,53 @@
  <ns4:DespatchDocument ns4:filename="Land Registry Documents.zip" ns4:format="zip">byte array removed for space
 but will be in the stub service for decoding</ns4:DespatchDocument>
  <ns4:XmlRegisters>
- <ns4:TitleNumber>GR521935</ns4:TitleNumber>
+ <ns4:TitleNumber>GR521905</ns4:TitleNumber>
 <ns4:OCSummaryData>
- <ns4:OfficialCopyDateTime>2014-02-26T15:25:11</ns4:OfficialCopyDateTime>
+ <ns4:OfficialCopyDateTime>2014-02-26T11:25:11</ns4:OfficialCopyDateTime>
  <ns4:EditionDate>2014-02-25</ns4:EditionDate>
  <ns4:PropertyAddress>
  <ns4:PostcodeZone>
- <ns4:Postcode>GL1 2NF</ns4:Postcode>
+ <ns4:Postcode>GL4 0RG</ns4:Postcode>
  </ns4:PostcodeZone>
-<ns4:AddressLine>
- <ns4:Line>Ground And Basement Floor Shop</ns4:Line>
- <ns4:Line>20 And 22</ns4:Line>
-<ns4:Line>Westgate Street</ns4:Line>
-<ns4:Line>Gloucester</ns4:Line>
+ <ns4:AddressLine>
+ <ns4:Line>Land on the north side of 12 Coral Close</ns4:Line>
+<ns4:Line>Tuffley</ns4:Line>
+ <ns4:Line>Gloucester</ns4:Line>
  </ns4:AddressLine>
  </ns4:PropertyAddress>
 <ns4:Title>
- <ns4:TitleNumber>GR521935</ns4:TitleNumber>
-<ns4:ClassOfTitleCode>60</ns4:ClassOfTitleCode>
-<ns4:CommonholdIndicator>false</ns4:CommonholdIndicator>
+ <ns4:TitleNumber>GR521905</ns4:TitleNumber>
+ <ns4:ClassOfTitleCode>10</ns4:ClassOfTitleCode>
+ <ns4:CommonholdIndicator>false</ns4:CommonholdIndicator>
 <ns4:TitleRegistrationDetails>
  <ns4:DistrictName>GLOUCESTER</ns4:DistrictName>
 <ns4:AdministrativeArea>GLOUCESTERSHIRE</ns4:AdministrativeArea>
 <ns4:LandRegistryOfficeName>Gloucester Office</ns4:LandRegistryOfficeName>
-<ns4:LatestEditionDate>2014-02-25</ns4:LatestEditionDate>
+ <ns4:LatestEditionDate>2014-02-25</ns4:LatestEditionDate>
  <ns4:PostcodeZone>
- <ns4:Postcode>GL1 2NF</ns4:Postcode>
+ <ns4:Postcode>GL4 0RG</ns4:Postcode>
  </ns4:PostcodeZone>
-<ns4:RegistrationDate>2014-02-25</ns4:RegistrationDate>
+ <ns4:RegistrationDate>2014-02-25</ns4:RegistrationDate>
  </ns4:TitleRegistrationDetails>
  </ns4:Title>
 <ns4:RegisterEntryIndicators>
  <ns4:AgreedNoticeIndicator>false</ns4:AgreedNoticeIndicator>
-<ns4:BankruptcyIndicator>false</ns4:BankruptcyIndicator>
+ <ns4:BankruptcyIndicator>false</ns4:BankruptcyIndicator>
 <ns4:CautionIndicator>false</ns4:CautionIndicator>
-<ns4:CCBIIndicator>false</ns4:CCBIIndicator>
-<ns4:ChargeeIndicator>false</ns4:ChargeeIndicator>
+ <ns4:CCBIIndicator>false</ns4:CCBIIndicator>
+ <ns4:ChargeeIndicator>false</ns4:ChargeeIndicator>
 <ns4:ChargeIndicator>false</ns4:ChargeIndicator>
 <ns4:ChargeRelatedRestrictionIndicator>false</ns4:ChargeRelatedRestrictionIndicator>
 <ns4:ChargeRestrictionIndicator>false</ns4:ChargeRestrictionIndicator>
 <ns4:CreditorsNoticeIndicator>false</ns4:CreditorsNoticeIndicator>
-<ns4:DeathOfProprietorIndicator>false</ns4:DeathOfProprietorIndicator>
-<ns4:DeedOfPostponementIndicator>false</ns4:DeedOfPostponementIndicator>
+ <ns4:DeathOfProprietorIndicator>false</ns4:DeathOfProprietorIndicator>
+ <ns4:DeedOfPostponementIndicator>false</ns4:DeedOfPostponementIndicator>
 <ns4:DiscountChargeIndicator>false</ns4:DiscountChargeIndicator>
 <ns4:EquitableChargeIndicator>false</ns4:EquitableChargeIndicator>
 <ns4:GreenOutEntryIndicator>false</ns4:GreenOutEntryIndicator>
 <ns4:HomeRightsChangeOfAddressIndicator>false</ns4:HomeRightsChangeOfAddressIndicator>
 <ns4:HomeRightsIndicator>false</ns4:HomeRightsIndicator>
-<ns4:LeaseHoldTitleIndicator>true</ns4:LeaseHoldTitleIndicator>
+<ns4:LeaseHoldTitleIndicator>false</ns4:LeaseHoldTitleIndicator>
 <ns4:MultipleChargeIndicator>false</ns4:MultipleChargeIndicator>
 <ns4:NonChargeRestrictionIndicator>false</ns4:NonChargeRestrictionIndicator>
 <ns4:NotedChargeIndicator>false</ns4:NotedChargeIndicator>
@@ -69,126 +68,97 @@ but will be in the stub service for decoding</ns4:DespatchDocument>
 <ns4:RentChargeIndicator>false</ns4:RentChargeIndicator>
 <ns4:RightOfPreEmptionIndicator>false</ns4:RightOfPreEmptionIndicator>
 <ns4:ScheduleOfLeasesIndicator>false</ns4:ScheduleOfLeasesIndicator>
-<ns4:SubChargeIndicator>false</ns4:SubChargeIndicator>
-<ns4:UnidentifiedEntryIndicator>false</ns4:UnidentifiedEntryIndicator>
+ <ns4:SubChargeIndicator>false</ns4:SubChargeIndicator>
+ <ns4:UnidentifiedEntryIndicator>false</ns4:UnidentifiedEntryIndicator>
 <ns4:UnilateralNoticeBeneficiaryIndicator>false</ns4:UnilateralNoticeBeneficiaryIndicator>
- <ns4:UnilateralNoticeIndicator>false</ns4:UnilateralNoticeIndicator>
-<ns4:VendorsLienIndicator>false</ns4:VendorsLienIndicator>
+<ns4:UnilateralNoticeIndicator>false</ns4:UnilateralNoticeIndicator>
+ <ns4:VendorsLienIndicator>false</ns4:VendorsLienIndicator>
  </ns4:RegisterEntryIndicators>
- <ns4:Proprietorship>
+<ns4:Proprietorship>
  <ns4:CurrentProprietorshipDate>2014-02-25</ns4:CurrentProprietorshipDate>
  <ns4:RegisteredProprietorParty>
  <ns4:PrivateIndividual>
  <ns4:Name>
- <ns4:ForenamesName>Molly</ns4:ForenamesName>
-<ns4:SurnameName>Sims</ns4:SurnameName>
+ <ns4:ForenamesName>Penny</ns4:ForenamesName>
+<ns4:SurnameName>Rodgers</ns4:SurnameName>
  </ns4:Name>
  </ns4:PrivateIndividual>
 <ns4:Address>
- <ns4:AddressLine>
- <ns4:Line>1 Tarp Street</ns4:Line>
- <ns4:Line>Gloucester</ns4:Line>
+ <ns4:PostcodeZone>
+ <ns4:Postcode>GL4 0RG</ns4:Postcode>
+ </ns4:PostcodeZone>
+<ns4:AddressLine>
+ <ns4:Line>13 Coral Close</ns4:Line>
+<ns4:Line>Tuffley</ns4:Line>
+<ns4:Line>Gloucester</ns4:Line>
  </ns4:AddressLine>
  </ns4:Address>
-<ns4:TradingName>PARTY FAVOURS</ns4:TradingName>
  </ns4:RegisteredProprietorParty>
  </ns4:Proprietorship>
-<ns4:Lease>
- <ns4:LeaseEntry>
- <ns4:LeaseTerm>25 Years from the date of the lease</ns4:LeaseTerm>
-<ns4:LeaseDate>1989-04-04</ns4:LeaseDate>
- <ns4:LeaseParty>
- <ns4:Organization>
- <ns4:Name>Mountcharm Ltd</ns4:Name>
- </ns4:Organization>
-<ns4:PartyNumber>1</ns4:PartyNumber>
-<ns4:PartyDescription>Lessor</ns4:PartyDescription>
- </ns4:LeaseParty>
- <ns4:LeaseParty>
- <ns4:PrivateIndividual>
- <ns4:Name>
- <ns4:ForenamesName>Molly</ns4:ForenamesName>
-<ns4:SurnameName>Sims</ns4:SurnameName>
- </ns4:Name>
- </ns4:PrivateIndividual>
-<ns4:PartyNumber>2</ns4:PartyNumber>
-<ns4:PartyDescription>Lessee</ns4:PartyDescription>
- </ns4:LeaseParty>
-<ns4:EntryDetails>
- <ns4:EntryNumber>2</ns4:EntryNumber>
-<ns4:EntryText>Short particulars of the lease(s) (or under-lease(s)) under which the land
-is held:Date : 4 April 1989 Term : 25 Years from the date of the 
-lease Parties : (1) Mountcharm Ltd (Lessor) (2) Molly
-Sims (Lessee) NOTE 1: Copy filed under GR521906.NOTE 2: By a deed made betweem Mountcharm
-and Molly Sims The term of the lease was extended to 25 years from 1 January 2014</ns4:EntryText>
- <ns4:ScheduleCode>20</ns4:ScheduleCode>
- </ns4:EntryDetails>
- </ns4:LeaseEntry>
- </ns4:Lease>
-<ns4:DocumentDetails>
+ <ns4:DocumentDetails>
  <ns4:Document>
- <ns4:DocumentType>90</ns4:DocumentType>
- <ns4:DocumentDate>1989-04-04</ns4:DocumentDate>
+ <ns4:DocumentType>60</ns4:DocumentType>
+<ns4:DocumentDate>1912-05-28</ns4:DocumentDate>
  <ns4:EntryNumber>A2</ns4:EntryNumber>
-<ns4:PlanOnlyIndicator>false</ns4:PlanOnlyIndicator>
-<ns4:FiledUnder>GR521906</ns4:FiledUnder>
-<ns4:RegisterDescription>Lease</ns4:RegisterDescription>
+<ns4:EntryNumber>A3</ns4:EntryNumber>
+<ns4:EntryNumber>A4</ns4:EntryNumber>
+ <ns4:EntryNumber>C1</ns4:EntryNumber>
+ <ns4:PlanOnlyIndicator>false</ns4:PlanOnlyIndicator>
+<ns4:RegisterDescription>Conveyance</ns4:RegisterDescription>
  </ns4:Document>
  </ns4:DocumentDetails>
  </ns4:OCSummaryData>
- <ns4:XmlRegisterData>
- <ns4:TitleNumber>GR521935</ns4:TitleNumber>
+<ns4:XmlRegisterData>
+ <ns4:TitleNumber>GR521905</ns4:TitleNumber>
 <ns4:PropertyRegister>
  <ns4:DistrictDetails>
  <ns4:EntryText>GLOUCESTERSHIRE : GLOUCESTER</ns4:EntryText>
  </ns4:DistrictDetails>
 <ns4:RegisterEntry>
  <ns4:EntryNumber>1</ns4:EntryNumber>
-<ns4:EntryDate>2014-02-25</ns4:EntryDate>
+ <ns4:EntryDate>2014-02-25</ns4:EntryDate>
  <ns4:EntryType>Property Description</ns4:EntryType>
-<ns4:EntryText>The Leasehold land shown edged with red on the plan of the above title filed at
-the Registry and being Ground And Basement Floor Shop, 20 And 22, Westgate Street, Gloucester (GL1 2NF).</ns4:EntryText>
+ <ns4:EntryText>The Freehold land shown edged with red on the plan of the above title filed at
+the Registry and being Land on the north side of 12 Coral Close, Tuffley, Gloucester (GL4 0RG).</ns4:EntryText>
  </ns4:RegisterEntry>
-<ns4:RegisterEntry>
+ <ns4:RegisterEntry>
  <ns4:EntryNumber>2</ns4:EntryNumber>
-<ns4:EntryDate>2014-02-25</ns4:EntryDate>
- <ns4:EntryType>Single Registered Lease Particulars</ns4:EntryType>
-<ns4:EntryText>Short particulars of the lease(s) (or under-lease(s)) under which the land is
-held:</ns4:EntryText>
- <ns4:EntryText>Date : 4 April 1989
-</ns4:EntryText>
-<ns4:EntryText>Term : 25 Years from the date of the lease
-</ns4:EntryText>
-<ns4:EntryText>Parties : (1) Mountcharm Ltd (Lessor)
-</ns4:EntryText>
- <ns4:EntryText> (2) Molly Sims (Lessee)
-</ns4:EntryText>
- <ns4:EntryText>NOTE 1: Copy filed under GR521906.</ns4:EntryText>
- <ns4:EntryText>NOTE 2: By a deed made betweem Mountcharm and Molly Sims The term of the lease
-was extended to 25 years from 1 January 2014</ns4:EntryText>
+<ns4:EntryType>Mines &amp; Minerals - Entries refer to deed</ns4:EntryType>
+ <ns4:EntryText>There are excluded from this registration the mines and minerals excepted by
+the Conveyance dated 28 May 1912 referred to in the Charges Register.</ns4:EntryText>
  </ns4:RegisterEntry>
 <ns4:RegisterEntry>
  <ns4:EntryNumber>3</ns4:EntryNumber>
- <ns4:EntryDate>2014-02-25</ns4:EntryDate>
- <ns4:EntryType>Alienation</ns4:EntryType>
-<ns4:EntryText>The Lease prohibits or restricts alienation.</ns4:EntryText>
+<ns4:EntryType>Beneficial/Subjective Easements - A Register</ns4:EntryType>
+ <ns4:EntryText>The Conveyance dated 28 May 1912 referred to above is expressed to grant a
+right of way over the back passage.</ns4:EntryText>
  </ns4:RegisterEntry>
 <ns4:RegisterEntry>
  <ns4:EntryNumber>4</ns4:EntryNumber>
-<ns4:EntryDate>2014-02-25</ns4:EntryDate>
- <ns4:EntryType>Lessor's/Landlord's Title</ns4:EntryType>
-<ns4:EntryText>The landlord's title is registered.</ns4:EntryText>
+<ns4:EntryType>Provisions</ns4:EntryType>
+<ns4:EntryText>The Conveyance dated 28 May 1912 referred to above contains a provision as to
+boundary structures.</ns4:EntryText>
  </ns4:RegisterEntry>
  </ns4:PropertyRegister>
 <ns4:ProprietorshipRegister>
  <ns4:RegisterEntry>
  <ns4:EntryNumber>1</ns4:EntryNumber>
- <ns4:EntryDate>2014-02-25</ns4:EntryDate>
+<ns4:EntryDate>2014-02-25</ns4:EntryDate>
  <ns4:EntryType>Proprietor</ns4:EntryType>
-<ns4:EntryText>PROPRIETOR: MOLLY SIMS TRADING AS PARTY FAVOURS of 1 Tarp Street,
-Gloucester.</ns4:EntryText>
+<ns4:EntryText>PROPRIETOR: PENNY RODGERS of 13 Coral Close, Tuffley, Gloucester GL4
+0RG.</ns4:EntryText>
  </ns4:RegisterEntry>
  </ns4:ProprietorshipRegister>
+<ns4:ChargesRegister>
+ <ns4:RegisterEntry>
+ <ns4:EntryNumber>1</ns4:EntryNumber>
+ <ns4:EntryType>Restrictive Covenants/Stipulations - Deed</ns4:EntryType>
+ <ns4:EntryText>A Conveyance of the land in this title dated 28 May 1912 made between (1) The
+Owners of the Middlesbrough Estate Limited (2) Robert Sweeting (3) Albert Winn Sweeting and (4) John Whitfield and Annie
+Lincoln Whitfield contains restrictive covenants.</ns4:EntryText>
+ <ns4:EntryText> NOTE:-Original filed.</ns4:EntryText>
+ </ns4:RegisterEntry>
+ </ns4:ChargesRegister>
  </ns4:XmlRegisterData>
  </ns4:XmlRegisters>
  </ns4:Results>

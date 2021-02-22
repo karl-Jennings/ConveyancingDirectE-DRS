@@ -3,27 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LrApiManager.SOAPManager;
-
-using LrApiManager.SOAPManager.TranferAndCharge;
-using LrApiManager.XMLClases;
+using LrApiManager.SOAPManager.Remortgage;
+using LrApiManager.XMLClases.Remortgage;
 using LrApiManager.XMLClases.PollResponse;
-using LrApiManager.XMLClases.TransferAndChargeApplicationRequest;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Address = LrApiManager.XMLClases.TransferAndChargeApplicationRequest.Address;
-using Document = LrApiManager.XMLClases.TransferAndChargeApplicationRequest.Document;
+using LrApiManager.XMLClases;
+using LrApiManager.SOAPManager;
 
 namespace eDRSUnitTest
 {
     [TestClass]
-    public class TransferAndChangeTest
+    public class RemortgageTest
     {
 
 
         [TestMethod]
         public void ApplicationRequest()
         {
-            TransferAndChargeApplicationManager restrictionServiceManager = new TransferAndChargeApplicationManager();
+            RemortgageApplicationManager remortgageApplicationManager = new RemortgageApplicationManager();
 
             TitleNumber[] TitleNumbers = { new TitleNumber { TitleString = "123334"}, new TitleNumber { TitleString = "56789" } };
 
@@ -42,25 +40,10 @@ namespace eDRSUnitTest
             Titles.Add(dealing);
 
 
-            //APPLICATIONS
-            OtherapplicationObject otherapplication = new OtherapplicationObject
+            //APPLICATIONS           
+
+            ChargeapplicationObject chargeapplicationObject = new ChargeapplicationObject
             {
-                Priority = 1,
-                Value = 0,
-                FeeInPence = 500,
-                Document = new Document
-                {
-
-                    CertifiedCopy = "Original"
-                },
-                Type = "RX1"
-
-            };
-
-            List<OtherapplicationObject> otherapplications = new List<OtherapplicationObject>();
-            otherapplications.Add(otherapplication);
-
-            ChargeapplicationObject chargeapplicationObject = new ChargeapplicationObject {
 
                 Priority = 1,
                 Value = 0,
@@ -71,7 +54,7 @@ namespace eDRSUnitTest
                     CertifiedCopy = "Original"
                 },
                 ChargeDate = "ChargeDate",
-                MDRef= "MDRef"
+                MDRef = "MDRef"
 
             };
 
@@ -80,25 +63,30 @@ namespace eDRSUnitTest
 
             ApplicationsObject applications = new ApplicationsObject
             {
-                OtherApplication= otherapplications,
-                ChargeApplication= chargeapplications
+               ChargeApplication = chargeapplications
             };
-            
-            
-            
 
-             //SUPPORTING DOCUMENTS
-             Supportingdocument Supportingdocument = new Supportingdocument
+
+            //SUPPORTING DOCUMENTS
+            Supportingdocument Supportingdocument = new Supportingdocument
+            {
+                CertifiedCopy = "Original",
+                DocumentId = 1,
+                DocumentName = "Evidence"
+            };
+
+            Supportingdocument Supportingdocument2 = new Supportingdocument
             {
 
 
                 CertifiedCopy = "Original",
                 DocumentId = 2,
-                DocumentName = "Evidence"
+                DocumentName = "Identity Form"
             };
 
             List<Supportingdocument> supportingdocuments = new List<Supportingdocument>();
-            supportingdocuments.Add(Supportingdocument);           
+            supportingdocuments.Add(Supportingdocument);
+            supportingdocuments.Add(Supportingdocument2);
 
 
             //LODGINGCONVENYANCER
@@ -108,33 +96,7 @@ namespace eDRSUnitTest
                 RepresentativeId = 1
             };
 
-
-
-            RepresentingConveyancerObject RepresentingConveyancer = new RepresentingConveyancerObject
-            {
-
-                RepresentativeId = 2,
-                ConveyancerName = "Parretts Conveyancers",
-                Reference = "GHK / Youngblood ",
-
-                DXAddress = new DXAddress
-                {
-                    DXNumber = "12456",
-                    DXExchange = "Peterborough 4"
-
-                }
-
-
-            };
-           
-
-            RepresentationsObject representations = new RepresentationsObject
-            {                
-
-                LodgingConveyancer = lodgingconveyancer,
-                RepresentingConveyancer = RepresentingConveyancer
-
-            };
+                 
        
             // PARTY
             Role role = new Role
@@ -144,50 +106,80 @@ namespace eDRSUnitTest
             };
 
             List<Role> roles1 = new List<Role>();
-            roles1.Add(role);         
+            roles1.Add(role);
 
             //Parties
-            Party party = new Party
+            Party party1 = new Party
             {
 
                 IsApplicant = true,
+                Person = new Person
+                {
+                    Forenames = "William",
+                    Surname = "Prynne"
+                },
+                Roles = roles1,
+                AddressForService = new Addressforservice {
+
+                    AddressForServiceOption="B1"
+                }
+            };
+
+            Party party2 = new Party
+            {
+
+                IsApplicant = false,
+                Person = new Person
+                {
+                    Forenames = "Tracey",
+                    Surname = "Prynne"
+                },
+                Roles = roles1,
+                AddressForService = new Addressforservice
+                {
+
+                    AddressForServiceOption = "B1"
+                }
+            };
+
+            Party party3 = new Party
+            {
+
+                IsApplicant = false,
                 Company = new Company
                 {
-                    CompanyName = "Abbey National PLC"
+                    CompanyName = "Furness Building Society",
+                    CompanyRegistrationNumber = "2294747"
                 },
                 Roles = roles1
+               
             };
 
 
             List<Party> parties = new List<Party>();
-            parties.Add(party);
+            parties.Add(party1);
+            parties.Add(party2);
+            parties.Add(party3);
 
-            // AdditionalPartyNotifications
+            //Representations       
 
-            Additionalpartynotification additionalPartyNotification = new Additionalpartynotification
+
+
+            IdentityevidenceObject RepresentingConveyancer = new IdentityevidenceObject
+            {
+                RepresentativeId = 2,            
+            };
+
+
+            RepresentationsObject representations = new RepresentationsObject
             {
 
-                Name = "Parrets",
-                Reference = "Reference",
-                Address = new Address
-                {
-
-                    DXAddress = new DXAddress
-                    {
-
-                        DXNumber = "12345",
-                        DXExchange = "Peterborough 4"
-                    }
-
-                }
+                LodgingConveyancer = lodgingconveyancer,
+                IdentityEvidence = RepresentingConveyancer
 
             };
 
-            List<Additionalpartynotification> Additionalpartynotifications = new List<Additionalpartynotification>();
-            Additionalpartynotifications.Add(additionalPartyNotification);
-
-
-            TransferAndChargeApplicationRequest restrictionApplicationRequest = new TransferAndChargeApplicationRequest
+            RemortgageApplicationRequest remortgageApplicationRequest = new RemortgageApplicationRequest
             {
 
                 AdditionalProviderFilter = "Solsdotcom",
@@ -208,13 +200,12 @@ namespace eDRSUnitTest
                     SupportingDocuments = supportingdocuments,
                     Representations = representations,
                     Parties = parties,
-                    AdditionalPartyNotifications= Additionalpartynotifications,
                     ApplicationAffects = "WHOLE"
                 }
 
             };
 
-            ApplicationResponse applicationResponse = restrictionServiceManager.RequestTransferAndChargeApplication(restrictionApplicationRequest);
+            ApplicationResponse applicationResponse = remortgageApplicationManager.RequestRemortgageApplication(remortgageApplicationRequest);
         }
 
         [TestMethod]
