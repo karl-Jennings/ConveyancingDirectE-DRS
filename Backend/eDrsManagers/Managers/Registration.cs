@@ -9,8 +9,6 @@ using eDrsManagers.Interfaces;
 using LrApiManager.SOAPManager;
 using LrApiManager.SOAPManager.Restriction;
 using LrApiManager.XMLClases;
-using LrApiManager.XMLClases.Restriction;
-using LrApiManager.XMLClases.TransferOfPart;
 using Microsoft.EntityFrameworkCore;
 using Party = eDrsDB.Models.Party;
 
@@ -136,7 +134,7 @@ namespace eDrsManagers.Managers
                 .ToList();
         }
 
-        public RestrictionPollResponse GetPollResponse(long regId)
+        public dynamic GetPollResponse(long regId)
         {
 
             var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == regId);
@@ -146,8 +144,8 @@ namespace eDrsManagers.Managers
             {
                 Type = "Poll",
                 TypeCode = Convert.ToInt32(response.TypeCode),
-                Description = response.Results.FirstOrDefault().MessageDetails,
-                File = response.Results.FirstOrDefault().DespatchDocument.FirstOrDefault().byteArray,
+                Description = response.Results.MessageDetails,
+                File = response.Results.DespatchDocument.byteArray,
                 DocumentReferenceId = docRef.DocumentReferenceId
             };
             _context.RequestLogs.Add(requestLog);

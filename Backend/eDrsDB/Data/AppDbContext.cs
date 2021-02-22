@@ -64,9 +64,9 @@ namespace eDrsDB.Data
                 {
                     RegistrationTypeId = 1,
                     Status = true,
-                    TypeCode = "doc_reg",
+                    TypeCode = "trns_chrge",
                     TypeName = "Transfer and charge",
-                    Url = "document-registration",
+                    Url = "transfer-and-charge",
                     UpdatedDate = DateTime.Now
                 },
                 new RegistrationType
