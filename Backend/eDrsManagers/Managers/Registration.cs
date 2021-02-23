@@ -7,7 +7,6 @@ using eDrsDB.Models;
 using eDrsManagers.ApiConverters;
 using eDrsManagers.Interfaces;
 using LrApiManager.SOAPManager;
-using LrApiManager.SOAPManager.Restriction;
 using LrApiManager.XMLClases;
 using Microsoft.EntityFrameworkCore;
 using Party = eDrsDB.Models.Party;
@@ -17,7 +16,7 @@ namespace eDrsManagers.Managers
     public class Registration : IRegistration
     {
         private readonly RestrictionRequestManager _restrictionServiceManager = new RestrictionRequestManager();
-        private readonly RestrictionPollRequest _restrictionPoolRequest = new RestrictionPollRequest();
+        private readonly PollRequestManager _pollRequestManager = new PollRequestManager();
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
         private readonly IRestrictionConverter _restrictionConverter;
@@ -146,7 +145,7 @@ namespace eDrsManagers.Managers
         {
 
             var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == regId);
-            var response = _restrictionPoolRequest.PoolRequest(docRef.MessageID);
+            var response = _pollRequestManager.PoolRequest(docRef.MessageID);
 
             var requestLog = new RequestLog()
             {

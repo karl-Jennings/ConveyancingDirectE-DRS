@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using LrApiManager.SOAPManager;
-using LrApiManager.SOAPManager.Restriction;
 using LrApiManager.XMLClases.Restriction;
 
 namespace eDrsManagers.ApiConverters
@@ -14,8 +13,6 @@ namespace eDrsManagers.ApiConverters
     public class RestrictionConverter : IRestrictionConverter
     {
 
-
-
         public RestrictionConverter()
         {
 
@@ -23,8 +20,7 @@ namespace eDrsManagers.ApiConverters
 
         public RestrictionApplicationRequest ArrangeLrApi()
         {
-            RestrictionRequestManager restrictionServiceManager = new RestrictionRequestManager();
-
+ 
 
             TitleNumber[] TitleNumbers = { new TitleNumber { TitleString = "123334" }, new TitleNumber { TitleString = "56789" } };
 
@@ -121,7 +117,7 @@ namespace eDrsManagers.ApiConverters
 
             List<Party> parties = new List<Party>();
             parties.Add(party);
-             
+
             RestrictionApplicationRequest restrictionApplicationRequest = new RestrictionApplicationRequest
             {
 
