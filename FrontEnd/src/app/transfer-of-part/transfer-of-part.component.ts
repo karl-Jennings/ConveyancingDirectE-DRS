@@ -624,14 +624,14 @@ export class TransferOfPartComponent implements OnInit {
         this.registrationService.CreateRegistration(documentRef).subscribe((res) => {
           this.ShowResponse(res);
         }, () => {
-          this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed")
+          this.toastr.error("Transfer of Part has not successfully updated", "Changes failed")
 
         });
       } else {
         this.registrationService.UpdateRegistration(documentRef).subscribe((res) => {
           this.ShowResponse(res);
         }, () => {
-          this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed")
+          this.toastr.error("Transfer of Part has not successfully updated", "Changes failed")
 
         });
       }

@@ -18,6 +18,7 @@ namespace eDrsDB.Models
         public string Roles { get; set; }
         public List<string> ViewModelRoles { get; set; }
         public string PartyType { get; set; }
+        public string AddressForService { get; set; }
 
         public long DocumentReferenceId { get; set; }
         public DocumentReference DocumentReference { get; set; }

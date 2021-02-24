@@ -1,6 +1,7 @@
 import { ApplicationForm } from "./application-form";
 import { AttachmentNotes } from "./attachment-notes";
 import { Party } from "./party";
+import { Representation } from "./representation";
 import { RequestLogs } from "./request-logs";
 import { SupportingDocuments } from "./supporting-documents";
 import { TitleNumber } from "./title-number";
@@ -28,6 +29,7 @@ export class DocumentReference {
     Parties?: Party[];
     AttachmentNotes?: AttachmentNotes[];
     RequestLogs?: RequestLogs[];
+    Representations?: Representation[];
 
 
 }

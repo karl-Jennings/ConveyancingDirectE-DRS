@@ -30,6 +30,7 @@ import { ViewDocumentRegistrationsComponent } from './view-document-registration
 import { RemovalOfDefaultComponent } from './removal-of-default/removal-of-default.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TransferAndChargeComponent } from './transfer-and-charge/transfer-and-charge.component';
+import { RemortgageComponent } from './remortgage/remortgage.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { TransferAndChargeComponent } from './transfer-and-charge/transfer-and-c
     ViewDocumentRegistrationsComponent,
     ApplicationViewComponent,
     RemovalOfDefaultComponent,
-    TransferAndChargeComponent
+    TransferAndChargeComponent,
+    RemortgageComponent
   ],
   imports: [
     BrowserModule,

@@ -9,4 +9,5 @@ export class Party {
     LocalId?: number;
     IsSelected?: boolean;
     PartyType?: string;
+    AddressForService?: string;
 }

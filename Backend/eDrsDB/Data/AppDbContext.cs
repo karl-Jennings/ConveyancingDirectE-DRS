@@ -24,6 +24,7 @@ namespace eDrsDB.Data
         public DbSet<ErrorLogs> ErrorLogs { get; set; }
         public DbSet<RequestLog> RequestLogs { get; set; }
         public DbSet<AttachmentNote> AttachmentNotes { get; set; }
+        public DbSet<Representation> Representations { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -73,9 +74,9 @@ namespace eDrsDB.Data
                 {
                     RegistrationTypeId = 2,
                     Status = true,
-                    TypeCode = "lease_ext",
+                    TypeCode = "rem_gage",
                     TypeName = "Remortgage",
-                    Url = "lease-extension",
+                    Url = "remortgage",
                     UpdatedDate = DateTime.Now
                 },
                 new RegistrationType

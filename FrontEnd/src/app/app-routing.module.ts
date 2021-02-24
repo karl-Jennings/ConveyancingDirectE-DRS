@@ -8,6 +8,7 @@ import { TransferOfPartComponent } from './transfer-of-part/transfer-of-part.com
 import { RemovalOfDefaultComponent } from './removal-of-default/removal-of-default.component';
 import { ViewDocumentRegistrationsComponent } from './view-document-registrations/view-document-registrations.component';
 import { TransferAndChargeComponent } from './transfer-and-charge/transfer-and-charge.component';
+import { RemortgageComponent } from './remortgage/remortgage.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -17,6 +18,10 @@ const routes: Routes = [
   { path: 'registration/transfer-and-charge/:regTypeId', component: TransferAndChargeComponent, data: { title: "Transfer And Charge", path: "Registration / Transfer And Charge", animation: "isRight" } },
   { path: 'registration/transfer-and-charge/:regTypeId/view-all', component: ViewDocumentRegistrationsComponent, data: { title: "View Transfer And Charge", path: "Registration / Transfer And Charge / View all", animation: "isRight" } },
   { path: 'registration/transfer-and-charge/:regTypeId/:docRefId', component: TransferAndChargeComponent, data: { title: "Update Transfer And Charge", path: "Registration / Transfer And Charge / Update", animation: "isRight" } },
+
+  { path: 'registration/remortgage/:regTypeId', component: RemortgageComponent, data: { title: "Remortgage", path: "Registration / Remortgage", animation: "isRight" } },
+  { path: 'registration/remortgage/:regTypeId/view-all', component: ViewDocumentRegistrationsComponent, data: { title: "View Remortgage", path: "Registration / Remortgage / View all", animation: "isRight" } },
+  { path: 'registration/remortgage/:regTypeId/:docRefId', component: RemortgageComponent, data: { title: "Update Remortgage", path: "Registration / Remortgage / Update", animation: "isRight" } },
 
   { path: 'registration/removal-form/:regTypeId', component: RemovalOfDefaultComponent, data: { title: "Restriction, hostile takeover", path: "Registration / Restriction, hostile takeover", animation: "isRight" } },
   { path: 'registration/removal-form/:regTypeId/view-all', component: ViewDocumentRegistrationsComponent, data: { title: "View Restriction, hostile takeover", path: "Registration / Restriction, hostile takeover / View all", animation: "isRight" } },

@@ -11,7 +11,7 @@ namespace eDrsDB.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long ApplicationFormId { get; set; }
 
-        public string? Variety { get; set; }
+        public string Variety { get; set; }
         public int Priority { get; set; }
         public string Value { get; set; }
         public int FeeInPence { get; set; }

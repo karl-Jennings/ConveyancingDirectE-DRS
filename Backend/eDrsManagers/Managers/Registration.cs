@@ -7,7 +7,6 @@ using eDrsDB.Models;
 using eDrsManagers.ApiConverters;
 using eDrsManagers.Interfaces;
 using LrApiManager.SOAPManager;
-using LrApiManager.SOAPManager.Restriction;
 using LrApiManager.XMLClases;
 using Microsoft.EntityFrameworkCore;
 using Party = eDrsDB.Models.Party;
@@ -17,7 +16,7 @@ namespace eDrsManagers.Managers
     public class Registration : IRegistration
     {
         private readonly RestrictionRequestManager _restrictionServiceManager = new RestrictionRequestManager();
-        private readonly RestrictionPollRequest _restrictionPoolRequest = new RestrictionPollRequest();
+        private readonly PollRequestManager _pollRequestManager = new PollRequestManager();
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
         private readonly IRestrictionConverter _restrictionConverter;
@@ -87,6 +86,14 @@ namespace eDrsManagers.Managers
             var deletingNotes = _context.AttachmentNotes
                 .Where(x => !viewModel.AttachmentNotes.Select(s => s.AttachmentNotesId).ToList().Contains(x.AttachmentNotesId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
 
+            if (viewModel.Representations != null)
+            {
+                var representations = _context.Representations
+                    .Where(x => !viewModel.Representations.Select(s => s.RepresentationId).ToList().Contains(x.RepresentationId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
+                _context.Representations.RemoveRange(representations);
+            }
+
+
 
             _context.TitleNumbers.RemoveRange(deletingTitle);
             _context.ApplicationForms.RemoveRange(deletingApplications);
@@ -138,7 +145,7 @@ namespace eDrsManagers.Managers
         {
 
             var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == regId);
-            var response = _restrictionPoolRequest.PoolRequest(docRef.MessageID);
+            var response = _pollRequestManager.PoolRequest(docRef.MessageID);
 
             var requestLog = new RequestLog()
             {
@@ -215,14 +222,16 @@ namespace eDrsManagers.Managers
                             DocumentReferenceId = party.DocumentReferenceId,
                             CompanyOrForeName = party.CompanyOrForeName,
                             PartyId = party.PartyId,
-                            Roles = party.Roles
+                            Roles = party.Roles,
+                            AddressForService = party.AddressForService
                         }).ToList(),
                         Status = sel.Status,
                         AdditionalProviderFilter = sel.AdditionalProviderFilter,
                         ExternalReference = sel.ExternalReference,
                         Password = sel.Password,
                         AttachmentNotes = sel.AttachmentNotes,
-                        RequestLogs = sel.RequestLogs
+                        RequestLogs = sel.RequestLogs,
+                        Representations = sel.Representations,
 
                     })
                     .FirstOrDefault(s => s.Status && s.DocumentReferenceId == regId);

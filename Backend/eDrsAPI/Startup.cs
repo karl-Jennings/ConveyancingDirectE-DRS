@@ -35,7 +35,6 @@ namespace eDrsAPI
         {
             Configuration = configuration;
 
-            //XMLConverter();
         }
 
         public IConfiguration Configuration { get; }
@@ -116,9 +115,7 @@ namespace eDrsAPI
         {
             context.Database.Migrate();
 
-
             app.UseDeveloperExceptionPage();
-
 
             app.UseCors(MyAllowSpecificOrigins);
 
@@ -135,32 +132,5 @@ namespace eDrsAPI
         }
 
 
-        public void XMLConverter()
-        {
-
-            string xml = System.IO.File.ReadAllText(@"E:\Accura-tech\LR eDRS Dev\Backend\LrApiManager\PoolResponse.txt");
-
-            xml = xml.Replace("ns3:", "");
-            xml = xml.Replace("ns4:", "");
-
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(xml);
-
-            // XML convert to Jason
-            string json = JsonConvert.SerializeXmlNode(doc);
-            var jo = JObject.Parse(json);
-
-            //get GatewayResponse from Jason object
-            var _GatewayResponse = jo["getResponseResponse"]["GatewayResponse"].ToString();
-
-            _GatewayResponse = _GatewayResponse.Replace("@filename", "filename");
-            _GatewayResponse = _GatewayResponse.Replace("@format", "format");
-            _GatewayResponse = _GatewayResponse.Replace("#text", "byteArray");
-
-            // Deserialize Jason to object
-            TransferOfPartsPollResponse gatewayResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<TransferOfPartsPollResponse>(_GatewayResponse);
-
-
-        }
     }
 }

@@ -1,8 +1,8 @@
 <div class="container-fluid pb-4">
     <div class="row mb-1">
         <div class="col-3">
-            <button mat-flat-button class="mr-1 w-100"
-                routerLink="/registration/transfer-and-charge/{{regType}}/view-all" color="primary">View
+            <button mat-flat-button class="mr-1 w-100" routerLink="/registration/remortgage/{{regType}}/view-all"
+                color="primary">View
                 All</button>
         </div>
         <div class="col-12">
@@ -144,8 +144,8 @@
                                 <div class="row">
                                     <div class="col">
                                         <mat-form-field class="example-form-field w-100">
-                                            <mat-label>Dealing Title number *</mat-label>
-                                            <input matInput type="text" pattern="[A-Z]{0,3}[0-9]{1,6}[ZT]?" [formControl]="txtTitle">
+                                            <mat-label>Title number *</mat-label>
+                                            <input matInput type="text" [formControl]="txtTitle">
                                         </mat-form-field>
                                     </div>
                                     <div class="col-12">
@@ -195,26 +195,11 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Variety</mat-label>
-                                                <mat-select formControlName="Variety">
-                                                    <mat-option [value]="'other'">Other Application</mat-option>
-                                                    <mat-option [value]="'charge'">Charge Application</mat-option>
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3" *ngIf="appType == 'other'">
-                                            <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Application Type</mat-label>
                                                 <mat-select formControlName="Type">
                                                     <mat-option *ngFor="let item of appTypeList" [value]="item">{{item}}
                                                     </mat-option>
                                                 </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3" *ngIf="appType == 'charge'">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>MD Ref</mat-label>
-                                                <input formControlName="MDRef" matInput type="text">
                                             </mat-form-field>
                                         </div>
                                         <div class="col-md-3">
@@ -269,12 +254,6 @@
                                                         This attachment is an uncertified copy
                                                     </mat-option>
                                                 </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3" *ngIf="appType == 'charge'">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Charge Date</mat-label>
-                                                <input formControlName="ChargeDate" matInput type="date">
                                             </mat-form-field>
                                         </div>
 
@@ -392,109 +371,6 @@
                                             <th scope="row">
                                                 <button class="btn btn-danger btn-sm"
                                                     (click)="RemoveSupDoc(item.LocalId)">
-                                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete
-                                                </button>
-                                            </th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                                <hr class="mt-0">
-                            </div>
-                        </div>
-                    </div>
-                </mat-tab>
-
-                <!-- Representation -->
-                <mat-tab label="Representation/Additional Party">
-                    <div class="container-fluid" style="height: 600px; overflow: scroll;">
-                        <div class="row">
-                            <div class="col-12 mt-3">
-                                <form [formGroup]="representationGroup">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Document Name</mat-label>
-                                                <mat-select formControlName="Type">
-                                                    <mat-option [value]="'LodgingConveyancer'"> Lodging Conveyancer
-                                                    </mat-option>
-                                                    <mat-option [value]="'RepresentingConveyancer'"> Representing
-                                                        Conveyancer</mat-option>
-                                                    <mat-option [value]="'AdditionalPartyNotification'"> Additional
-                                                        Party Notification</mat-option>
-                                                </mat-select>
-
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3" *ngIf="repType != 'AdditionalPartyNotification'">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Representative Id</mat-label>
-                                                <input formControlName="RepresentativeId" matInput type="number">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>{{ repType == 'RepresentingConveyancer' ? 'Conveyancer' : ''}}
-                                                    Name</mat-label>
-                                                <input formControlName="Name" matInput type="text">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Reference</mat-label>
-                                                <input formControlName="Reference" matInput type="text">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>DXNumber</mat-label>
-                                                <input formControlName="DxNumber" matInput type="number">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>DXExchange</mat-label>
-                                                <input formControlName="DxExchange" matInput type="text">
-                                            </mat-form-field>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <button class="mr-1 ml-auto" (click)="PushRepToGrid()"
-                                                mat-flat-button color="primary">{{repSaveBtn}}</button>
-                                            <button (click)="ClearRepFields()" class="btn-warning"
-                                                mat-flat-button>Clear</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-12 mt-3">
-                                <hr class="mb-0">
-                                <table mdbTable class="table-hover table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th class="font-weight-bold">Type</th>
-                                            <th class="font-weight-bold">Representative Id</th>
-                                            <th class="font-weight-bold">Name</th>
-                                            <th class="font-weight-bold">Reference</th>
-                                            <th class="font-weight-bold">DX Number</th>
-                                            <th class="font-weight-bold">DX Exchange</th>
-                                            <th class="font-weight-bold">Remove</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr mdbTableCol *ngFor="let item of representationList"
-                                            class="{{item.IsSelected ? 'light-blue-row' : '' }}"
-                                            (click)="SelectRepRow(item.LocalId)">
-                                            <th scope="row"> {{item.Type}}</th>
-                                            <th scope="row"> {{item.RepresentativeId}}</th>
-                                            <th scope="row"> {{item.Name}}</th>
-                                            <th scope="row"> {{item.Reference}}</th>
-                                            <th scope="row"> {{item.DxNumber}}</th>
-                                            <th scope="row"> {{item.DxExchange}}</th>
-                                            <th scope="row">
-                                                <button class="btn btn-danger btn-sm"
-                                                    (click)="RemoveRep(item.LocalId)">
                                                     <i class="fa fa-trash" aria-hidden="true"></i> Delete
                                                 </button>
                                             </th>
@@ -662,6 +538,15 @@
                                                 </mat-select>
                                             </mat-form-field>
                                         </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Address For Service</mat-label>
+                                                <mat-select formControlName="AddressForService">
+                                                    <mat-option [value]="'A1'">A1</mat-option>
+                                                    <mat-option [value]="'B1'">B1</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
                                         <div class="col-12">
                                             <button class="mr-1 ml-auto" (click)="PushPartyToGrid()" mat-flat-button
                                                 color="primary">{{partSaveBtn}}</button>
@@ -802,7 +687,8 @@
 
     <div class="row mt-3">
         <div class="col text-right my-auto">
-            <button (click)="UpdateDatabase()" mat-flat-button type="button" class="btn-success">Submit</button>
+            <button (click)="UpdateDatabase()" mat-flat-button type="button" class="btn-success">{{this.docRefId != 0 ?
+                'Re-Submit' : 'Submit'}}</button>
         </div>
     </div>
 </div>
