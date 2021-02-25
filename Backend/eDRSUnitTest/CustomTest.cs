@@ -20,8 +20,7 @@ namespace eDRSUnitTest
         [TestMethod]
         public void ApplicationRequest()
         {
-            TestManager testManager = new TestManager();
-
+ 
 
             string[] TitlesNumbers = { "TITLENO1", "TITLENO2", "TITLENO3" };
 
@@ -73,8 +72,7 @@ namespace eDRSUnitTest
 
             };
 
-             testManager.TestManagerApplication(requestapplicationtochangeregisterv2_1);
-        }
+         }
 
         [TestMethod]
         public void AttachmentRequest()
