@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace LrApiManager.XMLClases.Restriction
+namespace LrApiManager.XMLClases.Requestapplicationtochangeregister
 {
 
-    public class RestrictionApplicationRequest
+    public class ApplicationRequest
     {
         public string AdditionalProviderFilter { get; set; }
         public string MessageId { get; set; }
@@ -32,7 +34,7 @@ namespace LrApiManager.XMLClases.Restriction
         public string ApplicationAffects { get; set; }
     }
 
-  
+
     public class Dealing
     {
         public Dealingtitles DealingTitles { get; set; }
@@ -72,6 +74,7 @@ namespace LrApiManager.XMLClases.Restriction
         public Document Document { get; set; }
         public string ChargeDate { get; set; }
         public string MDRef { get; set; }
+        public string NoMDRef { get; set; }
         public string SortCode { get; set; }
     }
 
@@ -92,12 +95,20 @@ namespace LrApiManager.XMLClases.Restriction
         public string DocumentName { get; set; }
     }
 
+    // Mandatory 
     public class Representations
     {
+        //Mandatory 1
         public Lodgingconveyancer LodgingConveyancer { get; set; }
 
-      //  public  Representations { get; set; }
+        //Optional [0..*]
+        public List<RepresentingConveyancer> RepresentationsList { get; set; }
+
+        //Optional
         public Certified Certified { get; set; }
+
+        //Optional
+        public IdentityEvidence IdentityEvidence { get; set; }
     }
 
     public class Lodgingconveyancer
@@ -105,9 +116,27 @@ namespace LrApiManager.XMLClases.Restriction
         public int RepresentativeId { get; set; }
     }
 
+    public class RepresentingConveyancer{
+    
+        public string ConveyancerName { get; set; }
+
+        public string Reference { get; set; }
+
+        //DXAddress or PostalAddress
+        public DXAddress DXAddress { get; set; }
+
+        public PostalAddress PostalAddress { get; set; }
+
+    }
+
     public class Certified
     {
         public int RepresentativeId { get; set; }
+    }
+
+    public class IdentityEvidence {
+        public int RepresentativeId { get; set; }
+
     }
 
     public class Parties
@@ -150,12 +179,13 @@ namespace LrApiManager.XMLClases.Restriction
         public int Priority { get; set; }
     }
 
-    public class AddressForService {
+    public class AddressForService
+    {
 
         /* String values are A1, B1 or TA, where A1 is the
            address of the property(A1 register), B1 is current
            proprietor address(B1 register) and TA is address from
-           Transfer/Assent. */       
+           Transfer/Assent. */
 
         public PostalAddress PostalAddress { get; set; }
 
@@ -168,15 +198,16 @@ namespace LrApiManager.XMLClases.Restriction
     public class PostalAddress
     {
 
+        public CareOfAddressType CareOfAddressType { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
+        public string AddressLine3 { get; set; }
         public string AddressLine4 { get; set; }
         public string City { get; set; }
         public string County { get; set; }
         public string Country { get; set; }
         public string Postcode { get; set; }
-
-        public CareOfAddressType CareOfAddressType { get; set; }
+       
 
     }
 

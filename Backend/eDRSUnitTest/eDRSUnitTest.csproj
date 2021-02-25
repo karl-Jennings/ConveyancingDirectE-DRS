@@ -52,11 +52,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DispositionaryFirstLease.cs" />
     <Compile Include="LeaseExtensionTest.cs" />
     <Compile Include="RemortgageTest.cs" />
+    <Compile Include="RepresentationTest.cs" />
+    <Compile Include="ChangeOfName.cs" />
     <Compile Include="TransferOfEquityTest.cs" />
     <Compile Include="TransferAndChange.cs" />
-    <Compile Include="CustomTest.cs" />
     <Compile Include="TransferOfPartTest.cs" />
     <Compile Include="RestrictionTest.cs" />
     <Compile Include="UnitTest1.cs" />
