@@ -145,7 +145,8 @@
                                     <div class="col">
                                         <mat-form-field class="example-form-field w-100">
                                             <mat-label>Dealing Title number *</mat-label>
-                                            <input matInput type="text" pattern="[A-Z]{0,3}[0-9]{1,6}[ZT]?" [formControl]="txtTitle">
+                                            <input matInput type="text" pattern="[A-Z]{0,3}[0-9]{1,6}[ZT]?"
+                                                [formControl]="txtTitle">
                                         </mat-form-field>
                                     </div>
                                     <div class="col-12">
@@ -426,6 +427,17 @@
 
                                             </mat-form-field>
                                         </div>
+                                        <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Address Type</mat-label>
+                                                <mat-select formControlName="AddressType">
+                                                    <mat-option value="DXAddress"> DX Address </mat-option>
+                                                    <mat-option value="PostalAddress"> Postal Address </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                        </div>
+
                                         <div class="col-md-3" *ngIf="repType != 'AdditionalPartyNotification'">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Representative Id</mat-label>
@@ -434,7 +446,8 @@
                                         </div>
                                         <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
                                             <mat-form-field class="example-form-field w-100">
-                                                <mat-label>{{ repType == 'RepresentingConveyancer' ? 'Conveyancer' : ''}}
+                                                <mat-label>{{ repType == 'RepresentingConveyancer' ? 'Conveyancer' :
+                                                    ''}}
                                                     Name</mat-label>
                                                 <input formControlName="Name" matInput type="text">
                                             </mat-form-field>
@@ -447,20 +460,92 @@
                                         </div>
                                         <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
                                             <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Care of Name</mat-label>
+                                                <input formControlName="CareOfName" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Care of Reference</mat-label>
+                                                <input formControlName="CareOfReference" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'DXAddress'">
+                                            <mat-form-field class="example-form-field w-100">
                                                 <mat-label>DXNumber</mat-label>
                                                 <input formControlName="DxNumber" matInput type="number">
                                             </mat-form-field>
                                         </div>
-                                        <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'DXAddress'">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>DXExchange</mat-label>
                                                 <input formControlName="DxExchange" matInput type="text">
                                             </mat-form-field>
                                         </div>
 
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Address Line 1</mat-label>
+                                                <input formControlName="AddressLine1" matInput type="number">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Address Line 2</mat-label>
+                                                <input formControlName="AddressLine2" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Address Line 3</mat-label>
+                                                <input formControlName="AddressLine3" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Address Line 4</mat-label>
+                                                <input formControlName="AddressLine4" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>City</mat-label>
+                                                <input formControlName="City" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>County</mat-label>
+                                                <input formControlName="County" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Country</mat-label>
+                                                <input formControlName="Country" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>PostCode</mat-label>
+                                                <input formControlName="PostCode" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+
                                         <div class="col-12">
-                                            <button class="mr-1 ml-auto" (click)="PushRepToGrid()"
-                                                mat-flat-button color="primary">{{repSaveBtn}}</button>
+                                            <button class="mr-1 ml-auto" (click)="PushRepToGrid()" mat-flat-button
+                                                color="primary">{{repSaveBtn}}</button>
                                             <button (click)="ClearRepFields()" class="btn-warning"
                                                 mat-flat-button>Clear</button>
                                         </div>
@@ -493,8 +578,7 @@
                                             <th scope="row"> {{item.DxNumber}}</th>
                                             <th scope="row"> {{item.DxExchange}}</th>
                                             <th scope="row">
-                                                <button class="btn btn-danger btn-sm"
-                                                    (click)="RemoveRep(item.LocalId)">
+                                                <button class="btn btn-danger btn-sm" (click)="RemoveRep(item.LocalId)">
                                                     <i class="fa fa-trash" aria-hidden="true"></i> Delete
                                                 </button>
                                             </th>

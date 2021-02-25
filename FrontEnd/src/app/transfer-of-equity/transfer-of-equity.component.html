@@ -400,12 +400,21 @@
                                                     </mat-option>
                                                     <mat-option [value]="'RepresentingConveyancer'"> Representing
                                                         Conveyancer</mat-option>
-                                                    <mat-option [value]="'AdditionalPartyNotification'"> Additional
-                                                        Party Notification</mat-option>
                                                 </mat-select>
 
                                             </mat-form-field>
                                         </div>
+                                        <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Address Type</mat-label>
+                                                <mat-select formControlName="AddressType">
+                                                    <mat-option value="DXAddress"> DX Address </mat-option>
+                                                    <mat-option value="PostalAddress"> Postal Address </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                        </div>
+
                                         <div class="col-md-3" *ngIf="repType != 'AdditionalPartyNotification'">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Representative Id</mat-label>
@@ -428,14 +437,86 @@
                                         </div>
                                         <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
                                             <mat-form-field class="example-form-field w-100">
-                                                <mat-label>DXNumber</mat-label>
-                                                <input formControlName="DxNumber" matInput type="number">
+                                                <mat-label>Care of Name</mat-label>
+                                                <input formControlName="CareOfName" matInput type="text">
                                             </mat-form-field>
                                         </div>
                                         <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
                                             <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Care of Reference</mat-label>
+                                                <input formControlName="CareOfReference" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'DXAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>DXNumber</mat-label>
+                                                <input formControlName="DxNumber" matInput type="number">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'DXAddress'">
+                                            <mat-form-field class="example-form-field w-100">
                                                 <mat-label>DXExchange</mat-label>
                                                 <input formControlName="DxExchange" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Address Line 1</mat-label>
+                                                <input formControlName="AddressLine1" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Address Line 2</mat-label>
+                                                <input formControlName="AddressLine2" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Address Line 3</mat-label>
+                                                <input formControlName="AddressLine3" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Address Line 4</mat-label>
+                                                <input formControlName="AddressLine4" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>City</mat-label>
+                                                <input formControlName="City" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>County</mat-label>
+                                                <input formControlName="County" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Country</mat-label>
+                                                <input formControlName="Country" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3"
+                                            *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>PostCode</mat-label>
+                                                <input formControlName="PostCode" matInput type="text">
                                             </mat-form-field>
                                         </div>
 

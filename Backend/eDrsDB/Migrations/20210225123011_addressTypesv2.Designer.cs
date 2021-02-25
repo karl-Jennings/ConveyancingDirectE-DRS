@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eDrsDB.Data;
 
 namespace eDrsDB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210225123011_addressTypesv2")]
+    partial class addressTypesv2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,6 +199,24 @@ namespace eDrsDB.Migrations
                     b.ToTable("DocumentReferences");
                 });
 
+            modelBuilder.Entity("eDrsDB.Models.DxAddress", b =>
+                {
+                    b.Property<long>("DxAddressId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DxExchange")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("DxNumber")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("DxAddressId");
+
+                    b.ToTable("DxAddresses");
+                });
+
             modelBuilder.Entity("eDrsDB.Models.ErrorLogs", b =>
                 {
                     b.Property<long>("ErrorLogId")
@@ -265,6 +285,42 @@ namespace eDrsDB.Migrations
                     b.ToTable("Parties");
                 });
 
+            modelBuilder.Entity("eDrsDB.Models.PostalAddress", b =>
+                {
+                    b.Property<long>("PostalAddressId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AddressLine1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressLine2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressLine3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressLine4")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("County")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PostalAddressId");
+
+                    b.ToTable("PostalAddresses");
+                });
+
             modelBuilder.Entity("eDrsDB.Models.RegistrationType", b =>
                 {
                     b.Property<long>("RegistrationTypeId")
@@ -303,7 +359,7 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "trns_chrge",
                             TypeName = "Transfer and charge",
-                            UpdatedDate = new DateTime(2021, 2, 25, 19, 0, 14, 231, DateTimeKind.Local).AddTicks(8915),
+                            UpdatedDate = new DateTime(2021, 2, 25, 18, 0, 10, 383, DateTimeKind.Local).AddTicks(9146),
                             Url = "transfer-and-charge"
                         },
                         new
@@ -312,7 +368,7 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "rem_gage",
                             TypeName = "Remortgage",
-                            UpdatedDate = new DateTime(2021, 2, 25, 19, 0, 14, 233, DateTimeKind.Local).AddTicks(2233),
+                            UpdatedDate = new DateTime(2021, 2, 25, 18, 0, 10, 385, DateTimeKind.Local).AddTicks(3739),
                             Url = "remortgage"
                         },
                         new
@@ -321,7 +377,7 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "trns_eqty",
                             TypeName = "Transfer of equity",
-                            UpdatedDate = new DateTime(2021, 2, 25, 19, 0, 14, 233, DateTimeKind.Local).AddTicks(2272),
+                            UpdatedDate = new DateTime(2021, 2, 25, 18, 0, 10, 385, DateTimeKind.Local).AddTicks(3779),
                             Url = "transfer-equity"
                         },
                         new
@@ -330,7 +386,7 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "rem_frm",
                             TypeName = "Restriction, hostile takeover",
-                            UpdatedDate = new DateTime(2021, 2, 25, 19, 0, 14, 233, DateTimeKind.Local).AddTicks(2274),
+                            UpdatedDate = new DateTime(2021, 2, 25, 18, 0, 10, 385, DateTimeKind.Local).AddTicks(3783),
                             Url = "removal-form"
                         },
                         new
@@ -339,7 +395,7 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "chngName",
                             TypeName = "Change of name",
-                            UpdatedDate = new DateTime(2021, 2, 25, 19, 0, 14, 233, DateTimeKind.Local).AddTicks(2275),
+                            UpdatedDate = new DateTime(2021, 2, 25, 18, 0, 10, 385, DateTimeKind.Local).AddTicks(3785),
                             Url = "change-name"
                         },
                         new
@@ -348,7 +404,7 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "dispositionary",
                             TypeName = "Dispositionary first lease",
-                            UpdatedDate = new DateTime(2021, 2, 25, 19, 0, 14, 233, DateTimeKind.Local).AddTicks(2277),
+                            UpdatedDate = new DateTime(2021, 2, 25, 18, 0, 10, 385, DateTimeKind.Local).AddTicks(3786),
                             Url = "dispositionary"
                         },
                         new
@@ -357,7 +413,7 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "transfer",
                             TypeName = "Transfer of part",
-                            UpdatedDate = new DateTime(2021, 2, 25, 19, 0, 14, 233, DateTimeKind.Local).AddTicks(2278),
+                            UpdatedDate = new DateTime(2021, 2, 25, 18, 0, 10, 385, DateTimeKind.Local).AddTicks(3788),
                             Url = "transfer"
                         },
                         new
@@ -366,7 +422,7 @@ namespace eDrsDB.Migrations
                             Status = true,
                             TypeCode = "lease_ext",
                             TypeName = "Lease extension",
-                            UpdatedDate = new DateTime(2021, 2, 25, 19, 0, 14, 233, DateTimeKind.Local).AddTicks(2280),
+                            UpdatedDate = new DateTime(2021, 2, 25, 18, 0, 10, 385, DateTimeKind.Local).AddTicks(3790),
                             Url = "lease-extension"
                         });
                 });
@@ -378,50 +434,20 @@ namespace eDrsDB.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AddressLine1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AddressLine2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AddressLine3")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AddressLine4")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("AddressType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CareOfName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CareOfReference")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("County")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("DocumentReferenceId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("DxExchange")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("DxNumber")
+                    b.Property<long>("DxAddressId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PostCode")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("PostalAddressId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Reference")
                         .HasColumnType("nvarchar(max)");
@@ -435,6 +461,10 @@ namespace eDrsDB.Migrations
                     b.HasKey("RepresentationId");
 
                     b.HasIndex("DocumentReferenceId");
+
+                    b.HasIndex("DxAddressId");
+
+                    b.HasIndex("PostalAddressId");
 
                     b.ToTable("Representations");
                 });
@@ -595,8 +625,8 @@ namespace eDrsDB.Migrations
                             Designation = "admin",
                             Email = "dushyanthaccura@gmail.com",
                             Firstname = "Admin",
-                            PasswordHash = new byte[] { 155, 74, 158, 156, 223, 155, 221, 159, 209, 169, 128, 155, 118, 31, 224, 132, 176, 93, 142, 185, 9, 212, 161, 239, 181, 7, 66, 178, 224, 177, 186, 220, 118, 113, 133, 161, 224, 139, 149, 127, 141, 114, 148, 253, 40, 70, 222, 127, 108, 255, 7, 209, 201, 236, 144, 207, 103, 2, 130, 103, 193, 34, 168, 146 },
-                            PasswordSalt = new byte[] { 240, 164, 185, 30, 241, 11, 149, 58, 62, 134, 86, 96, 159, 92, 172, 93, 71, 219, 16, 55, 242, 218, 96, 45, 215, 168, 144, 12, 208, 132, 209, 181, 5, 97, 215, 91, 164, 128, 75, 215, 97, 234, 198, 45, 4, 130, 28, 80, 56, 205, 89, 200, 1, 217, 108, 123, 17, 0, 35, 232, 188, 36, 65, 84, 106, 64, 141, 59, 186, 203, 234, 235, 222, 7, 42, 225, 118, 249, 104, 111, 159, 65, 180, 173, 184, 94, 210, 37, 223, 65, 111, 74, 116, 16, 71, 20, 23, 21, 207, 115, 214, 32, 228, 17, 172, 144, 139, 216, 178, 167, 48, 0, 57, 170, 202, 236, 223, 82, 130, 215, 222, 82, 246, 100, 165, 226, 211, 37 },
+                            PasswordHash = new byte[] { 51, 237, 69, 140, 126, 123, 39, 190, 3, 176, 223, 89, 138, 224, 230, 253, 24, 30, 48, 124, 105, 115, 161, 195, 49, 115, 212, 78, 97, 223, 163, 180, 40, 253, 201, 45, 186, 48, 45, 40, 185, 79, 29, 4, 219, 167, 37, 195, 142, 137, 18, 224, 183, 3, 95, 230, 248, 153, 206, 21, 207, 28, 59, 60 },
+                            PasswordSalt = new byte[] { 155, 195, 241, 168, 108, 195, 192, 240, 214, 99, 153, 80, 75, 37, 98, 127, 4, 18, 190, 157, 43, 145, 244, 216, 92, 146, 90, 87, 100, 115, 15, 160, 130, 189, 149, 233, 47, 122, 89, 195, 124, 23, 141, 106, 179, 85, 230, 225, 61, 189, 46, 0, 79, 217, 107, 32, 140, 174, 159, 142, 13, 110, 208, 41, 101, 217, 184, 108, 222, 213, 166, 126, 68, 70, 53, 59, 45, 167, 25, 177, 189, 141, 47, 167, 241, 111, 166, 103, 203, 24, 49, 95, 107, 38, 36, 78, 44, 81, 38, 157, 216, 85, 250, 255, 37, 166, 139, 33, 52, 112, 200, 50, 155, 227, 18, 178, 232, 214, 254, 94, 216, 19, 62, 148, 181, 192, 204, 120 },
                             Status = true,
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -656,6 +686,18 @@ namespace eDrsDB.Migrations
                     b.HasOne("eDrsDB.Models.DocumentReference", "DocumentReference")
                         .WithMany("Representations")
                         .HasForeignKey("DocumentReferenceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eDrsDB.Models.DxAddress", "DxAddress")
+                        .WithMany()
+                        .HasForeignKey("DxAddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eDrsDB.Models.PostalAddress", "PostalAddress")
+                        .WithMany()
+                        .HasForeignKey("PostalAddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

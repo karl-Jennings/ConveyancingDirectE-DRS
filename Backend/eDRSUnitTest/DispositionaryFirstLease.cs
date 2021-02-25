@@ -7,6 +7,7 @@ using LrApiManager.SOAPManager;
 using LrApiManager.SOAPManager.DispositionaryFirstLease;
 using LrApiManager.XMLClases;
 using LrApiManager.XMLClases.DispositionaryFirstLease;
+using LrApiManager.XMLClases.PollResponse;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace eDRSUnitTest
@@ -183,7 +184,7 @@ namespace eDRSUnitTest
 
             };
 
-            ApplicationResponse applicationResponse = dispositionaryFirstLeaseApplicationManager.RequestChangeOfNameApplication(changeOfNameApplicationRequest);
+            //ApplicationResponse applicationResponse = dispositionaryFirstLeaseApplicationManager.RequestChangeOfNameApplication(changeOfNameApplicationRequest);
         }
 
         [TestMethod]

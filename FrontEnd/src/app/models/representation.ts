@@ -12,3 +12,4 @@ export class Representation {
     IsSelected?: boolean;
 
 }
+

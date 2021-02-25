@@ -186,7 +186,7 @@ namespace eDRSUnitTest
 
             };
 
-            ApplicationResponse applicationResponse = changeOfNameApplicationManager.RequestChangeOfNameApplication(changeOfNameApplicationRequest);
+            //ApplicationResponse applicationResponse = changeOfNameApplicationManager.RequestChangeOfNameApplication(changeOfNameApplicationRequest);
         }
 
         [TestMethod]

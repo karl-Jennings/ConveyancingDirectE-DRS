@@ -83,6 +83,7 @@ export class TransferAndChargeComponent implements OnInit {
   partyType = 'company';
   appType = 'other';
   repType = 'LodgingConveyancer';
+  addressType = 'DXAddress';
 
 
   constructor(
@@ -184,14 +185,29 @@ export class TransferAndChargeComponent implements OnInit {
       RepresentationId: [0],
       Type: ['LodgingConveyancer', Validators.required],
       RepresentativeId: [0],
-      Name: [''],
-      Reference: [''],
-      DxNumber: 0,
-      DxExchange: [''],
+      Name: ['', Validators.required],
+      Reference: ['', Validators.required],
+      AddressType: ['DXAddress'],
+
       LocalId: [0],
       IsSelected: [false],
       DocumentReferenceId: 0,
       DocumentReference: null,
+
+      CareOfName: ['', Validators.required],
+      CareOfReference: ['', Validators.required],
+
+      DxNumber: [0, Validators.required],
+      DxExchange: ['', Validators.required],
+
+      AddressLine1: ['', Validators.required],
+      AddressLine2: [''],
+      AddressLine3: [''],
+      AddressLine4: [''],
+      City: [''],
+      County: [''],
+      Country: [''],
+      PostCode: ['']
     });
 
     if (this.docRefId != 0) {
@@ -250,6 +266,56 @@ export class TransferAndChargeComponent implements OnInit {
 
     this.representationGroup.get('Type')?.valueChanges.subscribe(res => {
       this.repType = res
+
+
+      this.representationGroup.controls['Name'].clearValidators();
+      this.representationGroup.controls['Name'].updateValueAndValidity();
+
+      this.representationGroup.controls['Reference'].clearValidators();
+      this.representationGroup.controls['Reference'].updateValueAndValidity();
+      this.representationGroup.controls['CareOfName'].clearValidators();
+      this.representationGroup.controls['CareOfName'].updateValueAndValidity();
+      this.representationGroup.controls['CareOfReference'].clearValidators();
+      this.representationGroup.controls['CareOfReference'].updateValueAndValidity();
+      this.representationGroup.controls['DxNumber'].clearValidators();
+      this.representationGroup.controls['DxNumber'].updateValueAndValidity();
+      this.representationGroup.controls['DxExchange'].clearValidators();
+      this.representationGroup.controls['DxExchange'].updateValueAndValidity();
+      this.representationGroup.controls['AddressLine1'].clearValidators();
+      this.representationGroup.controls['AddressLine1'].updateValueAndValidity();
+
+      if (res != 'LodgingConveyancer') {
+        this.representationGroup.controls['Name'].setValidators([Validators.required]);
+        this.representationGroup.controls['Reference'].setValidators([Validators.required]);
+        this.representationGroup.controls['CareOfName'].setValidators([Validators.required]);
+        this.representationGroup.controls['CareOfReference'].setValidators([Validators.required]);
+
+        if (this.representationGroup.controls['AddressType'].value == 'DXAddress') {
+          this.representationGroup.controls['DxNumber'].setValidators([Validators.required]);
+          this.representationGroup.controls['DxExchange'].setValidators([Validators.required]);
+        } else {
+          this.representationGroup.controls['AddressLine1'].setValidators([Validators.required]);
+        }
+      }
+
+    })
+
+    this.representationGroup.get('AddressType')?.valueChanges.subscribe(res => {
+      this.addressType = res
+
+      this.representationGroup.controls['DxNumber'].clearValidators();
+      this.representationGroup.controls['DxNumber'].updateValueAndValidity();
+      this.representationGroup.controls['DxExchange'].clearValidators();
+      this.representationGroup.controls['DxExchange'].updateValueAndValidity();
+      this.representationGroup.controls['AddressLine1'].clearValidators();
+      this.representationGroup.controls['AddressLine1'].updateValueAndValidity();
+
+      if (res == 'DXAddress') {
+        this.representationGroup.controls['DxNumber'].setValidators([Validators.required]);
+        this.representationGroup.controls['DxExchange'].setValidators([Validators.required]);
+      } else if (res == 'PostalAddress') {
+        this.representationGroup.controls['AddressLine1'].setValidators([Validators.required]);
+      }
     })
 
   }
@@ -657,6 +723,7 @@ export class TransferAndChargeComponent implements OnInit {
     var insertObj: Representation = {
 
     }
+
     if (this.representationGroup.valid) {
       insertObj = this.representationGroup.value;
       insertObj.LocalId = this.repId++
@@ -701,12 +768,26 @@ export class TransferAndChargeComponent implements OnInit {
       RepresentativeId: 0,
       Name: '',
       Reference: '',
-      DxNumber: 0,
-      DxExchange: '',
+      AddressType: 'DXAddress',
       LocalId: [0],
       IsSelected: [false],
       DocumentReferenceId: 0,
       DocumentReference: null,
+
+      CareOfName: '',
+      CareOfReference: '',
+
+      DxNumber: 0,
+      DxExchange: '',
+
+      AddressLine1: '',
+      AddressLine2: '',
+      AddressLine3: '',
+      AddressLine4: '',
+      City: '',
+      County: '',
+      Country: '',
+      PostCode: '',
     })
   }
 
