@@ -833,12 +833,10 @@ export class TransferOfEquityComponent implements OnInit {
   SendPoolRequest() {
     this.registrationService.GetPoolResponse(this.docRefId).subscribe(res => {
       // console.log()
-
       Swal.fire({
         title: 'Pool Response from Gateway',
         html: `
-        
-        ${res.Results[0].MessageDetails}
+        ${res.Description}
         `,
         icon: 'success',
         showCancelButton: true,
@@ -848,8 +846,7 @@ export class TransferOfEquityComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
           console.log(res)
-          FileSaver.saveAs(res.Results[0].DespatchDocument[0].byteArray!, res.Results[0].DespatchDocument[0].filename);
-
+          FileSaver.saveAs(res.File);
         }
       })
 

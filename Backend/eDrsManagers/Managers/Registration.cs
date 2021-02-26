@@ -157,7 +157,7 @@ namespace eDrsManagers.Managers
             };
             _context.RequestLogs.Add(requestLog);
             _context.SaveChanges();
-            return response;
+            return requestLog;
 
         }
 
