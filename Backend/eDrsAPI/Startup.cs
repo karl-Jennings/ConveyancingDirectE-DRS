@@ -23,7 +23,9 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using System.Xml;
+using eDrsAPI.Controllers;
 using eDrsManagers.ApiConverters;
+using Hangfire;
 using LrApiManager.XMLClases;
 using LrApiManager.XMLClases.TransferOfPart;
 
@@ -48,6 +50,12 @@ namespace eDrsAPI
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // ignores models' case sensitive when converting to json object
                 options.UseMemberCasing();
             });
+
+            services.AddHangfire(config =>
+            {
+                config.UseSqlServerStorage(Configuration.GetConnectionString("SqlServerConnection"));
+            });
+
             services.AddMvc();
 
             var allowedCors = Configuration.GetSection("AllowedClients").Get<List<string>>(); // getting the whitelisted domains from appsettings
@@ -107,13 +115,16 @@ namespace eDrsAPI
 
             IdentityModelEventSource.ShowPII = true;
 
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext context, IServiceProvider serviceProvider)
         {
             context.Database.Migrate();
+
+            app.UseHangfireServer();
+
+            app.UseHangfireDashboard();
 
             app.UseDeveloperExceptionPage();
 
@@ -129,6 +140,9 @@ namespace eDrsAPI
             {
                 endpoints.MapControllers();
             });
+
+            BackgroundJob.Enqueue(() => serviceProvider.GetService<IRegistration>().GetPollResponse(0),
+                Cron.MinuteInterval(15));
         }
 
 
