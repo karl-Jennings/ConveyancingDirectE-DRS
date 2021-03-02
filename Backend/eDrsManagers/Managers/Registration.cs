@@ -161,6 +161,18 @@ namespace eDrsManagers.Managers
 
         }
 
+        public bool AutomatePollRequest()
+        {
+            var messageIds = _context.DocumentReferences.Where(x => x.Status).Select(x => x.DocumentReferenceId).ToList();
+            messageIds.ForEach(x =>
+            {
+                Console.WriteLine("doing.............." + x);
+                GetPollResponse(x);
+            });
+
+            return true;
+        }
+
         public DocumentReference GetRegistration(long regId)
         {
             var documentReference =

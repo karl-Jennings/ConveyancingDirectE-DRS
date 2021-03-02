@@ -25,6 +25,7 @@ using Newtonsoft.Json.Linq;
 using System.Xml;
 using eDrsAPI.Controllers;
 using eDrsManagers.ApiConverters;
+using eDrsManagers.SignalRHub;
 using Hangfire;
 using LrApiManager.XMLClases;
 using LrApiManager.XMLClases.TransferOfPart;
@@ -57,6 +58,11 @@ namespace eDrsAPI
             });
 
             services.AddMvc();
+
+            services.AddSignalR().AddJsonProtocol(options =>
+            {
+                options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+            });
 
             var allowedCors = Configuration.GetSection("AllowedClients").Get<List<string>>(); // getting the whitelisted domains from appsettings
             services.AddCors(options => // add cors restriction
@@ -118,7 +124,7 @@ namespace eDrsAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext context, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext context, IRecurringJobManager recurringJobManager, IServiceProvider serviceProvider)
         {
             context.Database.Migrate();
 
@@ -139,10 +145,16 @@ namespace eDrsAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<SettingsHub>("/api/settings");
+
             });
 
-            BackgroundJob.Enqueue(() => serviceProvider.GetService<IRegistration>().GetPollResponse(0),
-                Cron.MinuteInterval(15));
+            //recurringJobManager.AddOrUpdate(
+            //    "poll_request",
+            //    () => serviceProvider.GetService<IRegistration>().AutomatePollRequest(),
+            //    Cron.Weekly(DayOfWeek.Thursday, 0)
+            //);
+
         }
 
 

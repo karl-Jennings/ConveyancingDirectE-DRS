@@ -34,6 +34,7 @@ import { RemortgageComponent } from './remortgage/remortgage.component';
 import { TransferOfEquityComponent } from './transfer-of-equity/transfer-of-equity.component';
 import { ChangeOfNameComponent } from './change-of-name/change-of-name.component';
 import { DispositionaryComponent } from './dispositionary/dispositionary.component';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { DispositionaryComponent } from './dispositionary/dispositionary.compone
     MatTableModule,
     MatDatepickerModule,
     MatTabsModule,
+    MatSliderModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
