@@ -47,7 +47,7 @@ namespace eDrsManagers.Managers
 
             _context.SaveChanges();
 
-            var requestXml = _restrictionConverter.ArrangeLrApi();
+            var requestXml = _restrictionConverter.ArrangeLrApi(viewModel);
             var applicationResponse = _restrictionServiceManager.RequestRestrictionApplication(requestXml);
 
             var requestLog = new RequestLog()
@@ -104,7 +104,7 @@ namespace eDrsManagers.Managers
             _context.DocumentReferences.Update(viewModel);
 
             _context.SaveChanges();
-            var requestXml = _restrictionConverter.ArrangeLrApi();
+            var requestXml = _restrictionConverter.ArrangeLrApi(viewModel);
             ApplicationResponse applicationResponse = _restrictionServiceManager.RequestRestrictionApplication(requestXml);
 
             var requestLog = new RequestLog()

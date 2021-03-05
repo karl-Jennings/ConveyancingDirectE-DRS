@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Xml.Schema;
+using eDrsDB.Models;
 using LrApiManager.SOAPManager;
 using LrApiManager.XMLClases.Restriction;
+using Party = LrApiManager.XMLClases.Restriction.Party;
+using TitleNumber = LrApiManager.XMLClases.Restriction.TitleNumber;
 
 namespace eDrsManagers.ApiConverters
 {
     public interface IRestrictionConverter
     {
-        RestrictionApplicationRequest ArrangeLrApi();
+        RestrictionApplicationRequest ArrangeLrApi(DocumentReference docRef);
     }
     public class RestrictionConverter : IRestrictionConverter
     {
@@ -18,16 +23,21 @@ namespace eDrsManagers.ApiConverters
 
         }
 
-        public RestrictionApplicationRequest ArrangeLrApi()
+        public RestrictionApplicationRequest ArrangeLrApi(DocumentReference docRef)
         {
- 
+            List<TitleNumber> titleNumbers = new List<TitleNumber>();
+            docRef.Titles.ToList().ForEach(x =>
+            {
+                var titleNumber = new TitleNumber();
+                titleNumber.TitleString = x.TitleNumberCode;
+                titleNumbers.Add(titleNumber);
 
-            TitleNumber[] TitleNumbers = { new TitleNumber { TitleString = "123334" }, new TitleNumber { TitleString = "56789" } };
+            });
 
 
             Dealingtitles Dealingtitles = new Dealingtitles
             {
-                TitleNumber = TitleNumbers
+                TitleNumber = titleNumbers.ToArray()
             };
 
             Dealing dealing = new Dealing
@@ -41,37 +51,36 @@ namespace eDrsManagers.ApiConverters
 
 
             //APPLICATIONS
-            Otherapplication otherapplication = new Otherapplication
-            {
-                Priority = 1,
-                Value = 0,
-                FeeInPence = 500,
-                Document = new LrApiManager.XMLClases.Restriction.Document
-                {
-
-                    CertifiedCopy = "Original"
-                },
-                Type = "RX1"
-
-            };
-
             List<Otherapplication> otherapplications = new List<Otherapplication>();
-            otherapplications.Add(otherapplication);
 
+            docRef.Applications.ToList().ForEach(x =>
+            {
+                var otherapplication = new Otherapplication
+                {
+                    Priority = x.Priority,
+                    Value = Convert.ToInt32(x.Value),
+                    FeeInPence = x.FeeInPence,
+                    Document = new LrApiManager.XMLClases.Restriction.Document { CertifiedCopy = x.CertifiedCopy },
+                    Type = x.Type
+                };
+                otherapplications.Add(otherapplication);
 
+            });
 
             //SUPPORTING DOCUMENTS
-            Supportingdocument Supportingdocument = new Supportingdocument
-            {
-
-
-                CertifiedCopy = "Original",
-                DocumentId = 2,
-                DocumentName = "Evidence"
-            };
-
             List<Supportingdocument> supportingdocuments = new List<Supportingdocument>();
-            supportingdocuments.Add(Supportingdocument);
+
+            docRef.SupportingDocuments.ToList().ForEach(x =>
+            {
+                var supportingdocument = new Supportingdocument()
+                {
+                    CertifiedCopy = x.CertifiedCopy,
+                    DocumentId = Convert.ToInt32(x.DocumentId),
+                    DocumentName = x.DocumentName
+                };
+                supportingdocuments.Add(supportingdocument);
+
+            });
 
 
             //LODGINGCONVENYANCER
