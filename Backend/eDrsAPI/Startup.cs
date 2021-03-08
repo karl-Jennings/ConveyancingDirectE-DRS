@@ -79,7 +79,8 @@ namespace eDrsAPI
             });
 
             services.AddDbContextPool<AppDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"))
+                options => options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"),
+                    b => b.MigrationsAssembly("eDrsAPI"))
             );
 
             services.AddAutoMapper(typeof(Startup)); // adding auto mapper profile

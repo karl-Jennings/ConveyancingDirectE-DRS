@@ -15,7 +15,7 @@ export class DocumentReference {
     Reference?: string;
     TotalFeeInPence?: number;
     Email?: string;
-    TelephoneNumber?: string;
+    TelephoneNumber?: number;
     AP1WarningUnderstood?: boolean;
     ApplicationDate?: string;
     DisclosableOveridingInterests?: boolean;

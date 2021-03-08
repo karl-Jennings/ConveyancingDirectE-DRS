@@ -18,6 +18,7 @@ import { CommonUtils } from 'src/environments/common-utils';
 import Swal from 'sweetalert2';
 import { AttachmentNotes } from '../models/attachment-notes';
 import { RequestLogs } from '../models/request-logs';
+import { Representation } from '../models/representation';
 
 @Component({
   selector: 'app-removal-of-default',
@@ -52,18 +53,21 @@ export class RemovalOfDefaultComponent implements OnInit {
   partyList: Party[] = [];
   notesList: AttachmentNotes[] = [];
   logsList: RequestLogs[] = [];
+  representationList: Representation[] = [];
 
   txtTitle: FormControl = new FormControl();
   applicationGroup!: FormGroup;
   supportingDocGroup!: FormGroup;
   partyGroup!: FormGroup;
   notesGroup!: FormGroup;
+  representationGroup!: FormGroup;
 
   selectedTitleNumber: number | undefined;
   selectedApplicationId: number | undefined;
   selectedsupportingDocId: number | undefined;
   selectedPartyId: number | undefined;
   selectedNotesId: number | undefined;
+  selectedRepId: number | undefined;
 
   documentReferenceGroup!: FormGroup;
 
@@ -78,6 +82,7 @@ export class RemovalOfDefaultComponent implements OnInit {
   supDocSaveBtn = "Add";
   partSaveBtn = "Add";
   notesSaveBtn = "Add";
+  repSaveBtn = "Add";
 
   constructor(
     private dialog: MatDialog,
@@ -102,7 +107,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       TotalFeeInPence: [0],
       Email: ['', [Validators.required, Validators.email]],
       Notes: ['', Validators.required],
-      TelephoneNumber: ['', Validators.required],
+      TelephoneNumber: [0, Validators.required],
       AP1WarningUnderstood: [true],
       ApplicationDate: [new Date().toISOString().substring(0, 10), Validators.required],
       DisclosableOveridingInterests: [true],
@@ -141,6 +146,18 @@ export class RemovalOfDefaultComponent implements OnInit {
       SupportingDocumentId: 0,
       DocumentReferenceId: 0,
       DocumentReference: null,
+    });
+
+    this.representationGroup = this.formBuilder.group({
+      RepresentationId: [0],
+
+      RepresentativeId: [0, Validators.required],
+
+      LocalId: [0],
+      IsSelected: [false],
+      DocumentReferenceId: 0,
+      DocumentReference: null,
+
     });
 
     this.partyGroup = this.formBuilder.group({
@@ -205,7 +222,14 @@ export class RemovalOfDefaultComponent implements OnInit {
         this.notesList.forEach(s => {
           s.LocalId = this.appId++;
         })
+
         this.logsList = res.RequestLogs ?? [];
+
+        this.representationList = res.Representations ?? [];
+
+        this.representationList.forEach(s => {
+          s.LocalId = this.appId++;
+        })
 
       })
     }
@@ -608,6 +632,69 @@ export class RemovalOfDefaultComponent implements OnInit {
     }
   }
 
+  // For Representation and Additional Parties
+
+  repId = 1;
+  PushRepToGrid() {
+
+    var insertObj: Representation = {
+
+    }
+    if (this.representationGroup.valid) {
+      insertObj = this.representationGroup.value;
+      insertObj.LocalId = this.repId++
+      insertObj.IsSelected = false;
+
+      if (this.representationList.find(s => s.LocalId == this.selectedRepId) == null) {
+        this.representationList.push(Object.assign({}, insertObj));
+      } else {
+
+        this.representationList = this.representationList.filter(s => s.LocalId != this.selectedRepId);
+        insertObj.LocalId = this.selectedRepId;
+        this.representationList.push(Object.assign({}, insertObj));
+        this.representationList = this.representationList.sort((a, b) => {
+          return a.LocalId! - b.LocalId!;
+        });
+      }
+      this.ClearRepFields();
+
+    }
+  }
+
+  SelectRepRow(id: any) {
+    this.repSaveBtn = "Update"
+    this.selectedRepId = id
+    this.representationList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
+    this.representationList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
+
+    var selectedObj: any = this.representationList?.find(s => s.LocalId == id);
+    this.selectedRepId = selectedObj.LocalId;
+    this.representationGroup.setValue(selectedObj);
+  }
+
+  ClearRepFields() {
+    this.repSaveBtn = "Add"
+
+    this.representationList.forEach(x => x.IsSelected = false);
+
+    this.selectedRepId = 0;
+    this.representationGroup.patchValue({
+      RepresentationId: 0,
+      RepresentativeId: 0,
+      LocalId: [0],
+      IsSelected: [false],
+      DocumentReferenceId: 0,
+      DocumentReference: null,
+    })
+  }
+
+  RemoveRep(id: any) {
+    this.representationList = this.representationList.filter(x => x.LocalId != id);
+    if (this.selectedRepId == id) {
+      this.selectedRepId = undefined;
+    }
+  }
+
 
   UpdateDatabase() {
 
@@ -619,6 +706,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       documentRef.Parties = JSON.parse(JSON.stringify(this.partyList));
       documentRef.AttachmentNotes = JSON.parse(JSON.stringify(this.notesList));
       documentRef.RequestLogs = JSON.parse(JSON.stringify(this.logsList));
+      documentRef.Representations = JSON.parse(JSON.stringify(this.representationList));
 
       if (this.docRefId == 0) {
         this.registrationService.CreateRegistration(documentRef).subscribe((res) => {

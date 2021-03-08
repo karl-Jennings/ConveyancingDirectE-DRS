@@ -50,7 +50,7 @@ namespace eDrsManagers.Managers
             var requestXml = _restrictionConverter.ArrangeLrApi(viewModel);
             var applicationResponse = _restrictionServiceManager.RequestRestrictionApplication(requestXml);
 
-            var requestLog = new RequestLog()
+            var requestLog = new RequestLog
             {
                 Type = "Application",
                 TypeCode = applicationResponse.TypeCode,

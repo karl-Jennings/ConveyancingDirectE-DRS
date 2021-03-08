@@ -99,7 +99,7 @@ export class LeaseExtensionComponent implements OnInit {
       TotalFeeInPence: [0],
       Email: ['', [Validators.required, Validators.email]],
       Notes: ['', Validators.required],
-      TelephoneNumber: ['', Validators.required],
+      TelephoneNumber: [0, Validators.required],
       AP1WarningUnderstood: [true],
       ApplicationDate: [new Date().toISOString().substring(0, 10), Validators.required],
       DisclosableOveridingInterests: [true],

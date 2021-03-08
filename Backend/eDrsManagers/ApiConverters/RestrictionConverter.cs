@@ -17,7 +17,6 @@ namespace eDrsManagers.ApiConverters
     }
     public class RestrictionConverter : IRestrictionConverter
     {
-
         public RestrictionConverter()
         {
 
@@ -84,71 +83,83 @@ namespace eDrsManagers.ApiConverters
 
 
             //LODGINGCONVENYANCER
-            Lodgingconveyancer lodgingconveyancer = new Lodgingconveyancer
-            {
-
-                RepresentativeId = 1
-            };
+            var representation = docRef.Representations.FirstOrDefault();
 
             List<Lodgingconveyancer> lodgingconveyancers = new List<Lodgingconveyancer>();
+
+
+            Lodgingconveyancer lodgingconveyancer = new Lodgingconveyancer
+            {
+                RepresentativeId = Convert.ToInt32(representation.RepresentationId)
+            };
             lodgingconveyancers.Add(lodgingconveyancer);
+
 
             Representations representations = new Representations
             {
-
                 LodgingConveyancer = lodgingconveyancer,
 
-
             };
+
 
             // PARTY
-            Role role = new Role
-            {
-                RoleType = "ThirdParty",
-                Priority = 1
-            };
-
-            List<Role> roles1 = new List<Role>();
-            roles1.Add(role);
-
-            //Parties
-            Party party = new Party
-            {
-
-                IsApplicant = true,
-                Company = new Company
-                {
-                    CompanyName = "Abbey National PLC"
-                },
-                Roles = roles1
-            };
-
 
             List<Party> parties = new List<Party>();
-            parties.Add(party);
+
+
+            var tempParty = docRef.Parties.ToList();
+            tempParty.ForEach(x =>
+            {
+                List<Role> roles = new List<Role>();
+
+                foreach (var item in x.Roles.Split(','))
+                {
+                    Role role = new Role
+                    {
+                        RoleType = item,
+                        Priority = 1
+                    };
+                    roles.Add(role);
+                }
+
+                //Parties
+                Party party = new Party
+                {
+
+                    IsApplicant = x.IsApplicant,
+                    Company = new Company
+                    {
+                        CompanyName = x.CompanyOrForeName
+                    },
+                    Roles = roles
+                };
+                parties.Add(party);
+
+            });
+
 
             RestrictionApplicationRequest restrictionApplicationRequest = new RestrictionApplicationRequest
             {
 
-                AdditionalProviderFilter = "Solsdotcom",
-                MessageId = "scenario4",
-                ExternalReference = "CP/Barclaycard/Murphy",
+                AdditionalProviderFilter = docRef.AdditionalProviderFilter,
+                MessageId = docRef.MessageID,
+                ExternalReference = docRef.ExternalReference,
 
                 Product = new Product
                 {
-                    Reference = "CP/Barclaycard/Murphy",
-                    TotalFeeInPence = 5000,
-                    Email = "carolparker@cozyconveynacers.com",
-                    TelephoneNumber = 1780299299,
-                    AP1WarningUnderstood = true,
-                    ApplicationDate = "2012-02-08",
-                    DisclosableOveridingInterests = false,
+                    Reference = docRef.Reference,
+                    TotalFeeInPence = docRef.TotalFeeInPence,
+                    Email = docRef.Email,
+                    TelephoneNumber = Convert.ToInt32(docRef.TelephoneNumber),
+                    AP1WarningUnderstood = docRef.AP1WarningUnderstood,
+                    ApplicationDate = docRef.ApplicationDate,
+                    DisclosableOveridingInterests = docRef.DisclosableOveridingInterests,
                     Titles = Titles,
                     Applications = otherapplications,
                     SupportingDocuments = supportingdocuments,
                     Representations = representations,
                     Parties = parties,
-                    ApplicationAffects = "WHOLE"
+                    ApplicationAffects = docRef.ApplicationAffects
                 }
 
             };
