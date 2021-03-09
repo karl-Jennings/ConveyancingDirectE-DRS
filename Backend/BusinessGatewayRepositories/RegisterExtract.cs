@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
-using System.Configuration; 
+using System.Configuration;
+
 
 namespace BusinessGatewayRepositories
 {

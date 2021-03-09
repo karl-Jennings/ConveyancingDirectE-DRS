@@ -11,7 +11,7 @@ using LrApiManager.XMLClases.Restriction;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.FileProviders;
- 
+
 namespace LrApiManager.SOAPManager
 {
     public class RestrictionRequestManager

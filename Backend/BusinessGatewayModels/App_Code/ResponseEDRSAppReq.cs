@@ -8,7 +8,7 @@ using System.IO;
 using System.Configuration;
 using BusinessGatewayRepositories;
 using BusinessGatewayModels;
- using BusinessGatewayRepositories.EDRSApplication;
+using BusinessGatewayRepositories.EDRSApplication;
 
 namespace BusinessGatewayModels
 {

@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessGatewayRepositories;
 using BusinessGatewayModels;
- 
+
+
 namespace BusinessGatewayModels
 {
 
@@ -112,7 +113,31 @@ namespace BusinessGatewayModels
             }
         
         }
-       
+        public void AddPropertyEntry(string ClientRef,string BuildingName, string BuildingNumber, string Postcode, string StreetName,string City, bool? Success, string FailedReason)
+        {
+            try
+            {
+                //BusinessGatewayDB.BGEntities _Context = new BGEntities();
+                //PropertyRequest _propertyRequest = new BusinessGatewayDB.PropertyRequest
+                //{
+                //    ClientRef = ClientRef,
+                //    BuildingName = BuildingName,
+                //    BuildingNumber = BuildingNumber,
+                //    DateRequested = DateTime.Now,
+                //    Postcode = Postcode,
+                //    StreetName = StreetName,
+                //    City = City,
+                //    Success = Success,
+                //    FailedReason = FailedReason
+                //};
+                //_Context.PropertyRequests.Add(_propertyRequest);
+                //_Context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
         public ResponsePropertyDescription() { }
     }
 }

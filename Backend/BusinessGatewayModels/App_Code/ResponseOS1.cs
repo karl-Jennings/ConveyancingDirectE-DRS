@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
@@ -11,7 +12,7 @@ using BusinessGatewayModels;
 
 namespace BusinessGatewayModels
 {
-    public class ResponsePoll
+    public class ResponseOS1
     {
         public string Error { get; set; }
         public string UniqueReference { get; set; }
@@ -22,8 +23,8 @@ namespace BusinessGatewayModels
         public string TitleNumber { get; set; }
         public string UserName { get; set; }
         public bool Attachment { get; set; }
-        public ResponsePoll() { }
-        public ResponsePoll(string MessageId, string TitleNumber, string UserName, BusinessGatewayRepositories.PollOS1.ResponseOfficialSearchOfWholeWithPriorityV2_0Type item)
+        public ResponseOS1() { }
+        public ResponseOS1(string MessageId,string TitleNumber,string UserName,BusinessGatewayRepositories.OS1.ResponseOfficialSearchOfWholeWithPriorityV2_0Type item)
         {
             this.UserName = UserName;
             this.TitleNumber = TitleNumber;
@@ -69,7 +70,7 @@ namespace BusinessGatewayModels
             }
             UpdateOS1(MessageId,this);
         }
-        private void UpdateOS1(string Message,ResponsePoll OS1)
+        private void UpdateOS1(string Message,ResponseOS1 OS1)
         {
 
             //BusinessGatewayDB.BGEntities _Context = new BusinessGatewayDB.BGEntities();
@@ -104,12 +105,12 @@ namespace BusinessGatewayModels
             }
             
         }
-        private void WriteAttachment(string TitleNumber, BusinessGatewayRepositories.PollOS1.Q1AttachmentType Attachment)
+        private void WriteAttachment(string TitleNumber, BusinessGatewayRepositories.OS1.Q1AttachmentType Attachment)
         {
-            string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format;
-           // string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format;
+            string _FileLocation = ConfigurationManager.AppSettings["OS1Location"] + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format;
+           // string _FileLocation = AppSettings.Resolve.GetSetting_ByName("OS1Location").Value + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format;
             //We want to get the pdf from the value of the byte array and write it.
-            BusinessGatewayRepositories.PollOS1.BinaryObjectType _binaryFile = Attachment.EmbeddedFileBinaryObject;
+            BusinessGatewayRepositories.OS1.BinaryObjectType _binaryFile = Attachment.EmbeddedFileBinaryObject;
 
             byte[] buff;
             buff = _binaryFile.Value;
@@ -125,11 +126,11 @@ namespace BusinessGatewayModels
                 throw;
             }
         }
-        public void WriteXML(string TitleNumber, BusinessGatewayRepositories.PollOS1.ResponseOfficialSearchOfWholeWithPriorityV2_0Type Response)
+        public void WriteXML(string TitleNumber, BusinessGatewayRepositories.OS1.ResponseOfficialSearchOfWholeWithPriorityV2_0Type Response)
         {
             string _File = TitleNumber;
             string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + _File + ".xml";
-            //string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + _File + ".xml";
+           // string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + _File + ".xml";
 
             //If the file exists for some reason then we don't want to create it twice
             if (System.IO.File.Exists(_FileLocation) == false)
