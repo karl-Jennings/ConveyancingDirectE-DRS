@@ -11,6 +11,7 @@ using LrApiManager.XMLClases.Restriction;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.FileProviders;
+using BusinessGatewayRepositories;
 
 namespace LrApiManager.SOAPManager
 {
@@ -23,47 +24,42 @@ namespace LrApiManager.SOAPManager
         public ApplicationResponse RequestRestrictionApplication(RestrictionApplicationRequest restrictionApplicationRequest)
         {
 
+            string[] _titles = { "GR518197" };
 
-            XmlDocument doc = SerializeToXml(restrictionApplicationRequest);
+            //BusinessGatewayRepositories.EDRSRepository eDRSRepository = new EDRSRepository("ExternalRef", "scenario4", "PostCode", _titles, "BGUser001", "landreg001");
 
-            string xmlString = doc.InnerXml;
+            //XmlDocument doc = SerializeToXml(restrictionApplicationRequest);
 
-            // Replace SOAP body root element properties
+            //string xmlString = doc.InnerXml;
 
-            // web service name=>eDocumentRegistration
-            xmlString = xmlString.Replace("RestrictionApplicationRequest", "eDocumentRegistration");
-            xmlString = xmlString.Replace("xmlns:xsi", "xmlns:ns2");
-            xmlString = xmlString.Replace("xmlns:xsd", "xmlns:ns3");
-            xmlString = xmlString.Replace("http://www.w3.org/2001/XMLSchema-instance", "http://www.oscre.org/ns/eReg-Final/2012/RequestApplicationToChangeRegisterV2_1");
-            xmlString = xmlString.Replace("http://www.w3.org/2001/XMLSchema", "http://drsv2_1.ws.bg.lr.gov/");
+            //// Replace SOAP body root element properties
 
-            xmlString = xmlString.Replace("<TitleString>", "");
-            xmlString = xmlString.Replace("</TitleString>", "");
-            xmlString = xmlString.Replace("<AdditionalProviderFilter>", "<arg0><AdditionalProviderFilter>");
-            xmlString = xmlString.Replace("</eDocumentRegistration>", "</arg0></eDocumentRegistration>");
+            //// web service name=>eDocumentRegistration
+            //xmlString = xmlString.Replace("RestrictionApplicationRequest", "eDocumentRegistration");
+            //xmlString = xmlString.Replace("xmlns:xsi", "xmlns:ns2");
+            //xmlString = xmlString.Replace("xmlns:xsd", "xmlns:ns3");
+            //xmlString = xmlString.Replace("http://www.w3.org/2001/XMLSchema-instance", "http://www.oscre.org/ns/eReg-Final/2012/RequestApplicationToChangeRegisterV2_1");
+            //xmlString = xmlString.Replace("http://www.w3.org/2001/XMLSchema", "http://drsv2_1.ws.bg.lr.gov/");
 
-
-            //Calling CreateSOAPWebRequest method  
-            HttpWebRequest request = CreateSOAPWebRequest();
-
-            XmlDocument SOAPReqBody = new XmlDocument();
-            //SOAP Body Request  
-            SOAPReqBody.LoadXml(xmlString);
+            //xmlString = xmlString.Replace("<TitleString>", "");
+            //xmlString = xmlString.Replace("</TitleString>", "");
+            //xmlString = xmlString.Replace("<AdditionalProviderFilter>", "<arg0><AdditionalProviderFilter>");
+            //xmlString = xmlString.Replace("</eDocumentRegistration>", "</arg0></eDocumentRegistration>");
 
 
-            using (Stream stream = request.GetRequestStream())
-            {
-                SOAPReqBody.Save(stream);
-            }
+            ////Calling CreateSOAPWebRequest method  
+            //HttpWebRequest request = CreateSOAPWebRequest();
+
+            //XmlDocument SOAPReqBody = new XmlDocument();
+            ////SOAP Body Request  
+            //SOAPReqBody.LoadXml(xmlString);
 
 
-            ///GET RESPONSE FROM text file
-            ///
+            //using (Stream stream = request.GetRequestStream())
+            //{
+            //    SOAPReqBody.Save(stream);
+            //}
 
-            ApplicationResponse applicationResponse = GetApplicationResponse();
-
-            return applicationResponse;
-            //Geting response from request  
             //using (WebResponse Serviceres = request.GetResponse())
             //{
             //    using (StreamReader rd = new StreamReader(Serviceres.GetResponseStream()))
@@ -75,15 +71,23 @@ namespace LrApiManager.SOAPManager
             //        Console.ReadLine();
             //    }
             //}
+            ///GET RESPONSE FROM text file
+            ///
+
+            ApplicationResponse applicationResponse = GetApplicationResponse();
+
+            return applicationResponse;
+            //Geting response from request  
+           
 
         }
 
         public HttpWebRequest CreateSOAPWebRequest()
         {
             //Making Web Request  
-            HttpWebRequest Req = (HttpWebRequest)WebRequest.Create(@"http://localhost/Employee.asmx");
+            HttpWebRequest Req = (HttpWebRequest)WebRequest.Create(@"http://drsv2_1.ws.bg.lr.gov/");
             //SOAPAction  
-            Req.Headers.Add(@"SOAPAction:http://tempuri.org/Addition");
+            Req.Headers.Add(@"SOAPAction:http://drsv2_1.ws.bg.lr.gov/");
             //Content_type  
             Req.ContentType = "text/xml;charset=\"utf-8\"";
             Req.Accept = "text/xml";

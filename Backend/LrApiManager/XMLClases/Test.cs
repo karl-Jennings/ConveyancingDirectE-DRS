@@ -50,6 +50,8 @@ namespace LrApiManager.XMLClases.Requestapplicationtochangeregisterv2_1
     }
 
     public class Dealingtitles
+
+
     {
         public string[] TitleNumber { get; set; }
     }

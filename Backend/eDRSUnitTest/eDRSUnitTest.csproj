@@ -54,18 +54,27 @@
   <ItemGroup>
     <Compile Include="LeaseExtensionTest.cs" />
     <Compile Include="RemortgageTest.cs" />
+    <Compile Include="eDRSAppRequestTest.cs" />
     <Compile Include="TransferOfEquityTest.cs" />
     <Compile Include="TransferAndChange.cs" />
-    <Compile Include="CustomTest.cs" />
     <Compile Include="TransferOfPartTest.cs" />
     <Compile Include="RestrictionTest.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Business Gateway\Business Gateway\BusinessGatewayModels\BusinessGatewayModels\BusinessGatewayModels.csproj">
+      <Project>{36ae4253-92a9-4558-a1eb-482b36c45eba}</Project>
+      <Name>BusinessGatewayModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Business Gateway\Business Gateway\BusinessGatewayModels\BusinessGatewayServices\BusinessGatewayServices.csproj">
+      <Project>{77bb4d51-ad7e-4cac-8c3b-4daefeaf67d5}</Project>
+      <Name>BusinessGatewayServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LrApiManager\LrApiManager.csproj">
       <Project>{0662ee0e-3cd0-4550-8872-f97d07471c47}</Project>
       <Name>LrApiManager</Name>
