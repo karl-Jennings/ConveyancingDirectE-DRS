@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BusinessGatewayDB;
 using System.Globalization;
 using System.Configuration;
 using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
-using BGConfigurations;
 
 namespace BusinessGatewayModels
 {
@@ -57,33 +55,33 @@ namespace BusinessGatewayModels
         }
         private void WriteEntries(string Titlenumber, List<Entry> Entries)
         {
-            BusinessGatewayDB.BGEntities _Context = new BusinessGatewayDB.BGEntities();
-            foreach (var entry in Entries)
-            {
+            //BusinessGatewayDB.BGEntities _Context = new BusinessGatewayDB.BGEntities();
+            //foreach (var entry in Entries)
+            //{
 
-                var _entry = _Context.DayListResults.Where(t => t.TitleNumber == Titlenumber).FirstOrDefault();
-                //if (_entry == null)
-                //{
-                    BusinessGatewayDB.DayListResult _dayList = new BusinessGatewayDB.DayListResult
-                    {
-                        Applicant = entry.Applicant != null ? entry.Applicant : "",
-                        LodgedBy = entry.LodgedBy != null ? entry.LodgedBy : "",
-                        PriorityDate = entry.PriorityDate.ToShortDateString() != null ? entry.PriorityDate.ToShortDateString() : "",
-                        SearchInterestType = entry.SearchInterestType != null ? entry.SearchInterestType : "",
-                        Type = entry.Type != null ? entry.Type : "",
-                        TitleNumber = Titlenumber
-                    };
-                    _Context.DayListResults.Add(_dayList);
-                    _Context.SaveChanges();
-                //}
-            }
+            //    var _entry = _Context.DayListResults.Where(t => t.TitleNumber == Titlenumber).FirstOrDefault();
+            //    //if (_entry == null)
+            //    //{
+            //        BusinessGatewayDB.DayListResult _dayList = new BusinessGatewayDB.DayListResult
+            //        {
+            //            Applicant = entry.Applicant != null ? entry.Applicant : "",
+            //            LodgedBy = entry.LodgedBy != null ? entry.LodgedBy : "",
+            //            PriorityDate = entry.PriorityDate.ToShortDateString() != null ? entry.PriorityDate.ToShortDateString() : "",
+            //            SearchInterestType = entry.SearchInterestType != null ? entry.SearchInterestType : "",
+            //            Type = entry.Type != null ? entry.Type : "",
+            //            TitleNumber = Titlenumber
+            //        };
+            //        _Context.DayListResults.Add(_dayList);
+            //        _Context.SaveChanges();
+            //    //}
+            //}
             
         }
         public void WriteXML(string TitleNumber, BusinessGatewayRepositories.DayListEnquiry.ResponseDaylistEnquiryV2_0Type Response)
         {
             string _File = TitleNumber;
-         //   string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + _File + ".xml";
-            string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + _File + ".xml";
+            string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + _File + ".xml";
+           // string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + _File + ".xml";
             //If the file exists for some reason then we don't want to create it twice
             if (System.IO.File.Exists(_FileLocation) == false)
             {

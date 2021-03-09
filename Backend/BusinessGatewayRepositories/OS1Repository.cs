@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
 using System.Configuration;
-using BGConfigurations;
+
 
 namespace BusinessGatewayRepositories
 {
@@ -112,8 +112,8 @@ namespace BusinessGatewayRepositories
         }
         public void WriteXML(OS1.RequestOfficialSearchOfWholeWithPriorityV2_1Type Request)
         {
-          //  string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + Request.Product.SubjectProperty.TitleNumber.Value + "_req.xml";
-            string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + Request.Product.SubjectProperty.TitleNumber.Value + "_req.xml";
+            string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + Request.Product.SubjectProperty.TitleNumber.Value + "_req.xml";
+           // string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + Request.Product.SubjectProperty.TitleNumber.Value + "_req.xml";
             //If the file exists for some reason then we don't want to create it twice
             if (System.IO.File.Exists(_FileLocation) == false)
             {
@@ -129,8 +129,8 @@ namespace BusinessGatewayRepositories
         }
         public void WriteAttachment(string TitleNumber, BusinessGatewayRepositories.OS1.Q1AttachmentType Attachment)
         {
-            //string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format;
-            string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format; //We want to get the pdf from the value of the byte array and write it.
+            string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format;
+            //string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format; //We want to get the pdf from the value of the byte array and write it.
             BusinessGatewayRepositories.OS1.BinaryObjectType _binaryFile = Attachment.EmbeddedFileBinaryObject;
 
             byte[] buff;
@@ -149,8 +149,8 @@ namespace BusinessGatewayRepositories
         }
         public void WriteXMLResponse(OS1.ResponseOfficialSearchOfWholeWithPriorityV2_0Type Response,string TitleNumber)
         {
-           // string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + TitleNumber + "_res.xml";
-            string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + TitleNumber + "_res.xml";
+           string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + TitleNumber + "_res.xml";
+           //string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + TitleNumber + "_res.xml";
             //If the file exists for some reason then we don't want to create it twice
             if (System.IO.File.Exists(_FileLocation) == false)
             {

@@ -9,7 +9,6 @@ using System.IO;
 using System.Configuration;
 using BusinessGatewayRepositories;
 using BusinessGatewayModels;
-using BGConfigurations;
 
 namespace BusinessGatewayModels
 {
@@ -74,19 +73,19 @@ namespace BusinessGatewayModels
         private void UpdateOS1(string Message,ResponseOS1 OS1)
         {
 
-            BusinessGatewayDB.BGEntities _Context = new BusinessGatewayDB.BGEntities();
-            BusinessGatewayDB.OS1Request _OS1Request = new BusinessGatewayDB.OS1Request
-            {
-                TitleNumber = OS1.TitleNumber,
-                MessageId = Message,
-                ExpiryDate = ExpiryDate.ToShortDateString() == "01/01/0001" ? "" : ExpiryDate.ToShortDateString(),
-                Message = MessageDetails,
-                UserName = UserName,
-                Error = OS1.Successful == true ? false : true,
-                Attachment = OS1.Attachment
-            };
-            _Context.OS1Request.Add(_OS1Request);
-            _Context.SaveChanges();
+            //BusinessGatewayDB.BGEntities _Context = new BusinessGatewayDB.BGEntities();
+            //BusinessGatewayDB.OS1Request _OS1Request = new BusinessGatewayDB.OS1Request
+            //{
+            //    TitleNumber = OS1.TitleNumber,
+            //    MessageId = Message,
+            //    ExpiryDate = ExpiryDate.ToShortDateString() == "01/01/0001" ? "" : ExpiryDate.ToShortDateString(),
+            //    Message = MessageDetails,
+            //    UserName = UserName,
+            //    Error = OS1.Successful == true ? false : true,
+            //    Attachment = OS1.Attachment
+            //};
+            //_Context.OS1Request.Add(_OS1Request);
+            //_Context.SaveChanges();
         }
         private DateTime GetExpiryDate(string MessageDetails)
         {
@@ -108,8 +107,8 @@ namespace BusinessGatewayModels
         }
         private void WriteAttachment(string TitleNumber, BusinessGatewayRepositories.OS1.Q1AttachmentType Attachment)
         {
-           // string _FileLocation = ConfigurationManager.AppSettings["OS1Location"] + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format;
-            string _FileLocation = AppSettings.Resolve.GetSetting_ByName("OS1Location").Value + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format;
+            string _FileLocation = ConfigurationManager.AppSettings["OS1Location"] + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format;
+           // string _FileLocation = AppSettings.Resolve.GetSetting_ByName("OS1Location").Value + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format;
             //We want to get the pdf from the value of the byte array and write it.
             BusinessGatewayRepositories.OS1.BinaryObjectType _binaryFile = Attachment.EmbeddedFileBinaryObject;
 
@@ -130,8 +129,8 @@ namespace BusinessGatewayModels
         public void WriteXML(string TitleNumber, BusinessGatewayRepositories.OS1.ResponseOfficialSearchOfWholeWithPriorityV2_0Type Response)
         {
             string _File = TitleNumber;
-          //  string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + _File + ".xml";
-            string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + _File + ".xml";
+            string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + _File + ".xml";
+           // string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + _File + ".xml";
 
             //If the file exists for some reason then we don't want to create it twice
             if (System.IO.File.Exists(_FileLocation) == false)

@@ -8,8 +8,7 @@ using System.Xml;
 using System.IO;
 using System.Configuration;
 using BusinessGatewayModels;
-using BusinessGatewayDB;
-using BGConfigurations;
+
 
 namespace BusinessGatewayModels
 {
@@ -132,177 +131,177 @@ namespace BusinessGatewayModels
         }
         private void UpdateAddress(string TitleNumber,List<Address> Addresses)
         {
-            BusinessGatewayDB.BGEntities _Context = new BGEntities();
-            foreach (var Address in Addresses)
-            {
-                var _address = new BusinessGatewayDB.PropertyAddress
-                {
-                    TitleNumber = TitleNumber,
-                    AddressLine = Address.AddressLine,
-                    Postcode = Address.Postcode                    
-                };
-                _Context.PropertyAddresses.Add(_address);
-            }
-            _Context.SaveChanges();
+            //BusinessGatewayDB.BGEntities _Context = new BGEntities();
+            //foreach (var Address in Addresses)
+            //{
+            //    var _address = new BusinessGatewayDB.PropertyAddress
+            //    {
+            //        TitleNumber = TitleNumber,
+            //        AddressLine = Address.AddressLine,
+            //        Postcode = Address.Postcode                    
+            //    };
+            //    _Context.PropertyAddresses.Add(_address);
+            //}
+            //_Context.SaveChanges();
         }
         private void UpdateLeases(string TitleNumber, List<BusinessGatewayModels.Lease> Leases)
         {
-            BusinessGatewayDB.BGEntities _Context = new BGEntities();
-            foreach (var lease in Leases)
-            {
-                var _lease = new BusinessGatewayDB.Lease
-                {
-                     TitleNumber = TitleNumber,
-                     Description = lease.Description,
-                    //LeaseDate = lease.LeaseDate.Value.ToShortDateString(),
-                    LeaseDate = lease.LeaseDate,
-                    LeaseTerm = lease.LeaseTerm,
-                     Parties = lease.Parties
-                };
-                _Context.Leases.Add(_lease);
-            }
-            _Context.SaveChanges();
+            //BusinessGatewayDB.BGEntities _Context = new BGEntities();
+            //foreach (var lease in Leases)
+            //{
+            //    var _lease = new BusinessGatewayDB.Lease
+            //    {
+            //         TitleNumber = TitleNumber,
+            //         Description = lease.Description,
+            //        //LeaseDate = lease.LeaseDate.Value.ToShortDateString(),
+            //        LeaseDate = lease.LeaseDate,
+            //        LeaseTerm = lease.LeaseTerm,
+            //         Parties = lease.Parties
+            //    };
+            //    _Context.Leases.Add(_lease);
+            //}
+            //_Context.SaveChanges();
         }
         private void UpdateFail(string TitleNumber, string Error)
         {
-            BusinessGatewayDB.BGEntities _Context = new BGEntities();
-            var _fail = new BusinessGatewayDB.ReqFail();
-            _fail.TitleNumber = TitleNumber;
-            _fail.Description = Error;
-            _Context.ReqFails.Add(_fail);
-            _Context.SaveChanges();
+            //BusinessGatewayDB.BGEntities _Context = new BGEntities();
+            //var _fail = new BusinessGatewayDB.ReqFail();
+            //_fail.TitleNumber = TitleNumber;
+            //_fail.Description = Error;
+            //_Context.ReqFails.Add(_fail);
+            //_Context.SaveChanges();
 
         }
         private void UpdateResDetails(string TitleNumber, ResDetail Details)
         {
-            BusinessGatewayDB.BGEntities _Context = new BGEntities();
-            var _res = new BusinessGatewayDB.ResDetail();
-            _res.TitleNumber = TitleNumber;
-            _res.DistrictName = Details.DistrictName;
-            _res.AdministrativeArea = Details.AdministrativeArea;
-            _res.LandRegOfficeName = Details.LandRegOfficeName;
-            //_res.DateOfOfficeCopy = Details.DateOfOfficeCopy.Value.ToShortDateString();
-            _res.DateOfOfficeCopy = Details.DateOfOfficeCopy;
-            _res.ClassOfTitle = Details.ClassOfTitle;
-            _res.AgreedNoticeIndicator = Details.AgreedNoticeIndicator;
-            _res.BankruptcyIndicator = Details.BankruptcyIndicator;
-            _res.CautionIndicator = Details.CautionIndicator;
-            _res.CCBIIndicator = Details.CCBIIndicator;
-            _res.ChargeeIndicator = Details.ChargeeIndicator;
-            _res.ChargeIndicator = Details.ChargeIndicator;
-            _res.ChargeRelatedRestrictionIndicator = Details.ChargeRelatedRestrictionIndicator;
-            _res.ChargeRestrictionIndicator = Details.ChargeRestrictionIndicator;
-            _res.CreditorsNoticeIndicator = Details.CreditorsNoticeIndicator;
-            _res.DeathOfProprietorIndicator = Details.DeathOfProprietorIndicator;
-            _res.DeedOfPostponementIndicator = Details.DeedOfPostponementIndicator;
-            _res.DiscountChargeIndicator = Details.DiscountChargeIndicator;
-            _res.EquitableChargeIndicator = Details.EquitableChargeIndicator;
-            _res.GreenOutEntryIndicator = Details.GreenOutEntryIndicator;
-            _res.HomeRightsChangeOfAddressIndicator = Details.HomeRightsChangeOfAddressIndicator;
-            _res.HomeRightsIndicator = Details.HomeRightsIndicator;
-            _res.LeaseHoldTitleIndicator = Details.LeaseHoldTitleIndicator;
-            _res.MultipleChargeIndicator = Details.MultipleChargeIndicator;
-            _res.NonChargeRestrictionIndicator = Details.NonChargeRestrictionIndicator;
-            _res.NotedChargeIndicator = Details.NotedChargeIndicator;
-            _res.PricePaidIndicator = Details.PricePaidIndicator;
-            _res.PropertyDescriptionNotesIndicator = Details.PropertyDescriptionNotesIndicator;
-            _res.RentChargeIndicator = Details.RentChargeIndicator;
-            _res.RightOfPreEmptionIndicator = Details.RightOfPreEmptionIndicator;
-            _res.ScheduleOfLeasesIndicator = Details.ScheduleOfLeasesIndicator;
-            _res.SubChargeIndicator = Details.SubChargeIndicator;
-            _res.UnidentifiedEntryIndicator = Details.UnidentifiedEntryIndicator;
-            _res.UnilateralNoticeBeneficiaryIndicator = Details.UnilateralNoticeBeneficiaryIndicator;
-            _res.UnilateralNoticeIndicator = Details.UnilateralNoticeIndicator;
-            _res.VendorsLienIndicator = Details.VendorsLienIndicator;
-            _Context.ResDetails.Add(_res);
-            _Context.SaveChanges();
+            //BusinessGatewayDB.BGEntities _Context = new BGEntities();
+            //var _res = new BusinessGatewayDB.ResDetail();
+            //_res.TitleNumber = TitleNumber;
+            //_res.DistrictName = Details.DistrictName;
+            //_res.AdministrativeArea = Details.AdministrativeArea;
+            //_res.LandRegOfficeName = Details.LandRegOfficeName;
+            ////_res.DateOfOfficeCopy = Details.DateOfOfficeCopy.Value.ToShortDateString();
+            //_res.DateOfOfficeCopy = Details.DateOfOfficeCopy;
+            //_res.ClassOfTitle = Details.ClassOfTitle;
+            //_res.AgreedNoticeIndicator = Details.AgreedNoticeIndicator;
+            //_res.BankruptcyIndicator = Details.BankruptcyIndicator;
+            //_res.CautionIndicator = Details.CautionIndicator;
+            //_res.CCBIIndicator = Details.CCBIIndicator;
+            //_res.ChargeeIndicator = Details.ChargeeIndicator;
+            //_res.ChargeIndicator = Details.ChargeIndicator;
+            //_res.ChargeRelatedRestrictionIndicator = Details.ChargeRelatedRestrictionIndicator;
+            //_res.ChargeRestrictionIndicator = Details.ChargeRestrictionIndicator;
+            //_res.CreditorsNoticeIndicator = Details.CreditorsNoticeIndicator;
+            //_res.DeathOfProprietorIndicator = Details.DeathOfProprietorIndicator;
+            //_res.DeedOfPostponementIndicator = Details.DeedOfPostponementIndicator;
+            //_res.DiscountChargeIndicator = Details.DiscountChargeIndicator;
+            //_res.EquitableChargeIndicator = Details.EquitableChargeIndicator;
+            //_res.GreenOutEntryIndicator = Details.GreenOutEntryIndicator;
+            //_res.HomeRightsChangeOfAddressIndicator = Details.HomeRightsChangeOfAddressIndicator;
+            //_res.HomeRightsIndicator = Details.HomeRightsIndicator;
+            //_res.LeaseHoldTitleIndicator = Details.LeaseHoldTitleIndicator;
+            //_res.MultipleChargeIndicator = Details.MultipleChargeIndicator;
+            //_res.NonChargeRestrictionIndicator = Details.NonChargeRestrictionIndicator;
+            //_res.NotedChargeIndicator = Details.NotedChargeIndicator;
+            //_res.PricePaidIndicator = Details.PricePaidIndicator;
+            //_res.PropertyDescriptionNotesIndicator = Details.PropertyDescriptionNotesIndicator;
+            //_res.RentChargeIndicator = Details.RentChargeIndicator;
+            //_res.RightOfPreEmptionIndicator = Details.RightOfPreEmptionIndicator;
+            //_res.ScheduleOfLeasesIndicator = Details.ScheduleOfLeasesIndicator;
+            //_res.SubChargeIndicator = Details.SubChargeIndicator;
+            //_res.UnidentifiedEntryIndicator = Details.UnidentifiedEntryIndicator;
+            //_res.UnilateralNoticeBeneficiaryIndicator = Details.UnilateralNoticeBeneficiaryIndicator;
+            //_res.UnilateralNoticeIndicator = Details.UnilateralNoticeIndicator;
+            //_res.VendorsLienIndicator = Details.VendorsLienIndicator;
+            //_Context.ResDetails.Add(_res);
+            //_Context.SaveChanges();
 
         }
         private void UpdatePropertyRegister(string TitleNumber, List<BusinessGatewayModels.PropertyRegister> PropertyRegisters)
         {
-            BusinessGatewayDB.BGEntities _Context = new BGEntities();
-            foreach (var _register in PropertyRegisters)
-            {
-                var _charge = new BusinessGatewayDB.PropertyRegister
-                {
-                    TitleNumber = TitleNumber,
-                    EntryDescription = _register.EntryDescription,
-                    //EntryDate = _register.EntryDate.Value.ToShortDateString(),
-                    EntryDate = _register.EntryDate,
-                    EntryNumber = _register.EntryNumber,
-                    EntryType = _register.EntryType
-                };
-                _Context.PropertyRegisters.Add(_charge);
-            }
-            _Context.SaveChanges();
+            //BusinessGatewayDB.BGEntities _Context = new BGEntities();
+            //foreach (var _register in PropertyRegisters)
+            //{
+            //    var _charge = new BusinessGatewayDB.PropertyRegister
+            //    {
+            //        TitleNumber = TitleNumber,
+            //        EntryDescription = _register.EntryDescription,
+            //        //EntryDate = _register.EntryDate.Value.ToShortDateString(),
+            //        EntryDate = _register.EntryDate,
+            //        EntryNumber = _register.EntryNumber,
+            //        EntryType = _register.EntryType
+            //    };
+            //    _Context.PropertyRegisters.Add(_charge);
+            //}
+            //_Context.SaveChanges();
         }
         private void UpdateProprietorRegister(string TitleNumber, List<BusinessGatewayModels.ProprietorRegister> PropertyRegisters)
         {
-            BusinessGatewayDB.BGEntities _Context = new BGEntities();
-            foreach (var _register in PropertyRegisters)
-            {
-                var _charge = new BusinessGatewayDB.ProprietorRegister
-                {
-                    TitleNumber = TitleNumber,
-                    EntryDescription = _register.EntryDescription,
-                    //EntryDate = _register.EntryDate.Value.ToShortDateString(),
-                    EntryDate = _register.EntryDate,
-                    EntryNumber = _register.EntryNumber,
-                    EntryType = _register.EntryType
-                };
-                _Context.ProprietorRegisters.Add(_charge);
-            }
-            _Context.SaveChanges();
+            //BusinessGatewayDB.BGEntities _Context = new BGEntities();
+            //foreach (var _register in PropertyRegisters)
+            //{
+            //    var _charge = new BusinessGatewayDB.ProprietorRegister
+            //    {
+            //        TitleNumber = TitleNumber,
+            //        EntryDescription = _register.EntryDescription,
+            //        //EntryDate = _register.EntryDate.Value.ToShortDateString(),
+            //        EntryDate = _register.EntryDate,
+            //        EntryNumber = _register.EntryNumber,
+            //        EntryType = _register.EntryType
+            //    };
+            //    _Context.ProprietorRegisters.Add(_charge);
+            //}
+            //_Context.SaveChanges();
         }
         private void UpdateSchedules(string TitleNumber, List<BusinessGatewayModels.Schedule> Schedules)
         {
-            BusinessGatewayDB.BGEntities _Context = new BGEntities();
-            foreach (var schedule in Schedules)
-            {
-                var _schedule = new BusinessGatewayDB.Schedule
-                {
-                    TitleNumber = TitleNumber,
-                    EntryDescription = schedule.EntryDescription,
-                    EntryNumber = schedule.EntryNumber,
-                    EntryType = schedule.EntryType
-                };
-                _Context.Schedules.Add(_schedule);
-            }
-            _Context.SaveChanges();
+            //BusinessGatewayDB.BGEntities _Context = new BGEntities();
+            //foreach (var schedule in Schedules)
+            //{
+            //    var _schedule = new BusinessGatewayDB.Schedule
+            //    {
+            //        TitleNumber = TitleNumber,
+            //        EntryDescription = schedule.EntryDescription,
+            //        EntryNumber = schedule.EntryNumber,
+            //        EntryType = schedule.EntryType
+            //    };
+            //    _Context.Schedules.Add(_schedule);
+            //}
+            //_Context.SaveChanges();
         }
         private void UpdateAgreedNotices(string TitleNumber, List<BusinessGatewayModels.AgreedNotice> AgreedNotices)
-        {
-            BusinessGatewayDB.BGEntities _Context = new BGEntities();
-            foreach (var agreedNotice in AgreedNotices)
-            {
-                var _agreedNotice = new BusinessGatewayDB.AgreedNotice
-                {
-                    TitleNumber = TitleNumber,
-                    EntryDescription = agreedNotice.EntryDescription,
-                    EntryNumber = agreedNotice.EntryNumber,
-                     NoticeType = agreedNotice.EntryType
-                };
-                _Context.AgreedNotices.Add(_agreedNotice);
-            }
-            _Context.SaveChanges();
+        //{
+        //    BusinessGatewayDB.BGEntities _Context = new BGEntities();
+        //    foreach (var agreedNotice in AgreedNotices)
+        //    {
+        //        var _agreedNotice = new BusinessGatewayDB.AgreedNotice
+        //        {
+        //            TitleNumber = TitleNumber,
+        //            EntryDescription = agreedNotice.EntryDescription,
+        //            EntryNumber = agreedNotice.EntryNumber,
+        //             NoticeType = agreedNotice.EntryType
+        //        };
+        //        _Context.AgreedNotices.Add(_agreedNotice);
+        //    }
+        //    _Context.SaveChanges();
         }
         private void UpdateCharges(string TitleNumber, List<BusinessGatewayModels.Charge> Charges)
         {
-            BusinessGatewayDB.BGEntities _Context = new BGEntities();
-            foreach (var charge in Charges)
-            {
-                var _charge = new BusinessGatewayDB.Charge
-                {
-                    TitleNumber = TitleNumber,
-                    EntryDescription = charge.EntryDescription,
-                    //EntryDate = charge.EntryDate.Value.ToShortDateString(),
-                    EntryDate = charge.EntryDate,
-                    EntryNumber = charge.EntryNumber,
-                    EntryType = charge.EntryType
-                };
-                _Context.Charges.Add(_charge);
-            }
-            _Context.SaveChanges();
+            //BusinessGatewayDB.BGEntities _Context = new BGEntities();
+            //foreach (var charge in Charges)
+            //{
+            //    var _charge = new BusinessGatewayDB.Charge
+            //    {
+            //        TitleNumber = TitleNumber,
+            //        EntryDescription = charge.EntryDescription,
+            //        //EntryDate = charge.EntryDate.Value.ToShortDateString(),
+            //        EntryDate = charge.EntryDate,
+            //        EntryNumber = charge.EntryNumber,
+            //        EntryType = charge.EntryType
+            //    };
+            //    _Context.Charges.Add(_charge);
+            //}
+            //_Context.SaveChanges();
         }
         private void UpdateRestrictions(string TitleNumber, List<BusinessGatewayModels.Restrictions> Restrictions)
         {
