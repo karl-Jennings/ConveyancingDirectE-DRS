@@ -11,7 +11,8 @@ namespace BusinessGatewayRepositories
 {
     public class DayListEntry
     {
-        public DayListEntry() { }
+        public DayListEntry() { 
+        }
         public DayListEnquiry.ResponseDaylistEnquiryV2_0Type GetDayListEntry(string MessageId,string AllocatedBy,string Description,string CustomerReference,string Reference,string TitleNumber,string UserName,string Password)
         {
             try

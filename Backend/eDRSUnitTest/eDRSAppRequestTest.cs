@@ -31,7 +31,6 @@ namespace eDRSUnitTest
             _request.ExternalReference = "EXTERREF";
             _request.MessageId = "scenario1";
 
-
             _product.Reference = "Reference";
             _product.TotalFeeInPence = 50000.ToString();
             _product.Email = "test@dhd.com";
@@ -85,7 +84,8 @@ namespace eDRSUnitTest
 
             Representations.LodgingConveyancer = new LodgingConveyancerType
             {
-                RepresentativeId = "1"
+                RepresentativeId = "1",
+               
             };
 
             _product.Representations = Representations;
@@ -99,12 +99,10 @@ namespace eDRSUnitTest
 
             parties.Party[0] = new PartyType
             {
-
                 representativeId = "1",
                 IsApplicant = true,
                 Item = new CompanyType { CompanyName = "company" },
-                Roles = partyRoleTypes
-
+                Roles = partyRoleTypes              
 
             };
 
