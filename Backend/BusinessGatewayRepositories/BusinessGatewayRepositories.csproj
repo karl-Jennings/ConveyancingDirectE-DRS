@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{19273F96-133F-4C0C-972D-39A079D88236}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BusinessGatewayRepositories</RootNamespace>
+    <AssemblyName>BusinessGatewayRepositories</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DayListEntry.cs" />
+    <Compile Include="EDRSRepository.cs" />
+    <Compile Include="LandChargesBankruptcySearchRepository.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="OC1Repository.cs" />
+    <Compile Include="OS1Repository.cs" />
+    <Compile Include="OutstandingRespository.cs" />
+    <Compile Include="OwnerVerification.cs" />
+    <Compile Include="PollOS1Repository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyDescriptionRepository.cs" />
+    <Compile Include="RegisterExtract.cs" />
+    <Compile Include="Service References\DayListEnquiry\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\EDRSApplication\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\LandChargesBankruptcy\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\OC1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\OS1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\OutstandingRequests\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\OwnerVerification\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\PollOS1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\PropertyDescription\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\RES\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DayListEnquiry\BusinessGatewayRepositories.DayListEnquiry.daylistEnquiryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DayListEnquiry\BusinessGatewayRepositories.DayListEnquiry.ResponseDaylistEnquiryV2_0Type.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DayListEnquiry\DaylistEnquiryV2_0WebService.wsdl" />
+    <None Include="Service References\DayListEnquiry\RequestDaylistEnquiryV2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DayListEnquiry\ResponseDaylistEnquiryV2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\EDRSApplication\BusinessGatewayRepositories.EDRSApplication.eDocumentRegistrationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EDRSApplication\BusinessGatewayRepositories.EDRSApplication.ResponseApplicationToChangeRegisterV1_0Type.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EDRSApplication\EDocumentRegistrationV1_0WebService.wsdl" />
+    <None Include="Service References\EDRSApplication\RequestApplicationToChangeRegisterV1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\EDRSApplication\ResponseApplicationToChangeRegisterV1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\LandChargesBankruptcy\BankruptcySearchV2_0WebService.wsdl" />
+    <None Include="Service References\LandChargesBankruptcy\BusinessGatewayRepositories.LandChargesBankruptcy.bankruptcySearchResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LandChargesBankruptcy\BusinessGatewayRepositories.LandChargesBankruptcy.ResponseLandChargesBankruptcySearchV2_0Type.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LandChargesBankruptcy\RequestLandChargesBankruptcySearchV2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\LandChargesBankruptcy\ResponseLandChargesBankruptcySearchV2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OC1\BusinessGatewayRepositories.OC1.performTitleKnownSearchResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OC1\BusinessGatewayRepositories.OC1.ResponseTitleKnownOfficialCopyV2_0Type.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OC1\OfficialCopyTitleKnownV2_0WebService.wsdl" />
+    <None Include="Service References\OC1\RequestTitleKnownOfficialCopyV2_1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OC1\ResponseTitleKnownOfficialCopyV2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OS1\BusinessGatewayRepositories.OS1.processOS1RequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OS1\BusinessGatewayRepositories.OS1.ResponseOfficialSearchOfWholeWithPriorityV2_0Type.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OS1\OfficialSearchWebService.wsdl" />
+    <None Include="Service References\OS1\RequestOfficialSearchOfWholeWithPriorityV2_1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OS1\ResponseOfficialSearchOfWholeWithPriorityV2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OutstandingRequests\BusinessGatewayRepositories.OutstandingRequests.getOutstandingRequestsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutstandingRequests\BusinessGatewayRepositories.OutstandingRequests.ResponseOutstandingRequestsType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutstandingRequests\OutstandingRequestsV2_0WebService.wsdl" />
+    <None Include="Service References\OutstandingRequests\RequestOutstandingRequestsV2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OutstandingRequests\ResponseOutstandingRequestsV2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OwnerVerification\BusinessGatewayRepositories.OwnerVerification.getResponseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OwnerVerification\BusinessGatewayRepositories.OwnerVerification.ResponseOnlineOwnershipVerificationType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OwnerVerification\BusinessGatewayRepositories.OwnerVerification.verifyOwnershipResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OwnerVerification\OnlineOwnershipVerificationV1_0WebService.wsdl" />
+    <None Include="Service References\OwnerVerification\PollRequest.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OwnerVerification\RequestOnlineOwnershipVerificationV1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OwnerVerification\ResponseOnlineOwnershipVerificationV1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PollOS1\BusinessGatewayRepositories.PollOS1.getResponseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PollOS1\BusinessGatewayRepositories.PollOS1.ResponseOfficialSearchOfWholeWithPriorityV2_0Type.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PollOS1\OfficialSearchV2_1PollRequestWebService.wsdl" />
+    <None Include="Service References\PollOS1\PollRequest.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PollOS1\ResponseOfficialSearchOfWholeWithPriorityV2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PropertyDescription\BusinessGatewayRepositories.PropertyDescription.ResponseSearchByPropertyDescriptionV2_0Type.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PropertyDescription\BusinessGatewayRepositories.PropertyDescription.searchPropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PropertyDescription\EnquiryByPropertyDescriptionV2_0WebService.wsdl" />
+    <None Include="Service References\PropertyDescription\RequestSearchByPropertyDescriptionV2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PropertyDescription\ResponseSearchByPropertyDescriptionV2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RES\BusinessGatewayRepositories.RES.performOCWithSummaryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RES\BusinessGatewayRepositories.RES.ResponseOCWithSummaryV2_1Type.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RES\OfficialCopyWithSummaryV2_1WebService.wsdl" />
+    <None Include="Service References\RES\RequestOCWithSummaryV2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RES\ResponseOCWithSummaryV2_1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\DayListEnquiry\" />
+    <WCFMetadataStorage Include="Service References\EDRSApplication\" />
+    <WCFMetadataStorage Include="Service References\LandChargesBankruptcy\" />
+    <WCFMetadataStorage Include="Service References\OC1\" />
+    <WCFMetadataStorage Include="Service References\OS1\" />
+    <WCFMetadataStorage Include="Service References\OutstandingRequests\" />
+    <WCFMetadataStorage Include="Service References\OwnerVerification\" />
+    <WCFMetadataStorage Include="Service References\PollOS1\" />
+    <WCFMetadataStorage Include="Service References\PropertyDescription\" />
+    <WCFMetadataStorage Include="Service References\RES\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PropertyDescription\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PropertyDescription\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PropertyDescription\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\LandChargesBankruptcy\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\LandChargesBankruptcy\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\LandChargesBankruptcy\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EDRSApplication\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EDRSApplication\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EDRSApplication\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OS1\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OS1\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OS1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OC1\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OC1\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OC1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OwnerVerification\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OwnerVerification\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OwnerVerification\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RES\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RES\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RES\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DayListEnquiry\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DayListEnquiry\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DayListEnquiry\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OutstandingRequests\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OutstandingRequests\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OutstandingRequests\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PollOS1\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PollOS1\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PollOS1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BGConfigurations\BGConfigurations.csproj">
+      <Project>{CA96EF05-F829-4BDB-A149-EA95AD8B6F59}</Project>
+      <Name>BGConfigurations</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

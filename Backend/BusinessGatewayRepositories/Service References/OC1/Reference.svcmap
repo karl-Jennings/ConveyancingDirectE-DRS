@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="83b7279b-8f42-487e-b3cc-10d2e3530557" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://bgtest.landregistry.gov.uk/b2b/ECBG_StubService/OfficialCopyTitleKnownV2_1WebService/WEB-INF/wsdl/OC1TitleKnownV2_1Service.wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="OfficialCopyTitleKnownV2_0WebService.wsdl" MetadataType="Wsdl" ID="c8beaa55-6ea6-4788-970a-694cf75ba5b6" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/ECBG_StubService/OfficialCopyTitleKnownV2_1WebService/WEB-INF/wsdl/OC1TitleKnownV2_1Service.wsdl" />
+    <MetadataFile FileName="ResponseTitleKnownOfficialCopyV2_0.xsd" MetadataType="Schema" ID="2343ef7b-ece0-4d16-84e3-ed72eadf142b" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/ECBG_StubService/OfficialCopyTitleKnownV2_1WebService/WEB-INF/wsdl/ResponseTitleKnownOfficialCopyV2_0.xsd" />
+    <MetadataFile FileName="RequestTitleKnownOfficialCopyV2_1.xsd" MetadataType="Schema" ID="8ddcc175-167a-4195-acfa-5951c622f7e3" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/ECBG_StubService/OfficialCopyTitleKnownV2_1WebService/WEB-INF/wsdl/RequestTitleKnownOfficialCopyV2_1.xsd" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
