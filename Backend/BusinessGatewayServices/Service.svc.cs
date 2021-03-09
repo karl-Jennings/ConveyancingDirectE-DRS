@@ -93,49 +93,37 @@ namespace BusinessGatewayServices
             }
         }
 
-        public RESResponse RES(string MessageId,string AllocatedBy, string CustomerRef, string ExternalRef, string TitleNumber, decimal GrossPrice,
-            bool ContinueIfExceeds,bool IncludePlan, bool NotifyIfPendingFirstRegistration, bool SendBackDated, bool NotifyIfPendingApplication,bool ContinueIfTitleClosed,string UserName,string Password)
-        {
-            RegisterExtract _RES = new RegisterExtract();
-            try
-            {
-                RESResponse _response = new RESResponse(TitleNumber,_RES.GetRegisterExtract(MessageId, AllocatedBy, CustomerRef, ExternalRef, TitleNumber, GrossPrice,
-                        ContinueIfExceeds, IncludePlan, NotifyIfPendingFirstRegistration, SendBackDated, NotifyIfPendingApplication, ContinueIfTitleClosed, UserName, Password), UserName);
-                return _response;
-            }
+        //public RESResponse RES(string MessageId,string AllocatedBy, string CustomerRef, string ExternalRef, string TitleNumber, decimal GrossPrice,
+        //    bool ContinueIfExceeds,bool IncludePlan, bool NotifyIfPendingFirstRegistration, bool SendBackDated, bool NotifyIfPendingApplication,bool ContinueIfTitleClosed,string UserName,string Password)
+        //{
+        //    RegisterExtract _RES = new RegisterExtract();
+        //    try
+        //    {
+        //        RESResponse _response = new RESResponse(TitleNumber,_RES.GetRegisterExtract(MessageId, AllocatedBy, CustomerRef, ExternalRef, TitleNumber, GrossPrice,
+        //                ContinueIfExceeds, IncludePlan, NotifyIfPendingFirstRegistration, SendBackDated, NotifyIfPendingApplication, ContinueIfTitleClosed, UserName, Password), UserName);
+        //        return _response;
+        //    }
 
-            catch (Exception ex)
-            {
-                throw;
-            }
+        //    catch (Exception ex)
+        //    {
+        //        throw;
+        //    }
 
-        }
-        public DayListResponse DayList(string MessageId,string AllocatedBy,string Description,string CustomerReference,string Reference,string TitleNumber,string Username, string Password)
-        {
-            DayListEntry _dayList = new DayListEntry();
-            try
-            {
-                DayListResponse _response = new DayListResponse(TitleNumber,_dayList.GetDayListEntry(MessageId, AllocatedBy, Description, CustomerReference, Reference, TitleNumber, Username, Password));
-                return _response;
-            }
-            catch (Exception ex)
-            {
-                return new DayListResponse { Error = ex.Message, Successful = false };
-            }
-        }
-        public ResponseOS1 OS1(string MessageId, string AllocatedBy, string Description, string CustomerReference, string Reference, string TitleNumber, string TelephoneNumber, decimal ExpectedAmount, string PriorityCode, DateTime SearchDate,string Proprietor,string Applicant, string Username, string Password)
-        {
-            OS1Repository _os1 = new OS1Repository();
-            try
-            {
-                ResponseOS1 _response = new ResponseOS1(MessageId,TitleNumber, Username, _os1.GetOS1(MessageId, Reference, Description, CustomerReference, TitleNumber, AllocatedBy, TelephoneNumber, ExpectedAmount, PriorityCode, Proprietor, Applicant, SearchDate, Username, Password));
-                return _response;
-            }
-            catch (Exception ex)
-            {
-                return new ResponseOS1 { Error = ex.Message, Successful = false };
-            }
-        }
+        //}
+       
+        //public ResponseOS1 OS1(string MessageId, string AllocatedBy, string Description, string CustomerReference, string Reference, string TitleNumber, string TelephoneNumber, decimal ExpectedAmount, string PriorityCode, DateTime SearchDate,string Proprietor,string Applicant, string Username, string Password)
+        //{
+        //    OS1Repository _os1 = new OS1Repository();
+        //    try
+        //    {
+        //        ResponseOS1 _response = new ResponseOS1(MessageId,TitleNumber, Username, _os1.GetOS1(MessageId, Reference, Description, CustomerReference, TitleNumber, AllocatedBy, TelephoneNumber, ExpectedAmount, PriorityCode, Proprietor, Applicant, SearchDate, Username, Password));
+        //        return _response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new ResponseOS1 { Error = ex.Message, Successful = false };
+        //    }
+        //}
         public ResponsePoll OS1Poll(string MessageId, string TitleNumber,string Username, string Password)
         {
             PollOS1Repository _os1 = new PollOS1Repository();

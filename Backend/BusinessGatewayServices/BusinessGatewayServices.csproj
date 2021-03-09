@@ -103,6 +103,10 @@
       <Project>{23E0720E-64B6-450C-9F74-60B60B56DD0D}</Project>
       <Name>BusinessGatewayDB</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BusinessGatewayModels\BusinessGatewayModels.csproj">
+      <Project>{36ae4253-92a9-4558-a1eb-482b36c45eba}</Project>
+      <Name>BusinessGatewayModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BusinessGatewayRepositories\BusinessGatewayRepositories.csproj">
       <Project>{19273f96-133f-4c0c-972d-39a079d88236}</Project>
       <Name>BusinessGatewayRepositories</Name>

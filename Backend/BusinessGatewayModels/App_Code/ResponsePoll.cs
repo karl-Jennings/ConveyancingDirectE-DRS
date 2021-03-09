@@ -8,7 +8,6 @@ using System.IO;
 using System.Configuration;
 using BusinessGatewayRepositories;
 using BusinessGatewayModels;
-using BGConfigurations;
 
 namespace BusinessGatewayModels
 {
@@ -28,7 +27,7 @@ namespace BusinessGatewayModels
         {
             this.UserName = UserName;
             this.TitleNumber = TitleNumber;
-            
+
             Attachment = false;
             if (item.GatewayResponse != null)
             {
@@ -39,8 +38,6 @@ namespace BusinessGatewayModels
                     {
                         Attachment = true;
                         Successful = true;
-                        WriteAttachment(TitleNumber, item.GatewayResponse.Results.Attachment);
-                        WriteXML(TitleNumber, item);
                     }
                 }
                 else
@@ -48,7 +45,6 @@ namespace BusinessGatewayModels
                     if (item.GatewayResponse.Acknowledgement != null)
                     {
                         Successful = true;
-                        WriteXML(TitleNumber, item);
                         MessageDetails = item.GatewayResponse.Acknowledgement.AcknowledgementDetails.MessageDescription.Value;
                         ExpiryDate = GetExpiryDate(MessageDetails);
 
@@ -68,24 +64,7 @@ namespace BusinessGatewayModels
                 Error = item.GatewayResponse.Rejection != null ? item.GatewayResponse.Rejection.RejectionResponse.Reason.Value : "";
                 MessageDetails = Error;
             }
-            UpdateOS1(MessageId,this);
-        }
-        private void UpdateOS1(string Message,ResponsePoll OS1)
-        {
 
-            BusinessGatewayDB.BGEntities _Context = new BusinessGatewayDB.BGEntities();
-            BusinessGatewayDB.OS1Request _OS1Request = new BusinessGatewayDB.OS1Request
-            {
-                TitleNumber = OS1.TitleNumber,
-                MessageId = Message,
-                ExpiryDate = ExpiryDate.ToShortDateString() == "01/01/0001" ? "" : ExpiryDate.ToShortDateString(),
-                Message = MessageDetails,
-                UserName = UserName,
-                Error = OS1.Successful == true ? false : true,
-                Attachment = OS1.Attachment
-            };
-            _Context.OS1Request.Add(_OS1Request);
-            _Context.SaveChanges();
         }
         private DateTime GetExpiryDate(string MessageDetails)
         {
@@ -103,46 +82,8 @@ namespace BusinessGatewayModels
             {
                 return new DateTime();
             }
-            
-        }
-        private void WriteAttachment(string TitleNumber, BusinessGatewayRepositories.PollOS1.Q1AttachmentType Attachment)
-        {
-           // string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format;
-            string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format;
-            //We want to get the pdf from the value of the byte array and write it.
-            BusinessGatewayRepositories.PollOS1.BinaryObjectType _binaryFile = Attachment.EmbeddedFileBinaryObject;
 
-            byte[] buff;
-            buff = _binaryFile.Value;
-            try
-            {
-                FileStream fs = new FileStream(_FileLocation, FileMode.Create, FileAccess.ReadWrite);
-                BinaryWriter bw = new BinaryWriter(fs);
-                bw.Write(buff);
-                bw.Close();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
         }
-        public void WriteXML(string TitleNumber, BusinessGatewayRepositories.PollOS1.ResponseOfficialSearchOfWholeWithPriorityV2_0Type Response)
-        {
-            string _File = TitleNumber;
-           // string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + _File + ".xml";
-            string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + _File + ".xml";
 
-            //If the file exists for some reason then we don't want to create it twice
-            if (System.IO.File.Exists(_FileLocation) == false)
-            {
-                System.IO.FileStream f = System.IO.File.Create(_FileLocation);
-                f.Close();
-            }
-            //We then want to serialise the response object and write it out to the xml file
-            XmlSerializer serializer = new XmlSerializer(Response.GetType());
-            TextWriter tw = new StreamWriter(_FileLocation);
-            serializer.Serialize(tw, Response);
-            tw.Close();
-        }
     }
 }
