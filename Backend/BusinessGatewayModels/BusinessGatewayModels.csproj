@@ -59,9 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Code\ResponseDayList.cs" />
     <Compile Include="App_Code\ResponseOC1.cs" />
-    <Compile Include="App_Code\ResponseOS1.cs" />
     <Compile Include="App_Code\ResponseOutstanding.cs" />
     <Compile Include="App_Code\ResponseOwnerVerification.cs" />
     <Compile Include="App_Code\ResponseEDRSAppReq.cs" />
