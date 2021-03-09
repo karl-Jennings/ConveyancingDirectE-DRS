@@ -23,7 +23,10 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using System.Xml;
+using eDrsAPI.Controllers;
 using eDrsManagers.ApiConverters;
+using eDrsManagers.SignalRHub;
+using Hangfire;
 using LrApiManager.XMLClases;
 using LrApiManager.XMLClases.TransferOfPart;
 
@@ -48,7 +51,18 @@ namespace eDrsAPI
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // ignores models' case sensitive when converting to json object
                 options.UseMemberCasing();
             });
+
+            services.AddHangfire(config =>
+            {
+                config.UseSqlServerStorage(Configuration.GetConnectionString("SqlServerConnection"));
+            });
+
             services.AddMvc();
+
+            services.AddSignalR().AddJsonProtocol(options =>
+            {
+                options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+            });
 
             var allowedCors = Configuration.GetSection("AllowedClients").Get<List<string>>(); // getting the whitelisted domains from appsettings
             services.AddCors(options => // add cors restriction
@@ -65,7 +79,8 @@ namespace eDrsAPI
             });
 
             services.AddDbContextPool<AppDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"))
+                options => options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"),
+                    b => b.MigrationsAssembly("eDrsAPI"))
             );
 
             services.AddAutoMapper(typeof(Startup)); // adding auto mapper profile
@@ -107,13 +122,16 @@ namespace eDrsAPI
 
             IdentityModelEventSource.ShowPII = true;
 
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext context, IRecurringJobManager recurringJobManager, IServiceProvider serviceProvider)
         {
             context.Database.Migrate();
+
+            app.UseHangfireServer();
+
+            app.UseHangfireDashboard();
 
             app.UseDeveloperExceptionPage();
 
@@ -128,7 +146,16 @@ namespace eDrsAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<SettingsHub>("/api/settings");
+
             });
+
+            //recurringJobManager.AddOrUpdate(
+            //    "poll_request",
+            //    () => serviceProvider.GetService<IRegistration>().AutomatePollRequest(),
+            //    Cron.Weekly(DayOfWeek.Thursday, 0)
+            //);
+
         }
 
 

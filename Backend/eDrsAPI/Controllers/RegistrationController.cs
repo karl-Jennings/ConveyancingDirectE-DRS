@@ -76,8 +76,6 @@ namespace eDrsAPI.Controllers
             {
                 return BadRequest(_logsManager.LogErrors(ex));
             }
-
-
         }
         /// <summary>
         /// Update Registration

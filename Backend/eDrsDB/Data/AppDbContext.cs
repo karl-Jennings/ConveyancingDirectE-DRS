@@ -26,7 +26,6 @@ namespace eDrsDB.Data
         public DbSet<AttachmentNote> AttachmentNotes { get; set; }
         public DbSet<Representation> Representations { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -83,9 +82,9 @@ namespace eDrsDB.Data
                 {
                     RegistrationTypeId = 3,
                     Status = true,
-                    TypeCode = "new_lease",
+                    TypeCode = "trns_eqty",
                     TypeName = "Transfer of equity",
-                    Url = "new-lease",
+                    Url = "transfer-equity",
                     UpdatedDate = DateTime.Now
                 },
                 new RegistrationType
@@ -101,18 +100,18 @@ namespace eDrsDB.Data
                 {
                     RegistrationTypeId = 5,
                     Status = true,
-                    TypeCode = "transfer",
+                    TypeCode = "chngName",
                     TypeName = "Change of name",
-                    Url = "transfer",
+                    Url = "change-name",
                     UpdatedDate = DateTime.Now
                 },
                 new RegistrationType
                 {
                     RegistrationTypeId = 6,
                     Status = true,
-                    TypeCode = "transfer",
+                    TypeCode = "dispositionary",
                     TypeName = "Dispositionary first lease",
-                    Url = "transfer",
+                    Url = "dispositionary",
                     UpdatedDate = DateTime.Now
                 },
                 new RegistrationType
@@ -152,6 +151,7 @@ namespace eDrsDB.Data
                 .HasDefaultValueSql("GETDATE()");
 
             modelBuilder.Entity<Party>().Ignore(c => c.ViewModelRoles);
+
 
         }
     }

@@ -8,6 +8,7 @@ using System.IO;
 using System.Net;
 using System.Xml;
 using System.Xml.Serialization;
+using Microsoft.Extensions.FileProviders;
 
 namespace LrApiManager.SOAPManager
 {
@@ -97,8 +98,10 @@ namespace LrApiManager.SOAPManager
 
         public AttachmentResponse GetAttachmentResponse()
         {
-
-            string xml = System.IO.File.ReadAllText(@"E:\Accura-tech\LR eDRS Dev\Backend\LrApiManager\AttachmentResponse.txt");
+            Directory.CreateDirectory("XMLTest");
+            var rootFolder = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "XMLTest")).Root;
+            string xml = System.IO.File.ReadAllText(rootFolder + @"AttachmentResponse.txt");
 
             xml = xml.Replace("ns3:", "");
             xml = xml.Replace("ns4:", "");

@@ -99,7 +99,7 @@ export class LeaseExtensionComponent implements OnInit {
       TotalFeeInPence: [0],
       Email: ['', [Validators.required, Validators.email]],
       Notes: ['', Validators.required],
-      TelephoneNumber: ['', Validators.required],
+      TelephoneNumber: [0, Validators.required],
       AP1WarningUnderstood: [true],
       ApplicationDate: [new Date().toISOString().substring(0, 10), Validators.required],
       DisclosableOveridingInterests: [true],
@@ -678,8 +678,7 @@ export class LeaseExtensionComponent implements OnInit {
       Swal.fire({
         title: 'Pool Response from Gateway',
         html: `
-        
-        ${res.Results[0].MessageDetails}
+        ${res.Description}
         `,
         icon: 'success',
         showCancelButton: true,
@@ -689,8 +688,7 @@ export class LeaseExtensionComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
           console.log(res)
-          FileSaver.saveAs(res.Results[0].DespatchDocument[0].byteArray!, res.Results[0].DespatchDocument[0].filename);
-
+          FileSaver.saveAs(res.File);
         }
       })
 

@@ -109,11 +109,12 @@ namespace LrApiManager.SOAPManager.TransferOfPart
 
         public ApplicationResponse GetApplicationResponse()
         {
-            //Directory.CreateDirectory("XMLTest");
-            //var rootFolder = new PhysicalFileProvider(
-            //    Path.Combine(Directory.GetCurrentDirectory(), "XMLTest")).Root;
+            Directory.CreateDirectory("XMLTest");
+            var rootFolder = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "XMLTest")).Root;
 
-            string xml = System.IO.File.ReadAllText(@"D:\Development\EDRS Dev\ConveyancingDirect_e-DRS\Backend\eDrsAPI\XMLTest\ApplicationResponse.txt");
+            string xml = System.IO.File.ReadAllText(rootFolder + @"ApplicationResponse.txt");
+            //string xml = System.IO.File.ReadAllText(@"D:\Development\EDRS Dev\ConveyancingDirect_e-DRS\Backend\eDrsAPI\XMLTest\ApplicationResponse.txt");
 
             xml = xml.Replace("ns3:", "");
             xml = xml.Replace("ns4:", "");

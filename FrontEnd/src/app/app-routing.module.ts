@@ -9,6 +9,9 @@ import { RemovalOfDefaultComponent } from './removal-of-default/removal-of-defau
 import { ViewDocumentRegistrationsComponent } from './view-document-registrations/view-document-registrations.component';
 import { TransferAndChargeComponent } from './transfer-and-charge/transfer-and-charge.component';
 import { RemortgageComponent } from './remortgage/remortgage.component';
+import { TransferOfEquityComponent } from './transfer-of-equity/transfer-of-equity.component';
+import { ChangeOfNameComponent } from './change-of-name/change-of-name.component';
+import { DispositionaryComponent } from './dispositionary/dispositionary.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -23,9 +26,21 @@ const routes: Routes = [
   { path: 'registration/remortgage/:regTypeId/view-all', component: ViewDocumentRegistrationsComponent, data: { title: "View Remortgage", path: "Registration / Remortgage / View all", animation: "isRight" } },
   { path: 'registration/remortgage/:regTypeId/:docRefId', component: RemortgageComponent, data: { title: "Update Remortgage", path: "Registration / Remortgage / Update", animation: "isRight" } },
 
+  { path: 'registration/transfer-equity/:regTypeId', component: TransferOfEquityComponent, data: { title: "Transfer of equity", path: "Registration / Transfer of equity", animation: "isRight" } },
+  { path: 'registration/transfer-equity/:regTypeId/view-all', component: ViewDocumentRegistrationsComponent, data: { title: "View Transfer of equity", path: "Registration / Transfer of equity / View all", animation: "isRight" } },
+  { path: 'registration/transfer-equity/:regTypeId/:docRefId', component: TransferOfEquityComponent, data: { title: "Update Transfer of equity", path: "Registration / Transfer of equity / Update", animation: "isRight" } },
+
   { path: 'registration/removal-form/:regTypeId', component: RemovalOfDefaultComponent, data: { title: "Restriction, hostile takeover", path: "Registration / Restriction, hostile takeover", animation: "isRight" } },
   { path: 'registration/removal-form/:regTypeId/view-all', component: ViewDocumentRegistrationsComponent, data: { title: "View Restriction, hostile takeover", path: "Registration / Restriction, hostile takeover / View all", animation: "isRight" } },
   { path: 'registration/removal-form/:regTypeId/:docRefId', component: RemovalOfDefaultComponent, data: { title: "Update Restriction, hostile takeover", path: "Registration / Restriction, hostile takeover / Update", animation: "isRight" } },
+
+  { path: 'registration/change-name/:regTypeId', component: ChangeOfNameComponent, data: { title: "Change of Name", path: "Registration / Change of Name", animation: "isRight" } },
+  { path: 'registration/change-name/:regTypeId/view-all', component: ViewDocumentRegistrationsComponent, data: { title: "View Change of Name", path: "Registration / Change of Name / View all", animation: "isRight" } },
+  { path: 'registration/change-name/:regTypeId/:docRefId', component: ChangeOfNameComponent, data: { title: "Update Change of Name", path: "Registration / Change of Name / Update", animation: "isRight" } },
+
+  { path: 'registration/dispositionary/:regTypeId', component: DispositionaryComponent, data: { title: "Dispositionary first lease", path: "Registration / Dispositionary first lease", animation: "isRight" } },
+  { path: 'registration/dispositionary/:regTypeId/view-all', component: ViewDocumentRegistrationsComponent, data: { title: "View Dispositionary first lease", path: "Registration / Dispositionary first lease / View all", animation: "isRight" } },
+  { path: 'registration/dispositionary/:regTypeId/:docRefId', component: DispositionaryComponent, data: { title: "Update Dispositionary first lease", path: "Registration / Dispositionary first lease / Update", animation: "isRight" } },
 
   { path: 'registration/lease-extension/:regTypeId', component: LeaseExtensionComponent, data: { title: "Lease Extension", path: "Registration / Lease Extension", animation: "isRight" } },
   { path: 'registration/lease-extension/:regTypeId/view-all', component: ViewDocumentRegistrationsComponent, data: { title: "View Lease Extensions", path: "Registration / Lease Extension / View all", animation: "isRight" } },
@@ -42,4 +57,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule { } 

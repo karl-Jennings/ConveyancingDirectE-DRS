@@ -54,7 +54,7 @@
             <div class="col-3">
                 <mat-form-field class="example-form-field w-100">
                     <mat-label>Telephone Number</mat-label>
-                    <input formControlName="TelephoneNumber" matInput type="text">
+                    <input formControlName="TelephoneNumber" matInput type="number">
                 </mat-form-field>
             </div>
             <div class="col-3">
@@ -371,6 +371,59 @@
                                             <th scope="row">
                                                 <button class="btn btn-danger btn-sm"
                                                     (click)="RemoveSupDoc(item.LocalId)">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <hr class="mt-0">
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <!-- Representation -->
+                <mat-tab label="Representation/Additional Party">
+                    <div class="container-fluid" style="height: 600px; overflow: scroll;">
+                        <div class="row">
+                            <div class="col-12 mt-3">
+                                <form [formGroup]="representationGroup">
+                                    <div class="row">
+
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Representative Id</mat-label>
+                                                <input formControlName="RepresentativeId" matInput type="number">
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <button class="mr-1 ml-auto" (click)="PushRepToGrid()" mat-flat-button
+                                                color="primary">{{repSaveBtn}}</button>
+                                            <button (click)="ClearRepFields()" class="btn-warning"
+                                                mat-flat-button>Clear</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <hr class="mb-0">
+                                <table mdbTable class="table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="font-weight-bold">Representative Id</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr mdbTableCol *ngFor="let item of representationList"
+                                            class="{{item.IsSelected ? 'light-blue-row' : '' }}"
+                                            (click)="SelectRepRow(item.LocalId)">
+                                            <th scope="row"> {{item.RepresentativeId}}</th>
+                                            <th scope="row">
+                                                <button class="btn btn-danger btn-sm" (click)="RemoveRep(item.LocalId)">
                                                     <i class="fa fa-trash" aria-hidden="true"></i> Delete
                                                 </button>
                                             </th>

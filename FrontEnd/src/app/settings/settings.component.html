@@ -1,1 +1,17 @@
-<p>settings works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-5 col-lg-3 col-sm-5 col-xs-2">
+            <mdb-card class="mb-3" borderColor="border-dark">
+                <mdb-card-header class="py-2">
+                    Land Registry Polling Interval
+                </mdb-card-header>
+                <mdb-card-body class="text-center">
+                    <h2><b>Current Interval</b> : {{sliderTime}} min(s)</h2>
+                    <mat-slider class="w-100" thumbLabel (change)="TriggerSlider()" [(ngModel)]="sliderTime"
+                        [displayWith]="formatLabel" min="1" max="60">
+                    </mat-slider>
+                </mdb-card-body>
+            </mdb-card>
+        </div>
+    </div>
+</div>

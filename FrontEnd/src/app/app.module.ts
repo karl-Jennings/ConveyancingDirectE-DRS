@@ -31,6 +31,10 @@ import { RemovalOfDefaultComponent } from './removal-of-default/removal-of-defau
 import { MatTabsModule } from '@angular/material/tabs';
 import { TransferAndChargeComponent } from './transfer-and-charge/transfer-and-charge.component';
 import { RemortgageComponent } from './remortgage/remortgage.component';
+import { TransferOfEquityComponent } from './transfer-of-equity/transfer-of-equity.component';
+import { ChangeOfNameComponent } from './change-of-name/change-of-name.component';
+import { DispositionaryComponent } from './dispositionary/dispositionary.component';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -46,7 +50,10 @@ import { RemortgageComponent } from './remortgage/remortgage.component';
     ApplicationViewComponent,
     RemovalOfDefaultComponent,
     TransferAndChargeComponent,
-    RemortgageComponent
+    RemortgageComponent,
+    TransferOfEquityComponent,
+    ChangeOfNameComponent,
+    DispositionaryComponent
   ],
   imports: [
     BrowserModule,
@@ -67,6 +74,7 @@ import { RemortgageComponent } from './remortgage/remortgage.component';
     MatTableModule,
     MatDatepickerModule,
     MatTabsModule,
+    MatSliderModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

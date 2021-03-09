@@ -19,5 +19,6 @@ namespace eDrsManagers.Interfaces
         bool DeleteRegistration(long regId);
         RegistrationType GetRegistrationType(long regType);
         dynamic GetPollResponse(long regId);
+        bool AutomatePollRequest();
     }
 }

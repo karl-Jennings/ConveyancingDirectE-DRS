@@ -95,6 +95,8 @@ namespace LrApiManager.XMLClases.Restriction
     public class Representations
     {
         public Lodgingconveyancer LodgingConveyancer { get; set; }
+
+      //  public  Representations { get; set; }
         public Certified Certified { get; set; }
     }
 

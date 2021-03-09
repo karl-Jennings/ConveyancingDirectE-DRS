@@ -47,10 +47,10 @@ namespace eDrsManagers.Managers
 
             _context.SaveChanges();
 
-            var requestXml = _restrictionConverter.ArrangeLrApi();
+            var requestXml = _restrictionConverter.ArrangeLrApi(viewModel);
             var applicationResponse = _restrictionServiceManager.RequestRestrictionApplication(requestXml);
 
-            var requestLog = new RequestLog()
+            var requestLog = new RequestLog
             {
                 Type = "Application",
                 TypeCode = applicationResponse.TypeCode,
@@ -104,7 +104,7 @@ namespace eDrsManagers.Managers
             _context.DocumentReferences.Update(viewModel);
 
             _context.SaveChanges();
-            var requestXml = _restrictionConverter.ArrangeLrApi();
+            var requestXml = _restrictionConverter.ArrangeLrApi(viewModel);
             ApplicationResponse applicationResponse = _restrictionServiceManager.RequestRestrictionApplication(requestXml);
 
             var requestLog = new RequestLog()
@@ -157,8 +157,20 @@ namespace eDrsManagers.Managers
             };
             _context.RequestLogs.Add(requestLog);
             _context.SaveChanges();
-            return response;
+            return requestLog;
 
+        }
+
+        public bool AutomatePollRequest()
+        {
+            var messageIds = _context.DocumentReferences.Where(x => x.Status).Select(x => x.DocumentReferenceId).ToList();
+            messageIds.ForEach(x =>
+            {
+                Console.WriteLine("doing.............." + x);
+                GetPollResponse(x);
+            });
+
+            return true;
         }
 
         public DocumentReference GetRegistration(long regId)
