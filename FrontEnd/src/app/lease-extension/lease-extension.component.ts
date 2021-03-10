@@ -641,6 +641,7 @@ export class LeaseExtensionComponent implements OnInit {
       documentRef.Parties = JSON.parse(JSON.stringify(this.partyList));
       documentRef.AttachmentNotes = JSON.parse(JSON.stringify(this.notesList));
       documentRef.RequestLogs = JSON.parse(JSON.stringify(this.logsList));
+      documentRef.UserId = parseInt(localStorage.getItem("userId")!);
 
       if (this.docRefId == 0) {
         this.registrationService.CreateRegistration(documentRef).subscribe((res) => {

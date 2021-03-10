@@ -1,7 +1,7 @@
 export class RequestLogs {
     RequestLogId?: number;
     Type?: string;
-    TypeCode?: number;
+    TypeCode?: string;
     Description?: string;
     CreatedDate?: Date;
     File?: string;

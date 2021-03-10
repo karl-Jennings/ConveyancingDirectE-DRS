@@ -13,7 +13,7 @@ namespace eDrsDB.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long RequestLogId { get; set; }
         public string Type { get; set; }
-        public int TypeCode { get; set; }
+        public string TypeCode { get; set; }
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
         public string File { get; set; }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using BusinessGatewayModels;
 using eDrsDB.Data;
 using eDrsDB.Models;
 using eDrsManagers.ApiConverters;
@@ -34,7 +35,7 @@ namespace eDrsManagers.Managers
             return _context.RegistrationTypes.Where(s => s.Status).ToList();
         }
 
-        public ApplicationResponse CreateRegistration(DocumentReference viewModel)
+        public ResponseEDRSAppRequest CreateRegistration(DocumentReference viewModel)
         {
 
             viewModel.Parties.ToList().ForEach(party =>
@@ -46,15 +47,14 @@ namespace eDrsManagers.Managers
             _context.DocumentReferences.Add(viewModel);
 
             _context.SaveChanges();
-
-            var requestXml = _restrictionConverter.ArrangeLrApi(viewModel);
-            var applicationResponse = _restrictionServiceManager.RequestRestrictionApplication(requestXml);
+            viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
+            var applicationResponse = _restrictionConverter.ArrangeLrApi(viewModel);
 
             var requestLog = new RequestLog
             {
                 Type = "Application",
-                TypeCode = applicationResponse.TypeCode,
-                Description = applicationResponse.Acknowledgement.MessageDescription,
+                TypeCode = applicationResponse.GatewayResponse.GatewayResponse.TypeCode.ToString(),
+                Description = applicationResponse.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription,
                 DocumentReferenceId = viewModel.DocumentReferenceId
             };
             _context.RequestLogs.Add(requestLog);
@@ -63,7 +63,7 @@ namespace eDrsManagers.Managers
             return applicationResponse;
         }
 
-        public ApplicationResponse UpdateRegistration(DocumentReference viewModel)
+        public ResponseEDRSAppRequest UpdateRegistration(DocumentReference viewModel)
         {
             viewModel.Parties.ToList().ForEach(party =>
             {
@@ -104,14 +104,14 @@ namespace eDrsManagers.Managers
             _context.DocumentReferences.Update(viewModel);
 
             _context.SaveChanges();
-            var requestXml = _restrictionConverter.ArrangeLrApi(viewModel);
-            ApplicationResponse applicationResponse = _restrictionServiceManager.RequestRestrictionApplication(requestXml);
+            viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
+            var applicationResponse = _restrictionConverter.ArrangeLrApi(viewModel);
 
             var requestLog = new RequestLog()
             {
                 Type = "Application",
-                TypeCode = applicationResponse.TypeCode,
-                Description = applicationResponse.Acknowledgement.MessageDescription,
+                TypeCode = applicationResponse.GatewayResponse.GatewayResponse.TypeCode.ToString(),
+                Description = applicationResponse.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription,
                 DocumentReferenceId = viewModel.DocumentReferenceId
             };
             _context.RequestLogs.Add(requestLog);
@@ -150,7 +150,7 @@ namespace eDrsManagers.Managers
             var requestLog = new RequestLog()
             {
                 Type = "Poll",
-                TypeCode = Convert.ToInt32(response.TypeCode),
+                TypeCode = response.TypeCode,
                 Description = response.Results.MessageDetails,
                 File = response.Results.DespatchDocument.byteArray,
                 DocumentReferenceId = docRef.DocumentReferenceId

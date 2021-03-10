@@ -3,167 +3,169 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Schema;
+using BusinessGatewayModels;
+using BusinessGatewayRepositories.EDRSApplication;
+using BusinessGatewayServices;
+using eDrsDB.Data;
 using eDrsDB.Models;
 using LrApiManager.SOAPManager;
 using LrApiManager.XMLClases.Restriction;
-using Party = LrApiManager.XMLClases.Restriction.Party;
-using TitleNumber = LrApiManager.XMLClases.Restriction.TitleNumber;
 
 namespace eDrsManagers.ApiConverters
 {
     public interface IRestrictionConverter
     {
-        RestrictionApplicationRequest ArrangeLrApi(DocumentReference docRef);
+        ResponseEDRSAppRequest ArrangeLrApi(DocumentReference docRef);
     }
     public class RestrictionConverter : IRestrictionConverter
     {
-        public RestrictionConverter()
-        {
+        Services _services = new Services();
+        Search[] _search_array = new Search[1];
+        RequestApplicationToChangeRegisterV1_0Type _request = new RequestApplicationToChangeRegisterV1_0Type();
+        ProductType _product = new ProductType();
+        private readonly AppDbContext _context;
 
+
+        public RestrictionConverter(AppDbContext context)
+        {
+            _context = context;
         }
 
-        public RestrictionApplicationRequest ArrangeLrApi(DocumentReference docRef)
+        public ResponseEDRSAppRequest ArrangeLrApi(DocumentReference docRef)
         {
-            List<TitleNumber> titleNumbers = new List<TitleNumber>();
+
+            _request.ExternalReference = docRef.ExternalReference;
+            _request.MessageId = docRef.MessageID;
+
+            _product.Reference = docRef.Reference;
+            _product.TotalFeeInPence = docRef.TotalFeeInPence.ToString();
+            _product.Email = docRef.Email;
+            _product.TelephoneNumber = docRef.TelephoneNumber.ToString();
+            _product.AP1WarningUnderstood = docRef.AP1WarningUnderstood;
+            _product.ApplicationDate = docRef.ApplicationDate;
+            _product.PostcodeOfProperty = docRef.PostcodeOfProperty;
+            _product.DisclosableOveridingInterests = docRef.DisclosableOveridingInterests;
+
+
+
+            #region TitleNumbers
+
+            var titleList = new List<string>();
+
             docRef.Titles.ToList().ForEach(x =>
             {
-                var titleNumber = new TitleNumber();
-                titleNumber.TitleString = x.TitleNumberCode;
-                titleNumbers.Add(titleNumber);
-
+                titleList.Add(x.TitleNumberCode);
             });
 
-
-            Dealingtitles Dealingtitles = new Dealingtitles
+            var titlesType = new TitlesType()
             {
-                TitleNumber = titleNumbers.ToArray()
+                TitleNumber = titleList.ToArray()
             };
 
-            Dealing dealing = new Dealing
-            {
+            _product.Titles = titlesType;
+            #endregion
 
-                DealingTitles = Dealingtitles
-            };
+            #region OtherApplication
 
-            List<Dealing> Titles = new List<Dealing>();
-            Titles.Add(dealing);
-
-
-            //APPLICATIONS
-            List<Otherapplication> otherapplications = new List<Otherapplication>();
+            var applications = new List<ApplicationType>();
 
             docRef.Applications.ToList().ForEach(x =>
             {
-                var otherapplication = new Otherapplication
+                applications.Add(new OtherApplicationType()
                 {
-                    Priority = x.Priority,
-                    Value = Convert.ToInt32(x.Value),
-                    FeeInPence = x.FeeInPence,
-                    Document = new LrApiManager.XMLClases.Restriction.Document { CertifiedCopy = x.CertifiedCopy },
-                    Type = x.Type
-                };
-                otherapplications.Add(otherapplication);
-
+                    Document = new DocumentType { CertifiedCopy = (CertifiedTypeContent)Enum.Parse(typeof(CertifiedTypeContent), x.CertifiedCopy) },
+                    Priority = x.Priority.ToString(),
+                    Value = x.Value,
+                    FeeInPence = x.FeeInPence.ToString()
+                });
             });
 
-            //SUPPORTING DOCUMENTS
-            List<Supportingdocument> supportingdocuments = new List<Supportingdocument>();
+            _product.Applications = applications.ToArray();
+
+            #endregion
+
+            #region Supporting Documents
+
+            //supporting documnets
+            SupportingDocumentsType supportingDocuments = new SupportingDocumentsType();
+            var supportingDocumentTypes = new List<SupportingDocumentType>();
 
             docRef.SupportingDocuments.ToList().ForEach(x =>
             {
-                var supportingdocument = new Supportingdocument()
+                supportingDocumentTypes.Add(new SupportingDocumentType()
                 {
-                    CertifiedCopy = x.CertifiedCopy,
-                    DocumentId = Convert.ToInt32(x.DocumentId),
-                    DocumentName = x.DocumentName
-                };
-                supportingdocuments.Add(supportingdocument);
+                    CertifiedCopy = (CertifiedTypeContent)Enum.Parse(typeof(CertifiedTypeContent), x.CertifiedCopy),
+                    DocumentId = x.DocumentId,
+                    DocumentName = (DocumentNameContent)Enum.Parse(typeof(DocumentNameContent), x.DocumentName),
+
+                });
+            });
+            supportingDocuments.SupportingDocument = supportingDocumentTypes.ToArray();
+
+            _product.SupportingDocuments = supportingDocuments;
+
+            #endregion
+
+
+            #region Representations
+
+            //Representations
+
+            RepresentationsType Representations = new RepresentationsType();
+
+            Representations.LodgingConveyancer = new LodgingConveyancerType
+            {
+                RepresentativeId = docRef.Representations.ToList().Select(x => x.RepresentativeId).FirstOrDefault().ToString()
+            };
+
+            _product.Representations = Representations;
+
+            #endregion
+
+
+            #region Party
+
+            //Parties
+            PartiesType parties = new PartiesType();
+
+            List<PartyType> partyTypes = new List<PartyType>();
+
+            docRef.Parties.ToList().ForEach(x =>
+            {
+                var roles = x.Roles.Split(',');
+                var partyType = new PartyType { IsApplicant = x.IsApplicant };
+
+                List<PartyRoleType> partyRoleType = new List<PartyRoleType>();
+                var count = 1;
+                roles.ToList().ForEach(r =>
+                {
+                    partyRoleType.Add(new PartyRoleType
+                    {
+                        Priority = count++.ToString(),
+                        RoleType = (RoleTypeContent)Enum.Parse(typeof(RoleTypeContent), r)
+                    });
+                });
+                partyType.Roles = partyRoleType.ToArray();
+
+                if (x.PartyType == "company")
+                    partyType.Item = new CompanyType { CompanyName = x.CompanyOrForeName };
+                else if (x.PartyType == "person")
+                    partyType.Item = new PersonType { Forenames = x.CompanyOrForeName, Surname = x.Surname };
+
+
+                partyTypes.Add(partyType);
 
             });
+            parties.Party = partyTypes.ToArray();
+
+            _product.Parties = parties;
+            #endregion
 
 
-            //LODGINGCONVENYANCER
-            var representation = docRef.Representations.FirstOrDefault();
+            _request.Product = _product;
+             var response = _services.eDRSApplicationRequest("tes12343", docRef.User?.Username, docRef.Password, _request);
 
-            List<Lodgingconveyancer> lodgingconveyancers = new List<Lodgingconveyancer>();
-
-
-            Lodgingconveyancer lodgingconveyancer = new Lodgingconveyancer
-            {
-                RepresentativeId = Convert.ToInt32(representation.RepresentationId)
-            };
-            lodgingconveyancers.Add(lodgingconveyancer);
-
-
-            Representations representations = new Representations
-            {
-                LodgingConveyancer = lodgingconveyancer,
-
-            };
-
-
-            // PARTY
-
-            List<Party> parties = new List<Party>();
-
-
-            var tempParty = docRef.Parties.ToList();
-            tempParty.ForEach(x =>
-            {
-                List<Role> roles = new List<Role>();
-
-                foreach (var item in x.Roles.Split(','))
-                {
-                    Role role = new Role
-                    {
-                        RoleType = item,
-                        Priority = 1
-                    };
-                    roles.Add(role);
-                }
-
-                //Parties
-                Party party = new Party
-                {
-
-                    IsApplicant = x.IsApplicant,
-                    Company = new Company
-                    {
-                        CompanyName = x.CompanyOrForeName
-                    },
-                    Roles = roles
-                };
-                parties.Add(party);
-
-            });
-
-
-            RestrictionApplicationRequest restrictionApplicationRequest = new RestrictionApplicationRequest
-            {
-
-                AdditionalProviderFilter = docRef.AdditionalProviderFilter,
-                MessageId = docRef.MessageID,
-                ExternalReference = docRef.ExternalReference,
-
-                Product = new Product
-                {
-                    Reference = docRef.Reference,
-                    TotalFeeInPence = docRef.TotalFeeInPence,
-                    Email = docRef.Email,
-                    TelephoneNumber = Convert.ToInt32(docRef.TelephoneNumber),
-                    AP1WarningUnderstood = docRef.AP1WarningUnderstood,
-                    ApplicationDate = docRef.ApplicationDate,
-                    DisclosableOveridingInterests = docRef.DisclosableOveridingInterests,
-                    Titles = Titles,
-                    Applications = otherapplications,
-                    SupportingDocuments = supportingdocuments,
-                    Representations = representations,
-                    Parties = parties,
-                    ApplicationAffects = docRef.ApplicationAffects
-                }
-
-            };
-            return restrictionApplicationRequest;
+            return response;
         }
     }
 }

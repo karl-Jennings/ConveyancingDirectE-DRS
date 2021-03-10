@@ -240,21 +240,19 @@
                                         <div class="col-md-6">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Certification Type</mat-label>
-                                                <mat-select formControlName="CertifiedCopy">
-                                                    <mat-option
-                                                        [value]="'I/We certify this attachment is a true copy of the original document'">
+                                                <mat-option
+                                                        [value]="'Original'">
                                                         I/We certify this attachment is a true copy of the original
                                                         document
                                                     </mat-option>
                                                     <mat-option
-                                                        [value]="'I/We certify this attachment is a true copy of a document which is certified by a conveyancer to be a true copy of the original'">
+                                                        [value]="'Certified'">
                                                         I/We certify this attachment is a true copy of a document which
                                                         is certified by a conveyancer to be a true copy of the original
                                                     </mat-option>
-                                                    <mat-option [value]="'This attachment is an uncertified copy'">
+                                                    <mat-option [value]="'Scanned'">
                                                         This attachment is an uncertified copy
                                                     </mat-option>
-                                                </mat-select>
                                             </mat-form-field>
                                         </div>
 
@@ -328,10 +326,22 @@
 
                                             </mat-form-field>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-6">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Certified Copy</mat-label>
-                                                <input formControlName="CertifiedCopy" matInput type="text">
+                                                <mat-select formControlName="CertifiedCopy">
+                                                    <mat-option [value]="'Original'">
+                                                        I/We certify this attachment is a true copy of the original
+                                                        document
+                                                    </mat-option>
+                                                    <mat-option [value]="'Certified'">
+                                                        I/We certify this attachment is a true copy of a document which
+                                                        is certified by a conveyancer to be a true copy of the original
+                                                    </mat-option>
+                                                    <mat-option [value]="'Scanned'">
+                                                        This attachment is an uncertified copy
+                                                    </mat-option>
+                                                </mat-select>
                                             </mat-form-field>
                                         </div>
                                         <div class="col-md-3">

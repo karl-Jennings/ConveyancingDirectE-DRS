@@ -59,7 +59,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\ResponseDayList.cs" />
     <Compile Include="App_Code\ResponseOC1.cs" />
+    <Compile Include="App_Code\ResponseOS1.cs" />
     <Compile Include="App_Code\ResponseOutstanding.cs" />
     <Compile Include="App_Code\ResponseOwnerVerification.cs" />
     <Compile Include="App_Code\ResponseEDRSAppReq.cs" />
@@ -81,14 +83,6 @@
     <Content Include="Cert_password.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BGConfigurations\BGConfigurations.csproj">
-      <Project>{ca96ef05-f829-4bdb-a149-ea95ad8b6f59}</Project>
-      <Name>BGConfigurations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BusinessGatewayDB\BusinessGatewayDB.csproj">
-      <Project>{23e0720e-64b6-450c-9f74-60b60b56dd0d}</Project>
-      <Name>BusinessGatewayDB</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BusinessGatewayRepositories\BusinessGatewayRepositories.csproj">
       <Project>{19273f96-133f-4c0c-972d-39a079d88236}</Project>
       <Name>BusinessGatewayRepositories</Name>

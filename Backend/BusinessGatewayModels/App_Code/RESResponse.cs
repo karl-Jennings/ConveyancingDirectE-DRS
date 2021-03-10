@@ -32,104 +32,104 @@ namespace BusinessGatewayModels
         public File Attachment { get; set; }
         public string XML { get; set; }
         public RESResponse() { }
-        public RESResponse(string FileName,BusinessGatewayRepositories.RES.ResponseOCWithSummaryV2_1Type item,string Username)
+        public RESResponse(string FileName, BusinessGatewayRepositories.RES.ResponseOCWithSummaryV2_1Type item, string Username)
         {
-                XmlSerializer serializer = new XmlSerializer(typeof(BusinessGatewayRepositories.RES.ResponseOCWithSummaryV2_1Type));
-                this.WriteXML(FileName, item);
-                if (item.GatewayResponse != null)
+            XmlSerializer serializer = new XmlSerializer(typeof(BusinessGatewayRepositories.RES.ResponseOCWithSummaryV2_1Type));
+            this.WriteXML(FileName, item);
+            if (item.GatewayResponse != null)
+            {
+                if (item.GatewayResponse.Results != null)
                 {
-                    if (item.GatewayResponse.Results != null)
+                    this.Successful = true;
+                    //item.GatewayResponse.Results.OCSummaryData.Proprietorship.Items
+                    if (item.GatewayResponse.Results.OCSummaryData.Proprietorship != null)
                     {
-                        this.Successful = true;
-                        //item.GatewayResponse.Results.OCSummaryData.Proprietorship.Items
-                        if (item.GatewayResponse.Results.OCSummaryData.Proprietorship != null)
+                        this.Proprietors = item.GatewayResponse.Results.OCSummaryData.Proprietorship.Items.Select(s => new Proprietors(s)).ToList();
+                        this.UpdateProprietors(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, Proprietors);
+                    }
+                    if (item.GatewayResponse.Results.OCSummaryData.PropertyAddress != null)
+                    {
+                        this.Addresses = item.GatewayResponse.Results.OCSummaryData.PropertyAddress.Select(s => new Address(s)).ToList();
+                        this.UpdateAddress(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, Addresses);
+                    }
+                    if (item.GatewayResponse.Results.OCSummaryData.RestrictionDetails != null)
+                    {
+                        this.Restrictions = item.GatewayResponse.Results.OCSummaryData.RestrictionDetails.Select(s => new Restrictions(s.Item)).ToList();
+                        this.UpdateRestrictions(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, Restrictions);
+                    }
+                    if (item.GatewayResponse.Results.OCSummaryData.AgreedNotice != null)
+                    {
+                        this.AgreedNotice = item.GatewayResponse.Results.OCSummaryData.AgreedNotice.Select(s => new AgreedNotice(s)).ToList();
+                        this.UpdateAgreedNotices(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, AgreedNotice);
+
+                    }
+                    if (item.GatewayResponse.Results.OCRegisterData.ChargesRegister != null)
+                    {
+                        this.Charges = item.GatewayResponse.Results.OCRegisterData.ChargesRegister.RegisterEntry.Select(s => new Charge(s)).ToList();
+                        this.UpdateCharges(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, Charges);
+                        if (item.GatewayResponse.Results.OCRegisterData.ChargesRegister.Schedule != null)
                         {
-                            this.Proprietors = item.GatewayResponse.Results.OCSummaryData.Proprietorship.Items.Select(s => new Proprietors(s)).ToList();
-                            this.UpdateProprietors(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, Proprietors);
-                        }
-                        if (item.GatewayResponse.Results.OCSummaryData.PropertyAddress != null)
-                        {
-                            this.Addresses = item.GatewayResponse.Results.OCSummaryData.PropertyAddress.Select(s => new Address(s)).ToList();
-                            this.UpdateAddress(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, Addresses);
-                        }
-                        if (item.GatewayResponse.Results.OCSummaryData.RestrictionDetails != null)
-                        {
-                            this.Restrictions = item.GatewayResponse.Results.OCSummaryData.RestrictionDetails.Select(s => new Restrictions(s.Item)).ToList();
-                            this.UpdateRestrictions(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, Restrictions);
-                        }
-                        if (item.GatewayResponse.Results.OCSummaryData.AgreedNotice != null)
-                        {
-                            this.AgreedNotice = item.GatewayResponse.Results.OCSummaryData.AgreedNotice.Select(s => new AgreedNotice(s)).ToList();
-                            this.UpdateAgreedNotices(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, AgreedNotice);
-                      
-                        }
-                        if (item.GatewayResponse.Results.OCRegisterData.ChargesRegister != null)
-                        {
-                            this.Charges = item.GatewayResponse.Results.OCRegisterData.ChargesRegister.RegisterEntry.Select(s => new Charge(s)).ToList();
-                            this.UpdateCharges(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, Charges);
-                            if (item.GatewayResponse.Results.OCRegisterData.ChargesRegister.Schedule != null)
+                            this.Schedules = new List<Schedule>();
+                            foreach (var _item in item.GatewayResponse.Results.OCRegisterData.ChargesRegister.Schedule)
                             {
-                                this.Schedules = new List<Schedule>();
-                                foreach (var _item in item.GatewayResponse.Results.OCRegisterData.ChargesRegister.Schedule)
-                                {
-                                    this.Schedules.AddRange(_item.ScheduleEntry.Select(s => new Schedule(s)).ToList());
-                                }
-                                this.UpdateSchedules(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, Schedules);
+                                this.Schedules.AddRange(_item.ScheduleEntry.Select(s => new Schedule(s)).ToList());
                             }
+                            this.UpdateSchedules(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, Schedules);
                         }
-                        if (item.GatewayResponse.Results.OCSummaryData != null)
-                        {
-                            this.ResDetails = new ResDetail(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value,item.GatewayResponse.Results.OCSummaryData);
-                            this.UpdateResDetails(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, ResDetails);
-                        }
-                        if (item.GatewayResponse.Results.OCRegisterData.ProprietorshipRegister != null)
-                        {
-                            this.ProprietorRegister = item.GatewayResponse.Results.OCRegisterData.ProprietorshipRegister.RegisterEntry.Select(s => new ProprietorRegister(s)).ToList();
-                            this.UpdateProprietorRegister(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, this.ProprietorRegister);
-                        }
-                        if (item.GatewayResponse.Results.OCRegisterData.PropertyRegister != null)
-                        {
-                            this.PropertyRegister = item.GatewayResponse.Results.OCRegisterData.PropertyRegister.RegisterEntry.Select(s => new PropertyRegister(s)).ToList();
-                            this.UpdatePropertyRegister(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, this.PropertyRegister);
-                        }
-                        if (item.GatewayResponse.Results.OCSummaryData.Lease != null)
-                        {
-                            this.Leases = item.GatewayResponse.Results.OCSummaryData.Lease.Select(s => new Lease(s)).ToList();
-                            this.UpdateLeases(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, this.Leases);
-                        }
-                       if (item.GatewayResponse.Results.Attachment != null)
-                        {
-                            var _attachment = new File();
-                            _attachment.Contents = item.GatewayResponse.Results.Attachment.EmbeddedFileBinaryObject.Value;
-                            _attachment.FileName = item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value + "." + item.GatewayResponse.Results.Attachment.EmbeddedFileBinaryObject.format;
-                            this.Attachment = _attachment;
-                            WriteAttachment(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, item.GatewayResponse.Results.Attachment);
-                        }
-                        this.XML = ToXML(item);
-                        WriteXML(item.GatewayResponse.Results.ExternalReference.Reference.Value, item);
-                        this.UpdateRes(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, Username);
                     }
-                    if (item.GatewayResponse.Acknowledgement != null)
+                    if (item.GatewayResponse.Results.OCSummaryData != null)
                     {
-                        this.Successful = true;
-                        this.Message = item.GatewayResponse.Acknowledgement.AcknowledgementDetails != null ? item.GatewayResponse.Acknowledgement.AcknowledgementDetails.MessageDescription.Value : "";
-                        this.PollDateTime = item.GatewayResponse.Acknowledgement.AcknowledgementDetails != null ?
-                           (DateTime?)item.GatewayResponse.Acknowledgement.AcknowledgementDetails.ExpectedResponseDateTime.Value : null;
+                        this.ResDetails = new ResDetail(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, item.GatewayResponse.Results.OCSummaryData);
+                        this.UpdateResDetails(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, ResDetails);
                     }
-                    if (item.GatewayResponse.Rejection != null)
+                    if (item.GatewayResponse.Results.OCRegisterData.ProprietorshipRegister != null)
                     {
-                        this.Successful = false;
-                        this.Message = item.GatewayResponse.Rejection.RejectionResponse != null ? item.GatewayResponse.Rejection.RejectionResponse.Reason.Value : "";
-                        UpdateFail(FileName, this.Message);
+                        this.ProprietorRegister = item.GatewayResponse.Results.OCRegisterData.ProprietorshipRegister.RegisterEntry.Select(s => new ProprietorRegister(s)).ToList();
+                        this.UpdateProprietorRegister(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, this.ProprietorRegister);
                     }
+                    if (item.GatewayResponse.Results.OCRegisterData.PropertyRegister != null)
+                    {
+                        this.PropertyRegister = item.GatewayResponse.Results.OCRegisterData.PropertyRegister.RegisterEntry.Select(s => new PropertyRegister(s)).ToList();
+                        this.UpdatePropertyRegister(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, this.PropertyRegister);
+                    }
+                    if (item.GatewayResponse.Results.OCSummaryData.Lease != null)
+                    {
+                        this.Leases = item.GatewayResponse.Results.OCSummaryData.Lease.Select(s => new Lease(s)).ToList();
+                        this.UpdateLeases(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, this.Leases);
+                    }
+                    if (item.GatewayResponse.Results.Attachment != null)
+                    {
+                        var _attachment = new File();
+                        _attachment.Contents = item.GatewayResponse.Results.Attachment.EmbeddedFileBinaryObject.Value;
+                        _attachment.FileName = item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value + "." + item.GatewayResponse.Results.Attachment.EmbeddedFileBinaryObject.format;
+                        this.Attachment = _attachment;
+                        WriteAttachment(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, item.GatewayResponse.Results.Attachment);
+                    }
+                    this.XML = ToXML(item);
+                    WriteXML(item.GatewayResponse.Results.ExternalReference.Reference.Value, item);
+                    this.UpdateRes(item.GatewayResponse.Results.OCSummaryData.Title.TitleNumber.Value, Username);
                 }
-                else
+                if (item.GatewayResponse.Acknowledgement != null)
                 {
-                    throw new Exception("Unable to find RES for given title number");
+                    this.Successful = true;
+                    this.Message = item.GatewayResponse.Acknowledgement.AcknowledgementDetails != null ? item.GatewayResponse.Acknowledgement.AcknowledgementDetails.MessageDescription.Value : "";
+                    this.PollDateTime = item.GatewayResponse.Acknowledgement.AcknowledgementDetails != null ?
+                       (DateTime?)item.GatewayResponse.Acknowledgement.AcknowledgementDetails.ExpectedResponseDateTime.Value : null;
                 }
+                if (item.GatewayResponse.Rejection != null)
+                {
+                    this.Successful = false;
+                    this.Message = item.GatewayResponse.Rejection.RejectionResponse != null ? item.GatewayResponse.Rejection.RejectionResponse.Reason.Value : "";
+                    UpdateFail(FileName, this.Message);
+                }
+            }
+            else
+            {
+                throw new Exception("Unable to find RES for given title number");
+            }
 
         }
-        private void UpdateAddress(string TitleNumber,List<Address> Addresses)
+        private void UpdateAddress(string TitleNumber, List<Address> Addresses)
         {
             //BusinessGatewayDB.BGEntities _Context = new BGEntities();
             //foreach (var Address in Addresses)
@@ -270,20 +270,20 @@ namespace BusinessGatewayModels
             //_Context.SaveChanges();
         }
         private void UpdateAgreedNotices(string TitleNumber, List<BusinessGatewayModels.AgreedNotice> AgreedNotices)
-        //{
-        //    BusinessGatewayDB.BGEntities _Context = new BGEntities();
-        //    foreach (var agreedNotice in AgreedNotices)
-        //    {
-        //        var _agreedNotice = new BusinessGatewayDB.AgreedNotice
-        //        {
-        //            TitleNumber = TitleNumber,
-        //            EntryDescription = agreedNotice.EntryDescription,
-        //            EntryNumber = agreedNotice.EntryNumber,
-        //             NoticeType = agreedNotice.EntryType
-        //        };
-        //        _Context.AgreedNotices.Add(_agreedNotice);
-        //    }
-        //    _Context.SaveChanges();
+        {
+            //    BusinessGatewayDB.BGEntities _Context = new BGEntities();
+            //    foreach (var agreedNotice in AgreedNotices)
+            //    {
+            //        var _agreedNotice = new BusinessGatewayDB.AgreedNotice
+            //        {
+            //            TitleNumber = TitleNumber,
+            //            EntryDescription = agreedNotice.EntryDescription,
+            //            EntryNumber = agreedNotice.EntryNumber,
+            //             NoticeType = agreedNotice.EntryType
+            //        };
+            //        _Context.AgreedNotices.Add(_agreedNotice);
+            //    }
+            //    _Context.SaveChanges();
         }
         private void UpdateCharges(string TitleNumber, List<BusinessGatewayModels.Charge> Charges)
         {
@@ -318,7 +318,7 @@ namespace BusinessGatewayModels
             }
             _Context.SaveChanges();
         }
-        private void UpdateRes(string TitleNumber,string Username)
+        private void UpdateRes(string TitleNumber, string Username)
         {
             BusinessGatewayDB.BGEntities _Context = new BGEntities();
             var _res = new BusinessGatewayDB.ResRequest
@@ -351,10 +351,10 @@ namespace BusinessGatewayModels
             }
             _Context.SaveChanges();
         }
-        public void WriteAttachment(string TitleNumber,BusinessGatewayRepositories.RES.Q1AttachmentType Attachment)
+        public void WriteAttachment(string TitleNumber, BusinessGatewayRepositories.RES.Q1AttachmentType Attachment)
         {
-           // string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format;
-            string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value +TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format; ;
+            // string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format;
+            string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + TitleNumber + "." + Attachment.EmbeddedFileBinaryObject.format; ;
             //We want to get the pdf from the value of the byte array and write it.
             BusinessGatewayRepositories.RES.BinaryObjectType _binaryFile = Attachment.EmbeddedFileBinaryObject;
 
@@ -389,10 +389,10 @@ namespace BusinessGatewayModels
             MySerializer.Serialize(writer, item, namespaces);
             return StringWriter.ToString();
         }
-        public void WriteXML(string FileNumber,BusinessGatewayRepositories.RES.ResponseOCWithSummaryV2_1Type Response)
+        public void WriteXML(string FileNumber, BusinessGatewayRepositories.RES.ResponseOCWithSummaryV2_1Type Response)
         {
             string _File = FileNumber;
-           // string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + _File + ".xml";
+            // string _FileLocation = ConfigurationManager.AppSettings["FileLocation"] + _File + ".xml";
             string _FileLocation = AppSettings.Resolve.GetSetting_ByName("FileLocation").Value + _File + ".xml";
 
             //If the file exists for some reason then we don't want to create it twice
@@ -420,11 +420,11 @@ namespace BusinessGatewayModels
         public string EntryType { get; set; }
         public AgreedNotice(BusinessGatewayRepositories.RES.Q1AgreedNoticeType item)
         {
-            if(item.AgreedNoticeType != null)
+            if (item.AgreedNoticeType != null)
                 EntryType = item.AgreedNoticeType.ToString();
             if (item.EntryDetails != null)
             {
-                EntryDescription = item.EntryDetails.EntryText != null ?  item.EntryDetails.EntryText.Value : "";
+                EntryDescription = item.EntryDetails.EntryText != null ? item.EntryDetails.EntryText.Value : "";
                 EntryNumber = item.EntryDetails.EntryNumber != null ? item.EntryDetails.EntryNumber.Value : "";
             }
         }
@@ -442,7 +442,7 @@ namespace BusinessGatewayModels
             {
                 case "BusinessGatewayRepositories.RES.Q1PrivateIndividualType":
                     BusinessGatewayRepositories.RES.Q1PrivateIndividualType _private = new BusinessGatewayRepositories.RES.Q1PrivateIndividualType();
-                    _private = (BusinessGatewayRepositories.RES.Q1PrivateIndividualType) item.Item;
+                    _private = (BusinessGatewayRepositories.RES.Q1PrivateIndividualType)item.Item;
                     this.Firstname = _private.Name.ForenamesName != null ? _private.Name.ForenamesName.Value : "";
                     this.Surname = _private.Name.SurnameName != null ? _private.Name.SurnameName.Value : "";
                     break;
@@ -467,7 +467,7 @@ namespace BusinessGatewayModels
     }
     public class Charge
     {
-        public string EntryDescription{ get; set; }
+        public string EntryDescription { get; set; }
         public string EntryNumber { get; set; }
         public string EntryType { get; set; }
         public DateTime? EntryDate { get; set; }
@@ -501,14 +501,14 @@ namespace BusinessGatewayModels
                 {
                     var _partyName = _party.Item;
                     string _type = _partyName.GetType().ToString();
-                    switch(_type)
+                    switch (_type)
                     {
                         case "BusinessGatewayRepositories.RES.Q1PrivateIndividualType":
-                            var _private = (BusinessGatewayRepositories.RES.Q1PrivateIndividualType) _party.Item;
+                            var _private = (BusinessGatewayRepositories.RES.Q1PrivateIndividualType)_party.Item;
                             Parties += !String.IsNullOrEmpty(Parties) ? " and " + _private.Name.ForenamesName.Value + " " + _private.Name.SurnameName.Value : _private.Name.ForenamesName.Value + " " + _private.Name.SurnameName.Value;
                             break;
                         case "BusinessGatewayRepositories.RES.Q1OrganizationType":
-                            var _organisation = (BusinessGatewayRepositories.RES.Q1OrganizationType) _party.Item;
+                            var _organisation = (BusinessGatewayRepositories.RES.Q1OrganizationType)_party.Item;
                             Parties += !String.IsNullOrEmpty(Parties) ? " and " + _organisation.Name.Value : _organisation.Name.Value;
                             break;
 
@@ -532,8 +532,8 @@ namespace BusinessGatewayModels
     }
     public class File
     {
-        public byte[] Contents{ get; set; }
-        public string FileName { get; set;}
+        public byte[] Contents { get; set; }
+        public string FileName { get; set; }
     }
     public class Restrictions
     {
@@ -567,7 +567,7 @@ namespace BusinessGatewayModels
                     this.AdministrativeArea = item.OCSummaryData.Title.TitleRegistrationDetails.AdministrativeArea != null ? item.OCSummaryData.Title.TitleRegistrationDetails.AdministrativeArea.Value : "";
                     this.LandRegOfficeName = item.OCSummaryData.Title.TitleRegistrationDetails.LandRegistryOfficeName != null ? item.OCSummaryData.Title.TitleRegistrationDetails.LandRegistryOfficeName.Value : "";
                     this.DateOfRegisteredExtract = item.OCSummaryData.OfficialCopyDateTime != null ? (DateTime?)item.OCSummaryData.OfficialCopyDateTime.Value : (DateTime?)null;
-                    if(item.OCSummaryData.Title.ClassOfTitleCode != null)
+                    if (item.OCSummaryData.Title.ClassOfTitleCode != null)
                     {
                         this.ClassOfTitle = ClassOfTitleCode(item.OCSummaryData.Title.ClassOfTitleCode.Value.ToString());
                     }
@@ -617,7 +617,7 @@ namespace BusinessGatewayModels
         public DateTime? EntryDate { get; set; }
         public ProprietorRegister(BusinessGatewayRepositories.RES.Q1RegisterEntryType item)
         {
-            if(item != null)
+            if (item != null)
             {
                 EntryNumber = item.EntryNumber != null ? item.EntryNumber.Value : "";
                 EntryType = item.EntryType != null ? item.EntryType.Value : "";
@@ -634,7 +634,7 @@ namespace BusinessGatewayModels
         public DateTime? EntryDate { get; set; }
         public PropertyRegister(BusinessGatewayRepositories.RES.Q1RegisterEntryType item)
         {
-            if(item != null)
+            if (item != null)
             {
                 EntryNumber = item.EntryNumber != null ? item.EntryNumber.Value : "";
                 EntryType = item.EntryType != null ? item.EntryType.Value : "";
@@ -681,7 +681,7 @@ namespace BusinessGatewayModels
         public Nullable<bool> UnilateralNoticeBeneficiaryIndicator { get; set; }
         public Nullable<bool> UnilateralNoticeIndicator { get; set; }
         public Nullable<bool> VendorsLienIndicator { get; set; }
-        public ResDetail(string TitleNumber,BusinessGatewayRepositories.RES.Q1OCSummaryDataType item)
+        public ResDetail(string TitleNumber, BusinessGatewayRepositories.RES.Q1OCSummaryDataType item)
         {
             this.TitleNumber = TitleNumber;
             this.DistrictName = item.Title.TitleRegistrationDetails.DistrictName.Value;
@@ -728,7 +728,7 @@ namespace BusinessGatewayModels
         {
             switch (Class)
             {
-                case  BusinessGatewayRepositories.RES.ClassOfTitleCodeContentType.Item10:
+                case BusinessGatewayRepositories.RES.ClassOfTitleCodeContentType.Item10:
                     return "Absolute Freehold";
                 case BusinessGatewayRepositories.RES.ClassOfTitleCodeContentType.Item20:
                     return "Possessory Freehold";

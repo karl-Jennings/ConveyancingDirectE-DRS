@@ -2,6 +2,7 @@ export class User {
 
     UserId?: number;
     Firstname?: string;
+    Username?: string;
     Lastname?: string;
     Fullname?: string;
     Token?: string;

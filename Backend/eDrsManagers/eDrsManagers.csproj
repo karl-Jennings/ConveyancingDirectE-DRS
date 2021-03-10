@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BusinessGatewayModels\BusinessGatewayModels.csproj" />
+    <ProjectReference Include="..\BusinessGatewayRepositories\BusinessGatewayRepositories.csproj" />
+    <ProjectReference Include="..\BusinessGatewayServices\BusinessGatewayServices.csproj" />
     <ProjectReference Include="..\eDrsDB\eDrsDB.csproj" />
     <ProjectReference Include="..\LrApiManager\LrApiManager.csproj" />
   </ItemGroup>

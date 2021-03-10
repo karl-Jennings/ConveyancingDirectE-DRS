@@ -134,7 +134,10 @@ export class RemovalOfDefaultComponent implements OnInit {
       DocumentReference: null,
       CertifiedCopy: [''],
       ExternalReference: ['', Validators.required],
-      Document: {}
+      Document: {},
+      Variety: [''],
+      MDRef: [''],
+      ChargeDate: [new Date()]
     });
 
     this.supportingDocGroup = this.formBuilder.group({
@@ -401,7 +404,10 @@ export class RemovalOfDefaultComponent implements OnInit {
       DocumentReferenceId: 0,
       DocumentReference: null,
       Document: [],
-      ExternalReference: ''
+      ExternalReference: '',
+      Variety: '',
+      MDRef: '',
+      ChargeDate: new Date()
     })
   }
 
@@ -707,6 +713,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       documentRef.AttachmentNotes = JSON.parse(JSON.stringify(this.notesList));
       documentRef.RequestLogs = JSON.parse(JSON.stringify(this.logsList));
       documentRef.Representations = JSON.parse(JSON.stringify(this.representationList));
+      documentRef.UserId = parseInt(localStorage.getItem("userId")!);
 
       if (this.docRefId == 0) {
         this.registrationService.CreateRegistration(documentRef).subscribe((res) => {

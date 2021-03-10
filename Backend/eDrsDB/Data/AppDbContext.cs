@@ -48,6 +48,7 @@ namespace eDrsDB.Data
                 {
                     UserId = 1,
                     Status = true,
+                    Username = "edrs-admin",
                     Firstname = "Admin",
                     Designation = "admin",
                     Email = "dushyanthaccura@gmail.com",

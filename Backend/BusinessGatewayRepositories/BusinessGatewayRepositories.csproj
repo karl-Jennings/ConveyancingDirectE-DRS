@@ -46,10 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DayListEntry.cs" />
     <Compile Include="EDRSRepository.cs" />
     <Compile Include="LandChargesBankruptcySearchRepository.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="OC1Repository.cs" />
+    <Compile Include="OS1Repository.cs" />
     <Compile Include="OutstandingRespository.cs" />
     <Compile Include="OwnerVerification.cs" />
     <Compile Include="PollOS1Repository.cs" />
