@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using BusinessGatewayServices;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BusinessGatewayRepositories.EDRSApplication;
-using BusinessGatewayModels;
 
-namespace eDRS_Land_Registry.Controllers
+
+namespace GateWayTest
 {
-    public class ValuesController : ApiController
+    [TestClass]
+    public class eDRSAppRequestTest
     {
-        // GET api/values
-        public ResponseEDRSAppRequest Get()
-        {
 
+        [TestMethod]
+        public void eDRSAppRequest()
+        {
             BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
             BusinessGatewayModels.Search[] _search_array = new BusinessGatewayModels.Search[1];
 
@@ -33,6 +29,7 @@ namespace eDRS_Land_Registry.Controllers
             _product.PostcodeOfProperty = "POSTCODE";
             _product.DisclosableOveridingInterests = true;
 
+
             #region TitleNumbers
 
             string[] _titlesArray = { "GR518195" };
@@ -40,8 +37,8 @@ namespace eDRS_Land_Registry.Controllers
             _titles[0] = new BusinessGatewayRepositories.EDRSApplication.TitlesType { TitleNumber = _titlesArray };
 
             //   BusinessGatewayRepositories.EDRSApplication.
-            _product.Titles = _titles[0];
 
+            _product.Titles = _titles[0];
             #endregion
 
             BusinessGatewayRepositories.EDRSApplication.OtherApplicationType[] applications = new BusinessGatewayRepositories.EDRSApplication.OtherApplicationType[1];
@@ -95,37 +92,16 @@ namespace eDRS_Land_Registry.Controllers
                 IsApplicant = true,
                 Item = new CompanyType { CompanyName = "company" },
                 Roles = partyRoleTypes
+
             };
 
             _product.Parties = parties;
 
             _request.Product = _product;
 
-            var _reponse = _services.eDRSApplicationRequest("BGUser001", "landreg001", _request);
+            var _reponse = _services.eDRSApplicationRequest( "BGUser001", "landreg001", _request);
 
-
-            return _reponse;
-        }
-
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
+            Assert.AreEqual(true, true);
         }
     }
 }

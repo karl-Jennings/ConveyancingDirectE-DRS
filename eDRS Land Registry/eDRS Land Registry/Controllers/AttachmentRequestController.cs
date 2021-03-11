@@ -12,26 +12,25 @@ using eDRS_Land_Registry.Models;
 namespace eDRS_Land_Registry.Controllers
 {
     [Route("api/[controller]")]  
-    public class RequestApplicationController : ApiController
+    public class AttachmentController : ApiController
     {
 
         [HttpPost]
-        [Route("ApplicationRequest")]
-        public ResponseEDRSAppRequest ApplicationRequest(RequestApplicationViewModel Request)
+        [Route("AttachmentRequest")]
+        public ResponseAttachmentRequest AttachmentRequest(AttachmentViewModel Request)
         {
             try
             {
-
                 BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();             
 
-                var _reponse = _services.eDRSApplicationRequest(Request.Username,Request.Password, Request.Request);
+                var _reponse = _services.AttachmentRequest( Request.Username,Request.Password, Request.Request);
 
                 return _reponse;
 
             }
             catch (Exception ex)
             {
-                return new ResponseEDRSAppRequest { Successful = false };
+                return new ResponseAttachmentRequest { Successful = false };
             }
 
         }

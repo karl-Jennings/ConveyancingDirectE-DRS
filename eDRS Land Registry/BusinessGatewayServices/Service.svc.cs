@@ -164,7 +164,7 @@ namespace BusinessGatewayServices
             }
         }
 
-        public ResponseEDRSAppRequest eDRSApplicationRequest(string MessageId, string Username, string Password, RequestApplicationToChangeRegisterV1_0Type _request)
+        public ResponseEDRSAppRequest eDRSApplicationRequest( string Username, string Password, RequestApplicationToChangeRegisterV1_0Type _request)
         {
             EDRSRepository _erdsrepository = new EDRSRepository();
             ResponseEDRSAppRequest responseEDRSAppRequest = new ResponseEDRSAppRequest();
@@ -186,12 +186,13 @@ namespace BusinessGatewayServices
         }
 
 
-        public ResponseAttachmentRequest AttachmentRequest(string MessageId, string Username, string Password, AttachmentV2_0Type _request)
+        public ResponseAttachmentRequest AttachmentRequest(string Username, string Password, AttachmentV2_0Type _request)
         {
             AttachmentRequestRepository _attachmentRequestRepository = new AttachmentRequestRepository();
             ResponseAttachmentRequest responseEDRSAppRequest = new ResponseAttachmentRequest();
             try
-            {
+            {              
+
                 AttachmentResponseV2_0Type _response = _attachmentRequestRepository.AttachmentRequest(_request, Username, Password);
 
                 responseEDRSAppRequest.Successful = true;
