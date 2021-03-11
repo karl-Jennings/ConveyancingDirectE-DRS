@@ -16,7 +16,7 @@ namespace BusinessGatewayRepositories
 
             EDRSApplication.ApplicationType _application_type = new EDRSApplication.ApplicationType();
             EDRSApplication.ProductType _product = new EDRSApplication.ProductType();
-            EDRSApplication.EDocumentRegistrationV1_0ServiceClient _service = new EDRSApplication.EDocumentRegistrationV1_0ServiceClient();
+            EDRSApplication.EDocumentRegistrationV1_0ServiceClient _service = new EDRSApplication.EDocumentRegistrationV1_0ServiceClient("https://bgtest.landregistry.gov.uk/b2b/ECBG_StubService/EnquiryByPropertyDescriptionV2_0WebService");
             BusinessGatewayRepositories.EDRSApplication.ResponseApplicationToChangeRegisterV1_0Type _response = new ResponseApplicationToChangeRegisterV1_0Type();
           
             _service.ChannelFactory.Endpoint.EndpointBehaviors.Add(new BusinessGatewayRepositories.HMLRBGMessageEndpointBehavior(username, password));

@@ -44,12 +44,12 @@ namespace eDRSUnitTest
             #region TitleNumbers
 
             string[] _titlesArray = { "GR518195" };
-            BusinessGatewayRepositories.EDRSApplication.TitlesType[] _titles = new BusinessGatewayRepositories.EDRSApplication.TitlesType[1];
-            _titles[0] = new BusinessGatewayRepositories.EDRSApplication.TitlesType { TitleNumber = _titlesArray };
+            BusinessGatewayRepositories.EDRSApplication.TitlesType _titles = new BusinessGatewayRepositories.EDRSApplication.TitlesType();
+            _titles = new BusinessGatewayRepositories.EDRSApplication.TitlesType { TitleNumber = _titlesArray };
 
             //   BusinessGatewayRepositories.EDRSApplication.
 
-            _product.Titles = _titles[0];
+            _product.Titles = _titles;
             #endregion
 
             BusinessGatewayRepositories.EDRSApplication.OtherApplicationType[] applications = new BusinessGatewayRepositories.EDRSApplication.OtherApplicationType[1];
@@ -84,8 +84,7 @@ namespace eDRSUnitTest
 
             Representations.LodgingConveyancer = new LodgingConveyancerType
             {
-                RepresentativeId = "1",
-               
+                RepresentativeId = "1"
             };
 
             _product.Representations = Representations;
@@ -102,7 +101,7 @@ namespace eDRSUnitTest
                 representativeId = "1",
                 IsApplicant = true,
                 Item = new CompanyType { CompanyName = "company" },
-                Roles = partyRoleTypes              
+                Roles = partyRoleTypes
 
             };
 

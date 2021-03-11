@@ -13,6 +13,9 @@ namespace eDrsDB.Models
         public long UserId { get; set; }
 
         [Required, StringLength(150)]
+        public string Username { get; set; }
+
+        [Required, StringLength(150)]
         public string Firstname { get; set; }
 
         [StringLength(150)]

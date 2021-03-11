@@ -22,6 +22,7 @@ export class DocumentReference {
     RepresentativeId?: number;
     ApplicationAffects?: string;
     RegistrationTypeId?: string;
+    UserId?: number;
 
     Titles?: TitleNumber[];
     Applications?: ApplicationForm[];
@@ -30,6 +31,6 @@ export class DocumentReference {
     AttachmentNotes?: AttachmentNotes[];
     RequestLogs?: RequestLogs[];
     Representations?: Representation[];
-
+    
 
 }
