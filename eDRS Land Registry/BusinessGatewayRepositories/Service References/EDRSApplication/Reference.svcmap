@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="b555c2cb-9fb6-4b23-b46c-fdcf9518badc" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://bgtest.landregistry.gov.uk/b2b/ECDRS_StubService/EDocumentRegistrationV1_0WebService/WEB-INF/wsdl/EDocumentRegistrationV1_0Service.wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ResponseApplicationToChangeRegisterV1_0.xsd" MetadataType="Schema" ID="05cfb392-9867-4826-b709-bdcceef5cdd5" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/ECDRS_StubService/EDocumentRegistrationV1_0WebService/WEB-INF/wsdl/ResponseApplicationToChangeRegisterV1_0.xsd" />
+    <MetadataFile FileName="EDocumentRegistrationV1_0WebService.wsdl" MetadataType="Wsdl" ID="332de489-93cf-4ab5-9890-eba97388efad" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/ECDRS_StubService/EDocumentRegistrationV1_0WebService/WEB-INF/wsdl/EDocumentRegistrationV1_0Service.wsdl" />
+    <MetadataFile FileName="RequestApplicationToChangeRegisterV1_0.xsd" MetadataType="Schema" ID="71ab98b3-d47d-4644-8bbc-a886f0fd6452" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/ECDRS_StubService/EDocumentRegistrationV1_0WebService/WEB-INF/wsdl/RequestApplicationToChangeRegisterV1_0.xsd" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

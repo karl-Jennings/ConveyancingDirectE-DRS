@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="8833b155-f723-45c0-8fdf-e0621193c8e8" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://bgtest.landregistry.gov.uk/b2b/ECBG_StubService/EnquiryByPropertyDescriptionV2_0WebService/WEB-INF/wsdl/SearchByPropertyDescriptionV2_0Service.wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ResponseSearchByPropertyDescriptionV2_0.xsd" MetadataType="Schema" ID="6284ec83-b273-4a4e-938a-58797a645e0c" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/ECBG_StubService/EnquiryByPropertyDescriptionV2_0WebService/WEB-INF/wsdl/ResponseSearchByPropertyDescriptionV2_0.xsd" />
+    <MetadataFile FileName="RequestSearchByPropertyDescriptionV2_0.xsd" MetadataType="Schema" ID="8a48f740-2df4-43bd-a20d-8b5acaae5fe1" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/ECBG_StubService/EnquiryByPropertyDescriptionV2_0WebService/WEB-INF/wsdl/RequestSearchByPropertyDescriptionV2_0.xsd" />
+    <MetadataFile FileName="EnquiryByPropertyDescriptionV2_0WebService.wsdl" MetadataType="Wsdl" ID="1a4ab54a-c82a-4460-bb72-0ce54e344bee" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/ECBG_StubService/EnquiryByPropertyDescriptionV2_0WebService/WEB-INF/wsdl/SearchByPropertyDescriptionV2_0Service.wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

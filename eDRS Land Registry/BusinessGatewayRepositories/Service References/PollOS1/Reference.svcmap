@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="aef30d15-0b28-4e75-b6fc-95685216d927" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://bgtest.landregistry.gov.uk/b2b/ECBG_StubService/OfficialSearchV2_1PollRequestWebService?wsdl " Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="PollRequest.xsd" MetadataType="Schema" ID="085008da-9495-4dba-ae9b-c15a526dd941" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/ECBG_StubService/OfficialSearchV2_1PollRequestWebService/WEB-INF/wsdl/PollRequest.xsd" />
+    <MetadataFile FileName="OfficialSearchV2_1PollRequestWebService.wsdl" MetadataType="Wsdl" ID="d67dc112-2631-4c6e-9f3f-369e5845ad41" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/ECBG_StubService/OfficialSearchV2_1PollRequestWebService/WEB-INF/wsdl/OfficialSearchV2_1PollRequestService.wsdl" />
+    <MetadataFile FileName="ResponseOfficialSearchOfWholeWithPriorityV2_0.xsd" MetadataType="Schema" ID="9d4013e4-f240-41b8-a952-0fbd76ce124d" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/ECBG_StubService/OfficialSearchV2_1PollRequestWebService/WEB-INF/wsdl/ResponseOfficialSearchOfWholeWithPriorityV2_0.xsd" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

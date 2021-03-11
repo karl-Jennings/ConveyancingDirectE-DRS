@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="45c5cb50-760e-478e-b687-ed4bad896bda" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://bgtest.landregistry.gov.uk/b2b/BGStubService/BankruptcySearchV2_0WebService/WEB-INF/wsdl/BankruptcySearchV2_0Service.wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="RequestLandChargesBankruptcySearchV2_0.xsd" MetadataType="Schema" ID="c8bbc82f-8cec-43cc-9bc8-a809c70617e2" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/BGStubService/BankruptcySearchV2_0WebService/WEB-INF/wsdl/RequestLandChargesBankruptcySearchV2_0.xsd" />
+    <MetadataFile FileName="BankruptcySearchV2_0WebService.wsdl" MetadataType="Wsdl" ID="e434e1fd-d2b5-4b01-8acb-315b73904c53" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/BGStubService/BankruptcySearchV2_0WebService/WEB-INF/wsdl/BankruptcySearchV2_0Service.wsdl" />
+    <MetadataFile FileName="ResponseLandChargesBankruptcySearchV2_0.xsd" MetadataType="Schema" ID="f6dcd275-341e-423a-a79c-b4d7332928f1" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/BGStubService/BankruptcySearchV2_0WebService/WEB-INF/wsdl/ResponseLandChargesBankruptcySearchV2_0.xsd" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

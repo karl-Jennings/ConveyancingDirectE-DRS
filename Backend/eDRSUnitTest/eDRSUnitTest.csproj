@@ -52,6 +52,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttachmentRequestTest.cs" />
     <Compile Include="LeaseExtensionTest.cs" />
     <Compile Include="RemortgageTest.cs" />
     <Compile Include="eDRSAppRequestTest.cs" />
