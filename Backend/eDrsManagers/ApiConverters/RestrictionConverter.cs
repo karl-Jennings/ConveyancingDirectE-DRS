@@ -15,7 +15,7 @@ namespace eDrsManagers.ApiConverters
 {
     public interface IRestrictionConverter
     {
-        ResponseEDRSAppRequest ArrangeLrApi(DocumentReference docRef);
+        RequestApplicationToChangeRegisterV1_0Type ArrangeLrApi(DocumentReference docRef);
     }
     public class RestrictionConverter : IRestrictionConverter
     {
@@ -31,7 +31,7 @@ namespace eDrsManagers.ApiConverters
             _context = context;
         }
 
-        public ResponseEDRSAppRequest ArrangeLrApi(DocumentReference docRef)
+        public RequestApplicationToChangeRegisterV1_0Type ArrangeLrApi(DocumentReference docRef)
         {
 
             _request.ExternalReference = docRef.ExternalReference;
@@ -106,7 +106,6 @@ namespace eDrsManagers.ApiConverters
 
             #endregion
 
-
             #region Representations
 
             //Representations
@@ -121,7 +120,6 @@ namespace eDrsManagers.ApiConverters
             _product.Representations = Representations;
 
             #endregion
-
 
             #region Party
 
@@ -163,9 +161,9 @@ namespace eDrsManagers.ApiConverters
 
 
             _request.Product = _product;
-             var response = _services.eDRSApplicationRequest("tes12343", docRef.User?.Username, docRef.Password, _request);
+            var response = _services.eDRSApplicationRequest("tes12343", docRef.User?.Username, docRef.Password, _request);
 
-            return response;
+            return _request;
         }
     }
 }
