@@ -62,7 +62,7 @@ namespace eDrsManagers.Managers
             applicationResponse.MessageId = viewModel.MessageID;
 
 
-            _httpInterceptor.CallRegistrationApi(LRApiModel);
+            _httpInterceptor.CallRegistrationApi(viewModel);
 
             //var requestLog = new RequestLog
             //{
@@ -117,8 +117,8 @@ namespace eDrsManagers.Managers
 
             _context.DocumentReferences.Update(viewModel);
 
-            _context.SaveChanges();
-            viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
+            //_context.SaveChanges();
+            //viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
 
             var applicationResponse = _restrictionConverter.ArrangeLrApi(viewModel);
 
@@ -129,7 +129,7 @@ namespace eDrsManagers.Managers
             applicationResponse.MessageId = viewModel.MessageID;
 
 
-            _httpInterceptor.CallRegistrationApi(LRApiModel);
+            _httpInterceptor.CallRegistrationApi(viewModel);
 
             //var requestLog = new RequestLog()
             //{

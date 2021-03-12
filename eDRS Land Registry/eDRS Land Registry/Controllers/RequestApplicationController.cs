@@ -8,29 +8,30 @@ using BusinessGatewayServices;
 using BusinessGatewayRepositories.EDRSApplication;
 using BusinessGatewayModels;
 using eDRS_Land_Registry.Models;
+using eDrsDB.Models;
 
 namespace eDRS_Land_Registry.Controllers
 {
-    
+
     public class RequestApplicationController : ApiController
     {
-      
-       
-        public ResponseEDRSAppRequest Post([FromBody] RequestApplicationViewModel Request)
+
+
+        public DocumentReference Post(DocumentReference viewModel)
         {
             try
             {
 
-                BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();             
+                BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
 
-                var _reponse = _services.eDRSApplicationRequest(Request.Username,Request.Password, Request.Request);
+                //var _reponse = _services.eDRSApplicationRequest(Request.Username,Request.Password, Request.Request);
 
-                return _reponse;
+                return viewModel;
 
             }
             catch (Exception ex)
             {
-                return new ResponseEDRSAppRequest { Successful = false  ,Error=ex.InnerException.Message};
+                throw;
             }
 
         }
