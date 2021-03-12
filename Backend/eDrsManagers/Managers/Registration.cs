@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using BusinessGatewayModels;
+using BusinessGatewayRepositories.EDRSApplication;
 using eDrsDB.Data;
 using eDrsDB.Models;
 using eDrsManagers.ApiConverters;
+using eDrsManagers.Http;
 using eDrsManagers.Interfaces;
+using eDrsManagers.ViewModels;
 using LrApiManager.SOAPManager;
 using LrApiManager.XMLClases;
 using Microsoft.EntityFrameworkCore;
@@ -17,16 +20,18 @@ namespace eDrsManagers.Managers
     public class Registration : IRegistration
     {
         private readonly RestrictionRequestManager _restrictionServiceManager = new RestrictionRequestManager();
+        private readonly IHttpEdrsCall _httpInterceptor;
         private readonly PollRequestManager _pollRequestManager = new PollRequestManager();
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
         private readonly IRestrictionConverter _restrictionConverter;
 
-        public Registration(AppDbContext context, IMapper mapper, IRestrictionConverter restrictionConverter)
+        public Registration(AppDbContext context, IMapper mapper, IRestrictionConverter restrictionConverter, IHttpEdrsCall httpInterceptor)
         {
             _context = context;
             _mapper = mapper;
             _restrictionConverter = restrictionConverter;
+            _httpInterceptor = httpInterceptor;
         }
 
 
@@ -35,7 +40,7 @@ namespace eDrsManagers.Managers
             return _context.RegistrationTypes.Where(s => s.Status).ToList();
         }
 
-        public ResponseEDRSAppRequest CreateRegistration(DocumentReference viewModel)
+        public RequestApplicationToChangeRegisterV1_0Type CreateRegistration(DocumentReference viewModel)
         {
 
             viewModel.Parties.ToList().ForEach(party =>
@@ -50,20 +55,29 @@ namespace eDrsManagers.Managers
             viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
             var applicationResponse = _restrictionConverter.ArrangeLrApi(viewModel);
 
-            var requestLog = new RequestLog
-            {
-                Type = "Application",
-                TypeCode = applicationResponse.GatewayResponse.GatewayResponse.TypeCode.ToString(),
-                Description = applicationResponse.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription,
-                DocumentReferenceId = viewModel.DocumentReferenceId
-            };
-            _context.RequestLogs.Add(requestLog);
+            RequestApplicationViewModel LRApiModel = new RequestApplicationViewModel();
+            LRApiModel.Username = viewModel.User?.Username;
+            LRApiModel.Password = viewModel.Password;
+            LRApiModel.Request = applicationResponse;
+            applicationResponse.MessageId = viewModel.MessageID;
+
+
+            _httpInterceptor.CallRegistrationApi(LRApiModel);
+
+            //var requestLog = new RequestLog
+            //{
+            //    Type = "Application",
+            //    TypeCode = applicationResponse.GatewayResponse.GatewayResponse.TypeCode.ToString(),
+            //    Description = applicationResponse.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription,
+            //    DocumentReferenceId = viewModel.DocumentReferenceId
+            //};
+            //_context.RequestLogs.Add(requestLog);
             _context.SaveChanges();
 
-            return applicationResponse;
+            return LRApiModel.Request;
         }
 
-        public ResponseEDRSAppRequest UpdateRegistration(DocumentReference viewModel)
+        public RequestApplicationToChangeRegisterV1_0Type UpdateRegistration(DocumentReference viewModel)
         {
             viewModel.Parties.ToList().ForEach(party =>
             {
@@ -105,16 +119,26 @@ namespace eDrsManagers.Managers
 
             _context.SaveChanges();
             viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
+
             var applicationResponse = _restrictionConverter.ArrangeLrApi(viewModel);
 
-            var requestLog = new RequestLog()
-            {
-                Type = "Application",
-                TypeCode = applicationResponse.GatewayResponse.GatewayResponse.TypeCode.ToString(),
-                Description = applicationResponse.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription,
-                DocumentReferenceId = viewModel.DocumentReferenceId
-            };
-            _context.RequestLogs.Add(requestLog);
+            RequestApplicationViewModel LRApiModel = new RequestApplicationViewModel();
+            LRApiModel.Username = viewModel.User?.Username;
+            LRApiModel.Password = viewModel.Password;
+            LRApiModel.Request = applicationResponse;
+            applicationResponse.MessageId = viewModel.MessageID;
+
+
+            _httpInterceptor.CallRegistrationApi(LRApiModel);
+
+            //var requestLog = new RequestLog()
+            //{
+            //    Type = "Application",
+            //    TypeCode = applicationResponse.GatewayResponse.GatewayResponse.TypeCode.ToString(),
+            //    Description = applicationResponse.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription,
+            //    DocumentReferenceId = viewModel.DocumentReferenceId
+            //};
+            //_context.RequestLogs.Add(requestLog);
             _context.SaveChanges();
 
             return applicationResponse;

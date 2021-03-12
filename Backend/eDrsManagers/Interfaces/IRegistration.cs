@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using BusinessGatewayModels;
+using BusinessGatewayRepositories.EDRSApplication;
 using eDrsDB.Models;
 using LrApiManager.XMLClases;
 using LrApiManager.XMLClases.Restriction;
@@ -13,10 +14,10 @@ namespace eDrsManagers.Interfaces
     {
         List<RegistrationType> GetRegistrationTypes();
 
-        ResponseEDRSAppRequest CreateRegistration(DocumentReference viewModel);
+        RequestApplicationToChangeRegisterV1_0Type CreateRegistration(DocumentReference viewModel);
         List<DocumentReference> GetRegistrations(string regType);
         DocumentReference GetRegistration(long regId);
-        ResponseEDRSAppRequest UpdateRegistration(DocumentReference viewModel);
+        RequestApplicationToChangeRegisterV1_0Type UpdateRegistration(DocumentReference viewModel);
         bool DeleteRegistration(long regId);
         RegistrationType GetRegistrationType(long regType);
         dynamic GetPollResponse(long regId);

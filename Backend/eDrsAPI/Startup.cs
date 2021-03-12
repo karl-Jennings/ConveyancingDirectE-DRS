@@ -25,6 +25,7 @@ using Newtonsoft.Json.Linq;
 using System.Xml;
 using eDrsAPI.Controllers;
 using eDrsManagers.ApiConverters;
+using eDrsManagers.Http;
 using eDrsManagers.SignalRHub;
 using Hangfire;
 using LrApiManager.XMLClases;
@@ -119,6 +120,7 @@ namespace eDrsAPI
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IRegistration, Registration>();
             services.AddScoped<IRestrictionConverter, RestrictionConverter>();
+            services.AddScoped<IHttpEdrsCall, HttpEdrsCall>();
 
             IdentityModelEventSource.ShowPII = true;
 
