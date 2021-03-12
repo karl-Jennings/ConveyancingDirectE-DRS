@@ -150,12 +150,12 @@ namespace BusinessGatewayServices
                 return new ResponsePoll { Error = ex.Message, Successful = false };
             }
         }
-        public ResponseOutstanding Outstanding(string MessageId, string Username, string Password)
+        public ResponseOutstanding Outstanding(string MessageId, int service,string Username, string Password)
         {
             OutstandingRespository _outstanding = new OutstandingRespository();
             try
             {
-                ResponseOutstanding _response = new ResponseOutstanding(_outstanding.GetRequests(MessageId, Username,Password));
+                ResponseOutstanding _response = new ResponseOutstanding(_outstanding.GetRequests(MessageId, service, Username,Password));
                 return _response;
             }
             catch (Exception ex)

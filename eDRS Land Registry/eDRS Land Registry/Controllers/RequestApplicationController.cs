@@ -11,13 +11,12 @@ using eDRS_Land_Registry.Models;
 
 namespace eDRS_Land_Registry.Controllers
 {
-    [Route("api/[controller]")]  
+    
     public class RequestApplicationController : ApiController
     {
-
-        [HttpPost]
-        [Route("ApplicationRequest")]
-        public ResponseEDRSAppRequest ApplicationRequest(RequestApplicationViewModel Request)
+      
+       
+        public ResponseEDRSAppRequest Post([FromBody] RequestApplicationViewModel Request)
         {
             try
             {
@@ -31,7 +30,7 @@ namespace eDRS_Land_Registry.Controllers
             }
             catch (Exception ex)
             {
-                return new ResponseEDRSAppRequest { Successful = false };
+                return new ResponseEDRSAppRequest { Successful = false  ,Error=ex.InnerException.Message};
             }
 
         }
