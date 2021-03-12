@@ -5,6 +5,10 @@
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
     <UserSecretsId>cf7f8714-fbe0-490f-a3e5-34e6e14e7773</UserSecretsId>
   </PropertyGroup>
+ 
+  <ItemGroup>
+    <Content Remove="App.config" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />

@@ -28,7 +28,7 @@ namespace BusinessGatewayServices
         [OperationContract]
         ResponseOwnerVerification OwnerVerification(string Reference, string MessageId, string FirstName, string MiddleName, string LastName, string TitleNumber, string HouseName, string HouseNumber, string Postcode, string UserName, string Password);
         [OperationContract]
-        ResponseOutstanding Outstanding(string MessageId, string Username, string Password);
+        ResponseOutstanding Outstanding(string MessageId, int service,string Username, string Password);
     }
 
 }
