@@ -7,6 +7,7 @@ using System.Security.Cryptography.Xml;
 using System.Security.Policy;
 using System.Threading.Tasks;
 using eDrsManagers.ViewModels;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 
@@ -33,7 +34,7 @@ namespace eDrsManagers.Http
 
             request.AddJsonBody(viewModel);
             IRestResponse response = client.Execute(request);
-
+            Console.WriteLine(JsonConvert.SerializeObject(viewModel));
             return response.Content;
 
         }

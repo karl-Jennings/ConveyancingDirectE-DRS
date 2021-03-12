@@ -12,7 +12,7 @@ using eDRS_Land_Registry.Models;
 namespace eDRS_Land_Registry.Controllers
 {
     [Route("api/[controller]")]  
-    public class AttachmentController : ApiController
+    public partial class AttachmentController : ApiController
     {
 
         [HttpPost]
