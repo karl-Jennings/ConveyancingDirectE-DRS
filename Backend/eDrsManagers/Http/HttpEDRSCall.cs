@@ -22,6 +22,7 @@ namespace eDrsManagers.Http
         RequestLog CallRegistrationApi(DocumentReferenceViewModel viewModel);
         OutstandingResponse CallOutstandingApi(OutstaningRequestViewModel viewModel);
         RequestLog CallAttachmentPollApi(AttachmentPollRequestViewModel viewModel);
+        EarlyCompletionResponse CallApplicationPollRequestApi(EarlyCompletionRequest viewModel);
     }
     public class HttpEdrsCall : IHttpEdrsCall
     {
@@ -85,13 +86,40 @@ namespace eDrsManagers.Http
 
             Console.WriteLine(JsonConvert.SerializeObject(new { Value = JsonConvert.SerializeObject(viewModel) }));
 
-            request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel), viewModel.Password, Username = "BGUser001" });
+            request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
             RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
 
             return apiResponse;
 
         }
+
+        /// <summary>
+        /// Application Poll Request
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
+        public EarlyCompletionResponse CallApplicationPollRequestApi(EarlyCompletionRequest viewModel)
+        {
+
+
+            var client = new RestClient("https://localhost:44340/api/ApplicationPoll");
+
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.RequestFormat = DataFormat.Json;
+
+            Console.WriteLine(JsonConvert.SerializeObject(new { value = JsonConvert.SerializeObject(viewModel) }));
+
+
+            request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
+            IRestResponse response = client.Execute(request);
+            EarlyCompletionResponse apiResponse = JsonConvert.DeserializeObject<EarlyCompletionResponse>(response.Content);
+
+            return apiResponse;
+
+        }
+
     }
 
 }
