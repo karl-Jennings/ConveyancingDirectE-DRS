@@ -175,6 +175,11 @@ namespace eDrsManagers.Http
         }
 
 
+        /// <summary>
+        /// Attachmnet Poll Request
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
         public ResponseAttachmentPollRequest CallAttachementPollApi(AttachmentPollRequestViewModel viewModel)
         {
 
@@ -192,6 +197,60 @@ namespace eDrsManagers.Http
             request.AddObject(new { value = JsonConvert.SerializeObject(viewModel), viewModel.Password, Username = "BGUser001" });
             IRestResponse response = client.Execute(request);
             ResponseAttachmentPollRequest apiResponse = deserial.Deserialize<ResponseAttachmentPollRequest>(response);
+
+            return apiResponse;
+
+        }
+
+        /// <summary>
+        /// Early Completion Request
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
+        public EarlyCompletionResponse CallEarlyCompletionApi(EarlyCompletionRequest viewModel)
+        {
+
+
+            var client = new RestClient("https://localhost:44340/api/EarlyCompletion");
+
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.RequestFormat = DataFormat.Json;
+
+            Console.WriteLine(JsonConvert.SerializeObject(new { value = JsonConvert.SerializeObject(viewModel) }));
+
+            JsonDeserializer deserial = new JsonDeserializer();
+
+            request.AddObject(new { value = JsonConvert.SerializeObject(viewModel), viewModel.Password, Username = "BGUser001" });
+            IRestResponse response = client.Execute(request);
+            EarlyCompletionResponse apiResponse = deserial.Deserialize<EarlyCompletionResponse>(response);
+
+            return apiResponse;
+
+        }
+
+        /// <summary>
+        /// Application Poll Request
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
+        public EarlyCompletionResponse CallApplicationPollRequestApi(EarlyCompletionRequest viewModel)
+        {
+
+
+            var client = new RestClient("https://localhost:44340/api/ApplicationPoll");
+
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.RequestFormat = DataFormat.Json;
+
+            Console.WriteLine(JsonConvert.SerializeObject(new { value = JsonConvert.SerializeObject(viewModel) }));
+
+            JsonDeserializer deserial = new JsonDeserializer();
+
+            request.AddObject(new { value = JsonConvert.SerializeObject(viewModel), viewModel.Password, Username = "BGUser001" });
+            IRestResponse response = client.Execute(request);
+            EarlyCompletionResponse apiResponse = deserial.Deserialize<EarlyCompletionResponse>(response);
 
             return apiResponse;
 
