@@ -8,16 +8,9 @@ namespace eDrsDB.Models
 {
     public class TitleNumber
     {
-        public TitleNumber()
-        {
-            
-        }
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long TitleNumberId { get; set; }
 
-        [StringLength(150)]
         public string TitleNumberCode { get; set; }
         public string LesseeTitleNumber { get; set; }
 
@@ -25,11 +18,9 @@ namespace eDrsDB.Models
 
         public DateTime UpdatedDate { get; set; }
 
-        [Required]
         public bool Status { get; set; }
 
         public long DocumentReferenceId { get; set; }
-        public DocumentReference DocumentReference { get; set; }
 
     }
 }

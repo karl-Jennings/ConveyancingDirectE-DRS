@@ -8,8 +8,6 @@ namespace eDrsDB.Models
 {
     public class AttachmentNote
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long AttachmentNotesId { get; set; }
         public string AdditionalProviderFilter { get; set; }
         public long MessageId { get; set; }
@@ -18,6 +16,5 @@ namespace eDrsDB.Models
         public string ApplicationService { get; set; }
         public string Notes { get; set; }
         public long DocumentReferenceId { get; set; }
-        public DocumentReference DocumentReference { get; set; }
     }
 }

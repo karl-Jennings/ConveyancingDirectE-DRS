@@ -153,6 +153,7 @@ namespace eDrsDB.Data
 
             modelBuilder.Entity<Party>().Ignore(c => c.ViewModelRoles);
 
+            modelBuilder.Entity<RequestLog>().Ignore(c => c.IsSuccess);
 
         }
     }

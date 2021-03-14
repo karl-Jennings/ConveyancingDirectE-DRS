@@ -29,7 +29,6 @@ namespace GateWayTest
             _product.PostcodeOfProperty = "POSTCODE";
             _product.DisclosableOveridingInterests = true;
 
-
             #region TitleNumbers
 
             string[] _titlesArray = { "GR518195" };
@@ -99,7 +98,7 @@ namespace GateWayTest
 
             _request.Product = _product;
 
-            var _reponse = _services.eDRSApplicationRequest( "BGUser001", "landreg001", _request);
+            var _reponse = _services.eDRSApplicationRequest("BGUser001", "landreg001", _request);
 
             Assert.AreEqual(true, true);
         }

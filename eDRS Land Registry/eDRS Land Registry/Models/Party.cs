@@ -8,9 +8,7 @@ namespace eDrsDB.Models
 {
     public class Party
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long PartyId { get; set; }
+         public long PartyId { get; set; }
 
         public bool IsApplicant { get; set; }
         public string CompanyOrForeName { get; set; }
@@ -21,6 +19,5 @@ namespace eDrsDB.Models
         public string AddressForService { get; set; }
 
         public long DocumentReferenceId { get; set; }
-        public DocumentReference DocumentReference { get; set; }
-    }
+     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace eDrsDB.Models
 {
@@ -22,6 +23,7 @@ namespace eDrsDB.Models
         public string MDRef { get; set; }
 
         public long DocumentReferenceId { get; set; }
+        [JsonIgnore]
         public DocumentReference DocumentReference { get; set; }
         public Document Document { get; set; }
 
@@ -39,6 +41,7 @@ namespace eDrsDB.Models
         public string FileExtension { get; set; }
 
         public long ApplicationFormId { get; set; }
+        [JsonIgnore]
         public ApplicationForm ApplicationForm { get; set; }
 
     }

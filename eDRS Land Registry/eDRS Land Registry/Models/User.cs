@@ -8,24 +8,17 @@ namespace eDrsDB.Models
 {
     public class User
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long UserId { get; set; }
+          public long UserId { get; set; }
 
-        [Required, StringLength(150)]
-        public string Username { get; set; }
+         public string Username { get; set; }
 
-        [Required, StringLength(150)]
-        public string Firstname { get; set; }
+         public string Firstname { get; set; }
 
-        [StringLength(150)]
-        public string Lastname { get; set; }
+         public string Lastname { get; set; }
 
-        [StringLength(350)]
-        public string Email { get; set; }
+         public string Email { get; set; }
 
-        [Required]
-        public string Designation { get; set; }
+         public string Designation { get; set; }
 
         public byte[] PasswordHash { get; set; }
 
@@ -34,11 +27,9 @@ namespace eDrsDB.Models
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 
-        [Required]
-        public bool Status { get; set; }
+         public bool Status { get; set; }
 
-        public ICollection<DocumentReference> DocumentReferences { get; set; }
-
+ 
 
     }
 }

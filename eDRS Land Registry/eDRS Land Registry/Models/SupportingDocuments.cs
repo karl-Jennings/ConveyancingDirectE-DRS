@@ -8,16 +8,13 @@ namespace eDrsDB.Models
 {
     public class SupportingDocuments
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long SupportingDocumentId { get; set; }
+         public long SupportingDocumentId { get; set; }
 
         public string CertifiedCopy { get; set; }
         public string DocumentId { get; set; }
         public string DocumentName { get; set; }
 
         public long DocumentReferenceId { get; set; }
-        public DocumentReference DocumentReference { get; set; } 
-
+ 
     }
 }

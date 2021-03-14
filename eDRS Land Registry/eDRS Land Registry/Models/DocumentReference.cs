@@ -8,9 +8,7 @@ namespace eDrsDB.Models
 {
     public class DocumentReference
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long DocumentReferenceId { get; set; }
+          public long DocumentReferenceId { get; set; }
         public string Reference { get; set; }
         public int TotalFeeInPence { get; set; }
         public string MessageID { get; set; }

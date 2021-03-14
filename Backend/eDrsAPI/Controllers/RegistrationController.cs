@@ -82,7 +82,7 @@ namespace eDrsAPI.Controllers
         /// </summary>
         /// <returns>boolean</returns>
         [HttpPost]
-        public IActionResult UpdateRegistration(DocumentReference viewModel)
+        public IActionResult UpdateRegistration(DocumentReferenceViewModel viewModel)
         {
             try
             {

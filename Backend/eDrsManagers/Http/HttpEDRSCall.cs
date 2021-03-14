@@ -6,18 +6,20 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography.Xml;
 using System.Security.Policy;
 using System.Threading.Tasks;
+using BusinessGatewayModels;
 using BusinessGatewayRepositories.EDRSApplication;
 using eDrsDB.Models;
 using eDrsManagers.ViewModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
+using RestSharp.Serialization.Json;
 
 namespace eDrsManagers.Http
 {
     public interface IHttpEdrsCall
     {
-        string CallRegistrationApi(DocumentReference viewModel);
+        RequestLog CallRegistrationApi(DocumentReferenceViewModel viewModel);
     }
     public class HttpEdrsCall : IHttpEdrsCall
     {
@@ -26,21 +28,51 @@ namespace eDrsManagers.Http
 
         }
 
-        public string CallRegistrationApi(DocumentReference viewModel)
+        public RequestLog CallRegistrationApi(DocumentReferenceViewModel viewModel)
         {
-            viewModel.Titles.ToList().ForEach(x => { x.DocumentReference = null; });
-            viewModel.Applications.ToList().ForEach(x => { x.DocumentReference = null; });
-            viewModel.Parties.ToList().ForEach(x => { x.DocumentReference = null; });
-            viewModel.SupportingDocuments.ToList().ForEach(x => { x.DocumentReference = null; });
+            //viewModel.Titles.ForEach(x => { x.DocumentReference = null; });
+            //viewModel.Applications.ForEach(x =>
+            //{
+            //    x.DocumentReference = null;
+            //    x.Document.ApplicationForm = null;
+            //});
+            //viewModel.SupportingDocuments.ForEach(x =>
+            //{
+            //    x.DocumentReference = null;
+            //});
+            //viewModel.Parties.ForEach(x =>
+            //{
+            //    x.DocumentReference = null;
+            //});
+            //viewModel.Representations.ForEach(x =>
+            //{
+            //    x.DocumentReference = null;
+            //});
+            //viewModel.AttachmentNotes.ForEach(x =>
+            //{
+            //    x.DocumentReference = null;
+            //});
+            //viewModel.RequestLogs.ForEach(x =>
+            //{
+            //    x.DocumentReference = null;
+            //});
+            //viewModel.User.DocumentReferences = new List<DocumentReference>();
+
             var client = new RestClient("https://localhost:44340/api/RequestApplication");
 
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.RequestFormat = DataFormat.Json;
 
-            request.AddObject(viewModel);
+            Console.WriteLine(JsonConvert.SerializeObject(new { value = JsonConvert.SerializeObject(viewModel) }));
+
+            JsonDeserializer deserial = new JsonDeserializer();
+
+            request.AddObject(new { value = JsonConvert.SerializeObject(viewModel), viewModel.Password, Username = "BGUser001" });
             IRestResponse response = client.Execute(request);
-            return response.Content;
+            RequestLog apiResponse = deserial.Deserialize<RequestLog>(response);
+
+            return apiResponse;
 
         }
 
