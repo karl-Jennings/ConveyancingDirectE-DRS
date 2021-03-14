@@ -31,6 +31,9 @@ namespace eDrsDB.Models
         public DocumentReference DocumentReference { get; set; }
 
         public bool IsSuccess { get; set; }
+        public List<RequestLog> AttachmentResponse { get; set; }
+
+        public string AttachmentName { get; set; }
 
     }
 }

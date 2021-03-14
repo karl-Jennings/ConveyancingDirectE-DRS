@@ -21,7 +21,7 @@ namespace GateWayTest
             _request.ApplicationMessageId = "ApplicationMessageId";
             _request.ApplicationService = "104";
 
-            string pdfFilePath = "C:/Users/SACHITH/Documents/ggg.pdf";
+            string pdfFilePath = @"D:\work\eDRS\Certificates\Certificate generation for BG IIS7 process v1.1.pdf";
             byte[] filearray = System.IO.File.ReadAllBytes(pdfFilePath);
 
             BusinessGatewayRepositories.AttachmentServiceRequest.AttachmentType attachment = new BusinessGatewayRepositories.AttachmentServiceRequest.AttachmentType

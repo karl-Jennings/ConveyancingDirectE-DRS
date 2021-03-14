@@ -653,84 +653,116 @@
 
                 <!-- Response Log -->
                 <mat-tab label="Response" *ngIf="docRefId != 0">
-                    <div class="container-fluid" style="height: 600px; overflow: scroll;">
-                        <div class="row">
-                            <div class="col-12 pt-3">
-                                <button mat-flat-button color="primary" type="button" (click)="SendPoolRequest()">Send
-                                    Poll Request</button>
-                            </div>
+                    <div class="container-fluid pl-1 pr-1 py-3" style="height: 600px; overflow: scroll;">
 
-                            <div class="col-12 pt-3">
-                                <h3 class="font-weight-bold">Application Responses</h3>
-                                <table class="table table-bordered mt-1">
-                                    <thead>
-                                        <tr class="grey lighten-3">
-                                            <th scope="col" class="py-2">Type Code</th>
-                                            <th scope="col" class="py-2">Message</th>
-                                            <th scope="col" class="py-2">Date & Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of logsList">
-                                            <ng-container *ngIf="item.Type == 'Application'">
-                                                <td class="py-2">{{item.TypeCode}}</td>
-                                                <td class="py-2">{{item.Description}}</td>
-                                                <td class="py-2">{{item.CreatedDate | date:'dd/MM/yyyy h:mm a'}}</td>
-                                            </ng-container>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-12 pt-3">
-                                <h3 class="font-weight-bold">Attachment Responses</h3>
-                                <table class="table table-bordered mt-1">
-                                    <thead>
-                                        <tr class="grey lighten-3">
-                                            <th scope="col" class="py-2">Attachment ID</th>
-                                            <th scope="col" class="py-2">Type Code</th>
-                                            <th scope="col" class="py-2">Message</th>
-                                            <th scope="col" class="py-2">Date & Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="py-2"></td>
-                                            <td class="py-2"></td>
-                                            <td class="py-2"></td>
-                                            <td class="py-2"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-12 pt-3">
-                                <h3 class="font-weight-bold">Poll Responses</h3>
-                                <table class="table table-bordered mt-1">
-                                    <thead>
-                                        <tr class="grey lighten-3">
-                                            <th scope="col" class="py-2">Type Code</th>
-                                            <th scope="col" class="py-2">Message</th>
-                                            <th scope="col" class="py-2">Dispatch Document</th>
-                                            <th scope="col" class="py-2">Date & Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of logsList">
-                                            <ng-container *ngIf="item.Type == 'Poll'">
-                                                <td class="py-2">{{item.TypeCode}}</td>
-                                                <td class="py-2">{{item.Description}}</td>
-                                                <td class="py-2">
-                                                    <button class="btn btn-primary btn-sm"
-                                                        (click)="DownloadAttachedPoll(item)">
-                                                        <i class="fa fa-paperclip" aria-hidden="true"></i> Download
-                                                    </button>
-                                                </td>
-                                                <td class="py-2">{{item.CreatedDate | date:'dd/MM/yyyy h:mm a'}}</td>
-                                            </ng-container>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <mat-accordion class="bg-grey">
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Application
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="row">
+                                    <div class="col-12 pt-3">
+                                        <button mat-flat-button color="primary" type="button"
+                                            (click)="SendPoolRequest()">Collect
+                                            Application Request</button>
+                                    </div>
+                                    <div class="col-12 pt-3">
+                                        <h3 class="font-weight-bold">Application Poll Responses</h3>
+                                        <table class="table table-bordered mt-1">
+                                            <thead>
+                                                <tr class="grey lighten-3">
+                                                    <th scope="col" class="py-2">Type Code</th>
+                                                    <th scope="col" class="py-2">Message</th>
+                                                    <th scope="col" class="py-2">Dispatch Document</th>
+                                                    <th scope="col" class="py-2">Date & Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of logsList">
+                                                    <ng-container *ngIf="item.Type == 'Poll'">
+                                                        <td class="py-2">{{item.TypeCode}}</td>
+                                                        <td class="py-2">{{item.Description}}</td>
+                                                        <td class="py-2">
+                                                            <button class="btn btn-primary btn-sm"
+                                                                (click)="DownloadAttachedPoll(item)">
+                                                                <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                                                Download
+                                                            </button>
+                                                        </td>
+                                                        <td class="py-2">{{item.CreatedDate | date:'dd/MM/yyyy h:mm a'}}
+                                                        </td>
+                                                    </ng-container>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-12 pt-3">
+                                        <h3 class="font-weight-bold">Application Responses</h3>
+                                        <table class="table table-bordered mt-1">
+                                            <thead>
+                                                <tr class="grey lighten-3">
+                                                    <th scope="col" class="py-2">Type Code</th>
+                                                    <th scope="col" class="py-2">Message</th>
+                                                    <th scope="col" class="py-2">Date & Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of logsList">
+                                                    <ng-container *ngIf="item.Type == 'Application'">
+                                                        <td class="py-2">{{item.TypeCode}}</td>
+                                                        <td class="py-2">{{item.Description}}</td>
+                                                        <td class="py-2">{{item.CreatedDate | date:'dd/MM/yyyy h:mm a'}}
+                                                        </td>
+                                                    </ng-container>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Attachment
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="row">
+                                    <div class="col-12 pt-3">
+                                        <button mat-flat-button color="primary" type="button"
+                                            (click)="SendPoolRequest()">Collect
+                                            Application Poll Request</button>
+                                    </div>
+
+                                    <div class="col-12 pt-3">
+                                        <h3 class="font-weight-bold">Attachment Responses</h3>
+                                        <table class="table table-bordered mt-1">
+                                            <thead>
+                                                <tr class="grey lighten-3">
+                                                    <th scope="col" class="py-2">Type Code</th>
+                                                    <th scope="col" class="py-2">Message</th>
+                                                    <th scope="col" class="py-2">Date & Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of logsList">
+                                                    <ng-container *ngIf="item.Type == 'Attachment'">
+                                                        <td class="py-2">{{item.TypeCode}}</td>
+                                                        <td class="py-2">{{item.Description}}</td>
+                                                        <td class="py-2">{{item.CreatedDate | date:'dd/MM/yyyy h:mm a'}}
+                                                        </td>
+                                                    </ng-container>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
                     </div>
                 </mat-tab>
 

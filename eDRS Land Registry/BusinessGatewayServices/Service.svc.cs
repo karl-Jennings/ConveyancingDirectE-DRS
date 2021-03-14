@@ -203,7 +203,7 @@ namespace BusinessGatewayServices
             catch (Exception ex)
             {
                 responseEDRSAppRequest.Successful = false;
-                responseEDRSAppRequest.Error = ex.Message;
+                responseEDRSAppRequest.Error = ex;
                 return responseEDRSAppRequest;
             }
         }

@@ -16,7 +16,7 @@ namespace BusinessGatewayModels
     public class ResponseAttachmentRequest
     {
         public ResponseAttachmentRequest() { }
-        public string Error { get; set; }
+        public Exception Error { get; set; }
         public string UniqueReference { get; set; }
         public decimal ActualPrice { get; set; }
         public bool Successful { get; set; }

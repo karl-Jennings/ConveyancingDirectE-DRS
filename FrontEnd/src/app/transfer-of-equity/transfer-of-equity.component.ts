@@ -132,7 +132,7 @@ export class TransferOfEquityComponent implements OnInit {
       IsSelected: [false],
       ApplicationFormId: 0,
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
       CertifiedCopy: [''],
       ExternalReference: ['', Validators.required],
       Document: {},
@@ -148,7 +148,7 @@ export class TransferOfEquityComponent implements OnInit {
       IsSelected: [false],
       SupportingDocumentId: 0,
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
     });
 
     this.partyGroup = this.formBuilder.group({
@@ -163,7 +163,7 @@ export class TransferOfEquityComponent implements OnInit {
       IsSelected: [false],
       PartyId: 0,
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
     });
 
     this.notesGroup = this.formBuilder.group({
@@ -177,7 +177,7 @@ export class TransferOfEquityComponent implements OnInit {
       LocalId: [0],
       IsSelected: [false],
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
     });
 
     this.representationGroup = this.formBuilder.group({
@@ -191,7 +191,7 @@ export class TransferOfEquityComponent implements OnInit {
       LocalId: [0],
       IsSelected: [false],
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
 
       CareOfName: [''],
       CareOfReference: [''],
@@ -468,7 +468,7 @@ export class TransferOfEquityComponent implements OnInit {
       IsSelected: false,
       ApplicationFormId: 0,
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
       Document: [],
       ExternalReference: '',
       Variety: 'other',
@@ -553,7 +553,7 @@ export class TransferOfEquityComponent implements OnInit {
       IsSelected: [false],
       SupportingDocumentId: 0,
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
     })
   }
 
@@ -621,7 +621,7 @@ export class TransferOfEquityComponent implements OnInit {
       IsSelected: [false],
       PartyId: 0,
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
     })
   }
 
@@ -694,7 +694,7 @@ export class TransferOfEquityComponent implements OnInit {
       LocalId: [0],
       IsSelected: [false],
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
     })
   }
 
@@ -762,7 +762,7 @@ export class TransferOfEquityComponent implements OnInit {
       LocalId: [0],
       IsSelected: [false],
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
 
       CareOfName: '',
       CareOfReference: '',
@@ -823,12 +823,16 @@ export class TransferOfEquityComponent implements OnInit {
   }
 
   ShowResponse(res: any) {
-    const dialogRef = this.dialog.open(ConfirmRegistrationComponent, {
-      width: '550px',
-      data: { res }
-    });
-    dialogRef.afterClosed().subscribe(() => {
-    });
+    if (res.IsSuccess) {
+      const dialogRef = this.dialog.open(ConfirmRegistrationComponent, {
+
+        data: { res }
+      });
+      dialogRef.afterClosed().subscribe(() => {
+      });
+    } else {
+      this.toastr.error("There was an error occured while trying to connect, please check all fields again", "Error sending request")
+    }
   }
 
   SendPoolRequest() {

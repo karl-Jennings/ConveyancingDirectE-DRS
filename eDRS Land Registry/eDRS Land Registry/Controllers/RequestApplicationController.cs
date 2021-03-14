@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Web.Http;
 using BusinessGatewayServices;
 using BusinessGatewayRepositories.EDRSApplication;
@@ -29,20 +30,55 @@ namespace eDRS_Land_Registry.Controllers
 
         }
 
-        public RequestLog Post([FromBody] TempClass nice)
+        public RequestLog Post([FromBody] TempClass tempClass)
         {
             try
             {
-                DocumentReference docRef = JsonConvert.DeserializeObject<DocumentReference>(nice.value);
+                DocumentReference docRef = JsonConvert.DeserializeObject<DocumentReference>(tempClass.value);
 
                 var apiModel = _restrictionConverter.ArrangeLrApi(docRef);
 
                 BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
 
-                var response = _services.eDRSApplicationRequest(nice.Username, nice.Password, apiModel);
+                var response = _services.eDRSApplicationRequest(tempClass.Username, tempClass.Password, apiModel);
 
                 var requestLog = new RequestLog();
                 requestLog.IsSuccess = true;
+
+                List<RequestLog> attachmentResponse = new List<RequestLog>();
+                if (response.Successful)
+                {
+                    var count = 1;
+                    docRef.Applications.ForEach(app =>
+                    {
+                        var attResponse = _restrictionConverter.ArrangeAttachmentApi(app, docRef.MessageID, count++);
+                        var attachmentRequest = _services.AttachmentRequest(tempClass.Username, tempClass.Password, attResponse);
+                        var attachmentRequestLog = new RequestLog() { Type = "Attachment"};
+
+                        attachmentRequestLog.TypeCode = attachmentRequest.GatewayResponse.GatewayResponse.TypeCode.ToString();
+                        attachmentRequestLog.ResponseJson = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse);
+                        attachmentRequestLog.AttachmentName = app.Document.FileName;
+                        if (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement != null)
+                        {
+                            attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription;
+                            attachmentRequestLog.CreatedDate = (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.ExpectedResponseDateTime);
+                            attachmentRequestLog.ResponseType = "Acknowledgement";
+
+                        }
+                        else if (attachmentRequest.GatewayResponse.GatewayResponse.Rejection != null)
+                        {
+                            attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Rejection.Code;
+                            attachmentRequestLog.RejectionReason = attachmentRequest.GatewayResponse.GatewayResponse.Rejection.Reason;
+
+                            attachmentRequestLog.ValidationErrors = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse.Rejection.ValidationErrors);
+
+                            attachmentRequestLog.ResponseType = "Rejection";
+                        }
+
+                        attachmentResponse.Add(attachmentRequestLog);
+                    });
+
+                }
 
                 requestLog.Type = "Application";
                 requestLog.TypeCode = response.GatewayResponse.GatewayResponse.TypeCode.ToString();
@@ -69,7 +105,7 @@ namespace eDRS_Land_Registry.Controllers
                     requestLog.ResponseType = "Results";
                 }
 
-
+                requestLog.AttachmentResponse = attachmentResponse;
                 return requestLog;
 
             }
@@ -81,5 +117,7 @@ namespace eDRS_Land_Registry.Controllers
             }
 
         }
+
+
     }
 }

@@ -28,6 +28,12 @@ namespace eDrsDB.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Party>().Ignore(c => c.ViewModelRoles);
+
+            modelBuilder.Entity<RequestLog>().Ignore(c => c.IsSuccess);
+            modelBuilder.Entity<RequestLog>().Ignore(c => c.AttachmentResponse);
+            modelBuilder.Entity<RequestLog>().Ignore(c => c.AttachmentName);
+
             modelBuilder.Entity<User>()
                 .Property(x => x.Status)
                 .HasDefaultValue(true);
@@ -151,9 +157,7 @@ namespace eDrsDB.Data
                 .Property(x => x.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
 
-            modelBuilder.Entity<Party>().Ignore(c => c.ViewModelRoles);
-
-            modelBuilder.Entity<RequestLog>().Ignore(c => c.IsSuccess);
+       
 
         }
     }

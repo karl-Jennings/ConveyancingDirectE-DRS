@@ -35,6 +35,7 @@ import { TransferOfEquityComponent } from './transfer-of-equity/transfer-of-equi
 import { ChangeOfNameComponent } from './change-of-name/change-of-name.component';
 import { DispositionaryComponent } from './dispositionary/dispositionary.component';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { MatSliderModule } from '@angular/material/slider';
     MatTableModule,
     MatDatepickerModule,
     MatTabsModule,
+    MatExpansionModule,
     MatSliderModule,
   ],
   providers: [

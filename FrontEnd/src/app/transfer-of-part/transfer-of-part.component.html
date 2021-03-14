@@ -633,18 +633,18 @@
                                 <table class="table table-bordered mt-1">
                                     <thead>
                                         <tr class="grey lighten-3">
-                                            <th scope="col" class="py-2">Attachment ID</th>
                                             <th scope="col" class="py-2">Type Code</th>
                                             <th scope="col" class="py-2">Message</th>
                                             <th scope="col" class="py-2">Date & Time</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="py-2"></td>
-                                            <td class="py-2"></td>
-                                            <td class="py-2"></td>
-                                            <td class="py-2"></td>
+                                        <tr *ngFor="let item of logsList">
+                                            <ng-container *ngIf="item.Type == 'Attachment'">
+                                                <td class="py-2">{{item.TypeCode}}</td>
+                                                <td class="py-2">{{item.Description}}</td>
+                                                <td class="py-2">{{item.CreatedDate | date:'dd/MM/yyyy h:mm a'}}</td>
+                                            </ng-container>
                                         </tr>
                                     </tbody>
                                 </table>
