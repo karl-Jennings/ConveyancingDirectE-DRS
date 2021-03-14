@@ -16,7 +16,7 @@ namespace GateWayTest
 
             AttachmentV2_0Type _request = new AttachmentV2_0Type();
 
-            _request.MessageId = "testoutofhours";
+            _request.MessageId = "Msg001";
             _request.ExternalReference = "ExternalReference";
             _request.ApplicationMessageId = "ApplicationMessageId";
             _request.ApplicationService = "104";
@@ -28,7 +28,7 @@ namespace GateWayTest
             {
                 filename = "filename",
                 format = "pdf",
-                Value = filearray,
+                Value = filearray                
             };
 
             var ItemsElementName = new BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType[3];
@@ -42,7 +42,7 @@ namespace GateWayTest
             Object[] Items = new object[] {
               attachment,
               "1",
-              BusinessGatewayRepositories.AttachmentServiceRequest.CertifiedTypeContent.Scanned
+              BusinessGatewayRepositories.AttachmentServiceRequest.CertifiedTypeContent.Certified
 
             };
 
@@ -50,6 +50,19 @@ namespace GateWayTest
             _request.ItemsElementName = ItemsElementName;
 
             var _reponse = _services.AttachmentRequest( "BGUser001", "landreg001", _request);
+
+            Assert.AreEqual(true, true);
+        }
+
+
+        [TestMethod]
+        public void AttachementPollRequest()
+        {
+            BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
+            BusinessGatewayModels.Search[] _search_array = new BusinessGatewayModels.Search[1];
+          
+         
+            var _reponse = _services.AttachmentPollRequest("BGUser001", "landreg001", "Msg001");
 
             Assert.AreEqual(true, true);
         }

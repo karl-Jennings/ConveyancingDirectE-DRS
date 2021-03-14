@@ -49,6 +49,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EarlyCompletionTest.cs" />
+    <Compile Include="corrospandanceTest.cs" />
+    <Compile Include="PollRequestTest.cs" />
     <Compile Include="OutstandingRequestTest.cs" />
     <Compile Include="attachementRequestTest.cs" />
     <Compile Include="eDRSAppRequestTest.cs" />

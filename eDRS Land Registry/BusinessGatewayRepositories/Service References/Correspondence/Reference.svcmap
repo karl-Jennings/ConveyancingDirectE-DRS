@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="ed3e8a72-f423-4920-9c68-e8b4888bae0b" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://bgtest.landregistry.gov.uk/b2b//ECDRS_StubService/CorrespondenceV2_1PollRequestWebService?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="CorrespondenceV2_1PollRequestWebService.wsdl" MetadataType="Wsdl" ID="4f8b170e-6003-4b9b-bb39-25d8d38101cf" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b//ECDRS_StubService/CorrespondenceV2_1PollRequestWebService?wsdl" />
+    <MetadataFile FileName="CorrespondenceV2_1PollRequestWebService.xsd" MetadataType="Schema" ID="6e17cce8-bbae-4a05-a2c5-d75db19d74fd" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/ECDRS_StubService/CorrespondenceV2_1PollRequestWebService?xsd=CorrespondenceV1_0.xsd" />
+    <MetadataFile FileName="CorrespondenceV2_1PollRequestWebService1.xsd" MetadataType="Schema" ID="6c5d6805-84d3-4d2c-9b59-c474d2a6552a" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/ECDRS_StubService/CorrespondenceV2_1PollRequestWebService?xsd=PollRequest.xsd" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

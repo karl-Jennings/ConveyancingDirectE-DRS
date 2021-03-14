@@ -156,6 +156,8 @@ namespace BusinessGatewayServices
             try
             {
                 ResponseOutstanding _response = new ResponseOutstanding(_outstanding.GetRequests(MessageId, service, Username,Password));
+               
+                _response.Successful = true;
                 return _response;
             }
             catch (Exception ex)
@@ -205,6 +207,97 @@ namespace BusinessGatewayServices
                 responseEDRSAppRequest.Successful = false;
                 responseEDRSAppRequest.Error = ex;
                 return responseEDRSAppRequest;
+            }
+        }
+
+
+        public ResponseAttachmentPollRequest AttachmentPollRequest(string Username, string Password,string MessageId)
+        {
+            AttachmentRequestRepository _attachmentRequestRepository = new AttachmentRequestRepository();
+            ResponseAttachmentPollRequest responseEDRSAppRequest = new ResponseAttachmentPollRequest();
+            try
+            {
+
+                BusinessGatewayRepositories.AttachmentPollRequest.AttachmentResponseV2_0Type _response = _attachmentRequestRepository.AttachmentPollRequest( MessageId, Username, Password);
+
+                responseEDRSAppRequest.Successful = true;
+                responseEDRSAppRequest.GatewayResponse = _response;
+
+                return responseEDRSAppRequest;
+            }
+            catch (Exception ex)
+            {
+                responseEDRSAppRequest.Successful = false;
+                responseEDRSAppRequest.Error = ex.Message;
+                return responseEDRSAppRequest;
+            }
+        }
+
+
+        public ResponseCorrespondenceRequest CorrespondenceRequest(string Username, string Password, string MessageID)
+        {
+            CorrespondenceRepository _correspondenceRepository = new CorrespondenceRepository();
+            ResponseCorrespondenceRequest responseEDRSAppRequest = new ResponseCorrespondenceRequest();
+          
+            try
+            {
+                BusinessGatewayRepositories.Correspondence.CorrespondenceV1_0Type _response = _correspondenceRepository.CorrespondenceRequest(MessageID, Username, Password);
+
+                responseEDRSAppRequest.Successful = true;
+                responseEDRSAppRequest.GatewayResponse = _response;
+
+                return responseEDRSAppRequest;
+            }
+            catch (Exception ex)
+            {
+                responseEDRSAppRequest.Successful = false;
+                responseEDRSAppRequest.Error = ex.Message;
+                return responseEDRSAppRequest;
+            }
+        }
+
+        public EarlyCompletionResponse EarlyCompletionRequest(string Username, string Password, string MessageID)
+        {
+            EarlyCompletionRepository _earlyCompletionRepository = new EarlyCompletionRepository();
+            EarlyCompletionResponse responseEDRSAppRequest = new EarlyCompletionResponse();
+
+            try
+            {
+                BusinessGatewayRepositories.EarlyCompletion.ResponseEarlyCompletionV2_0Type _response = _earlyCompletionRepository.EarlyCompletionRequest(MessageID, Username, Password);
+
+                responseEDRSAppRequest.Successful = true;
+                responseEDRSAppRequest.GatewayResponse = _response;
+
+                return responseEDRSAppRequest;
+            }
+            catch (Exception ex)
+            {
+                responseEDRSAppRequest.Successful = false;
+                responseEDRSAppRequest.Error = ex.Message;
+                return responseEDRSAppRequest;
+            }
+        }
+
+
+        public ResponsePollRequest PollRequest(string Username, string Password, string MessageID)
+        {
+            PollRequestRespository _pollRequestRespository = new PollRequestRespository();
+            ResponsePollRequest responsePollRequest = new ResponsePollRequest();
+
+            try
+            {
+                BusinessGatewayRepositories.PollService.ResponseApplicationToChangeRegisterV2_0Type _response = _pollRequestRespository.GetRequests(MessageID, Username, Password);
+
+                responsePollRequest.Successful = true;
+                responsePollRequest.GatewayResponse = _response;
+
+                return responsePollRequest;
+            }
+            catch (Exception ex)
+            {
+                responsePollRequest.Successful = false;
+                responsePollRequest.Error = ex.Message;
+                return responsePollRequest;
             }
         }
     }

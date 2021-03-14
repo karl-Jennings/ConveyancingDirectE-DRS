@@ -186,8 +186,11 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AttachementPollRequestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AttachmentRequestController.cs" />
+    <Compile Include="Controllers\CorrospondanceController.cs" />
+    <Compile Include="Controllers\OutstandingController.cs" />
     <Compile Include="Controllers\RequestApplicationController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">

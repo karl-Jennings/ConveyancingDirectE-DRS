@@ -81,9 +81,12 @@ namespace GateWayTest
             //Parties
             BusinessGatewayRepositories.EDRSApplication.PartiesType parties = new PartiesType();
 
-            parties.Party = new PartyType[1];
-            PartyRoleType[] partyRoleTypes = new PartyRoleType[1];
-            partyRoleTypes[0] = new PartyRoleType { RoleType = RoleTypeContent.Lender, Priority = "1" };
+            parties.Party = new PartyType[2];
+
+            PartyRoleType[] partyRoleTypes = new PartyRoleType[2];
+
+            partyRoleTypes[0] = new PartyRoleType { RoleType = RoleTypeContent.Borrower, Priority = "1" };
+            partyRoleTypes[1] = new PartyRoleType { RoleType = RoleTypeContent.Lender, Priority = "1" };
 
             parties.Party[0] = new PartyType
             {
@@ -93,6 +96,24 @@ namespace GateWayTest
                 Roles = partyRoleTypes
 
             };
+            // party 2
+
+            PartyRoleType[] partyRoleTypes2 = new PartyRoleType[2];
+
+            partyRoleTypes2[0] = new PartyRoleType { RoleType = RoleTypeContent.Borrower, Priority = "1" };
+            partyRoleTypes2[1] = new PartyRoleType { RoleType = RoleTypeContent.Lender, Priority = "1" };
+
+            parties.Party[1] = new PartyType
+            {
+                representativeId = "1",
+                IsApplicant = true,
+                Item = new CompanyType { CompanyName = "company2" },
+                Roles = partyRoleTypes2
+
+            };
+
+
+
 
             _product.Parties = parties;
 

@@ -1,8 +1,10 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace BusinessGatewayModels
 {
@@ -23,13 +25,21 @@ namespace BusinessGatewayModels
         public ResponseOutstanding(BusinessGatewayRepositories.OutstandingRequests.ResponseOutstandingRequestsType item)
         {
             if(item.Results != null)
-            {
-                if(item.Results.OutstandingRequests != null)
+            {         
+
+                var value = item.TypeCode.Value;
+
+                var _typecode = ((XmlEnumAttribute)typeof(BusinessGatewayRepositories.OutstandingRequests.ProductResponseCodeContentType)
+                                        .GetMember(value.ToString())[0]
+                                        .GetCustomAttributes(typeof(XmlEnumAttribute), false)[0])
+                                        .Name;
+
+                if (item.Results.OutstandingRequests != null)
                 {
                     Requests = new List<OutstandingRequests>();
                     foreach (var _req in item.Results.OutstandingRequests)
                     {
-                        Requests.Add(new OutstandingRequests { Id = _req.ID.MessageID, NewRequest = _req.NewResponse.Value, ServiceType = ServiceType(_req.ServiceType) });
+                        Requests.Add(new OutstandingRequests { Id = _req.ID.MessageID, NewRequest = _req.NewResponse.Value, ServiceType = ServiceType(_req.ServiceType),TypeCode= Convert.ToInt32( _typecode )});
                     }
                 }
             }
@@ -91,5 +101,6 @@ namespace BusinessGatewayModels
         public string Id { get; set; }
         public string ServiceType { get; set; }
         public bool NewRequest { get; set; } 
+        public int TypeCode { get; set; }
     }
 }
