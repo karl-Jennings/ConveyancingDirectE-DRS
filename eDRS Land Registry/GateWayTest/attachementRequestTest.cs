@@ -34,13 +34,13 @@ namespace GateWayTest
             var ItemsElementName = new BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType[3];
 
             // ItemsElementName[0] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.ApplicationType;
-            ItemsElementName[0] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.Notes;
+            ItemsElementName[0] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.Attachment;
             ItemsElementName[1] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.AttachmentId;
             ItemsElementName[2] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.CertifiedCopy;
 
 
             Object[] Items = new object[] {
-              "NOTES TEST",
+              attachment,
               "1",
               BusinessGatewayRepositories.AttachmentServiceRequest.CertifiedTypeContent.Certified
 
@@ -60,11 +60,9 @@ namespace GateWayTest
         {
             BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
             BusinessGatewayModels.Search[] _search_array = new BusinessGatewayModels.Search[1];
-
-            BusinessGatewayRepositories.AttachmentPollRequest.PollRequestType _request = new BusinessGatewayRepositories.AttachmentPollRequest.PollRequestType();
           
          
-            var _reponse = _services.AttachmentPollRequest("BGUser001", "landreg001", "Msg001", _request);
+            var _reponse = _services.AttachmentPollRequest("BGUser001", "landreg001", "Msg001");
 
             Assert.AreEqual(true, true);
         }

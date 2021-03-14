@@ -24,10 +24,11 @@ namespace BusinessGatewayRepositories
 
 
 
-        public AttachmentPollRequest.AttachmentResponseV2_0Type AttachmentPollRequest(BusinessGatewayRepositories.AttachmentPollRequest.PollRequestType _request, string MessageId, string username, string password)
+        public AttachmentPollRequest.AttachmentResponseV2_0Type AttachmentPollRequest(string MessageId, string username, string password)
         {
             AttachmentV2_1PollRequestServiceClient _service = new AttachmentV2_1PollRequestServiceClient();
             AttachmentPollRequest.AttachmentResponseV2_0Type _response = new AttachmentPollRequest.AttachmentResponseV2_0Type();
+            BusinessGatewayRepositories.AttachmentPollRequest.PollRequestType _request = new BusinessGatewayRepositories.AttachmentPollRequest.PollRequestType();
 
             _service.ChannelFactory.Endpoint.EndpointBehaviors.Add(new BusinessGatewayRepositories.HMLRBGMessageEndpointBehavior(username, password));
 

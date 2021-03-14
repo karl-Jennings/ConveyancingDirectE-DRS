@@ -30,33 +30,7 @@ namespace eDrsManagers.Http
 
         public RequestLog CallRegistrationApi(DocumentReferenceViewModel viewModel)
         {
-            //viewModel.Titles.ForEach(x => { x.DocumentReference = null; });
-            //viewModel.Applications.ForEach(x =>
-            //{
-            //    x.DocumentReference = null;
-            //    x.Document.ApplicationForm = null;
-            //});
-            //viewModel.SupportingDocuments.ForEach(x =>
-            //{
-            //    x.DocumentReference = null;
-            //});
-            //viewModel.Parties.ForEach(x =>
-            //{
-            //    x.DocumentReference = null;
-            //});
-            //viewModel.Representations.ForEach(x =>
-            //{
-            //    x.DocumentReference = null;
-            //});
-            //viewModel.AttachmentNotes.ForEach(x =>
-            //{
-            //    x.DocumentReference = null;
-            //});
-            //viewModel.RequestLogs.ForEach(x =>
-            //{
-            //    x.DocumentReference = null;
-            //});
-            //viewModel.User.DocumentReferences = new List<DocumentReference>();
+          
 
             var client = new RestClient("https://localhost:44340/api/RequestApplication");
 
@@ -172,5 +146,57 @@ namespace eDrsManagers.Http
             return reqAppViewModel;
         }
 
+
+        /// <summary>
+        /// Call Outstaning Request service
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
+        public OutstaningResponseViewModel CallOutstandingApi(OutstaningRequestViewModel viewModel)
+        {
+
+
+            var client = new RestClient("https://localhost:44340/api/Outstanding");
+
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.RequestFormat = DataFormat.Json;
+
+            Console.WriteLine(JsonConvert.SerializeObject(new { value = JsonConvert.SerializeObject(viewModel) }));
+
+            JsonDeserializer deserial = new JsonDeserializer();
+
+            request.AddObject(new { value = JsonConvert.SerializeObject(viewModel), viewModel.Password, Username = "BGUser001" });
+            IRestResponse response = client.Execute(request);
+            OutstaningResponseViewModel apiResponse = deserial.Deserialize<OutstaningResponseViewModel>(response);
+
+            return apiResponse;
+
+        }
+
+
+        public ResponseAttachmentPollRequest CallAttachementPollApi(AttachmentPollRequestViewModel viewModel)
+        {
+
+
+            var client = new RestClient("https://localhost:44340/api/AttachementPoll");
+
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.RequestFormat = DataFormat.Json;
+
+            Console.WriteLine(JsonConvert.SerializeObject(new { value = JsonConvert.SerializeObject(viewModel) }));
+
+            JsonDeserializer deserial = new JsonDeserializer();
+
+            request.AddObject(new { value = JsonConvert.SerializeObject(viewModel), viewModel.Password, Username = "BGUser001" });
+            IRestResponse response = client.Execute(request);
+            ResponseAttachmentPollRequest apiResponse = deserial.Deserialize<ResponseAttachmentPollRequest>(response);
+
+            return apiResponse;
+
+        }
+
     }
+
 }

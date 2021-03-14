@@ -211,14 +211,14 @@ namespace BusinessGatewayServices
         }
 
 
-        public ResponseAttachmentPollRequest AttachmentPollRequest(string Username, string Password,string MessageId, BusinessGatewayRepositories.AttachmentPollRequest.PollRequestType _request)
+        public ResponseAttachmentPollRequest AttachmentPollRequest(string Username, string Password,string MessageId)
         {
             AttachmentRequestRepository _attachmentRequestRepository = new AttachmentRequestRepository();
             ResponseAttachmentPollRequest responseEDRSAppRequest = new ResponseAttachmentPollRequest();
             try
             {
 
-                BusinessGatewayRepositories.AttachmentPollRequest.AttachmentResponseV2_0Type _response = _attachmentRequestRepository.AttachmentPollRequest(_request, MessageId, Username, Password);
+                BusinessGatewayRepositories.AttachmentPollRequest.AttachmentResponseV2_0Type _response = _attachmentRequestRepository.AttachmentPollRequest( MessageId, Username, Password);
 
                 responseEDRSAppRequest.Successful = true;
                 responseEDRSAppRequest.GatewayResponse = _response;

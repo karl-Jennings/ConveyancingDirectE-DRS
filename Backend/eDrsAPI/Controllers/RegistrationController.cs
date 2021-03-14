@@ -62,7 +62,7 @@ namespace eDrsAPI.Controllers
         }
 
         /// <summary>
-        /// Create Registration
+        /// Create Application Request : STEP 01
         /// </summary>
         /// <returns>boolean</returns>
         [HttpPost]
@@ -78,7 +78,7 @@ namespace eDrsAPI.Controllers
             }
         }
         /// <summary>
-        /// Update Registration
+        /// Update Registration 
         /// </summary>
         /// <returns>boolean</returns>
         [HttpPost]
