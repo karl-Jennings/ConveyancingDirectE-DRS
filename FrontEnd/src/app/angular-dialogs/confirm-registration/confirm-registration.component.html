@@ -38,41 +38,25 @@
         </div>
     </div>
 
-    <!-- <table class="table table-bordered mt-2">
+    <table class="table table-bordered mt-2">
         <thead>
             <tr class="grey lighten-3">
-                <th scope="col" class="py-2">Title number</th>
-                <th scope="col" class="py-2">Property</th>
+                <th scope="col" class="py-2">Attachment name</th>
+                <th scope="col" class="py-2">Description</th>
+                <th scope="col" class="py-2">Type Code</th>
+                <th scope="col" class="py-2">Created Date</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="py-2">ND66321</td>
-                <td class="py-2"> </td>
-            </tr>
-            <tr>
-                <td>ND6834</td>
-                <td> </td>
+            <tr *ngFor="let item of result.AttachmentResponse">
+                <td>{{item.AttachmentName}}</td>
+                <td>{{item.Description}}</td>
+                <td>{{item.TypeCode}}</td>
+                <td>{{item.CreatedDate}}</td>
             </tr>
         </tbody>
     </table>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr class="grey lighten-3 ">
-                <th scope="col">Attachment</th>
-                <th scope="col">Certification</th>
-                <th scope="col">Files</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>ADV Adverse possession of registered land</td>
-                <td> </td>
-                <td> </td>
-            </tr>
-        </tbody>
-    </table> -->
 
 </mat-dialog-content>
 <mat-dialog-actions align="end">

@@ -5,6 +5,11 @@ export class RequestLogs {
     Description?: string;
     CreatedDate?: Date;
     File?: string;
+    ResponseType?: string;
+    RejectionReason?: string;
+    ValidationErrors?: string;
     DocumentReferenceId?: number;
 
+    AttachmentName?: string;
+    AttachmentResponse?: RequestLogs[]
 }

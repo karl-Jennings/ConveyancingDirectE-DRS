@@ -40,26 +40,45 @@ namespace eDrsManagers.Managers
             return _context.RegistrationTypes.Where(s => s.Status).ToList();
         }
 
-        public RequestLog CreateRegistration(DocumentReference viewModel)
+        public RequestLog CreateRegistration(DocumentReference model)
         {
 
-            viewModel.Parties.ToList().ForEach(party =>
+            model.Parties.ToList().ForEach(party =>
             {
                 party.Roles = string.Join(",", party.ViewModelRoles);
 
             });
-            viewModel.MessageID = Guid.NewGuid().ToString();
-            _context.DocumentReferences.Add(viewModel);
+            model.MessageID = Guid.NewGuid().ToString();
 
-            _context.SaveChanges();
-            viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
+            //_context.SaveChanges();
+            model.User = _context.Users.FirstOrDefault(x => x.UserId == model.UserId);
 
-            var realViewModel = _mapper.Map<DocumentReference, DocumentReferenceViewModel>(viewModel);
+            if (model.Representations == null)
+            {
+                model.Representations = new List<Representation>();
+                model.Representations.Add(new Representation() { RepresentativeId = 1 });
+            }
+
+            /********** Calling LR Api backend ***********/
+            var realViewModel = _mapper.Map<DocumentReference, DocumentReferenceViewModel>(model);
             var requestLog = _httpInterceptor.CallRegistrationApi(realViewModel);
-            requestLog.DocumentReferenceId = viewModel.DocumentReferenceId;
+            requestLog.DocumentReferenceId = model.DocumentReferenceId;
+            /********** Calling LR Api backend ***********/
 
-            _context.RequestLogs.Add(requestLog);
-            _context.SaveChanges();
+
+            var requestLogList = requestLog.AttachmentResponse;
+            requestLogList.ForEach(s =>
+            {
+                model.RequestLogs.Add(s);
+            });
+            model.RequestLogs.Add(requestLog);
+
+            _context.DocumentReferences.Add(model);
+
+            if (requestLog.IsSuccess)
+            {
+                _context.SaveChanges();
+            }
 
             return requestLog;
 
@@ -111,7 +130,14 @@ namespace eDrsManagers.Managers
 
             var requestLog = _httpInterceptor.CallRegistrationApi(viewModel);
             requestLog.DocumentReferenceId = viewModel.DocumentReferenceId;
+
+            var requestLogList = requestLog.AttachmentResponse;
+            requestLogList.ForEach(s =>
+            {
+                model.RequestLogs.Add(s);
+            });
             model.RequestLogs.Add(requestLog);
+
 
             if (requestLog.IsSuccess)
             {

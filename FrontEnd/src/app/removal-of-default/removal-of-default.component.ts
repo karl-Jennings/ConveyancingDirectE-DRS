@@ -3,7 +3,6 @@ import { FormControl, FormGroup, FormBuilder, Validators, Form } from '@angular/
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ApplicationViewComponent } from '../angular-dialogs/application-view/application-view.component';
 import { ConfirmRegistrationComponent } from '../angular-dialogs/confirm-registration/confirm-registration.component';
 import { ApplicationForm, Document } from '../models/application-form';
 import { DocumentReference } from '../models/document-reference';
@@ -131,7 +130,6 @@ export class RemovalOfDefaultComponent implements OnInit {
       IsSelected: [false],
       ApplicationFormId: 0,
       DocumentReferenceId: 0,
-      DocumentReference: null,
       CertifiedCopy: [''],
       ExternalReference: ['', Validators.required],
       Document: {},
@@ -148,7 +146,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       IsSelected: [false],
       SupportingDocumentId: 0,
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
     });
 
     this.representationGroup = this.formBuilder.group({
@@ -159,7 +157,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       LocalId: [0],
       IsSelected: [false],
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
 
     });
 
@@ -174,7 +172,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       IsSelected: [false],
       PartyId: 0,
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
     });
 
     this.notesGroup = this.formBuilder.group({
@@ -188,7 +186,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       LocalId: [0],
       IsSelected: [false],
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
     });
 
     if (this.docRefId != 0) {
@@ -402,7 +400,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       IsSelected: false,
       ApplicationFormId: 0,
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
       Document: [],
       ExternalReference: '',
       Variety: '',
@@ -487,7 +485,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       IsSelected: [false],
       SupportingDocumentId: 0,
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
     })
   }
 
@@ -554,7 +552,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       IsSelected: [false],
       PartyId: 0,
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
     })
   }
 
@@ -627,7 +625,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       LocalId: [0],
       IsSelected: [false],
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
     })
   }
 
@@ -690,7 +688,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       LocalId: [0],
       IsSelected: [false],
       DocumentReferenceId: 0,
-      DocumentReference: null,
+
     })
   }
 
@@ -700,7 +698,6 @@ export class RemovalOfDefaultComponent implements OnInit {
       this.selectedRepId = undefined;
     }
   }
-
 
   UpdateDatabase() {
 
@@ -738,7 +735,7 @@ export class RemovalOfDefaultComponent implements OnInit {
   ShowResponse(res: any) {
     if (res.IsSuccess) {
       const dialogRef = this.dialog.open(ConfirmRegistrationComponent, {
-        width: '550px',
+
         data: { res }
       });
       dialogRef.afterClosed().subscribe(() => {
