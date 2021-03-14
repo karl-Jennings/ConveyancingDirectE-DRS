@@ -17,7 +17,7 @@ namespace BusinessGatewayRepositories
             _request.ID = new OutstandingRequests.Q1IdentifierType { MessageID = new OutstandingRequests.Q1TextType { Value = MessageId } };
           
             _product.SpecificService = service;
-
+            _product.SpecificServiceSpecified = true;
 
             _request.Product = _product;
            
