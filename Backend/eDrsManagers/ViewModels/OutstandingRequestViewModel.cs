@@ -28,7 +28,7 @@ namespace eDrsManagers.ViewModels
     {
         public string Id { get; set; }
         public string ServiceType { get; set; }
-        public bool NewRequest { get; set; }
+        public bool NewResponse { get; set; }
         public int TypeCode { get; set; }
     }
 }

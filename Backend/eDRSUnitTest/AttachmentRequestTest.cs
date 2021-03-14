@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 using LrApiManager.SOAPManager;
 using LrApiManager.XMLClases;
 using LrApiManager.XMLClases.PollResponse;
-using LrApiManager.XMLClases.Restriction;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BusinessGatewayServices;
-using BusinessGatewayRepositories.EDRSApplication;
-using BusinessGatewayRepositories.AttachmentServiceRequest;
+using LrApiManager.XMLClases.Restriction; 
 
 namespace eDRSUnitTest
 {

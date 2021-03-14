@@ -11,5 +11,6 @@ export class RequestLogs {
     DocumentReferenceId?: number;
 
     AttachmentName?: string;
+    AttachmentId?: string;
     AttachmentResponse?: RequestLogs[]
 }

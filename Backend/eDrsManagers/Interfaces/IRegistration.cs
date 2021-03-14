@@ -20,7 +20,8 @@ namespace eDrsManagers.Interfaces
         RequestLog UpdateRegistration(DocumentReferenceViewModel viewModel);
         bool DeleteRegistration(long regId);
         RegistrationType GetRegistrationType(long regType);
-        dynamic GetPollResponse(long regId);
+        dynamic GetPollResponse(long docRefId);
         bool AutomatePollRequest();
+        dynamic GetOutStandingPollRequest(long docRefId);
     }
 }

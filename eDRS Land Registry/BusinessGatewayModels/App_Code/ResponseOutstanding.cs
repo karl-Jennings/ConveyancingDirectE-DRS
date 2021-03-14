@@ -18,14 +18,14 @@ namespace BusinessGatewayModels
         public string ResponseType { get; set; }
         public string Error { get; set; }
         public List<OutstandingRequests> Requests { get; set; }
-        public ResponseOutstanding() 
+        public ResponseOutstanding()
         {
             Requests = new List<OutstandingRequests>();
         }
         public ResponseOutstanding(BusinessGatewayRepositories.OutstandingRequests.ResponseOutstandingRequestsType item)
         {
-            if(item.Results != null)
-            {         
+            if (item.Results != null)
+            {
 
                 var value = item.TypeCode.Value;
 
@@ -39,7 +39,7 @@ namespace BusinessGatewayModels
                     Requests = new List<OutstandingRequests>();
                     foreach (var _req in item.Results.OutstandingRequests)
                     {
-                        Requests.Add(new OutstandingRequests { Id = _req.ID.MessageID, NewRequest = _req.NewResponse.Value, ServiceType = ServiceType(_req.ServiceType),TypeCode= Convert.ToInt32( _typecode )});
+                        Requests.Add(new OutstandingRequests { Id = _req.ID.MessageID, NewResponse = _req.NewResponse.Value, ServiceType = ServiceType(_req.ServiceType), TypeCode = Convert.ToInt32(_typecode) });
                     }
                 }
             }
@@ -100,7 +100,7 @@ namespace BusinessGatewayModels
     {
         public string Id { get; set; }
         public string ServiceType { get; set; }
-        public bool NewRequest { get; set; } 
+        public bool NewResponse { get; set; }
         public int TypeCode { get; set; }
     }
 }

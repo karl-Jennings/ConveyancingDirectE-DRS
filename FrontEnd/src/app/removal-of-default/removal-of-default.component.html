@@ -730,11 +730,7 @@
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
                                 <div class="row">
-                                    <div class="col-12 pt-3">
-                                        <button mat-flat-button color="primary" type="button"
-                                            (click)="SendPoolRequest()">Collect
-                                            Application Poll Request</button>
-                                    </div>
+
 
                                     <div class="col-12 pt-3">
                                         <h3 class="font-weight-bold">Attachment Responses</h3>
@@ -758,6 +754,63 @@
                                             </tbody>
                                         </table>
                                     </div>
+
+                                    <div class="col-12 pt-3">
+                                        <button mat-flat-button color="primary" type="button"
+                                            (click)="CollectAttachmentResult()">Collect
+                                            Attachment Result</button>
+                                    </div>
+
+                                    <div class="col-12 pt-3">
+                                        <h3 class="font-weight-bold"> Results</h3>
+                                        <table class="table table-bordered mt-1">
+                                            <thead>
+                                                <tr class="grey lighten-3">
+                                                    <th scope="col" class="py-2">Type Code</th>
+                                                    <th scope="col" class="py-2">Land Registry ID</th>
+                                                    <th scope="col" class="py-2">Service Type</th>
+                                                    <th scope="col" class="py-2">New Response</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of outstandingList">
+                                                    <ng-container *ngIf="item.Type == 'attachment_outstanding'">
+                                                        <td class="py-2">{{item.TypeCode}}</td>
+                                                        <td class="py-2">{{item.LandRegistryId}}</td>
+                                                        <td class="py-2">{{item.ServiceType}}
+                                                        <td class="py-2">{{item.NewResponse}}
+                                                        </td>
+                                                    </ng-container>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                    <div class="col-12 pt-3">
+                                        <h3 class="font-weight-bold">Attachment Poll Responses</h3>
+                                        <table class="table table-bordered mt-1">
+                                            <thead>
+                                                <tr class="grey lighten-3">
+                                                    <th scope="col" class="py-2">Type Code</th>
+                                                    <th scope="col" class="py-2">Message</th>
+                                                    <th scope="col" class="py-2">Attachment ID</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of logsList">
+                                                    <ng-container *ngIf="item.Type == 'attachment_poll'">
+                                                        <td class="py-2">{{item.TypeCode}}</td>
+                                                        <td class="py-2">{{item.Description}}</td>
+                                                        <td class="py-2">{{item.AttachmentId}}</td>
+
+                                                    </ng-container>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
                                 </div>
 
                             </mat-expansion-panel>

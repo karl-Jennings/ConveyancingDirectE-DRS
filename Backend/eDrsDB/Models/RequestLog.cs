@@ -34,6 +34,7 @@ namespace eDrsDB.Models
         public List<RequestLog> AttachmentResponse { get; set; }
 
         public string AttachmentName { get; set; }
+        public string AttachmentId { get; set; }
 
     }
 }

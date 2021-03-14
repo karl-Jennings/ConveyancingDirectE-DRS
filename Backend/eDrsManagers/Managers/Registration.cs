@@ -168,22 +168,24 @@ namespace eDrsManagers.Managers
                 .ToList();
         }
 
-        public dynamic GetPollResponse(long regId)
+        public dynamic GetPollResponse(long docRefId)
         {
 
-            var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == regId);
-            var response = _pollRequestManager.PoolRequest(docRef.MessageID);
+            var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
 
-            var requestLog = new RequestLog()
+            AttachmentPollRequestViewModel attachmentPoll = new AttachmentPollRequestViewModel();
+            attachmentPoll.Username = "BGUser001";
+            if (docRef != null)
             {
-                Type = "Poll",
-                TypeCode = response.TypeCode,
-                Description = response.Results.MessageDetails,
-                File = response.Results.DespatchDocument.byteArray,
-                DocumentReferenceId = docRef.DocumentReferenceId
-            };
-            _context.RequestLogs.Add(requestLog);
-            _context.SaveChanges();
+                attachmentPoll.Password = docRef.Password;
+                attachmentPoll.MessageId = docRef.MessageID;
+            }
+
+            var response = _httpInterceptor.CallAttachmentPollApi(attachmentPoll);
+
+            var requestLog = new RequestLog();
+             
+
             return requestLog;
 
         }
@@ -198,6 +200,62 @@ namespace eDrsManagers.Managers
             });
 
             return true;
+        }
+
+        public dynamic GetOutStandingPollRequest(long docRefId)
+        {
+            var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
+
+            OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
+            outstaningRequest.Username = "BGUser001";
+            if (docRef != null)
+            {
+                outstaningRequest.Password = docRef.Password;
+                outstaningRequest.Service = 70;
+                outstaningRequest.MessageId = docRef.MessageID;
+            }
+
+            var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
+
+            var outstanding = new List<Outstanding>();
+
+            response.Requests.ForEach(x =>
+            {
+                outstanding.Add(new Outstanding
+                {
+                    LandRegistryId = x.Id,
+                    NewResponse = x.NewResponse,
+                    Type = "attachment_outstanding",
+                    DocumentReferenceId = docRef.DocumentReferenceId,
+                    TypeCode = x.TypeCode,
+                    ServiceType = x.ServiceType
+                });
+            });
+            var requestLogList = new List<RequestLog>();
+            outstanding.ForEach(x =>
+            {
+                AttachmentPollRequestViewModel attachmentPoll = new AttachmentPollRequestViewModel();
+                attachmentPoll.Username = "BGUser001";
+                if (docRef != null)
+                {
+                    attachmentPoll.Password = docRef.Password;
+                    attachmentPoll.MessageId = docRef.MessageID;
+                }
+
+                var pollResponse = _httpInterceptor.CallAttachmentPollApi(attachmentPoll);
+
+                pollResponse.DocumentReferenceId = docRef.DocumentReferenceId;
+
+                requestLogList.Add(pollResponse);
+
+            });
+
+            _context.Outstanding.AddRange(outstanding);
+            _context.RequestLogs.AddRange(requestLogList);
+            _context.SaveChanges();
+
+            return response;
+
         }
 
         public DocumentReference GetRegistration(long regId)
@@ -271,7 +329,7 @@ namespace eDrsManagers.Managers
                         AttachmentNotes = sel.AttachmentNotes,
                         RequestLogs = sel.RequestLogs,
                         Representations = sel.Representations,
-
+                        Outstanding = sel.Outstanding
                     })
                     .FirstOrDefault(s => s.Status && s.DocumentReferenceId == regId);
 

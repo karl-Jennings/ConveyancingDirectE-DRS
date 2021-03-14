@@ -58,6 +58,11 @@
     <Compile Include="PollOS1Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyDescriptionRepository.cs" />
+    <Compile Include="Service References\AttachmentPollRequest\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\AttachmentServiceRequest\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -120,6 +125,19 @@
   <ItemGroup>
     <None Include="app.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AttachmentPollRequest\AttachmentV2_1PollRequestWebService.wsdl" />
+    <None Include="Service References\AttachmentPollRequest\AttachmentV2_1PollRequestWebService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AttachmentPollRequest\AttachmentV2_1PollRequestWebService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AttachmentPollRequest\BusinessGatewayRepositories.AttachmentPollRequest.AttachmentResponseV2_0Type.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AttachmentPollRequest\BusinessGatewayRepositories.AttachmentPollRequest.getResponseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\AttachmentServiceRequest\AttachmentV2_0WebService.wsdl" />
     <None Include="Service References\AttachmentServiceRequest\AttachmentV2_0WebService.xsd">
@@ -272,6 +290,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\AttachmentPollRequest\" />
     <WCFMetadataStorage Include="Service References\AttachmentServiceRequest\" />
     <WCFMetadataStorage Include="Service References\DayListEnquiry\" />
     <WCFMetadataStorage Include="Service References\EDRSApplication\" />
@@ -412,6 +431,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\AttachmentServiceRequest\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AttachmentPollRequest\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AttachmentPollRequest\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AttachmentPollRequest\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

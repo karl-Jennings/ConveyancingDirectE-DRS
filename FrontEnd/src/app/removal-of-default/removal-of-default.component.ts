@@ -18,6 +18,7 @@ import Swal from 'sweetalert2';
 import { AttachmentNotes } from '../models/attachment-notes';
 import { RequestLogs } from '../models/request-logs';
 import { Representation } from '../models/representation';
+import { Outstanding } from '../models/outstanding';
 
 @Component({
   selector: 'app-removal-of-default',
@@ -51,8 +52,10 @@ export class RemovalOfDefaultComponent implements OnInit {
   supportingDocList: SupportingDocuments[] = [];
   partyList: Party[] = [];
   notesList: AttachmentNotes[] = [];
-  logsList: RequestLogs[] = [];
   representationList: Representation[] = [];
+
+  logsList: RequestLogs[] = [];
+  outstandingList: Outstanding[] = [];
 
   txtTitle: FormControl = new FormControl();
   applicationGroup!: FormGroup;
@@ -158,7 +161,6 @@ export class RemovalOfDefaultComponent implements OnInit {
       IsSelected: [false],
       DocumentReferenceId: 0,
 
-
     });
 
     this.partyGroup = this.formBuilder.group({
@@ -225,6 +227,7 @@ export class RemovalOfDefaultComponent implements OnInit {
         })
 
         this.logsList = res.RequestLogs ?? [];
+        this.outstandingList = res.Outstanding ?? [];
 
         this.representationList = res.Representations ?? [];
 
@@ -773,4 +776,30 @@ export class RemovalOfDefaultComponent implements OnInit {
     FileSaver.saveAs(item.File!, "Att_" + item.RequestLogId + ".zip");
   }
 
+  CollectAttachmentResult() {
+    this.registrationService.CollectAttachmentResult(this.docRefId).subscribe(res => {
+      // console.log()
+      // Swal.fire({
+      //   title: 'Pool Response from Gateway',
+      //   html: `
+      //   ${res.Description}
+      //   `,
+      //   icon: 'success',
+      //   showCancelButton: true,
+      //   confirmButtonColor: '#3085d6',
+      //   cancelButtonColor: '#d33',
+      //   confirmButtonText: 'Download Zip'
+      // }).then((result) => {
+      //   if (result.isConfirmed) {
+      //     console.log(res)
+      //     FileSaver.saveAs(res.File);
+      //   }
+      // })
+      if (res.Successful)
+        this.toastr.success("Please refresh the page to view the results", "Attachment Results collected")
+      else
+        this.toastr.error("Something went wrong while collecting results", "Attachment Results Error")
+
+    });
+  }
 }

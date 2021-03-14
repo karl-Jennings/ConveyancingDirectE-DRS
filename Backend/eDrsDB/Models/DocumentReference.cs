@@ -43,6 +43,7 @@ namespace eDrsDB.Models
         public ICollection<Party> Parties { get; set; }
         public ICollection<AttachmentNote> AttachmentNotes { get; set; }
         public ICollection<RequestLog> RequestLogs { get; set; }
+        public ICollection<Outstanding> Outstanding { get; set; }
 
     }
 }

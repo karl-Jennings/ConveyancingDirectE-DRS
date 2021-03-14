@@ -29,6 +29,8 @@ namespace eDrsDB.Models
         public long DocumentReferenceId { get; set; }
 
         public string AttachmentName { get; set; }
+        
+        public string AttachmentId { get; set; }
 
 
 

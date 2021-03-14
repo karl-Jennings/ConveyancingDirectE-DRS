@@ -8,6 +8,8 @@ using BusinessGatewayServices;
 using BusinessGatewayRepositories.EDRSApplication;
 using BusinessGatewayModels;
 using eDRS_Land_Registry.Models;
+using eDrsDB.Models;
+using Newtonsoft.Json;
 
 namespace eDRS_Land_Registry.Controllers
 {
@@ -19,24 +21,35 @@ namespace eDRS_Land_Registry.Controllers
 
 
     }
+
+
     public partial class AttachementPollController : ApiController
     {
 
-        [HttpPost]        
-        public ResponseAttachmentPollRequest AttachmentRequest([FromBody] AttachementPollRequest Request)
+        [HttpPost]
+        public RequestLog AttachmentRequest([FromBody] TempClass tempClass)
         {
             try
             {
-                BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();             
+                OutstaningRequest request = JsonConvert.DeserializeObject<OutstaningRequest>(tempClass.Value);
 
-                var _reponse = _services.AttachmentPollRequest( Request.Username,Request.Password, Request.MessageId);
+                BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
 
-                return _reponse;
+                var _reponse = _services.AttachmentPollRequest(request.Username, request.Password, request.MessageId);
+
+                var requestLog = new RequestLog();
+                requestLog.IsSuccess = true;
+                requestLog.Type = "attachment_poll";
+                requestLog.TypeCode = _reponse.GatewayResponse.GatewayResponse.TypeCode.ToString();
+                requestLog.Description = _reponse.GatewayResponse.GatewayResponse.Results.MessageDetails;
+                requestLog.AttachmentId = _reponse.GatewayResponse.GatewayResponse.Results.AttachmentID;
+
+                return requestLog;
 
             }
             catch (Exception ex)
             {
-                return new ResponseAttachmentPollRequest { Successful = false };
+                return new RequestLog { IsSuccess = false };
             }
 
         }

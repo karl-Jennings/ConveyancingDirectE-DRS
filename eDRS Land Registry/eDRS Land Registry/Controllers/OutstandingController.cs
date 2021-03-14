@@ -22,7 +22,7 @@ namespace eDRS_Land_Registry.Controllers
         public string Password { get; set; }
     }
 
-    public class OutstaningResponse
+    public class OutstandingResponse
     {
         public string UniqueReference { get; set; }
         public string Reference { get; set; }
@@ -33,19 +33,25 @@ namespace eDRS_Land_Registry.Controllers
         public List<OutstandingRequests> Requests { get; set; }
     }
 
+    public class TempClass
+    {
+        public string Value { get; set; }
+    }
+
     public class OutstandingController : ApiController
     {
 
-       
-
-        public OutstaningResponse Post([FromBody] OutstaningRequest request)
+        public OutstandingResponse Post([FromBody] TempClass tempClass)
         {
-            OutstaningResponse responseOutstanding = new OutstaningResponse();
+            OutstandingResponse responseOutstanding = new OutstandingResponse();
+
             try
             {
+                OutstaningRequest request = JsonConvert.DeserializeObject<OutstaningRequest>(tempClass.Value);
+
                 BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
 
-               var  response = _services.Outstanding(request.MessageId, request.Service, request.Username, request.Password);
+                var response = _services.Outstanding(request.MessageId, request.Service, request.Username, request.Password);
 
                 responseOutstanding.Requests = response.Requests;
                 responseOutstanding.Successful = true;

@@ -25,6 +25,7 @@ namespace eDrsDB.Data
         public DbSet<RequestLog> RequestLogs { get; set; }
         public DbSet<AttachmentNote> AttachmentNotes { get; set; }
         public DbSet<Representation> Representations { get; set; }
+        public DbSet<Outstanding> Outstanding { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

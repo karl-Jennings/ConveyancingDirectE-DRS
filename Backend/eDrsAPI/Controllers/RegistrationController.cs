@@ -154,11 +154,29 @@ namespace eDrsAPI.Controllers
         /// </summary>
         /// <returns>RestrictionPoolResponse</returns>
         [HttpGet]
-        public IActionResult GetPoolResponse(long regId)
+        public IActionResult GetPoolResponse(long docRefId)
         {
             try
             {
-                return Ok(_registration.GetPollResponse(regId));
+                return Ok(_registration.GetPollResponse(docRefId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
+        /// <summary>
+        /// Getting pool request
+        /// </summary>
+        /// <returns>RestrictionPoolResponse</returns>
+        [HttpGet]
+        public IActionResult GetOutStandingPollRequest(long docRefId)
+        {
+            try
+            {
+                return Ok(_registration.GetOutStandingPollRequest(docRefId));
             }
             catch (Exception ex)
             {

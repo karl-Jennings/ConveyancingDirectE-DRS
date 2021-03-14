@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eDrsManagers", "eDrsManager
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LrApiManager", "LrApiManager\LrApiManager.csproj", "{0662EE0E-3CD0-4550-8872-F97D07471C47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eDRSUnitTest", "eDRSUnitTest\eDRSUnitTest.csproj", "{BC09629E-8CFC-47C7-83E1-4B5E1CC7E5A1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessGatewayModels", "BusinessGatewayModels\BusinessGatewayModels.csproj", "{36AE4253-92A9-4558-A1EB-482B36C45EBA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessGatewayRepositories", "BusinessGatewayRepositories\BusinessGatewayRepositories.csproj", "{19273F96-133F-4C0C-972D-39A079D88236}"
@@ -43,10 +41,6 @@ Global
 		{0662EE0E-3CD0-4550-8872-F97D07471C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0662EE0E-3CD0-4550-8872-F97D07471C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0662EE0E-3CD0-4550-8872-F97D07471C47}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC09629E-8CFC-47C7-83E1-4B5E1CC7E5A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC09629E-8CFC-47C7-83E1-4B5E1CC7E5A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC09629E-8CFC-47C7-83E1-4B5E1CC7E5A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC09629E-8CFC-47C7-83E1-4B5E1CC7E5A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{36AE4253-92A9-4558-A1EB-482B36C45EBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{36AE4253-92A9-4558-A1EB-482B36C45EBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36AE4253-92A9-4558-A1EB-482B36C45EBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
