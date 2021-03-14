@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace eDrsDB.Models
 {
@@ -30,6 +31,8 @@ namespace eDrsDB.Models
         public long RegistrationTypeId { get; set; }
         public RegistrationType RegistrationType { get; set; }
         public long UserId { get; set; }
+
+        [JsonIgnore]
         public User User { get; set; }
 
 

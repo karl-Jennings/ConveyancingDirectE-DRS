@@ -15,7 +15,7 @@ namespace BusinessGatewayModels
     public class ResponseEDRSAppRequest
     {
         public ResponseEDRSAppRequest() { }
-        public string Error { get; set; }
+        public Exception Error { get; set; }
         public string UniqueReference { get; set; }
         public decimal ActualPrice { get; set; }
         public bool Successful { get; set; }

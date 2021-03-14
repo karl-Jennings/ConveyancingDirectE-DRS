@@ -49,9 +49,10 @@ namespace eDrsAPI
         {
             services.AddControllers().AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // ignores models' case sensitive when converting to json object
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize; // ignores models' case sensitive when converting to json object
                 options.UseMemberCasing();
             });
+
 
             services.AddHangfire(config =>
             {

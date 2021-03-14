@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace eDrsDB.Models
 {
     public class RequestLog
     {
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long RequestLogId { get; set; }
         public string Type { get; set; }
         public string TypeCode { get; set; }
@@ -21,16 +18,14 @@ namespace eDrsDB.Models
 
         public string RejectionReason { get; set; }
         public string ValidationErrors { get; set; }
+        
+        public string ResponseType  { get; set; }
+        public string ResponseJson  { get; set; }
 
-        public string ResponseType { get; set; }
-        public string ResponseJson { get; set; }
+        public bool IsSuccess  { get; set; }
+         
 
         public long DocumentReferenceId { get; set; }
-
-        [JsonIgnore]
-        public DocumentReference DocumentReference { get; set; }
-
-        public bool IsSuccess { get; set; }
 
     }
 }

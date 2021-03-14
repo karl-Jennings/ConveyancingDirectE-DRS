@@ -14,10 +14,10 @@ namespace eDrsManagers.Interfaces
     {
         List<RegistrationType> GetRegistrationTypes();
 
-        RequestApplicationToChangeRegisterV1_0Type CreateRegistration(DocumentReference viewModel);
+        RequestLog CreateRegistration(DocumentReference viewModel);
         List<DocumentReference> GetRegistrations(string regType);
         DocumentReference GetRegistration(long regId);
-        RequestApplicationToChangeRegisterV1_0Type UpdateRegistration(DocumentReference viewModel);
+        RequestLog UpdateRegistration(DocumentReferenceViewModel viewModel);
         bool DeleteRegistration(long regId);
         RegistrationType GetRegistrationType(long regType);
         dynamic GetPollResponse(long regId);

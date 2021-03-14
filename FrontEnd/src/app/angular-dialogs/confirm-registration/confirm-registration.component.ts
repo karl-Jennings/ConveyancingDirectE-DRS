@@ -7,11 +7,14 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./confirm-registration.component.css']
 })
 export class ConfirmRegistrationComponent implements OnInit {
-  result: any
-  constructor(public dialogRef: MatDialogRef<ConfirmRegistrationComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  result: { TypeCode?: string, Description?: string, CreatedDate: Date, ResponseType: string };
+
+  constructor(public dialogRef: MatDialogRef<ConfirmRegistrationComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.result = this.data.res
+
+  }
 
   ngOnInit(): void {
-    this.result = this.data.res
     console.log(this.result)
   }
 

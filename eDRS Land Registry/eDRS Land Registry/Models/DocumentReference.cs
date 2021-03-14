@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using eDrsDB.Models;
+using System.Text;
 
-namespace eDrsManagers.ViewModels
+namespace eDrsDB.Models
 {
-    public class DocumentReferenceViewModel
+    public class DocumentReference
     {
-        public long DocumentReferenceId { get; set; }
+          public long DocumentReferenceId { get; set; }
         public string Reference { get; set; }
         public int TotalFeeInPence { get; set; }
         public string MessageID { get; set; }
@@ -38,7 +38,6 @@ namespace eDrsManagers.ViewModels
         public List<Party> Parties { get; set; }
         public List<AttachmentNote> AttachmentNotes { get; set; }
         public List<RequestLog> RequestLogs { get; set; }
-
 
     }
 }

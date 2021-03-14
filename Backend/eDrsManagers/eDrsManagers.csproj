@@ -28,6 +28,9 @@
     <Reference Include="AutoMapper">
       <HintPath>C:\Users\Other-Me\.nuget\packages\automapper\10.1.0\lib\netstandard2.0\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Extensions">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Web.Extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace eDrsDB.Models
 {
     public class Party
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long PartyId { get; set; }
+         public long PartyId { get; set; }
 
         public bool IsApplicant { get; set; }
         public string CompanyOrForeName { get; set; }
@@ -22,7 +19,5 @@ namespace eDrsDB.Models
         public string AddressForService { get; set; }
 
         public long DocumentReferenceId { get; set; }
-        [JsonIgnore]
-        public DocumentReference DocumentReference { get; set; }
-    }
+     }
 }

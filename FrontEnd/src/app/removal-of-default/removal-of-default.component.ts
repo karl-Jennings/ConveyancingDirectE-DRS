@@ -736,12 +736,17 @@ export class RemovalOfDefaultComponent implements OnInit {
   }
 
   ShowResponse(res: any) {
-    const dialogRef = this.dialog.open(ConfirmRegistrationComponent, {
-      width: '550px',
-      data: { res }
-    });
-    dialogRef.afterClosed().subscribe(() => {
-    });
+    if (res.IsSuccess) {
+      const dialogRef = this.dialog.open(ConfirmRegistrationComponent, {
+        width: '550px',
+        data: { res }
+      });
+      dialogRef.afterClosed().subscribe(() => {
+      });
+    } else {
+      this.toastr.error("There was an error occured while trying to connect, please check all fields again", "Error sending request")
+    }
+
   }
 
   SendPoolRequest() {

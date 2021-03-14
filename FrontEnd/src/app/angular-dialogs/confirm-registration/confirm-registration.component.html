@@ -11,26 +11,29 @@
 <mat-dialog-content class="mat-typography">
     <div class="row">
         <div class="col">
-            <p class="text-success">
-                {{result.Acknowledgement.MessageDescription}}
+            <p class="text-success" *ngIf="result.ResponseType == 'Acknowledgement'">
+                {{result.Description}}
+            </p>
+            <p class="text-danger" *ngIf="result.ResponseType == 'Rejection'">
+                {{result.Description}}
             </p>
         </div>
     </div>
 
-    <div class="row w-50">
-        <div class="col-6">
+    <div class="row w-100">
+        <div class="col-4">
             <h4 class="mb-1">Type Code:</h4>
         </div>
-        <div class="col-6">
+        <div class="col-8">
             <h4 class="mb-1 font-weight-bold">{{result.TypeCode}}
             </h4>
         </div>
-        <div class="col-6">
-            <h4 class="mb-1">ABR:
+        <div class="col-4">
+            <h4 class="mb-1">Created Date:
             </h4>
         </div>
-        <div class="col-6">
-            <h4 class="mb-1 font-weight-bold">{{result.Acknowledgement.ABR}}
+        <div class="col-8">
+            <h4 class="mb-1 font-weight-bold">{{result.CreatedDate | date : 'medium'}}
             </h4>
         </div>
     </div>
