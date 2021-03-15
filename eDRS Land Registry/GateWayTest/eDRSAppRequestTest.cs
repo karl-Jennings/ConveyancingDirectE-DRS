@@ -76,6 +76,25 @@ namespace GateWayTest
 
             };
 
+
+            RepresentingConveyancerType representingConveyancerType = new RepresentingConveyancerType
+            {
+
+                RepresentativeId = "2",
+                ConveyancerName = "Reprecenting Con name",
+                Reference = "GHK/Youngblood",
+                Item = new DXAddressType
+                {
+
+                    DXNumber = "12456",
+                    DXExchange = "Peterborough 4"
+                }
+
+            };
+            Representations.RepresentingConveyancer = new RepresentingConveyancerType[1];
+            Representations.RepresentingConveyancer[0] = representingConveyancerType;
+
+
             _product.Representations = Representations;
 
             //Parties
