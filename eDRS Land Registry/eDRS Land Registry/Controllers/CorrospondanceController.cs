@@ -25,24 +25,36 @@ namespace eDRS_Land_Registry.Controllers
     public class corrospondanceController : ApiController
     {
 
-        public ResponseCorrespondenceRequest Post([FromBody] CorrospondanceRequest tempClass)
+        public RequestLog Post([FromBody] TempClass tempClass)
         {
             ResponseCorrespondenceRequest response = new ResponseCorrespondenceRequest();
             try
             {
-                CorrospondanceRequest request = JsonConvert.DeserializeObject<CorrospondanceRequest>(tempClass.MessageId);
+                CorrospondanceRequest request = JsonConvert.DeserializeObject<CorrospondanceRequest>(tempClass.Value);
 
                 BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
 
                 response = _services.CorrespondenceRequest(request.Username, request.Password, request.MessageId);
 
-                return response;
+                var requestLog = new RequestLog();
+                requestLog.IsSuccess = true;
+                requestLog.Type = "correspondence";
+                requestLog.TypeCode = response.GatewayResponse.GatewayResponse.TypeCode.ToString();
+                requestLog.AppMessageId = response.GatewayResponse.GatewayResponse.ApplicationMessageId;
+
+                byte[] bytes = response.GatewayResponse.GatewayResponse.Correspondence.Value;
+                string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+
+                requestLog.FileName = response.GatewayResponse.GatewayResponse.Correspondence.filename;
+                requestLog.FileExtension = response.GatewayResponse.GatewayResponse.Correspondence.format;
+
+                requestLog.File = base64String;
+                return requestLog;
 
             }
             catch (Exception ex)
             {
-                response.Successful = false;
-                return response;
+                return new RequestLog { IsSuccess = false };
             }
 
         }

@@ -203,5 +203,23 @@ namespace eDrsAPI.Controllers
 
         }
 
+        /// <summary>
+        /// Getting Requisition request
+        /// </summary>
+        /// <returns>RestrictionPoolResponse</returns>
+        [HttpGet]
+        public IActionResult GetFinalResult(long docRefId, int serviceId)
+        {
+            try
+            {
+                return Ok(_registration.GetFinalResult(docRefId, serviceId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
     }
 }

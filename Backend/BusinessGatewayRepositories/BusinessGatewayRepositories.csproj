@@ -68,6 +68,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\CorrespondenceV1_0Type\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\DayListEnquiry\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -156,6 +161,19 @@
     </None>
     <None Include="Service References\AttachmentServiceRequest\BusinessGatewayRepositories.AttachmentServiceRequest.newAttachmentResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\CorrespondenceV1_0Type\BusinessGatewayRepositories.CorrespondenceV1_0Type.CorrespondenceV1_0Type.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\CorrespondenceV1_0Type\BusinessGatewayRepositories.CorrespondenceV1_0Type.getResponseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\CorrespondenceV1_0Type\CorrespondenceV2_1PollRequestWebService.wsdl" />
+    <None Include="Service References\CorrespondenceV1_0Type\CorrespondenceV2_1PollRequestWebService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\CorrespondenceV1_0Type\CorrespondenceV2_1PollRequestWebService1.xsd">
+      <SubType>Designer</SubType>
     </None>
     <None Include="Service References\DayListEnquiry\BusinessGatewayRepositories.DayListEnquiry.daylistEnquiryResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -310,6 +328,7 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\AttachmentPollRequest\" />
     <WCFMetadataStorage Include="Service References\AttachmentServiceRequest\" />
+    <WCFMetadataStorage Include="Service References\CorrespondenceV1_0Type\" />
     <WCFMetadataStorage Include="Service References\DayListEnquiry\" />
     <WCFMetadataStorage Include="Service References\EDRSApplication\" />
     <WCFMetadataStorage Include="Service References\LandChargesBankruptcy\" />
@@ -474,6 +493,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ResponseEarlyCompletionV2_0Type\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CorrespondenceV1_0Type\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CorrespondenceV1_0Type\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CorrespondenceV1_0Type\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

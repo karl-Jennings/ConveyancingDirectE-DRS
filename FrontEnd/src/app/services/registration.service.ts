@@ -10,6 +10,7 @@ import { DocumentReference } from '../models/document-reference';
 export class RegistrationService {
 
 
+
   private GetRegistrationTypesUrl = environment.apiURL + 'Registration/GetRegistrationTypes';
   private GetRegistrationTypeUrl = environment.apiURL + 'Registration/GetRegistrationType';
   private CreateRegistrationUrl = environment.apiURL + 'Registration/CreateRegistration';
@@ -20,6 +21,7 @@ export class RegistrationService {
   private GetPoolResponseUrl = environment.apiURL + 'Registration/GetPoolResponse';
   private CollectAttachmentResultUrl = environment.apiURL + 'Registration/GetOutStandingPollRequest';
   private GetRequisitionUrl = environment.apiURL + 'Registration/GetRequisition';
+  private GetFinalResultUrl = environment.apiURL + 'Registration/GetFinalResult';
 
   constructor(private http: HttpClient) {
 
@@ -63,6 +65,10 @@ export class RegistrationService {
 
   GetRequisition(docRefId: any, serviceId: string): Observable<any> {
     return this.http.get(this.GetRequisitionUrl, { params: { docRefId, serviceId } });
+  }
+
+  CollectFinalResults(docRefId: any, serviceId: string): Observable<any> {
+    return this.http.get(this.GetFinalResultUrl, { params: { docRefId, serviceId } });
   }
 
 

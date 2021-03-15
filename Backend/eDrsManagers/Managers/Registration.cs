@@ -173,20 +173,41 @@ namespace eDrsManagers.Managers
 
             var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
 
-            AttachmentPollRequestViewModel attachmentPoll = new AttachmentPollRequestViewModel();
-            attachmentPoll.Username = "BGUser001";
+            OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
+            outstaningRequest.Username = "BGUser001";
             if (docRef != null)
             {
-                attachmentPoll.Password = docRef.Password;
-                attachmentPoll.MessageId = docRef.MessageID;
+                outstaningRequest.Password = docRef.Password;
+                outstaningRequest.Service = 70;
+                outstaningRequest.MessageId = docRef.MessageID;
             }
 
-            var response = _httpInterceptor.CallAttachmentPollApi(attachmentPoll);
+            var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
 
-            var requestLog = new RequestLog();
+            if (response.Successful)
+            {
+                var outResponse = response.Requests.FirstOrDefault();
+
+                ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
+                applicationPollRequest.Username = "BGUser001";
+                if (docRef != null) applicationPollRequest.Password = docRef.Password;
+                applicationPollRequest.MessageId = outResponse.Id;
+
+                var responseEarlyCompletionApi = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
+
+                if (responseEarlyCompletionApi.IsSuccess)
+                {
+                    responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
+                    _context.RequestLogs.Add(responseEarlyCompletionApi);
+                    _context.SaveChanges();
+                    return responseEarlyCompletionApi;
+                }
 
 
-            return requestLog;
+
+
+            }
+            return false;
 
         }
 
@@ -221,8 +242,6 @@ namespace eDrsManagers.Managers
 
             response.Requests.ForEach(x =>
             {
-
-
                 outstanding.Add(new Outstanding
                 {
                     LandRegistryId = x.Id,
@@ -280,8 +299,85 @@ namespace eDrsManagers.Managers
             {
                 var outResponse = response.Requests.FirstOrDefault();
 
-                return true;
+                CorrospondanceRequestViewModel corrospondanceRequestViewModel = new CorrospondanceRequestViewModel();
+                corrospondanceRequestViewModel.Username = "BGUser001";
+                if (docRef != null) corrospondanceRequestViewModel.Password = docRef.Password;
+                if (outResponse != null) corrospondanceRequestViewModel.MessageId = outResponse.Id;
 
+                var correspondenceResponse = _httpInterceptor.CallCorrespondenceRequestApi(corrospondanceRequestViewModel);
+
+                if (correspondenceResponse.IsSuccess)
+                {
+                    correspondenceResponse.DocumentReferenceId = docRef.DocumentReferenceId;
+                    _context.RequestLogs.Add(correspondenceResponse);
+                    _context.SaveChanges();
+                    return correspondenceResponse;
+                }
+
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        public dynamic GetFinalResult(long docRefId, int serviceId)
+        {
+            var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
+
+            OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
+            outstaningRequest.Username = "BGUser001";
+            if (docRef != null)
+            {
+                outstaningRequest.Password = docRef.Password;
+                outstaningRequest.Service = serviceId;
+                outstaningRequest.MessageId = docRef.MessageID;
+            }
+
+            var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
+
+            if (response.Successful)
+            {
+                var outResponse = response.Requests.FirstOrDefault();
+
+                if (outResponse.TypeCode == 30)
+                {
+                    EarlyCompletionRequest earlyCompletionRequest = new EarlyCompletionRequest();
+                    earlyCompletionRequest.Username = "BGUser001";
+                    if (docRef != null) earlyCompletionRequest.Password = docRef.Password;
+                    earlyCompletionRequest.MessageId = outResponse.Id;
+
+                    var responseEarlyCompletionApi = _httpInterceptor.CallEarlyCompletionApi(earlyCompletionRequest);
+
+                    if (responseEarlyCompletionApi.IsSuccess)
+                    {
+                        responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
+                        _context.RequestLogs.Add(responseEarlyCompletionApi);
+                        _context.SaveChanges();
+                        return responseEarlyCompletionApi;
+                    }
+                }
+                else if (outResponse.TypeCode == 20)
+                {
+                    ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
+                    applicationPollRequest.Username = "BGUser001";
+                    if (docRef != null) applicationPollRequest.Password = docRef.Password;
+                    applicationPollRequest.MessageId = outResponse.Id;
+
+                    var responseEarlyCompletionApi = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
+
+                    if (responseEarlyCompletionApi.IsSuccess)
+                    {
+                        responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
+                        _context.RequestLogs.Add(responseEarlyCompletionApi);
+                        _context.SaveChanges();
+                        return responseEarlyCompletionApi;
+                    }
+                }
+
+                return false;
             }
             else
             {

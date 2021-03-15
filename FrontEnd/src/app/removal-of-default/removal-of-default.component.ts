@@ -750,10 +750,10 @@ export class RemovalOfDefaultComponent implements OnInit {
   }
 
   SendPoolRequest() {
-    this.registrationService.GetPoolResponse(this.docRefId).subscribe(res => {
+    this.registrationService.GetPoolResponse(this.docRefId).subscribe((res: RequestLogs) => {
       // console.log()
       Swal.fire({
-        title: 'Pool Response from Gateway',
+        title: 'Poll Response from Gateway',
         html: `
         ${res.Description}
         `,
@@ -764,16 +764,14 @@ export class RemovalOfDefaultComponent implements OnInit {
         confirmButtonText: 'Download Zip'
       }).then((result) => {
         if (result.isConfirmed) {
-          console.log(res)
-          FileSaver.saveAs(res.File);
+          FileSaver.saveAs(res.File!, res.FileName + "." + res.FileExtension?.toLowerCase());
         }
       })
-
     });
   }
 
   DownloadAttachedPoll(item: RequestLogs) {
-    FileSaver.saveAs(item.File!, "Att_" + item.RequestLogId + ".zip");
+    FileSaver.saveAs(item.File!, item.FileName + "." + item.FileExtension?.toLowerCase());
   }
 
   CollectAttachmentResult() {
@@ -806,6 +804,33 @@ export class RemovalOfDefaultComponent implements OnInit {
   FindRequisitions() {
     this.registrationService.GetRequisition(this.docRefId, "70").subscribe(res => {
 
+      if (res != false) {
+        if (res.IsSuccess)
+          this.toastr.success("Please refresh the page to view the results", "Requisition Results collected")
+        else
+          this.toastr.error("Something went wrong while collecting results", "Requisition Results Error")
+
+      } else {
+        this.toastr.error("Something went wrong while collecting results", "Requisition Results Error")
+
+      }
+
+    });
+  }
+
+  CollectFinalResults() {
+    this.registrationService.CollectFinalResults(this.docRefId, "70").subscribe(res => {
+
+      if (res != false) {
+        if (res.IsSuccess)
+          this.toastr.success("Please refresh the page to view the results", "Requisition Results collected")
+        else
+          this.toastr.error("Something went wrong while collecting results", "Requisition Results Error")
+
+      } else {
+        this.toastr.error("Something went wrong while collecting results", "Requisition Results Error")
+
+      }
 
     });
   }

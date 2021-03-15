@@ -20,27 +20,41 @@ namespace eDRS_Land_Registry.Controllers
         public string Username { get; set; }
         public string Password { get; set; }
 
-
     }
     public class EarlyCompletionController : ApiController
-    {         
+    {
 
-        public EarlyCompletionResponse Post([FromBody] EarlyCompletionRequest request)
+        public RequestLog Post([FromBody] TempClass tempClass)
         {
             EarlyCompletionResponse response = new EarlyCompletionResponse();
             try
             {
+                EarlyCompletionRequest request = JsonConvert.DeserializeObject<EarlyCompletionRequest>(tempClass.Value);
+
                 BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
 
                 response = _services.EarlyCompletionRequest(request.Username, request.Password, request.MessageId);
-               
-                return response;
+
+                var requestLog = new RequestLog();
+                requestLog.IsSuccess = true;
+                requestLog.Type = "earlyCompletion";
+                requestLog.TypeCode = response.GatewayResponse.GatewayResponse.TypeCode.ToString();
+                requestLog.AppMessageId = response.GatewayResponse.GatewayResponse.EarlyCompletion.ApplicationMessageId;
+
+                byte[] bytes = response.GatewayResponse.GatewayResponse.EarlyCompletion.DespatchDocument.Value;
+                string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+
+                requestLog.FileName = response.GatewayResponse.GatewayResponse.EarlyCompletion.DespatchDocument.filename;
+                requestLog.FileExtension = response.GatewayResponse.GatewayResponse.EarlyCompletion.DespatchDocument.format;
+
+                requestLog.File = base64String;
+
+                return requestLog;
 
             }
             catch (Exception ex)
             {
-                response.Successful = false;
-                return response;
+                return new RequestLog { IsSuccess = false };
             }
 
         }

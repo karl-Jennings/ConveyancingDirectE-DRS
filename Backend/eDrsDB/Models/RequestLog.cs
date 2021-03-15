@@ -18,6 +18,9 @@ namespace eDrsDB.Models
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
         public string File { get; set; }
+        public string FileName { get; set; }
+        public string FileExtension { get; set; }
+        public string AppMessageId { get; set; }
 
         public string RejectionReason { get; set; }
         public string ValidationErrors { get; set; }

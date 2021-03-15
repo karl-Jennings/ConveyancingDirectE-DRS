@@ -8,6 +8,8 @@ using BusinessGatewayServices;
 using BusinessGatewayRepositories.EDRSApplication;
 using BusinessGatewayModels;
 using eDRS_Land_Registry.Models;
+using eDrsDB.Models;
+using Newtonsoft.Json;
 
 namespace eDRS_Land_Registry.Controllers
 {
@@ -19,24 +21,40 @@ namespace eDRS_Land_Registry.Controllers
 
 
     }
-    public partial class ApplicationPollController : ApiController
+    public class ApplicationPollController : ApiController
     {
 
-        [HttpPost]        
-        public ResponsePollRequest ApplicationPollRequest([FromBody] ApplicationPollRequest Request)
+        [HttpPost]
+        public RequestLog ApplicationPollRequest([FromBody] TempClass tempClass)
         {
             try
             {
-                BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();             
+                ApplicationPollRequest Request = JsonConvert.DeserializeObject<ApplicationPollRequest>(tempClass.Value);
 
-                var _reponse = _services.PollRequest( Request.Username,Request.Password, Request.MessageId);
+                BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
 
-                return _reponse;
+                var response = _services.PollRequest(Request.Username, Request.Password, Request.MessageId);
+
+                var requestLog = new RequestLog();
+                requestLog.IsSuccess = true;
+                requestLog.Type = "Poll";
+                requestLog.TypeCode = response.GatewayResponse.GatewayResponse.TypeCode.ToString();
+                requestLog.Description = response.GatewayResponse.GatewayResponse.Results.MessageDetails;
+
+                byte[] bytes = response.GatewayResponse.GatewayResponse.Results.DespatchDocument.Value;
+                string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+
+                requestLog.FileName = response.GatewayResponse.GatewayResponse.Results.DespatchDocument.filename;
+                requestLog.FileExtension = response.GatewayResponse.GatewayResponse.Results.DespatchDocument.format;
+
+                requestLog.File = base64String;
+
+                return requestLog;
 
             }
             catch (Exception ex)
             {
-                return new ResponsePollRequest { Successful = false };
+                return new RequestLog { IsSuccess = false };
             }
 
         }

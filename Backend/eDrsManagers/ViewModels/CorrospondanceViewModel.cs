@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using BusinessGatewayRepositories.CorrespondenceV1_0Type;
 
 namespace eDrsManagers.ViewModels
 {
