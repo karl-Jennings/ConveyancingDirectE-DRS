@@ -279,9 +279,8 @@ namespace eDrsManagers.Managers
             if (response.Successful)
             {
                 var outResponse = response.Requests.FirstOrDefault();
-                outResponse.Id;
 
-                _httpInterceptor.CallApplicationPollRequestApi()
+
             }
             else
             {
