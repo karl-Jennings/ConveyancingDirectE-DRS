@@ -100,7 +100,7 @@ namespace eDrsManagers.Http
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public EarlyCompletionResponse CallApplicationPollRequestApi(EarlyCompletionRequest viewModel)
+        public ResponsePollRequest CallEarlyCompletionApi(ApplicationPollRequest viewModel)
         {
 
 
@@ -115,7 +115,55 @@ namespace eDrsManagers.Http
 
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
+            ResponsePollRequest apiResponse = JsonConvert.DeserializeObject<ResponsePollRequest>(response.Content);
+
+            return apiResponse;
+
+        }
+        /// <summary>
+        /// Early Completion  Request
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
+        public EarlyCompletionResponse CallEarlyCompletionApi(EarlyCompletionRequest viewModel)
+        {
+
+            // change this
+
+            var client = new RestClient(baseUrl + "ApplicationPoll");
+
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.RequestFormat = DataFormat.Json;
+
+            Console.WriteLine(JsonConvert.SerializeObject(new { value = JsonConvert.SerializeObject(viewModel) }));
+
+
+            request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
+            IRestResponse response = client.Execute(request);
             EarlyCompletionResponse apiResponse = JsonConvert.DeserializeObject<EarlyCompletionResponse>(response.Content);
+
+            return apiResponse;
+
+        }
+
+
+        public ResponseCorrespondence CallCorrespondenceRequestApi(CorrospondanceRequestViewModel viewModel)
+        {
+
+            //change this   api/corrospondance
+            var client = new RestClient(baseUrl + "ApplicationPoll");
+
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.RequestFormat = DataFormat.Json;
+
+            Console.WriteLine(JsonConvert.SerializeObject(new { value = JsonConvert.SerializeObject(viewModel) }));
+
+
+            request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
+            IRestResponse response = client.Execute(request);
+            ResponseCorrespondence apiResponse = JsonConvert.DeserializeObject<ResponseCorrespondence>(response.Content);
 
             return apiResponse;
 

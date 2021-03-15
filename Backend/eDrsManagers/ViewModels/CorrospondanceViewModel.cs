@@ -4,27 +4,26 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eDrsManagers.ViewModels
 {
-    public class ApplicationFormViewModel
+    public class CorrospondanceRequestViewModel
     {
-        public long ApplicationFormId { get; set; }
-        public string Type { get; set; }
-        public string Reference { get; set; }
+        public string MessageId { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
 
-        public DateTime ChargeDate { get; set; }
+    }
 
-        public bool IsAgreed { get; set; }
-        public string FileLocation { get; set; }
-        public string FileName { get; set; }
-        public string CertificationType { get; set; }
+    public class ResponseCorrespondence
+    {
+        public ResponseCorrespondence() { }
+        public string Error { get; set; }
+        public string UniqueReference { get; set; }
+        public decimal ActualPrice { get; set; }
+        public bool Successful { get; set; }
+        public string MessageDetails { get; set; }
+        public DateTime ExpiryDate { get; set; }
+        public string UserName { get; set; }
+        public bool Attachment { get; set; }
+        public CorrespondenceV1_0Type GatewayResponse { get; set; }
 
-        public decimal Fee { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
-        public DateTime UpdatedDate { get; set; }
-        public bool Status { get; set; }
-
-        public long TitleNumberId { get; set; }
-        public TitleNumberViewModel TitleNumber { get; set; }
     }
 }
