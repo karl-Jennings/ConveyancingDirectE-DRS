@@ -25,12 +25,12 @@ namespace eDRS_Land_Registry.Controllers
     public class corrospondanceController : ApiController
     {
 
-        public ResponseCorrespondenceRequest Post([FromBody] TempClass tempClass)
+        public ResponseCorrespondenceRequest Post([FromBody] CorrospondanceRequest tempClass)
         {
             ResponseCorrespondenceRequest response = new ResponseCorrespondenceRequest();
             try
             {
-                CorrospondanceRequest request = JsonConvert.DeserializeObject<CorrospondanceRequest>(tempClass.Value);
+                CorrospondanceRequest request = JsonConvert.DeserializeObject<CorrospondanceRequest>(tempClass.MessageId);
 
                 BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
 
