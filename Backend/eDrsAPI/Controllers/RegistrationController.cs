@@ -150,7 +150,7 @@ namespace eDrsAPI.Controllers
         }
 
         /// <summary>
-        /// Getting pool request
+        /// Getting poll request
         /// </summary>
         /// <returns>RestrictionPoolResponse</returns>
         [HttpGet]
@@ -168,15 +168,33 @@ namespace eDrsAPI.Controllers
         }
 
         /// <summary>
+        /// Getting poll request
+        /// </summary>
+        /// <returns>RestrictionPoolResponse</returns>
+        [HttpGet]
+        public IActionResult GetOutStandingPollRequest(long docRefId, int serviceId)
+        {
+            try
+            {
+                return Ok(_registration.GetOutStandingPollRequest(docRefId, serviceId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
+        /// <summary>
         /// Getting pool request
         /// </summary>
         /// <returns>RestrictionPoolResponse</returns>
         [HttpGet]
-        public IActionResult GetOutStandingPollRequest(long docRefId)
+        public IActionResult GetRequisition(long docRefId, int serviceId)
         {
             try
             {
-                return Ok(_registration.GetOutStandingPollRequest(docRefId));
+                return Ok(_registration.GetRequisition(docRefId, serviceId));
             }
             catch (Exception ex)
             {

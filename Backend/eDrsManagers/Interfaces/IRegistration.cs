@@ -22,6 +22,7 @@ namespace eDrsManagers.Interfaces
         RegistrationType GetRegistrationType(long regType);
         dynamic GetPollResponse(long docRefId);
         bool AutomatePollRequest();
-        dynamic GetOutStandingPollRequest(long docRefId);
+        dynamic GetOutStandingPollRequest(long docRefId, int serviceId);
+        dynamic GetRequisition(in long docRefId, in int serviceId);
     }
 }

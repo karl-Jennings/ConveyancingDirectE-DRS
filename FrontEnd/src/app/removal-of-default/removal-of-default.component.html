@@ -803,13 +803,11 @@
                                                         <td class="py-2">{{item.TypeCode}}</td>
                                                         <td class="py-2">{{item.Description}}</td>
                                                         <td class="py-2">{{item.AttachmentId}}</td>
-
                                                     </ng-container>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
-
 
                                 </div>
 
@@ -819,7 +817,23 @@
                     </div>
                 </mat-tab>
 
+                <!-- Requisition Log -->
+                <mat-tab label="Requisition" *ngIf="docRefId != 0">
+                    <div class="container-fluid pl-1 pr-1 py-3" style="height: 600px; overflow: scroll;">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="col-12 pt-3">
+                                    <button mat-flat-button color="primary" type="button"
+                                        (click)="FindRequisitions()">Find Requisitions</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
             </mat-tab-group>
+
+
 
         </div>
     </div>

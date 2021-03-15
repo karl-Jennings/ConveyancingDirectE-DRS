@@ -777,7 +777,7 @@ export class RemovalOfDefaultComponent implements OnInit {
   }
 
   CollectAttachmentResult() {
-    this.registrationService.CollectAttachmentResult(this.docRefId).subscribe(res => {
+    this.registrationService.CollectAttachmentResult(this.docRefId, "70").subscribe(res => {
       // console.log()
       // Swal.fire({
       //   title: 'Pool Response from Gateway',
@@ -799,6 +799,13 @@ export class RemovalOfDefaultComponent implements OnInit {
         this.toastr.success("Please refresh the page to view the results", "Attachment Results collected")
       else
         this.toastr.error("Something went wrong while collecting results", "Attachment Results Error")
+
+    });
+  }
+
+  FindRequisitions() {
+    this.registrationService.GetRequisition(this.docRefId, "70").subscribe(res => {
+
 
     });
   }

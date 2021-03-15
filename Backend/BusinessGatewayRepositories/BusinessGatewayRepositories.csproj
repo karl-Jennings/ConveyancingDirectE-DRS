@@ -113,6 +113,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\ResponseEarlyCompletionV2_0Type\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\RES\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -275,6 +280,19 @@
     <None Include="Service References\PropertyDescription\ResponseSearchByPropertyDescriptionV2_0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\ResponseEarlyCompletionV2_0Type\BusinessGatewayRepositories.ResponseEarlyCompletionV2_0Type.getResponseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ResponseEarlyCompletionV2_0Type\BusinessGatewayRepositories.ResponseEarlyCompletionV2_0Type.ResponseEarlyCompletionV2_0Type.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ResponseEarlyCompletionV2_0Type\EarlyCompletionV2_1PollRequestWebService.wsdl" />
+    <None Include="Service References\ResponseEarlyCompletionV2_0Type\EarlyCompletionV2_1PollRequestWebService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ResponseEarlyCompletionV2_0Type\EarlyCompletionV2_1PollRequestWebService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\RES\BusinessGatewayRepositories.RES.performOCWithSummaryResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -301,6 +319,7 @@
     <WCFMetadataStorage Include="Service References\OwnerVerification\" />
     <WCFMetadataStorage Include="Service References\PollOS1\" />
     <WCFMetadataStorage Include="Service References\PropertyDescription\" />
+    <WCFMetadataStorage Include="Service References\ResponseEarlyCompletionV2_0Type\" />
     <WCFMetadataStorage Include="Service References\RES\" />
   </ItemGroup>
   <ItemGroup>
@@ -443,6 +462,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\AttachmentPollRequest\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ResponseEarlyCompletionV2_0Type\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ResponseEarlyCompletionV2_0Type\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ResponseEarlyCompletionV2_0Type\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

@@ -26,6 +26,7 @@ namespace eDrsManagers.Http
     }
     public class HttpEdrsCall : IHttpEdrsCall
     {
+        private string baseUrl = "https://localhost:44340/api/";
         public HttpEdrsCall()
         {
 
@@ -35,7 +36,7 @@ namespace eDrsManagers.Http
         {
 
 
-            var client = new RestClient("https://localhost:44340/api/RequestApplication");
+            var client = new RestClient(baseUrl + "RequestApplication");
 
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -61,7 +62,7 @@ namespace eDrsManagers.Http
         /// <returns></returns>
         public OutstandingResponse CallOutstandingApi(OutstaningRequestViewModel viewModel)
         {
-            var client = new RestClient("https://localhost:44340/api/Outstanding");
+            var client = new RestClient(baseUrl + "Outstanding");
 
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -78,7 +79,7 @@ namespace eDrsManagers.Http
         public RequestLog CallAttachmentPollApi(AttachmentPollRequestViewModel viewModel)
         {
 
-            var client = new RestClient("https://localhost:44340/api/AttachementPoll");
+            var client = new RestClient(baseUrl + "AttachementPoll");
 
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -103,7 +104,7 @@ namespace eDrsManagers.Http
         {
 
 
-            var client = new RestClient("https://localhost:44340/api/ApplicationPoll");
+            var client = new RestClient(baseUrl + "ApplicationPoll");
 
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");

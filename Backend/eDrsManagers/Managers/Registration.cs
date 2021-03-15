@@ -184,7 +184,7 @@ namespace eDrsManagers.Managers
             var response = _httpInterceptor.CallAttachmentPollApi(attachmentPoll);
 
             var requestLog = new RequestLog();
-             
+
 
             return requestLog;
 
@@ -202,7 +202,7 @@ namespace eDrsManagers.Managers
             return true;
         }
 
-        public dynamic GetOutStandingPollRequest(long docRefId)
+        public dynamic GetOutStandingPollRequest(long docRefId, int serviceId)
         {
             var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
 
@@ -211,7 +211,7 @@ namespace eDrsManagers.Managers
             if (docRef != null)
             {
                 outstaningRequest.Password = docRef.Password;
-                outstaningRequest.Service = 70;
+                outstaningRequest.Service = serviceId;
                 outstaningRequest.MessageId = docRef.MessageID;
             }
 
@@ -221,6 +221,8 @@ namespace eDrsManagers.Managers
 
             response.Requests.ForEach(x =>
             {
+
+
                 outstanding.Add(new Outstanding
                 {
                     LandRegistryId = x.Id,
@@ -231,6 +233,7 @@ namespace eDrsManagers.Managers
                     ServiceType = x.ServiceType
                 });
             });
+
             var requestLogList = new List<RequestLog>();
             outstanding.ForEach(x =>
             {
@@ -257,6 +260,32 @@ namespace eDrsManagers.Managers
             return response;
 
         }
+
+        public dynamic GetRequisition(in long docRefId, in int serviceId)
+        {
+            var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
+
+            OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
+            outstaningRequest.Username = "BGUser001";
+            if (docRef != null)
+            {
+                outstaningRequest.Password = docRef.Password;
+                outstaningRequest.Service = serviceId;
+                outstaningRequest.MessageId = docRef.MessageID;
+            }
+
+            var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
+
+            if (response.Successful)
+            {
+
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 
         public DocumentReference GetRegistration(long regId)
         {
