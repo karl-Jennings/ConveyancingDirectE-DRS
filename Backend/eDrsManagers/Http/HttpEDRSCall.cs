@@ -22,7 +22,9 @@ namespace eDrsManagers.Http
         RequestLog CallRegistrationApi(DocumentReferenceViewModel viewModel);
         OutstandingResponse CallOutstandingApi(OutstaningRequestViewModel viewModel);
         RequestLog CallAttachmentPollApi(AttachmentPollRequestViewModel viewModel);
-        EarlyCompletionResponse CallApplicationPollRequestApi(EarlyCompletionRequest viewModel);
+        ResponsePollRequest CallApplicationPollRequestApi(ApplicationPollRequest viewModel);
+        EarlyCompletionResponse CallEarlyCompletionApi(EarlyCompletionRequest viewModel);
+        ResponseCorrespondence CallCorrespondenceRequestApi(CorrospondanceRequestViewModel viewModel);
     }
     public class HttpEdrsCall : IHttpEdrsCall
     {
@@ -100,7 +102,7 @@ namespace eDrsManagers.Http
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public ResponsePollRequest CallApplicationPollApi(ApplicationPollRequest viewModel)
+        public ResponsePollRequest CallApplicationPollRequestApi(ApplicationPollRequest viewModel)
         {
 
 
