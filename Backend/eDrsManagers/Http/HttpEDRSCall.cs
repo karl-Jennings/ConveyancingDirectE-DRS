@@ -23,6 +23,7 @@ namespace eDrsManagers.Http
         OutstandingResponse CallOutstandingApi(OutstaningRequestViewModel viewModel);
         RequestLog CallAttachmentPollApi(AttachmentPollRequestViewModel viewModel);
         ResponsePollRequest CallApplicationPollRequestApi(ApplicationPollRequest viewModel);
+
         EarlyCompletionResponse CallEarlyCompletionApi(EarlyCompletionRequest viewModel);
         ResponseCorrespondence CallCorrespondenceRequestApi(CorrospondanceRequestViewModel viewModel);
     }
