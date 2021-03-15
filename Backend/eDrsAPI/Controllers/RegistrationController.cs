@@ -186,7 +186,7 @@ namespace eDrsAPI.Controllers
         }
 
         /// <summary>
-        /// Getting pool request
+        /// Getting Requisition request
         /// </summary>
         /// <returns>RestrictionPoolResponse</returns>
         [HttpGet]
