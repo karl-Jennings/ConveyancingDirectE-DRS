@@ -100,7 +100,7 @@ namespace eDrsManagers.Http
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public ResponsePollRequest CallEarlyCompletionApi(ApplicationPollRequest viewModel)
+        public ResponsePollRequest CallApplicationPollApi(ApplicationPollRequest viewModel)
         {
 
 
@@ -130,7 +130,7 @@ namespace eDrsManagers.Http
 
             // change this
 
-            var client = new RestClient(baseUrl + "ApplicationPoll");
+            var client = new RestClient(baseUrl + "EarlyCompletion");
 
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -152,7 +152,7 @@ namespace eDrsManagers.Http
         {
 
             //change this   api/corrospondance
-            var client = new RestClient(baseUrl + "ApplicationPoll");
+            var client = new RestClient(baseUrl + "corrospondance");
 
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
