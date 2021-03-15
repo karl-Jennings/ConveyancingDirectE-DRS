@@ -5,6 +5,10 @@ export class RequestLogs {
     Description?: string;
     CreatedDate?: Date;
     File?: string;
+    FileName?: string;
+    FileExtension?: string;
+    AppMessageId?: string;
+
     ResponseType?: string;
     RejectionReason?: string;
     ValidationErrors?: string;

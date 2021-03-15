@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://poll.correspondencev2_1.ws.bg.lr.gov/" name="CorrespondenceV2_1PollRequestWebService" targetNamespace="http://poll.correspondencev2_1.ws.bg.lr.gov/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema xmlns:ns2="http://www.oscre.org/ns/eReg-Final/2012/CorrespondenceV1_0" xmlns:ns1="http://www.oscre.org/ns/eReg/MR01-20090605/PollRequest" xmlns:ns3="http://poll.correspondencev2_1.ws.bg.lr.gov/" targetNamespace="http://poll.correspondencev2_1.ws.bg.lr.gov/">
+      <xsd:import schemaLocation="https://bgtest.landregistry.gov.uk/b2b/ECDRS_StubService/CorrespondenceV2_1PollRequestWebService?xsd=PollRequest.xsd" namespace="http://www.oscre.org/ns/eReg/MR01-20090605/PollRequest" />
+      <xsd:import schemaLocation="https://bgtest.landregistry.gov.uk/b2b/ECDRS_StubService/CorrespondenceV2_1PollRequestWebService?xsd=CorrespondenceV1_0.xsd" namespace="http://www.oscre.org/ns/eReg-Final/2012/CorrespondenceV1_0" />
+      <xsd:element name="SOAPEngineSystemException" nillable="true" type="xsd:string" />
+      <xsd:element name="SchemaException" nillable="true" type="xsd:string" />
+      <xsd:element name="getResponse" type="ns3:getResponse" />
+      <xsd:element name="getResponseResponse" type="ns3:getResponseResponse" />
+      <xsd:complexType name="getResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="arg0" type="ns1:PollRequestType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getResponseResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="return" type="ns2:CorrespondenceV1_0Type" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </types>
+  <message name="SOAPEngineSystemException">
+    <part name="fault" element="tns:SOAPEngineSystemException" />
+  </message>
+  <message name="SchemaException">
+    <part name="fault" element="tns:SchemaException" />
+  </message>
+  <message name="getResponseResponse">
+    <part name="parameters" element="tns:getResponseResponse" />
+  </message>
+  <message name="getResponse">
+    <part name="parameters" element="tns:getResponse" />
+  </message>
+  <portType name="CorrespondenceV2_1PollRequestService">
+    <operation name="getResponse">
+      <input message="tns:getResponse" />
+      <output message="tns:getResponseResponse" />
+      <fault name="SchemaException" message="tns:SchemaException" />
+      <fault name="SOAPEngineSystemException" message="tns:SOAPEngineSystemException" />
+    </operation>
+  </portType>
+  <binding name="CorrespondenceV2_1PollRequestWSImplPortBinding" type="tns:CorrespondenceV2_1PollRequestService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="getResponse">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="SchemaException">
+        <soap:fault use="literal" name="SchemaException" namespace="" />
+      </fault>
+      <fault name="SOAPEngineSystemException">
+        <soap:fault use="literal" name="SOAPEngineSystemException" namespace="" />
+      </fault>
+    </operation>
+  </binding>
+  <service name="CorrespondenceV2_1PollRequestWebService">
+    <port name="CorrespondenceV2_1PollRequestWSImplPort" binding="tns:CorrespondenceV2_1PollRequestWSImplPortBinding">
+      <soap:address location="https://bgtest.landregistry.gov.uk/b2b/ECDRS_StubService/CorrespondenceV2_1PollRequestWebService" />
+    </port>
+  </service>
+</definitions>

@@ -666,7 +666,7 @@
                                     <div class="col-12 pt-3">
                                         <button mat-flat-button color="primary" type="button"
                                             (click)="SendPoolRequest()">Collect
-                                            Application Request</button>
+                                            Application Result</button>
                                     </div>
                                     <div class="col-12 pt-3">
                                         <h3 class="font-weight-bold">Application Poll Responses</h3>
@@ -812,6 +812,50 @@
                                 </div>
 
                             </mat-expansion-panel>
+
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Collect results
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="row">
+                                    <div class="col-12 pt-3">
+                                        <button mat-flat-button color="primary" type="button"
+                                            (click)="CollectFinalResults()">Collect
+                                            final result</button>
+                                    </div>
+                                    <div class="col-12 pt-3">
+                                        <h3 class="font-weight-bold">Final Results</h3>
+                                        <table class="table table-bordered mt-1">
+                                            <thead>
+                                                <tr class="grey lighten-3">
+                                                    <th scope="col" class="py-2">Application Message Id</th>
+                                                    <th scope="col" class="py-2">Type Code</th>
+                                                    <th scope="col" class="py-2">Attachment</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of logsList">
+                                                    <ng-container *ngIf="item.Type == 'earlyCompletion'">
+                                                        <td class="py-2">{{item.AppMessageId}}</td>
+                                                        <td class="py-2">{{item.TypeCode}}</td>
+                                                        <td class="py-2">
+                                                            <button class="btn btn-primary btn-sm"
+                                                                (click)="DownloadAttachedPoll(item)">
+                                                                <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                                                Download
+                                                            </button>
+
+                                                        </td>
+                                                    </ng-container>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </mat-expansion-panel>
                         </mat-accordion>
 
                     </div>
@@ -826,6 +870,34 @@
                                     <button mat-flat-button color="primary" type="button"
                                         (click)="FindRequisitions()">Find Requisitions</button>
                                 </div>
+                            </div>
+                            <div class="col-12 pt-3">
+                                <h3 class="font-weight-bold">Requisition Logs</h3>
+                                <table class="table table-bordered mt-1">
+                                    <thead>
+                                        <tr class="grey lighten-3">
+                                            <th scope="col" class="py-2">Application Message Id</th>
+                                            <th scope="col" class="py-2">Type Code</th>
+                                            <th scope="col" class="py-2">Attachment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of logsList">
+                                            <ng-container *ngIf="item.Type == 'correspondence'">
+                                                <td class="py-2">{{item.AppMessageId}}</td>
+                                                <td class="py-2">{{item.TypeCode}}</td>
+                                                <td class="py-2">
+                                                    <button class="btn btn-primary btn-sm"
+                                                        (click)="DownloadAttachedPoll(item)">
+                                                        <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                                        Download
+                                                    </button>
+
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

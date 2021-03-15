@@ -22,10 +22,10 @@ namespace eDrsManagers.Http
         RequestLog CallRegistrationApi(DocumentReferenceViewModel viewModel);
         OutstandingResponse CallOutstandingApi(OutstaningRequestViewModel viewModel);
         RequestLog CallAttachmentPollApi(AttachmentPollRequestViewModel viewModel);
-        ResponsePollRequest CallApplicationPollRequestApi(ApplicationPollRequest viewModel);
+        RequestLog CallApplicationPollRequestApi(ApplicationPollRequest viewModel);
 
-        EarlyCompletionResponse CallEarlyCompletionApi(EarlyCompletionRequest viewModel);
-        ResponseCorrespondence CallCorrespondenceRequestApi(CorrospondanceRequestViewModel viewModel);
+        RequestLog CallEarlyCompletionApi(EarlyCompletionRequest viewModel);
+        RequestLog CallCorrespondenceRequestApi(CorrospondanceRequestViewModel viewModel);
     }
     public class HttpEdrsCall : IHttpEdrsCall
     {
@@ -103,7 +103,7 @@ namespace eDrsManagers.Http
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public ResponsePollRequest CallApplicationPollRequestApi(ApplicationPollRequest viewModel)
+        public RequestLog CallApplicationPollRequestApi(ApplicationPollRequest viewModel)
         {
 
 
@@ -118,17 +118,18 @@ namespace eDrsManagers.Http
 
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
-            ResponsePollRequest apiResponse = JsonConvert.DeserializeObject<ResponsePollRequest>(response.Content);
+            RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
 
             return apiResponse;
 
         }
+
         /// <summary>
         /// Early Completion  Request
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public EarlyCompletionResponse CallEarlyCompletionApi(EarlyCompletionRequest viewModel)
+        public RequestLog CallEarlyCompletionApi(EarlyCompletionRequest viewModel)
         {
 
             // change this
@@ -144,17 +145,16 @@ namespace eDrsManagers.Http
 
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
-            EarlyCompletionResponse apiResponse = JsonConvert.DeserializeObject<EarlyCompletionResponse>(response.Content);
+            RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
 
             return apiResponse;
 
         }
 
 
-        public ResponseCorrespondence CallCorrespondenceRequestApi(CorrospondanceRequestViewModel viewModel)
+        public RequestLog CallCorrespondenceRequestApi(CorrospondanceRequestViewModel viewModel)
         {
-
-            //change this   api/corrospondance
+            //change this api/corrospondance
             var client = new RestClient(baseUrl + "corrospondance");
 
             var request = new RestRequest(Method.POST);
@@ -166,7 +166,7 @@ namespace eDrsManagers.Http
 
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
-            ResponseCorrespondence apiResponse = JsonConvert.DeserializeObject<ResponseCorrespondence>(response.Content);
+            RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
 
             return apiResponse;
 
