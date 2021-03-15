@@ -261,7 +261,7 @@ namespace eDrsManagers.Managers
 
         }
 
-        public dynamic GetRequisition(in long docRefId, in int serviceId)
+        public dynamic GetRequisition(long docRefId, int serviceId)
         {
             var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
 
@@ -280,6 +280,7 @@ namespace eDrsManagers.Managers
             {
                 var outResponse = response.Requests.FirstOrDefault();
 
+                return true;
 
             }
             else

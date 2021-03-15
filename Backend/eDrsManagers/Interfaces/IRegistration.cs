@@ -23,6 +23,6 @@ namespace eDrsManagers.Interfaces
         dynamic GetPollResponse(long docRefId);
         bool AutomatePollRequest();
         dynamic GetOutStandingPollRequest(long docRefId, int serviceId);
-        dynamic GetRequisition(in long docRefId, in int serviceId);
+        dynamic GetRequisition(long docRefId, int serviceId);
     }
 }
