@@ -91,8 +91,32 @@ namespace GateWayTest
                 }
 
             };
-            Representations.RepresentingConveyancer = new RepresentingConveyancerType[1];
+
+            RepresentingConveyancerType representingConveyancerType2 = new RepresentingConveyancerType
+            {
+
+                RepresentativeId = "3",
+                ConveyancerName = "Reprecenting Con name 3",
+                Reference = "GHK/Youngblood 3",
+                Item = new PostalAddressType
+                {
+                    CareOfName= "CareOfName",
+                    CareOfReference= "CareOfReference",
+                    AddressLine1 = "AddressLine1",
+                    AddressLine2= "AddressLine2",
+                    City="city",
+                    Country="county",
+                    Postcode="postcode"
+
+                }
+
+            };
+
+
+
+            Representations.RepresentingConveyancer = new RepresentingConveyancerType[2];
             Representations.RepresentingConveyancer[0] = representingConveyancerType;
+            Representations.RepresentingConveyancer[1] = representingConveyancerType2;
 
 
             _product.Representations = Representations;
