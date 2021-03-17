@@ -89,7 +89,6 @@ namespace eDrsManagers.Managers
             viewModel.Parties.ToList().ForEach(party =>
             {
                 party.Roles = string.Join(",", party.ViewModelRoles);
-
             });
 
             var deletingTitle = _context.TitleNumbers
@@ -170,57 +169,66 @@ namespace eDrsManagers.Managers
 
         public dynamic GetPollResponse(long docRefId)
         {
-
-            var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
-
-            OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
-            outstaningRequest.Username = "BGUser001";
-            if (docRef != null)
+            try
             {
-                outstaningRequest.Password = docRef.Password;
-                outstaningRequest.Service = 70;
-                outstaningRequest.MessageId = docRef.MessageID;
-            }
+                var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
 
-            var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
-
-            if (response.Successful)
-            {
-                var outResponse = response.Requests.FirstOrDefault();
-
-                ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
-                applicationPollRequest.Username = "BGUser001";
-                if (docRef != null) applicationPollRequest.Password = docRef.Password;
-                applicationPollRequest.MessageId = outResponse.Id;
-
-                var responseEarlyCompletionApi = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
-
-                if (responseEarlyCompletionApi.IsSuccess)
+                OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
+                outstaningRequest.Username = "BGUser001";
+                if (docRef != null)
                 {
-                    responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
-                    _context.RequestLogs.Add(responseEarlyCompletionApi);
-                    _context.SaveChanges();
-                    return responseEarlyCompletionApi;
+                    outstaningRequest.Password = docRef.Password;
+                    outstaningRequest.Service = 70;
+                    outstaningRequest.MessageId = docRef.MessageID;
                 }
 
+                var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
+                if (response != null)
+                    if (response.Successful)
+                    {
+                        var outResponse = response.Requests.FirstOrDefault();
 
+                        ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
+                        applicationPollRequest.Username = "BGUser001";
+                        if (docRef != null) applicationPollRequest.Password = docRef.Password;
+                        applicationPollRequest.MessageId = outResponse.Id;
 
+                        var responseEarlyCompletionApi = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
 
+                        if (responseEarlyCompletionApi.IsSuccess)
+                        {
+                            responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
+                            _context.RequestLogs.Add(responseEarlyCompletionApi);
+                            _context.SaveChanges();
+                            return responseEarlyCompletionApi;
+                        }
+
+                    }
+                return false;
             }
-            return false;
-
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public bool AutomatePollRequest()
         {
-            var messageIds = _context.DocumentReferences.Where(x => x.Status).Select(x => x.DocumentReferenceId).ToList();
-            messageIds.ForEach(x =>
+            try
             {
-                Console.WriteLine("doing.............." + x);
-                GetPollResponse(x);
-            });
+                var messageIds = _context.DocumentReferences.Where(x => x.Status).Select(x => x.DocumentReferenceId).ToList();
+                messageIds.ForEach(x =>
+                {
+                    GetPollResponse(x);
+                });
 
-            return true;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
         }
 
         public dynamic GetOutStandingPollRequest(long docRefId, int serviceId)
@@ -397,7 +405,6 @@ namespace eDrsManagers.Managers
                     {
                         DocumentReferenceId = sel.DocumentReferenceId,
                         Email = sel.Email,
-                        Notes = sel.Notes,
                         AP1WarningUnderstood = sel.AP1WarningUnderstood,
                         Titles = sel.Titles.Select(s => new TitleNumber
                         {

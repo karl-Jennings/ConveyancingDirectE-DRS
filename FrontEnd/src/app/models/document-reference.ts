@@ -7,6 +7,7 @@ import { SupportingDocuments } from "./supporting-documents";
 import { TitleNumber } from "./title-number";
 
 export class DocumentReference {
+    DocumentReferenceId?: number;
     UserID?: string;
     Password?: string;
     AdditionalProviderFilter?: string;
@@ -19,7 +20,6 @@ export class DocumentReference {
     AP1WarningUnderstood?: boolean;
     ApplicationDate?: string;
     DisclosableOveridingInterests?: boolean;
-    RepresentativeId?: number;
     ApplicationAffects?: string;
     RegistrationTypeId?: string;
     UserId?: number;
@@ -31,6 +31,6 @@ export class DocumentReference {
     AttachmentNotes?: AttachmentNotes[];
     RequestLogs?: RequestLogs[];
     Representations?: Representation[];
-    
+
 
 }

@@ -25,7 +25,6 @@ namespace eDrsDB.Models
         public bool DisclosableOveridingInterests { get; set; }
         public string PostcodeOfProperty { get; set; }
         public string LocalAuthority { get; set; }
-        public string Notes { get; set; }
         public string ApplicationAffects { get; set; }
         public bool Status { get; set; }
         public long RegistrationTypeId { get; set; }

@@ -42,7 +42,7 @@ namespace eDrsAPI.Controllers
             {
                 var manager = new RecurringJobManager();
                 //manager.RemoveIfExists("poll_request");
-                manager.AddOrUpdate("temp Requ",
+                manager.AddOrUpdate("poll_request",
                     Job.FromExpression(() => _registration.AutomatePollRequest()), $"*/{minute} * * * *"
                 );
 

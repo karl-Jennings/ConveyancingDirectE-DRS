@@ -86,6 +86,9 @@ export class RemovalOfDefaultComponent implements OnInit {
   notesSaveBtn = "Add";
   repSaveBtn = "Add";
 
+  repType = 'LodgingConveyancer';
+  addressType = 'DXAddress';
+
   constructor(
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -105,15 +108,13 @@ export class RemovalOfDefaultComponent implements OnInit {
       MessageID: [''],
       ExternalReference: ['', Validators.required],
       UserID: [+localStorage.getItem("userId")!],
-      Reference: ['', Validators.required],
+      Reference: [''],
       TotalFeeInPence: [0],
       Email: ['', [Validators.required, Validators.email]],
-      Notes: ['', Validators.required],
       TelephoneNumber: [0, Validators.required],
       AP1WarningUnderstood: [true],
       ApplicationDate: [new Date().toISOString().substring(0, 10), Validators.required],
       DisclosableOveridingInterests: [true],
-      RepresentativeId: [0],
       ApplicationAffects: ['', Validators.required],
       RegistrationTypeId: [this.regType],
       PostcodeOfProperty: ['', Validators.required],
@@ -154,13 +155,31 @@ export class RemovalOfDefaultComponent implements OnInit {
 
     this.representationGroup = this.formBuilder.group({
       RepresentationId: [0],
-
-      RepresentativeId: [0, Validators.required],
+      Type: ['LodgingConveyancer'],
+      RepresentativeId: [1, Validators.required],
+      Name: [''],
+      Reference: [''],
+      AddressType: ['DXAddress'],
 
       LocalId: [0],
       IsSelected: [false],
       DocumentReferenceId: 0,
 
+
+      CareOfName: [''],
+      CareOfReference: [''],
+
+      DxNumber: [0],
+      DxExchange: [''],
+
+      AddressLine1: [''],
+      AddressLine2: [''],
+      AddressLine3: [''],
+      AddressLine4: [''],
+      City: [''],
+      County: [''],
+      Country: [''],
+      PostCode: ['']
     });
 
     this.partyGroup = this.formBuilder.group({
@@ -242,6 +261,59 @@ export class RemovalOfDefaultComponent implements OnInit {
       this.partyType = res
     })
 
+    this.representationGroup.get('Type')?.valueChanges.subscribe(res => {
+      this.repType = res
+
+      this.representationGroup.controls['Name'].clearValidators();
+      this.representationGroup.controls['Name'].updateValueAndValidity();
+
+      this.representationGroup.controls['Reference'].clearValidators();
+      this.representationGroup.controls['Reference'].updateValueAndValidity();
+      this.representationGroup.controls['CareOfName'].clearValidators();
+      this.representationGroup.controls['CareOfName'].updateValueAndValidity();
+      this.representationGroup.controls['CareOfReference'].clearValidators();
+      this.representationGroup.controls['CareOfReference'].updateValueAndValidity();
+      this.representationGroup.controls['DxNumber'].clearValidators();
+      this.representationGroup.controls['DxNumber'].updateValueAndValidity();
+      this.representationGroup.controls['DxExchange'].clearValidators();
+      this.representationGroup.controls['DxExchange'].updateValueAndValidity();
+      this.representationGroup.controls['AddressLine1'].clearValidators();
+      this.representationGroup.controls['AddressLine1'].updateValueAndValidity();
+
+      if (res != 'LodgingConveyancer') {
+        this.representationGroup.controls['Name'].setValidators([Validators.required]);
+        this.representationGroup.controls['Reference'].setValidators([Validators.required]);
+        this.representationGroup.controls['CareOfName'].setValidators([Validators.required]);
+        this.representationGroup.controls['CareOfReference'].setValidators([Validators.required]);
+
+        if (this.representationGroup.controls['AddressType'].value == 'DXAddress') {
+          this.representationGroup.controls['DxNumber'].setValidators([Validators.required]);
+          this.representationGroup.controls['DxExchange'].setValidators([Validators.required]);
+        } else {
+          this.representationGroup.controls['AddressLine1'].setValidators([Validators.required]);
+        }
+      }
+
+    })
+
+    this.representationGroup.get('AddressType')?.valueChanges.subscribe(res => {
+      this.addressType = res
+
+      this.representationGroup.controls['DxNumber'].clearValidators();
+      this.representationGroup.controls['DxNumber'].updateValueAndValidity();
+      this.representationGroup.controls['DxExchange'].clearValidators();
+      this.representationGroup.controls['DxExchange'].updateValueAndValidity();
+      this.representationGroup.controls['AddressLine1'].clearValidators();
+      this.representationGroup.controls['AddressLine1'].updateValueAndValidity();
+
+      if (res == 'DXAddress') {
+        this.representationGroup.controls['DxNumber'].setValidators([Validators.required]);
+        this.representationGroup.controls['DxExchange'].setValidators([Validators.required]);
+      } else if (res == 'PostalAddress') {
+        this.representationGroup.controls['AddressLine1'].setValidators([Validators.required]);
+      }
+    })
+
   }
 
   partyType = 'company';
@@ -257,22 +329,22 @@ export class RemovalOfDefaultComponent implements OnInit {
       IsSelected: false,
     }
 
-    if (this.titleList.find(s => s.LocalId == this.selectedTitleNumber) == null) {
-      this.titleList.push(Object.assign({}, insertObj));
-    } else {
-      insertObj = this.titleList.find(s => s.LocalId == this.selectedTitleNumber)!;
-      this.titleList = this.titleList.filter(s => s.LocalId != this.selectedTitleNumber);
+    if (this.txtTitle.valid) {
+      if (this.titleList.find(s => s.LocalId == this.selectedTitleNumber) == null) {
+        this.titleList.push(Object.assign({}, insertObj));
+      } else {
+        insertObj = this.titleList.find(s => s.LocalId == this.selectedTitleNumber)!;
+        this.titleList = this.titleList.filter(s => s.LocalId != this.selectedTitleNumber);
 
-      insertObj.TitleNumberCode = this.txtTitle.value;
+        insertObj.TitleNumberCode = this.txtTitle.value;
 
-      this.titleList.push(Object.assign({}, insertObj));
-      this.titleList = this.titleList.sort((a, b) => {
-        return a.LocalId! - b.LocalId!;
-      });
-    }
-    this.ClearTitleFields();
-
-
+        this.titleList.push(Object.assign({}, insertObj));
+        this.titleList = this.titleList.sort((a, b) => {
+          return a.LocalId! - b.LocalId!;
+        });
+      }
+      this.ClearTitleFields();
+    } 
   }
 
 
@@ -301,9 +373,6 @@ export class RemovalOfDefaultComponent implements OnInit {
       this.selectedTitleNumber = undefined;
     }
   }
-
-
-
 
   // For Applications
 
@@ -653,6 +722,11 @@ export class RemovalOfDefaultComponent implements OnInit {
       insertObj.IsSelected = false;
 
       if (this.representationList.find(s => s.LocalId == this.selectedRepId) == null) {
+        try {
+          insertObj.RepresentativeId = this.representationList[this.representationList.length - 1].RepresentativeId! + 1;
+
+        } catch (error) { }
+
         this.representationList.push(Object.assign({}, insertObj));
       } else {
 
@@ -687,12 +761,32 @@ export class RemovalOfDefaultComponent implements OnInit {
     this.selectedRepId = 0;
     this.representationGroup.patchValue({
       RepresentationId: 0,
+      Type: 'LodgingConveyancer',
       RepresentativeId: 0,
+      Name: '',
+      Reference: '',
+      AddressType: 'DXAddress',
       LocalId: [0],
       IsSelected: [false],
       DocumentReferenceId: 0,
 
+      CareOfName: '',
+      CareOfReference: '',
+
+      DxNumber: 0,
+      DxExchange: '',
+
+      AddressLine1: '',
+      AddressLine2: '',
+      AddressLine3: '',
+      AddressLine4: '',
+      City: '',
+      County: '',
+      Country: '',
+      PostCode: '',
     })
+
+    this.representationGroup.controls.Type.setValue("LodgingConveyancer");
   }
 
   RemoveRep(id: any) {
