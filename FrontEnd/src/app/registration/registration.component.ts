@@ -25,7 +25,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   RegistrationTypeChange() {
-    this.nextPath = this.selectedRegistration.Url + "/" + this.selectedRegistration.RegistrationTypeId;
+    this.nextPath = this.selectedRegistration.Url + "/" + this.selectedRegistration.RegistrationTypeId + "/view-all";
 
   }
 

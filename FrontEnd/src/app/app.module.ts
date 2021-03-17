@@ -36,6 +36,7 @@ import { ChangeOfNameComponent } from './change-of-name/change-of-name.component
 import { DispositionaryComponent } from './dispositionary/dispositionary.component';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { LrCredentialsComponent } from './settings/lr-credentials/lr-credentials.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     RemortgageComponent,
     TransferOfEquityComponent,
     ChangeOfNameComponent,
-    DispositionaryComponent
+    DispositionaryComponent,
+    LrCredentialsComponent
   ],
   imports: [
     BrowserModule,

@@ -26,6 +26,7 @@ namespace eDrsDB.Data
         public DbSet<AttachmentNote> AttachmentNotes { get; set; }
         public DbSet<Representation> Representations { get; set; }
         public DbSet<Outstanding> Outstanding { get; set; }
+        public DbSet<LrCredential> LrCredentials { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -61,6 +62,14 @@ namespace eDrsDB.Data
                     Email = "dushyanthaccura@gmail.com",
                     PasswordSalt = PasswordByte[0],
                     PasswordHash = PasswordByte[1]
+                });
+
+            modelBuilder.Entity<LrCredential>()
+                .HasData(new LrCredential
+                {
+                    LrCredentialsId = 1,
+                    Username = "BGUser001",
+                    Password = "landreg001"
                 });
 
             modelBuilder.Entity<RegistrationType>()
@@ -158,7 +167,7 @@ namespace eDrsDB.Data
                 .Property(x => x.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
 
-       
+
 
         }
     }

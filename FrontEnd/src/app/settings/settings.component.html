@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-5 col-lg-3 col-sm-5 col-xs-2">
+        <div class="col-md-5 col-lg-3 col-sm-5 col-xs-2 h-100">
             <mdb-card class="mb-3" borderColor="border-dark">
                 <mdb-card-header class="py-2">
                     Land Registry Polling Interval
@@ -10,6 +10,16 @@
                     <mat-slider class="w-100" thumbLabel (change)="TriggerSlider()" [(ngModel)]="sliderTime"
                         [displayWith]="formatLabel" min="1" max="60">
                     </mat-slider>
+                </mdb-card-body>
+            </mdb-card>
+        </div>
+        <div class="col-md-5 col-lg-3 col-sm-5 col-xs-2 h-100">
+            <mdb-card class="mb-3" borderColor="border-dark">
+                <mdb-card-header class="py-2">
+                    Land Registry Username/Password
+                </mdb-card-header>
+                <mdb-card-body>
+                    <app-lr-credentials></app-lr-credentials>
                 </mdb-card-body>
             </mdb-card>
         </div>
