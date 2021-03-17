@@ -86,6 +86,7 @@ export class RemovalOfDefaultComponent implements OnInit {
   notesSaveBtn = "Add";
   repSaveBtn = "Add";
 
+  appType = 'other';
   repType = 'LodgingConveyancer';
   addressType = 'DXAddress';
 
@@ -129,7 +130,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       Priority: [1, Validators.required],
       Value: ['', Validators.required],
       FeeInPence: [0],
-      Type: ['', Validators.required],
+      Type: [''],
       LocalId: [0],
       IsSelected: [false],
       ApplicationFormId: 0,
@@ -137,9 +138,11 @@ export class RemovalOfDefaultComponent implements OnInit {
       CertifiedCopy: [''],
       ExternalReference: ['', Validators.required],
       Document: {},
-      Variety: [''],
-      MDRef: [''],
-      ChargeDate: [new Date()]
+      Variety: [this.appType],
+      ChargeDate: [new Date().toISOString().substring(0, 10)],
+      IsMdRef: ['yes'],
+      MdRef: [''],
+      SortCode: ['']
     });
 
     this.supportingDocGroup = this.formBuilder.group({
@@ -149,8 +152,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       LocalId: [0],
       IsSelected: [false],
       SupportingDocumentId: 0,
-      DocumentReferenceId: 0,
-
+      DocumentReferenceId: 0
     });
 
     this.representationGroup = this.formBuilder.group({
@@ -257,6 +259,21 @@ export class RemovalOfDefaultComponent implements OnInit {
       })
     }
 
+    this.applicationGroup.get('Variety')?.valueChanges.subscribe(res => {
+      this.appType = res
+
+    })
+
+    this.applicationGroup.get('IsMdRef')?.valueChanges.subscribe(res => {
+
+      if (res == 'yes') {
+        this.applicationGroup.controls.MdRef.enable();
+      } else {
+        this.applicationGroup.controls.MdRef.disable();
+        this.applicationGroup.controls.MdRef.setValue("");
+      }
+    })
+
     this.partyGroup.get('PartyType')?.valueChanges.subscribe(res => {
       this.partyType = res
     })
@@ -344,7 +361,7 @@ export class RemovalOfDefaultComponent implements OnInit {
         });
       }
       this.ClearTitleFields();
-    } 
+    }
   }
 
 
@@ -475,9 +492,11 @@ export class RemovalOfDefaultComponent implements OnInit {
 
       Document: [],
       ExternalReference: '',
-      Variety: '',
+      Variety: 'other',
       MDRef: '',
-      ChargeDate: new Date()
+      ChargeDate: new Date().toISOString().substring(0, 10),
+      IsMdRef: 'yes',
+      SortCode: ''
     })
   }
 

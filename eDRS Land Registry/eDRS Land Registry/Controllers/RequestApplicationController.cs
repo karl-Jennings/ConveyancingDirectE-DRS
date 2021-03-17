@@ -23,7 +23,7 @@ namespace eDRS_Land_Registry.Controllers
 
         public class TempClass
         {
-            public string value { get; set; }
+            public string Value { get; set; }
             public string Username { get; set; }
             public string Password { get; set; }
 
@@ -34,7 +34,7 @@ namespace eDRS_Land_Registry.Controllers
         {
             try
             {
-                DocumentReference docRef = JsonConvert.DeserializeObject<DocumentReference>(tempClass.value);
+                DocumentReference docRef = JsonConvert.DeserializeObject<DocumentReference>(tempClass.Value);
 
                 var apiModel = _restrictionConverter.ArrangeLrApi(docRef);
 

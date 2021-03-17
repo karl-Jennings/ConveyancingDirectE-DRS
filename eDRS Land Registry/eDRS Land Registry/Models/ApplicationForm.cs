@@ -17,7 +17,9 @@ namespace eDrsDB.Models
         public string ExternalReference { get; set; }
         public string CertifiedCopy { get; set; }
         public DateTime ChargeDate { get; set; }
-        public string MDRef { get; set; }
+        public string IsMdRef { get; set; }
+        public string SortCode { get; set; }
+        public string MdRef { get; set; }
 
         public long DocumentReferenceId { get; set; }
         public Document Document { get; set; }

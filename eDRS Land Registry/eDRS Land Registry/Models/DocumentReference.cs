@@ -8,7 +8,7 @@ namespace eDrsDB.Models
 {
     public class DocumentReference
     {
-          public long DocumentReferenceId { get; set; }
+        public long DocumentReferenceId { get; set; }
         public string Reference { get; set; }
         public int TotalFeeInPence { get; set; }
         public string MessageID { get; set; }
@@ -22,7 +22,6 @@ namespace eDrsDB.Models
         public bool DisclosableOveridingInterests { get; set; }
         public string PostcodeOfProperty { get; set; }
         public string LocalAuthority { get; set; }
-        public string Notes { get; set; }
         public string ApplicationAffects { get; set; }
         public bool Status { get; set; }
         public long RegistrationTypeId { get; set; }

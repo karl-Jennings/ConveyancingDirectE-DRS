@@ -49,7 +49,7 @@ namespace eDrsManagers.Http
 
             JsonDeserializer deserial = new JsonDeserializer();
 
-            request.AddObject(new { value = JsonConvert.SerializeObject(viewModel), viewModel.Password, Username = "BGUser001" });
+            request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel), viewModel.Password, Username = "BGUser001" });
             IRestResponse response = client.Execute(request);
             RequestLog apiResponse = deserial.Deserialize<RequestLog>(response);
 
