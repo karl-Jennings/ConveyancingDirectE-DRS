@@ -1,5 +1,12 @@
 <div class="container-fluid">
     <div class="row">
+        <div class="col-12 mb-0">
+            <button mat-flat-button class="mr-1 btn-success"
+                routerLink='/registration/{{regTypeComponent}}/{{regType}}'>Create</button>
+        </div>
+        <div class="col-12 mb-1">
+            <hr>
+        </div>
         <div class="col">
 
             <table mat-table [dataSource]="dataSource" class="w-100 mat-elevation-0">
