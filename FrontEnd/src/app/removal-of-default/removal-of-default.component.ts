@@ -90,6 +90,8 @@ export class RemovalOfDefaultComponent implements OnInit {
   repType = 'LodgingConveyancer';
   addressType = 'DXAddress';
 
+  isOtherApplication = true;
+
   constructor(
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -109,17 +111,17 @@ export class RemovalOfDefaultComponent implements OnInit {
       MessageID: [''],
       ExternalReference: ['', Validators.required],
       UserID: [+localStorage.getItem("userId")!],
-      Reference: [''],
-      TotalFeeInPence: [0],
+      Reference: ['', Validators.required],
+      TotalFeeInPence: [Validators.required],
       Email: ['', [Validators.required, Validators.email]],
-      TelephoneNumber: [0, Validators.required],
+      TelephoneNumber: ['', Validators.required],
       AP1WarningUnderstood: [true],
       ApplicationDate: [new Date().toISOString().substring(0, 10), Validators.required],
       DisclosableOveridingInterests: [true],
       ApplicationAffects: ['', Validators.required],
       RegistrationTypeId: [this.regType],
-      PostcodeOfProperty: ['', Validators.required],
-      LocalAuthority: ['', Validators.required],
+      PostcodeOfProperty: [''],
+      LocalAuthority: [''],
       DocumentReferenceId: 0
     })
 
@@ -127,9 +129,9 @@ export class RemovalOfDefaultComponent implements OnInit {
     // this.documentReferenceGroup.controls.ApplicationDate.setValue(_today.toISOString().substring(0, 10););
 
     this.applicationGroup = this.formBuilder.group({
-      Priority: [1, Validators.required],
-      Value: ['', Validators.required],
-      FeeInPence: [0],
+      Priority: [],
+      Value: [],
+      FeeInPence: [],
       Type: [''],
       LocalId: [0],
       IsSelected: [false],
@@ -400,6 +402,8 @@ export class RemovalOfDefaultComponent implements OnInit {
     var insertObj: ApplicationForm = {
 
     }
+
+    debugger;
     if (this.applicationGroup.valid) {
 
       var documents: Document = {};
@@ -447,6 +451,16 @@ export class RemovalOfDefaultComponent implements OnInit {
   InsertDataToAppList(insertObj: ApplicationForm, documents: Document) {
     insertObj.Document = documents;
     if (this.applicationList.find(s => s.LocalId == this.selectedApplicationId) == null) {
+
+      if (this.applicationList.length == 0) {
+
+        insertObj.Priority = 1;
+
+      } else {
+
+        insertObj.Priority = this.applicationList[this.applicationList.length - 1].Priority! + 1;
+      }
+
       this.applicationList.push(Object.assign({}, insertObj));
 
     } else {
@@ -483,7 +497,7 @@ export class RemovalOfDefaultComponent implements OnInit {
     this.applicationGroup.patchValue({
       Priority: 1,
       Value: '',
-      FeeInPence: 0,
+      FeeInPence: null,
       Type: '',
       LocalId: 0,
       IsSelected: false,
@@ -513,6 +527,22 @@ export class RemovalOfDefaultComponent implements OnInit {
 
     for (let i = 0; i < files.length; i++) {
       this.fileName += files[i].name + (i + 1 != files.length ? ", " : "");
+    }
+
+  }
+
+  //handle application varity change event
+  VarityChange(value: any) {
+
+    console.log('change value:', value);
+
+    if (value == 'other') {
+      this.isOtherApplication = true;
+      this.applicationGroup.controls['Type'].setValidators([Validators.required]);
+    } else {
+      this.isOtherApplication = false;
+      this.applicationGroup.controls['Type'].clearValidators();
+      this.applicationGroup.controls['Type'].updateValueAndValidity();
     }
 
   }
@@ -742,6 +772,7 @@ export class RemovalOfDefaultComponent implements OnInit {
 
       if (this.representationList.find(s => s.LocalId == this.selectedRepId) == null) {
         try {
+
           insertObj.RepresentativeId = this.representationList[this.representationList.length - 1].RepresentativeId! + 1;
 
         } catch (error) { }

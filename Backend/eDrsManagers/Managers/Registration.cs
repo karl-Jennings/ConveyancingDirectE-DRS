@@ -67,17 +67,20 @@ namespace eDrsManagers.Managers
 
 
             var requestLogList = requestLog.AttachmentResponse;
-            requestLogList.ForEach(s =>
-            {
-                model.RequestLogs.Add(s);
-            });
-            model.RequestLogs.Add(requestLog);
 
-            _context.DocumentReferences.Add(model);
-
-            if (requestLog.IsSuccess)
+            if (requestLogList != null)
             {
-                _context.SaveChanges();
+
+
+                requestLogList.ForEach(s => { model.RequestLogs.Add(s); });
+                model.RequestLogs.Add(requestLog);
+
+                _context.DocumentReferences.Add(model);
+
+                if (requestLog.IsSuccess)
+                {
+                    _context.SaveChanges();
+                }
             }
 
             return requestLog;

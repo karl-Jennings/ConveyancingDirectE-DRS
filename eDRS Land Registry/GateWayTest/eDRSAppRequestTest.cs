@@ -40,15 +40,13 @@ namespace GateWayTest
             _product.Titles = _titles[0];
             #endregion
 
-            BusinessGatewayRepositories.EDRSApplication.OtherApplicationType[] applications = new BusinessGatewayRepositories.EDRSApplication.OtherApplicationType[1];
+            BusinessGatewayRepositories.EDRSApplication.ChargeApplicationType[] applications = new BusinessGatewayRepositories.EDRSApplication.ChargeApplicationType[1];
 
-            applications[0] = new BusinessGatewayRepositories.EDRSApplication.OtherApplicationType
+            applications[0] = new BusinessGatewayRepositories.EDRSApplication.ChargeApplicationType
             {
+                Priority = "1",
+                ChargeDate = 
 
-                Document = new BusinessGatewayRepositories.EDRSApplication.DocumentType { CertifiedCopy = CertifiedTypeContent.Certified },
-                Priority = 1.ToString(),
-                Value = 1000.ToString(),
-                FeeInPence = 1000.ToString()
 
             };
             _product.Applications = applications;

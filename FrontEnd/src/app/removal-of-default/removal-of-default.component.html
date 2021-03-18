@@ -22,45 +22,47 @@
             </div>
             <div class="col-3">
                 <mat-form-field class="example-form-field w-100">
-                    <mat-label>Your reference</mat-label>
-                    <input readonly formControlName="Reference" matInput type="text">
+                    <mat-label>Your Reference</mat-label>
+                    <input formControlName="ExternalReference" matInput type="text" required matTooltip="Reference associated with a case in Case Management
+                    System">
                 </mat-form-field>
             </div>
             <div class="col-3">
                 <mat-form-field class="example-form-field w-100">
                     <mat-label>Additional Provider Filter</mat-label>
-                    <input formControlName="AdditionalProviderFilter" matInput type="text">
+                    <input formControlName="AdditionalProviderFilter" matInput type="text" required>
                 </mat-form-field>
             </div>
+
             <div class="col-3">
                 <mat-form-field class="example-form-field w-100">
-                    <mat-label>External Reference</mat-label>
-                    <input formControlName="ExternalReference" matInput type="text">
+                    <mat-label>Customer reference</mat-label>
+                    <input formControlName="Reference" matInput type="text" required>
                 </mat-form-field>
             </div>
 
             <div class="col-3">
                 <mat-form-field class="example-form-field w-100">
                     <mat-label>Total Fee In Pence</mat-label>
-                    <input formControlName="TotalFeeInPence" matInput type="number">
+                    <input formControlName="TotalFeeInPence" matInput type="number" required>
                 </mat-form-field>
             </div>
             <div class="col-3">
                 <mat-form-field class="example-form-field w-100">
                     <mat-label>Email</mat-label>
-                    <input formControlName="Email" matInput type="email">
+                    <input formControlName="Email" matInput type="email" required>
                 </mat-form-field>
             </div>
             <div class="col-3">
                 <mat-form-field class="example-form-field w-100">
                     <mat-label>Telephone Number</mat-label>
-                    <input formControlName="TelephoneNumber" matInput type="number">
+                    <input formControlName="TelephoneNumber" matInput type="text" required>
                 </mat-form-field>
             </div>
             <div class="col-3">
                 <mat-form-field class="w-100">
                     <mat-label>AP1 Warning Understood</mat-label>
-                    <mat-select formControlName="AP1WarningUnderstood">
+                    <mat-select formControlName="AP1WarningUnderstood" required>
                         <mat-option [value]="true">Yes </mat-option>
                         <mat-option [value]="false">No </mat-option>
                     </mat-select>
@@ -69,22 +71,22 @@
             <div class="col-3">
                 <mat-form-field class="example-form-field w-100">
                     <mat-label>ApplicationDate</mat-label>
-                    <input formControlName="ApplicationDate" matInput type="date">
+                    <input formControlName="ApplicationDate" matInput type="date" required>
                 </mat-form-field>
             </div>
             <div class="col-3">
                 <mat-form-field class="w-100">
                     <mat-label>Disclosable Overiding Interests</mat-label>
-                    <mat-select formControlName="DisclosableOveridingInterests">
+                    <mat-select formControlName="DisclosableOveridingInterests" required>
                         <mat-option [value]="true">Yes </mat-option>
                         <mat-option [value]="false">No </mat-option>
                     </mat-select>
                 </mat-form-field>
-            </div> 
+            </div>
             <div class="col-3">
                 <mat-form-field class="example-form-field w-100">
                     <mat-label>Application Affects</mat-label>
-                    <mat-select formControlName="ApplicationAffects">
+                    <mat-select formControlName="ApplicationAffects" required>
                         <mat-option [value]="'WHOLE'"> WHOLE </mat-option>
                         <mat-option [value]="'PART'"> PART </mat-option>
                     </mat-select>
@@ -127,7 +129,7 @@
                 <mat-tab label="Title">
                     <div class="container-fluid" style="height: 600px; overflow: scroll;">
                         <div class="row">
-                            <div class="col-12 mt-3">
+                            <div class="col-4 mt-3">
                                 <div class="row">
                                     <div class="col">
                                         <mat-form-field class="example-form-field w-100">
@@ -174,7 +176,6 @@
 
                 <!--Application Forms -->
                 <mat-tab label="Applications">
-
                     <div class="container-fluid" style="height: 600px; overflow: scroll;">
                         <div class="row">
                             <div class="col-12 mt-3">
@@ -183,7 +184,8 @@
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Variety</mat-label>
-                                                <mat-select formControlName="Variety">
+                                                <mat-select formControlName="Variety"
+                                                    (selectionChange)="VarityChange($event.value)">
                                                     <mat-option [value]="'other'">Other Application</mat-option>
                                                     <mat-option [value]="'charge'">Charge Application</mat-option>
                                                 </mat-select>
@@ -198,39 +200,29 @@
                                                 </mat-select>
                                             </mat-form-field>
                                         </div>
-                                        <div class="col-md-3">
+                                        <!-- <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Priority</mat-label>
-                                                <input formControlName="Priority" matInput type="number">
+                                                <input formControlName="Priority" matInput type="number" readonly>
                                             </mat-form-field>
-                                        </div>
+                                        </div> -->
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Value</mat-label>
-                                                <input formControlName="Value" matInput type="text">
+                                                <input formControlName="Value" matInput type="number" required>
                                             </mat-form-field>
                                         </div>
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Fee In Pence</mat-label>
-                                                <input formControlName="FeeInPence" matInput type="text">
+                                                <input formControlName="FeeInPence" matInput type="number" required>
                                             </mat-form-field>
                                         </div>
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
-                                                <mat-label>External Reference</mat-label>
+                                                <mat-label>Attachment Reference</mat-label>
                                                 <input formControlName="ExternalReference" matInput type="text">
                                             </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3 mb-2">
-                                            <div class="input-group">
-                                                <div class="custom-file">
-                                                    <input type="file" #file class="custom-file-input" accept=".*"
-                                                        (change)="uploadFile()" />
-                                                    <label class="custom-file-label" for="inputGroupFile01">{{fileName}}
-                                                    </label>
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="col-md-6">
                                             <mat-form-field class="example-form-field w-100">
@@ -277,6 +269,18 @@
                                                 <input formControlName="SortCode" matInput type="text">
                                             </mat-form-field>
                                         </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" #file class="custom-file-input" accept=".*"
+                                                        (change)="uploadFile()" />
+                                                    <label class="custom-file-label" for="inputGroupFile01">{{fileName}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
 
                                         <div class="col-12">
                                             <button class="mr-1 ml-auto" (click)="PushApplicationToGrid()"
@@ -294,6 +298,7 @@
                                     <thead>
                                         <tr>
                                             <th class="font-weight-bold">Priority</th>
+                                            <th class="font-weight-bold">Variety</th>
                                             <th class="font-weight-bold">Value</th>
                                             <th class="font-weight-bold">Fee In Pence</th>
                                             <th class="font-weight-bold">Type</th>
@@ -307,8 +312,11 @@
                                             class="{{item.IsSelected ? 'light-blue-row' : '' }}"
                                             (click)="SelectAppRow(item.LocalId)">
                                             <th scope="row"> {{item.Priority}}</th>
-                                            <th scope="row"> {{item.Value}}</th>
-                                            <th scope="row"> {{item.FeeInPence}}</th>
+                                            <th scope="row"> {{item.Variety}}</th>
+                                            <th scope="row" style="text-align: right;"> {{item.Value | currency:'':'' }}
+                                            </th>
+                                            <th scope="row" style="text-align: right;"> {{item.FeeInPence |
+                                                currency:'':'' }}</th>
                                             <th scope="row"> {{item.Type}}</th>
                                             <th scope="row">
                                                 <button class="btn btn-primary btn-sm" (click)="DownloadAttached(item)">

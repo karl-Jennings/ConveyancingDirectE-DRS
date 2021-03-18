@@ -6,6 +6,7 @@ export class ApplicationForm {
     LocalId?: any;
     IsSelected?: boolean;
     Document?: Document;
+    Variety?: string;
 }
 
 export class Document {
