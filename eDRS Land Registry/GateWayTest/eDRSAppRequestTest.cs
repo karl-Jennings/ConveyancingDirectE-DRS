@@ -45,7 +45,7 @@ namespace GateWayTest
             applications[0] = new BusinessGatewayRepositories.EDRSApplication.ChargeApplicationType
             {
                 Priority = "1",
-                ChargeDate = 
+                ChargeDate = DateTime.Now
 
 
             };
