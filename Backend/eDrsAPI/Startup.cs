@@ -122,6 +122,7 @@ namespace eDrsAPI
             services.AddScoped<IRegistration, Registration>();
             services.AddScoped<IRestrictionConverter, RestrictionConverter>();
             services.AddScoped<IHttpEdrsCall, HttpEdrsCall>();
+            services.AddScoped<IAttachmentManager, AttachmentManager>();
 
             IdentityModelEventSource.ShowPII = true;
 

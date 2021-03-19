@@ -19,6 +19,7 @@ import { AttachmentNotes } from '../models/attachment-notes';
 import { RequestLogs } from '../models/request-logs';
 import { Representation } from '../models/representation';
 import { Outstanding } from '../models/outstanding';
+import { AttachmentService } from '../services/attachment.service';
 
 @Component({
   selector: 'app-removal-of-default',
@@ -96,6 +97,7 @@ export class RemovalOfDefaultComponent implements OnInit {
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private registrationService: RegistrationService,
+    private attachmentServices: AttachmentService,
     private route: ActivatedRoute,
     private toastr: ToastrService
   ) { }
@@ -915,7 +917,10 @@ export class RemovalOfDefaultComponent implements OnInit {
   }
 
   DownloadAttachedPoll(item: RequestLogs) {
-    FileSaver.saveAs(item.File!, item.FileName + "." + item.FileExtension?.toLowerCase());
+    this.attachmentServices.GetApplicationPollAttached(item.RequestLogId!).subscribe(res => {
+      FileSaver.saveAs(res!, item.FileName + "." + item.FileExtension?.toLowerCase());
+
+    })
   }
 
   CollectAttachmentResult() {
