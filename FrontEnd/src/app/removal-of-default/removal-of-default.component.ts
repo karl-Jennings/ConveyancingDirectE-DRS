@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, Form ,FormGroupDirective} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -114,7 +114,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       ExternalReference: ['', Validators.required],
       UserID: [+localStorage.getItem("userId")!],
       Reference: ['', Validators.required],
-      TotalFeeInPence: [Validators.required],
+      TotalFeeInPence: ['', Validators.required],
       Email: ['', [Validators.required, Validators.email]],
       TelephoneNumber: ['', Validators.required],
       AP1WarningUnderstood: [true],
@@ -263,12 +263,12 @@ export class RemovalOfDefaultComponent implements OnInit {
       })
     }
 
-    this.applicationGroup.get('Variety')?.valueChanges.subscribe(res => {
+    this.applicationGroup.get('Variety') ?.valueChanges.subscribe(res => {
       this.appType = res
 
     })
 
-    this.applicationGroup.get('IsMdRef')?.valueChanges.subscribe(res => {
+    this.applicationGroup.get('IsMdRef') ?.valueChanges.subscribe(res => {
 
       if (res == 'yes') {
         this.applicationGroup.controls.MdRef.enable();
@@ -278,11 +278,11 @@ export class RemovalOfDefaultComponent implements OnInit {
       }
     })
 
-    this.partyGroup.get('PartyType')?.valueChanges.subscribe(res => {
+    this.partyGroup.get('PartyType') ?.valueChanges.subscribe(res => {
       this.partyType = res
     })
 
-    this.representationGroup.get('Type')?.valueChanges.subscribe(res => {
+    this.representationGroup.get('Type') ?.valueChanges.subscribe(res => {
       this.repType = res
 
       this.representationGroup.controls['Name'].clearValidators();
@@ -317,7 +317,7 @@ export class RemovalOfDefaultComponent implements OnInit {
 
     })
 
-    this.representationGroup.get('AddressType')?.valueChanges.subscribe(res => {
+    this.representationGroup.get('AddressType') ?.valueChanges.subscribe(res => {
       this.addressType = res
 
       this.representationGroup.controls['DxNumber'].clearValidators();
@@ -375,9 +375,9 @@ export class RemovalOfDefaultComponent implements OnInit {
     this.titleList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
     this.titleList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
 
-    var selectedTitleNumber: any = this.titleList?.find(s => s.LocalId == id);
+    var selectedTitleNumber: any = this.titleList ?.find(s => s.LocalId == id);
     this.selectedTitleNumber = selectedTitleNumber.LocalId;
-    this.txtTitle?.setValue(selectedTitleNumber.TitleNumberCode)
+    this.txtTitle ?.setValue(selectedTitleNumber.TitleNumberCode)
   }
 
   ClearTitleFields() {
@@ -385,7 +385,7 @@ export class RemovalOfDefaultComponent implements OnInit {
     this.selectedTitleNumber = 0;
     this.txtTitle.setValue([])
 
-    this.titleList?.forEach(s => s.IsSelected = false);
+    this.titleList ?.forEach(s => s.IsSelected = false);
   }
 
   RemoveTitle(id: any) {
@@ -399,7 +399,7 @@ export class RemovalOfDefaultComponent implements OnInit {
 
   appId = 1;
   fileName: any = "Choose files";
-  PushApplicationToGrid() {
+  PushApplicationToGrid(formDirective:FormGroupDirective) {
 
     var insertObj: ApplicationForm = {
 
@@ -409,7 +409,7 @@ export class RemovalOfDefaultComponent implements OnInit {
     if (this.applicationGroup.valid) {
 
       var documents: Document = {};
-      let fileToUpload = this.file?.nativeElement.files[0];
+      let fileToUpload = this.file ?.nativeElement.files[0];
 
       var that = this;
 
@@ -431,26 +431,26 @@ export class RemovalOfDefaultComponent implements OnInit {
           insertObj.IsSelected = false;
 
           documents = {
-            DocumentId: insertObj.Document?.DocumentId == undefined ? 0 : insertObj.Document.DocumentId,
-            ApplicationFormId: insertObj.Document?.ApplicationFormId == undefined ? 0 : insertObj.Document.ApplicationFormId,
+            DocumentId: insertObj.Document ?.DocumentId == undefined ? 0 : insertObj.Document.DocumentId,
+            ApplicationFormId: insertObj.Document ?.ApplicationFormId == undefined ? 0 : insertObj.Document.ApplicationFormId,
             FileName: fileName, Base64: fileString, FileExtension: fileExtension
           };
 
-          that.InsertDataToAppList(insertObj, documents)
+          that.InsertDataToAppList(insertObj, documents,formDirective);
 
 
         };
         reader.onerror = function (error) {
           console.log('Error: ', error);
         };
-      } else if (insertObj.Document?.DocumentId != null) {
+      } else if (insertObj.Document ?.DocumentId != null) {
 
-        this.InsertDataToAppList(insertObj, insertObj.Document)
+        this.InsertDataToAppList(insertObj, insertObj.Document,formDirective);
       }
     }
   }
 
-  InsertDataToAppList(insertObj: ApplicationForm, documents: Document) {
+  InsertDataToAppList(insertObj: ApplicationForm, documents: Document,formDirective:FormGroupDirective) {
     insertObj.Document = documents;
     if (this.applicationList.find(s => s.LocalId == this.selectedApplicationId) == null) {
 
@@ -473,7 +473,7 @@ export class RemovalOfDefaultComponent implements OnInit {
         return a.LocalId! - b.LocalId!;
       });
     }
-    this.ClearAppFields();
+    this.ClearAppFields(formDirective);
   }
 
   SelectAppRow(id: any) {
@@ -482,7 +482,7 @@ export class RemovalOfDefaultComponent implements OnInit {
     this.applicationList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
     this.applicationList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
 
-    var selectedObj: ApplicationForm = this.applicationList?.find(s => s.LocalId == id)!;
+    var selectedObj: ApplicationForm = this.applicationList.find(s => s.LocalId == id)!;
     this.selectedApplicationId = selectedObj.LocalId;
     this.applicationGroup.setValue(selectedObj);
     this.fileName = ""
@@ -490,30 +490,36 @@ export class RemovalOfDefaultComponent implements OnInit {
 
   }
 
-  ClearAppFields() {
+  ClearAppFields(formDirective:FormGroupDirective) {
     this.appSaveBtn = "Add"
 
     this.applicationList.forEach(x => x.IsSelected = false);
     this.selectedApplicationId = 0;
-    this.fileName = "Choose File"
-    this.applicationGroup.patchValue({
-      Priority: 1,
-      Value: '',
-      FeeInPence: null,
-      Type: '',
-      LocalId: 0,
-      IsSelected: false,
-      ApplicationFormId: 0,
-      DocumentReferenceId: 0,
+    this.fileName = "Choose File";
 
-      Document: [],
-      ExternalReference: '',
-      Variety: 'other',
-      MDRef: '',
-      ChargeDate: new Date().toISOString().substring(0, 10),
-      IsMdRef: 'yes',
-      SortCode: ''
-    })
+
+    formDirective.resetForm();   
+    this.applicationGroup.reset();
+    
+   
+    // this.applicationGroup.patchValue({
+    //   Priority: 1,
+    //   Value: '',
+    //   FeeInPence: null,
+    //   Type: '',
+    //   LocalId: 0,
+    //   IsSelected: false,
+    //   ApplicationFormId: 0,
+    //   DocumentReferenceId: 0,
+
+    //   Document: [],
+    //   ExternalReference: '',
+    //   Variety: 'other',
+    //   MDRef: '',
+    //   ChargeDate: new Date().toISOString().substring(0, 10),
+    //   IsMdRef: 'yes',
+    //   SortCode: ''
+    // })
   }
 
   RemoveApp(id: any) {
@@ -550,7 +556,7 @@ export class RemovalOfDefaultComponent implements OnInit {
   }
 
   DownloadAttached(item: ApplicationForm) {
-    FileSaver.saveAs(item.Document?.Base64!, item.Document?.FileName);
+    FileSaver.saveAs(item.Document ?.Base64!, item.Document ?.FileName);
   }
 
 
@@ -589,7 +595,7 @@ export class RemovalOfDefaultComponent implements OnInit {
     this.supportingDocList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
     this.supportingDocList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
 
-    var selectedObj: any = this.supportingDocList?.find(s => s.LocalId == id);
+    var selectedObj: any = this.supportingDocList ?.find(s => s.LocalId == id);
     this.selectedsupportingDocId = selectedObj.LocalId;
     this.supportingDocGroup.setValue(selectedObj);
   }
@@ -654,7 +660,7 @@ export class RemovalOfDefaultComponent implements OnInit {
     this.partyList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
     this.partyList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
 
-    var selectedObj: any = this.partyList?.find(s => s.LocalId == id);
+    var selectedObj: any = this.partyList ?.find(s => s.LocalId == id);
     this.selectedPartyId = selectedObj.LocalId;
     this.partyGroup.setValue(selectedObj);
   }
@@ -727,7 +733,7 @@ export class RemovalOfDefaultComponent implements OnInit {
     this.notesList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
     this.notesList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
 
-    var selectedObj: any = this.notesList?.find(s => s.LocalId == id);
+    var selectedObj: any = this.notesList ?.find(s => s.LocalId == id);
     this.selectedNotesId = selectedObj.LocalId;
     this.notesGroup.setValue(selectedObj);
   }
@@ -800,7 +806,7 @@ export class RemovalOfDefaultComponent implements OnInit {
     this.representationList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
     this.representationList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
 
-    var selectedObj: any = this.representationList?.find(s => s.LocalId == id);
+    var selectedObj: any = this.representationList ?.find(s => s.LocalId == id);
     this.selectedRepId = selectedObj.LocalId;
     this.representationGroup.setValue(selectedObj);
   }
@@ -910,7 +916,7 @@ export class RemovalOfDefaultComponent implements OnInit {
         confirmButtonText: 'Download Zip'
       }).then((result) => {
         if (result.isConfirmed) {
-          FileSaver.saveAs(res.File!, res.FileName + "." + res.FileExtension?.toLowerCase());
+          FileSaver.saveAs(res.File!, res.FileName + "." + res.FileExtension ?.toLowerCase());
         }
       })
     });
@@ -918,7 +924,7 @@ export class RemovalOfDefaultComponent implements OnInit {
 
   DownloadAttachedPoll(item: RequestLogs) {
     this.attachmentServices.GetApplicationPollAttached(item.RequestLogId!).subscribe(res => {
-      FileSaver.saveAs(res!, item.FileName + "." + item.FileExtension?.toLowerCase());
+      FileSaver.saveAs(res!, item.FileName + "." + item.FileExtension ?.toLowerCase());
 
     })
   }

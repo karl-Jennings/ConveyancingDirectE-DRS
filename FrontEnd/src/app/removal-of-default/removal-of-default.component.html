@@ -29,17 +29,16 @@
             </div>
             <div class="col-3">
                 <mat-form-field class="example-form-field w-100">
-                    <mat-label>Additional Provider Filter</mat-label>
-                    <input formControlName="AdditionalProviderFilter" matInput type="text" required>
-                </mat-form-field>
-            </div>
-
-            <div class="col-3">
-                <mat-form-field class="example-form-field w-100">
                     <mat-label>Customer reference</mat-label>
                     <input formControlName="Reference" matInput type="text" required>
                 </mat-form-field>
             </div>
+            <div class="col-3">
+                <mat-form-field class="example-form-field w-100">
+                    <mat-label>Additional Provider Filter</mat-label>
+                    <input formControlName="AdditionalProviderFilter" matInput type="text" required>
+                </mat-form-field>
+            </div>          
 
             <div class="col-3">
                 <mat-form-field class="example-form-field w-100">
@@ -179,7 +178,7 @@
                     <div class="container-fluid" style="height: 600px; overflow: scroll;">
                         <div class="row">
                             <div class="col-12 mt-3">
-                                <form [formGroup]="applicationGroup">
+                                <form [formGroup]="applicationGroup" #formDirective="ngForm" (submit)="PushApplicationToGrid(formDirective)" novalidate >
                                     <div class="row">
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
@@ -194,7 +193,7 @@
                                         <div class="col-md-3" *ngIf="appType == 'other'">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Application Type</mat-label>
-                                                <mat-select formControlName="Type">
+                                                <mat-select formControlName="Type" required='isOtherApplication'>
                                                     <mat-option *ngFor="let item of appTypeList" [value]="item">{{item}}
                                                     </mat-option>
                                                 </mat-select>
@@ -283,9 +282,9 @@
 
 
                                         <div class="col-12">
-                                            <button class="mr-1 ml-auto" (click)="PushApplicationToGrid()"
+                                            <button type="submit"  class="mr-1 ml-auto" 
                                                 mat-flat-button color="primary">{{appSaveBtn}}</button>
-                                            <button (click)="ClearAppFields()" class="btn-warning"
+                                            <button (click)="ClearAppFields(formDirective)" class="btn-warning"
                                                 mat-flat-button>Clear</button>
                                         </div>
                                     </div>
