@@ -26,12 +26,12 @@ namespace eDrsAPI.Controllers
         /// </summary>
         /// <returns>byte[]</returns>
         [HttpGet]
-        public IActionResult GetApplicationPollAttached(long requestId)
+        public IActionResult GetAttachment(long requestId)
         {
             try
             {
                 return File(
-                    _attachment.GetApplicationPollAttached(requestId),
+                    _attachment.GetAttachment(requestId),
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
                 );

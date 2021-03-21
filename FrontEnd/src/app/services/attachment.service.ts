@@ -8,16 +8,16 @@ import { environment } from 'src/environments/environment';
 })
 export class AttachmentService {
 
-  private GetApplicationPollAttachedUrl = environment.apiURL + 'Attachment/GetApplicationPollAttached';
+  private GetAttachmentUrl = environment.apiURL + 'Attachment/GetAttachment';
 
 
   constructor(private http: HttpClient) { }
 
 
-  GetApplicationPollAttached(requestId: number): Observable<any> {
+  GetAttachment(requestId: number): Observable<any> {
     const params = new HttpParams().set('requestId', requestId.toString());
 
-    return this.http.get(this.GetApplicationPollAttachedUrl, {
+    return this.http.get(this.GetAttachmentUrl, {
       responseType: 'blob' as 'json', params
     });
   }

@@ -2,7 +2,7 @@
 {
     public interface IAttachmentManager
     {
-        byte[] GetApplicationPollAttached(long requestId);
+        byte[] GetAttachment(long requestId);
 
     }
 }

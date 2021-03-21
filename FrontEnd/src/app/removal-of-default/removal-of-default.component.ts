@@ -849,7 +849,7 @@ export class RemovalOfDefaultComponent implements OnInit {
   }
 
   UpdateDatabase() {
-
+    debugger
     if (this.documentReferenceGroup.valid) {
       let documentRef: DocumentReference = this.documentReferenceGroup.value;
       documentRef.Titles = JSON.parse(JSON.stringify(this.titleList));
@@ -917,7 +917,7 @@ export class RemovalOfDefaultComponent implements OnInit {
   }
 
   DownloadAttachedPoll(item: RequestLogs) {
-    this.attachmentServices.GetApplicationPollAttached(item.RequestLogId!).subscribe(res => {
+    this.attachmentServices.GetAttachment(item.RequestLogId!).subscribe(res => {
       FileSaver.saveAs(res!, item.FileName + "." + item.FileExtension?.toLowerCase());
 
     })

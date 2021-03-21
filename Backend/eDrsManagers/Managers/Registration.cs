@@ -432,7 +432,12 @@ namespace eDrsManagers.Managers
                             Value = app.Value,
                             ExternalReference = app.ExternalReference,
                             Document = app.Document,
-                            CertifiedCopy = app.CertifiedCopy
+                            CertifiedCopy = app.CertifiedCopy,
+                            IsMdRef = app.IsMdRef,
+                            MdRef = app.MdRef,
+                            SortCode = app.SortCode,
+                            ChargeDate = app.ChargeDate,
+                            Variety = app.Variety
                         }).ToList(),
                         DisclosableOveridingInterests = sel.DisclosableOveridingInterests,
                         LocalAuthority = sel.LocalAuthority,

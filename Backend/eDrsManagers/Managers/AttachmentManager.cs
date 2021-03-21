@@ -16,7 +16,7 @@ namespace eDrsManagers.Managers
             _context = context;
         }
 
-        public byte[] GetApplicationPollAttached(long requestId)
+        public byte[] GetAttachment(long requestId)
         {
             var requestLog = _context.RequestLogs.FirstOrDefault(x => x.RequestLogId == requestId);
             byte[] bytes = System.Convert.FromBase64String(requestLog?.File);
