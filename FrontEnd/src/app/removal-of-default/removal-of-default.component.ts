@@ -153,14 +153,14 @@ export class RemovalOfDefaultComponent implements OnInit {
     });
 
     this.supportingDocGroup = this.formBuilder.group({
-      CertifiedCopy: ['', Validators.required],
-      DocumentName: ['', Validators.required],
+      CertifiedCopy: [],
+      DocumentName: [],
       AdditionalProviderFilter: ['', Validators.required],
       MessageId: 1,
       ExternalReference: ['', Validators.required],
       ApplicationMessageId: ['', Validators.required],
-      ApplicationService: ['104', Validators.required],
-      ApplicationType: ['', Validators.required],
+      ApplicationService: ['104'],
+      //ApplicationType: ['', Validators.required],
 
       DocumentType: [this.supDocType],
 
@@ -224,7 +224,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       MessageId: 1,
       ExternalReference: ['', Validators.required],
       ApplicationMessageId: ['', Validators.required],
-      ApplicationService: ['', Validators.required],
+      ApplicationService: ['104'],
       Notes: ['', Validators.required],
       AttachmentNotesId: 0,
       LocalId: [0],
@@ -357,6 +357,9 @@ export class RemovalOfDefaultComponent implements OnInit {
       }
     })
 
+
+    // set validations in Support documents form based on selected Attachment Type
+    this.onAttcmntTypeChange();
   }
 
   partyType = 'company';
@@ -584,18 +587,23 @@ export class RemovalOfDefaultComponent implements OnInit {
   // For Supporting Documents
   supDocfileName: any = "Choose files";
   supDocId = 1;
+
+ 
   PushSupDocumentToGrid() {
 
     var insertObj: SupportingDocuments = {
 
     }
+
+    debugger;
     if (this.supportingDocGroup.valid) {
       insertObj = this.supportingDocGroup.value;
       insertObj.LocalId = this.supDocId++
       insertObj.IsSelected = false;
 
       if (this.supportingDocList.find(s => s.LocalId == this.selectedsupportingDocId) == null) {
-        insertObj.MessageId = this.notesList[this.notesList.length - 1].MessageId! + 1;
+       // insertObj.MessageId = this.supportingDocList[this.supportingDocList.length - 1].MessageId! + 1;
+        insertObj.MessageId=1;
         this.supportingDocList.push(Object.assign({}, insertObj));
       } else {
 
@@ -630,8 +638,8 @@ export class RemovalOfDefaultComponent implements OnInit {
 
     this.selectedsupportingDocId = 0;
     this.supportingDocGroup.patchValue({
-      CertifiedCopy: [''],
-      DocumentName: [''],
+      CertifiedCopy: [],
+      DocumentName: [],
       LocalId: [0],
       IsSelected: [false],
       SupportingDocumentId: 0,
@@ -641,8 +649,8 @@ export class RemovalOfDefaultComponent implements OnInit {
       MessageId: 1,
       ExternalReference: '',
       ApplicationMessageId: '',
-      ApplicationService: 104,
-      ApplicationType: '',
+      ApplicationService: '104',
+      //ApplicationType: '',
 
       DocumentType: [this.supDocType],
 
@@ -794,7 +802,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       MessageId: 1,
       ExternalReference: '',
       ApplicationMessageId: '',
-      ApplicationService: 104,
+      ApplicationService: '104',
       Notes: '',
       AttachmentNotesId: 0,
       LocalId: [0],
@@ -1045,4 +1053,25 @@ export class RemovalOfDefaultComponent implements OnInit {
 
     });
   }
+
+  onAttcmntTypeChange() {
+    
+    console.log("this.supDocType",this.supDocType);
+
+    if( this.supDocType =="supDoc"){
+
+       this.supportingDocGroup.get('DocumentName')?.setValidators([Validators.required]);
+
+       this.supportingDocGroup.get('CertifiedCopy')?.setValidators([Validators.required]);     
+           
+    }else{
+
+      this.supportingDocGroup.get('DocumentName')?.clearValidators();
+      this.supportingDocGroup.controls['DocumentName'].updateValueAndValidity();
+
+      this.supportingDocGroup.get('CertifiedCopy')?.clearValidators();     
+      this.supportingDocGroup.controls['CertifiedCopy'].updateValueAndValidity();
+
+    }
+  } 
 }

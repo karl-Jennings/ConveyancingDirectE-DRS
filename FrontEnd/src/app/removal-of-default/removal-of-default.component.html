@@ -356,10 +356,25 @@
                             <div class="col-12 mt-3">
                                 <form [formGroup]="supportingDocGroup">
                                     <div class="row">
-                                        <div class="col-md-3">
-                                            <mat-form-field class="example-form-field w-100">
+                                        
+                                        <div class="col-md-6">
+                                                <mat-form-field class="example-form-field w-100">
+                                                        <mat-label>Attachment Type</mat-label>
+                                                        <mat-select formControlName="DocumentType" (selectionChange)="onAttcmntTypeChange()">
+                                                            <mat-option [value]="'supDoc'">
+                                                                Supporting Document
+                                                            </mat-option>
+                                                            <mat-option [value]="'notes'">
+                                                                Notes
+                                                            </mat-option>
+                                                        </mat-select>
+                                                </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6"></div>
+                                        <div class="col-md-3" *ngIf="supDocType == 'supDoc'">
+                                            <mat-form-field   class="example-form-field w-100">
                                                 <mat-label>Document Name</mat-label>
-                                                <mat-select formControlName="DocumentName">
+                                                <mat-select formControlName="DocumentName" >
                                                     <mat-option *ngFor="let item of supDocNameList" [value]="item">
                                                         {{item}}
                                                     </mat-option>
@@ -367,8 +382,8 @@
 
                                             </mat-form-field>
                                         </div>
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-form-field w-100">
+                                        <div class="col-md-6" *ngIf="supDocType == 'supDoc'">
+                                            <mat-form-field class="example-form-field w-100" >
                                                 <mat-label>Certified Copy</mat-label>
                                                 <mat-select formControlName="CertifiedCopy">
                                                     <mat-option [value]="'Original'">
@@ -424,19 +439,6 @@
                                             </mat-form-field>
                                         </div> -->
 
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Attachment Type</mat-label>
-                                                <mat-select formControlName="DocumentType">
-                                                    <mat-option [value]="'supDoc'">
-                                                        Supporting Document
-                                                    </mat-option>
-                                                    <mat-option [value]="'notes'">
-                                                        Notes
-                                                    </mat-option>
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
 
                                         <div class="col-md-6 mb-2" *ngIf="supDocType == 'supDoc'">
                                             <div class="input-group">
@@ -449,10 +451,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6" *ngIf="supDocType == 'notes'">
+                                        <div class="col-md-6" *ngIf="supDocType == 'notes'" >
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Notes</mat-label>
-                                                <input formControlName="Notes" matInput type="text">
+                                                 <!-- <input formControlName="Notes" matInput type="text">  -->
+                                                <textarea matInput placeholder="Notes" formControlName="Notes" rows="5" >
+                                                        </textarea>
                                             </mat-form-field>
                                         </div>
 
@@ -724,12 +728,12 @@
                                                 <input formControlName="ApplicationMessageId" matInput type="text">
                                             </mat-form-field>
                                         </div>
-                                        <div class="col-md-3">
+                                        <!-- <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Application Service</mat-label>
                                                 <input formControlName="ApplicationService" matInput type="text">
                                             </mat-form-field>
-                                        </div>
+                                        </div> -->
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Notes</mat-label>
