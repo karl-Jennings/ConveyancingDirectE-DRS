@@ -37,6 +37,7 @@ import { DispositionaryComponent } from './dispositionary/dispositionary.compone
 import { MatSliderModule } from '@angular/material/slider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { LrCredentialsComponent } from './settings/lr-credentials/lr-credentials.component';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { LrCredentialsComponent } from './settings/lr-credentials/lr-credentials
     MatDatepickerModule,
     MatTabsModule,
     MatExpansionModule,
+    MatBadgeModule,
     MatSliderModule,
   ],
   providers: [
