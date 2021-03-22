@@ -91,16 +91,16 @@ namespace eDrsManagers.ApiConverters
             SupportingDocumentsType supportingDocuments = new SupportingDocumentsType();
             var supportingDocumentTypes = new List<SupportingDocumentType>();
 
-            docRef.SupportingDocuments.ToList().ForEach(x =>
-            {
-                supportingDocumentTypes.Add(new SupportingDocumentType()
-                {
-                    CertifiedCopy = (CertifiedTypeContent)Enum.Parse(typeof(CertifiedTypeContent), x.CertifiedCopy),
-                    DocumentId = x.DocumentId,
-                    DocumentName = (DocumentNameContent)Enum.Parse(typeof(DocumentNameContent), x.DocumentName),
+            //docRef.SupportingDocuments.ToList().ForEach(x =>
+            //{
+            //    supportingDocumentTypes.Add(new SupportingDocumentType()
+            //    {
+            //        CertifiedCopy = (CertifiedTypeContent)Enum.Parse(typeof(CertifiedTypeContent), x.CertifiedCopy),
+            //        DocumentId = x.DocumentId,
+            //        DocumentName = (DocumentNameContent)Enum.Parse(typeof(DocumentNameContent), x.DocumentName),
 
-                });
-            });
+            //    });
+            //});
             supportingDocuments.SupportingDocument = supportingDocumentTypes.ToArray();
 
             _product.SupportingDocuments = supportingDocuments;

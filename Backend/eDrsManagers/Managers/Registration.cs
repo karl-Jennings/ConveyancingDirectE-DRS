@@ -48,6 +48,13 @@ namespace eDrsManagers.Managers
                 party.Roles = string.Join(",", party.ViewModelRoles);
 
             });
+
+            var count = 1;
+            model.SupportingDocuments.ToList().ForEach(supDoc =>
+            {
+                supDoc.DocumentId = count++;
+            });
+
             model.MessageID = Guid.NewGuid().ToString();
 
             //_context.SaveChanges();
