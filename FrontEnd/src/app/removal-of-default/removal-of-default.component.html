@@ -192,7 +192,7 @@
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Variety</mat-label>
                                                 <mat-select formControlName="Variety"
-                                                    (selectionChange)="VarityChange($event.value)">
+                                                    (selectionChange)="VarietyChange($event.value)">
                                                     <mat-option [value]="'other'">Other Application</mat-option>
                                                     <mat-option [value]="'charge'">Charge Application</mat-option>
                                                 </mat-select>
@@ -391,6 +391,70 @@
                                                 <input formControlName="DocumentId" matInput type="text">
                                             </mat-form-field>
                                         </div> -->
+
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Additional Provider Filter</mat-label>
+                                                <input formControlName="AdditionalProviderFilter" matInput type="text">
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Message ID</mat-label>
+                                                <input formControlName="MessageId" readonly matInput type="number">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>External Reference</mat-label>
+                                                <input formControlName="ExternalReference" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Application Message ID</mat-label>
+                                                <input formControlName="ApplicationMessageId" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Application Service</mat-label>
+                                                <input formControlName="ApplicationService" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Certified Copy</mat-label>
+                                                <mat-select formControlName="DocumentType">
+                                                    <mat-option [value]="'supDoc'">
+                                                        Supporting Document
+                                                    </mat-option>
+                                                    <mat-option [value]="'notes'">
+                                                        Notes
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-md-6 mb-2" *ngIf="supDocType == 'supDoc'">
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" #supportingDocumentfile class="custom-file-input"
+                                                        accept=".*" (change)="uploadSupDocFile()" />
+                                                    <label class="custom-file-label"
+                                                        for="inputGroupFile01">{{supDocfileName}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" *ngIf="supDocType == 'notes'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Notes</mat-label>
+                                                <input formControlName="Notes" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
 
                                         <div class="col-12">
                                             <button class="mr-1 ml-auto" (click)="PushSupDocumentToGrid()"

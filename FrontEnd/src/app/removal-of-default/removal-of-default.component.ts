@@ -79,6 +79,7 @@ export class RemovalOfDefaultComponent implements OnInit {
   regType!: number;
   docRefId!: any;
   @ViewChild("file") file: ElementRef | undefined;
+  @ViewChild("supportingDocumentfile") supportingDocumentfile: ElementRef | undefined;
 
   titleSaveBtn = "Add";
   appSaveBtn = "Add";
@@ -90,6 +91,8 @@ export class RemovalOfDefaultComponent implements OnInit {
   appType = 'other';
   repType = 'LodgingConveyancer';
   addressType = 'DXAddress';
+
+  supDocType = 'supDoc';
 
   isOtherApplication = true;
 
@@ -151,8 +154,22 @@ export class RemovalOfDefaultComponent implements OnInit {
 
     this.supportingDocGroup = this.formBuilder.group({
       CertifiedCopy: ['', Validators.required],
-      DocumentId: ['', Validators.required],
       DocumentName: ['', Validators.required],
+      AdditionalProviderFilter: ['', Validators.required],
+      MessageId: 1,
+      ExternalReference: ['', Validators.required],
+      ApplicationMessageId: ['', Validators.required],
+      ApplicationService: ['', Validators.required],
+      ApplicationType: ['', Validators.required],
+
+      DocumentType: [this.supDocType],
+
+      FileName: [''],
+      Base64: [''],
+      FileExtension: [''],
+
+      Notes: [''],
+
       LocalId: [0],
       IsSelected: [false],
       SupportingDocumentId: 0,
@@ -265,6 +282,11 @@ export class RemovalOfDefaultComponent implements OnInit {
 
     this.applicationGroup.get('Variety')?.valueChanges.subscribe(res => {
       this.appType = res
+
+    })
+
+    this.supportingDocGroup.get('DocumentType')?.valueChanges.subscribe(res => {
+      this.supDocType = res
 
     })
 
@@ -444,7 +466,6 @@ export class RemovalOfDefaultComponent implements OnInit {
           console.log('Error: ', error);
         };
       } else if (insertObj.Document?.DocumentId != null) {
-
         this.InsertDataToAppList(insertObj, insertObj.Document, formDirective);
       }
     }
@@ -536,11 +557,11 @@ export class RemovalOfDefaultComponent implements OnInit {
     for (let i = 0; i < files.length; i++) {
       this.fileName += files[i].name + (i + 1 != files.length ? ", " : "");
     }
-
   }
 
+
   //handle application varity change event
-  VarityChange(value: any) {
+  VarietyChange(value: any) {
 
     console.log('change value:', value);
 
@@ -561,7 +582,7 @@ export class RemovalOfDefaultComponent implements OnInit {
 
 
   // For Supporting Documents
-
+  supDocfileName: any = "Choose files";
   supDocId = 1;
   PushSupDocumentToGrid() {
 
@@ -574,6 +595,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       insertObj.IsSelected = false;
 
       if (this.supportingDocList.find(s => s.LocalId == this.selectedsupportingDocId) == null) {
+        insertObj.MessageId = this.notesList[this.notesList.length - 1].MessageId! + 1;
         this.supportingDocList.push(Object.assign({}, insertObj));
       } else {
 
@@ -602,18 +624,33 @@ export class RemovalOfDefaultComponent implements OnInit {
 
   ClearSupDocFields() {
     this.supDocSaveBtn = "Add"
+    this.supDocfileName = "Choose File";
 
     this.supportingDocList.forEach(x => x.IsSelected = false);
 
     this.selectedsupportingDocId = 0;
     this.supportingDocGroup.patchValue({
       CertifiedCopy: [''],
-      DocumentId: [''],
       DocumentName: [''],
       LocalId: [0],
       IsSelected: [false],
       SupportingDocumentId: 0,
       DocumentReferenceId: 0,
+
+      AdditionalProviderFilter: '',
+      MessageId: 1,
+      ExternalReference: '',
+      ApplicationMessageId: '',
+      ApplicationService: '',
+      ApplicationType: '',
+
+      DocumentType: [this.supDocType],
+
+      FileName: [''],
+      Base64: [''],
+      FileExtension: [''],
+
+      Notes: [''],
 
     })
   }
@@ -625,7 +662,16 @@ export class RemovalOfDefaultComponent implements OnInit {
     }
   }
 
-  // For Supporting Documents
+  uploadSupDocFile() {
+    this.supDocfileName = "";
+    var files: any = this.supportingDocumentfile!.nativeElement.files;
+
+    for (let i = 0; i < files.length; i++) {
+      this.supDocfileName += files[i].name + (i + 1 != files.length ? ", " : "");
+    }
+  }
+
+  /********* For Supporting Documents End ************/
 
   partyId = 1;
   PushPartyToGrid() {
@@ -874,8 +920,6 @@ export class RemovalOfDefaultComponent implements OnInit {
       this.toastr.warning("Please add at least one Supporting Document", "Fields missing")
     } else if (documentRef.Representations?.length! < 1) {
       this.toastr.warning("Please add at least one Representation", "Fields missing")
-    } else if (documentRef.AttachmentNotes?.length! < 1) {
-      this.toastr.warning("Please add at least one Attachment Note", "Fields missing")
     } else if (documentRef.Parties?.length! < 1) {
       this.toastr.warning("Please add at least one Party", "Fields missing")
     } else if (this.documentReferenceGroup.valid) {
@@ -884,15 +928,14 @@ export class RemovalOfDefaultComponent implements OnInit {
         this.registrationService.CreateRegistration(documentRef).subscribe((res) => {
           this.ShowResponse(res);
         }, () => {
-          this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed")
+          this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed");
 
         });
       } else {
         this.registrationService.UpdateRegistration(documentRef).subscribe((res) => {
           this.ShowResponse(res);
         }, () => {
-          this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed")
-
+          this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed");
         });
       }
     } else {
