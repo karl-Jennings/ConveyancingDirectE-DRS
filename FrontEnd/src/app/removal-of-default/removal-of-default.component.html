@@ -833,7 +833,47 @@
                         </div>
                     </div>
                 </mat-tab>
+     <!-- Requisition Log -->
+     <mat-tab label="Requisition" *ngIf="docRefId != 0">
+        <div class="container-fluid pl-1 pr-1 py-3" style="height: 600px; overflow: scroll;">
+            <div class="row">
+                <div class="col-12">
+                    <div class="col-12 pt-3">
+                        <button mat-flat-button color="primary" type="button"
+                            (click)="FindRequisitions()">Find Requisitions</button>
+                    </div>
+                </div>
+                <div class="col-12 pt-3">
+                    <h3 class="font-weight-bold">Requisition Logs</h3>
+                    <table class="table table-bordered mt-1">
+                        <thead>
+                            <tr class="grey lighten-3">
+                                <th scope="col" class="py-2">Application Message Id</th>
+                                <th scope="col" class="py-2">Type Code</th>
+                                <th scope="col" class="py-2">Attachment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of logsList">
+                                <ng-container *ngIf="item.Type == 'correspondence'">
+                                    <td class="py-2">{{item.AppMessageId}}</td>
+                                    <td class="py-2">{{item.TypeCode}}</td>
+                                    <td class="py-2">
+                                        <button class="btn btn-primary btn-sm"
+                                            (click)="DownloadAttachedPoll(item)">
+                                            <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                            Download
+                                        </button>
 
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
                 <!-- Response Log -->
                 <mat-tab label="Response" *ngIf="docRefId != 0">
                     <div class="container-fluid pl-1 pr-1 py-3" style="height: 600px; overflow: scroll;">
@@ -845,14 +885,38 @@
                                         Application
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
+                                
                                 <div class="row">
                                     <div class="col-12 pt-3">
-                                        <button mat-flat-button color="primary" type="button"
-                                            (click)="SendPoolRequest()">Collect
-                                            Application Result</button>
+                                        <h3 class="font-weight-bold">Application Responses</h3>
+                                        <table class="table table-bordered mt-1">
+                                            <thead>
+                                                <tr class="grey lighten-3">
+                                                    <th scope="col" class="py-2">Type Code</th>
+                                                    <th scope="col" class="py-2">Message</th>
+                                                    <th scope="col" class="py-2">Date & Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of logsList">
+                                                    <ng-container *ngIf="item.Type == 'Application'">
+                                                        <td class="py-2">{{item.TypeCode}}</td>
+                                                        <td class="py-2">{{item.Description}}</td>
+                                                        <td class="py-2">{{item.CreatedDate | date:'dd/MM/yyyy h:mm a'}}
+                                                        </td>
+                                                    </ng-container>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="col-12 pt-3">
                                         <h3 class="font-weight-bold">Application Poll Responses</h3>
+
+                                        <div >
+                                            <button mat-flat-button color="primary" type="button"
+                                                (click)="SendPoolRequest()">Collect
+                                                Application Result</button>
+                                        </div>
                                         <table class="table table-bordered mt-1">
                                             <thead>
                                                 <tr class="grey lighten-3">
@@ -881,28 +945,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="col-12 pt-3">
-                                        <h3 class="font-weight-bold">Application Responses</h3>
-                                        <table class="table table-bordered mt-1">
-                                            <thead>
-                                                <tr class="grey lighten-3">
-                                                    <th scope="col" class="py-2">Type Code</th>
-                                                    <th scope="col" class="py-2">Message</th>
-                                                    <th scope="col" class="py-2">Date & Time</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let item of logsList">
-                                                    <ng-container *ngIf="item.Type == 'Application'">
-                                                        <td class="py-2">{{item.TypeCode}}</td>
-                                                        <td class="py-2">{{item.Description}}</td>
-                                                        <td class="py-2">{{item.CreatedDate | date:'dd/MM/yyyy h:mm a'}}
-                                                        </td>
-                                                    </ng-container>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                   
                                 </div>
                             </mat-expansion-panel>
 
@@ -945,7 +988,7 @@
                                     </div>
 
                                     <div class="col-12 pt-3">
-                                        <h3 class="font-weight-bold"> Results</h3>
+                                        <h3 class="font-weight-bold"> Outstanding Requests Results</h3>
                                         <table class="table table-bordered mt-1">
                                             <thead>
                                                 <tr class="grey lighten-3">
@@ -999,17 +1042,17 @@
                             <mat-expansion-panel>
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
-                                        Collect results
+                                        Early Completion 
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
                                 <div class="row">
                                     <div class="col-12 pt-3">
                                         <button mat-flat-button color="primary" type="button"
-                                            (click)="CollectFinalResults()">Collect
-                                            final result</button>
+                                            (click)="CollectFinalResults()">Check
+                                            Early Completion</button>
                                     </div>
                                     <div class="col-12 pt-3">
-                                        <h3 class="font-weight-bold">Final Results</h3>
+                                        <h3 class="font-weight-bold">Early Completion Results</h3>
                                         <table class="table table-bordered mt-1">
                                             <thead>
                                                 <tr class="grey lighten-3">
@@ -1044,47 +1087,7 @@
                     </div>
                 </mat-tab>
 
-                <!-- Requisition Log -->
-                <mat-tab label="Requisition" *ngIf="docRefId != 0">
-                    <div class="container-fluid pl-1 pr-1 py-3" style="height: 600px; overflow: scroll;">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="col-12 pt-3">
-                                    <button mat-flat-button color="primary" type="button"
-                                        (click)="FindRequisitions()">Find Requisitions</button>
-                                </div>
-                            </div>
-                            <div class="col-12 pt-3">
-                                <h3 class="font-weight-bold">Requisition Logs</h3>
-                                <table class="table table-bordered mt-1">
-                                    <thead>
-                                        <tr class="grey lighten-3">
-                                            <th scope="col" class="py-2">Application Message Id</th>
-                                            <th scope="col" class="py-2">Type Code</th>
-                                            <th scope="col" class="py-2">Attachment</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of logsList">
-                                            <ng-container *ngIf="item.Type == 'correspondence'">
-                                                <td class="py-2">{{item.AppMessageId}}</td>
-                                                <td class="py-2">{{item.TypeCode}}</td>
-                                                <td class="py-2">
-                                                    <button class="btn btn-primary btn-sm"
-                                                        (click)="DownloadAttachedPoll(item)">
-                                                        <i class="fa fa-paperclip" aria-hidden="true"></i>
-                                                        Download
-                                                    </button>
-
-                                                </td>
-                                            </ng-container>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </mat-tab>
+           
 
             </mat-tab-group>
 
