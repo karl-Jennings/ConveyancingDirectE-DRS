@@ -40,7 +40,7 @@ namespace eDRS_Land_Registry.ApiConverters
             _product.PostcodeOfProperty = docRef.PostcodeOfProperty;
             _product.DisclosableOveridingInterests = docRef.DisclosableOveridingInterests;
 
-            
+
 
             #region TitleNumbers
 
@@ -65,13 +65,31 @@ namespace eDRS_Land_Registry.ApiConverters
 
             docRef.Applications.ToList().ForEach(x =>
             {
-                applications.Add(new OtherApplicationType()
+                if (x.Variety == "other")
                 {
-                    Document = new DocumentType { CertifiedCopy = (CertifiedTypeContent)Enum.Parse(typeof(CertifiedTypeContent), x.CertifiedCopy) },
-                    Priority = x.Priority.ToString(),
-                    Value = x.Value,
-                    FeeInPence = x.FeeInPence.ToString()
-                });
+                    applications.Add(new OtherApplicationType()
+                    {
+                        Document = new DocumentType { CertifiedCopy = (CertifiedTypeContent)Enum.Parse(typeof(CertifiedTypeContent), x.CertifiedCopy) },
+                        Priority = x.Priority.ToString(),
+                        Value = x.Value,
+                        FeeInPence = x.FeeInPence.ToString()
+                    });
+                }
+                else if (x.Variety == "charge")
+                {
+                    object item = x.IsMdRef == "no" ? x.MdRef : new NoMDRefType().ToString();
+                    applications.Add(new ChargeApplicationType()
+                    {
+                        Document = new DocumentType { CertifiedCopy = (CertifiedTypeContent)Enum.Parse(typeof(CertifiedTypeContent), x.CertifiedCopy) },
+                        Priority = x.Priority.ToString(),
+                        Value = x.Value,
+                        FeeInPence = x.FeeInPence.ToString(),
+                        ChargeDate = x.ChargeDate,
+                        SortCode = x.SortCode,
+                        Item = item
+                    });
+                }
+
             });
 
             _product.Applications = applications.ToArray();
@@ -104,14 +122,39 @@ namespace eDRS_Land_Registry.ApiConverters
 
             //Representations
 
-            RepresentationsType Representations = new RepresentationsType();
+            RepresentationsType representations = new RepresentationsType();
 
-            Representations.LodgingConveyancer = new LodgingConveyancerType
+            List<RepresentingConveyancerType> representingConveyancerTypes = new List<RepresentingConveyancerType>();
+            LodgingConveyancerType lodgingConveyancer = new LodgingConveyancerType();
+            docRef.Representations.ForEach(x =>
             {
-                RepresentativeId = docRef.Representations.ToList().Select(x => x.RepresentativeId).FirstOrDefault().ToString()
-            };
+                if (x.Type == "RepresentingConveyancer")
+                {
+                    representingConveyancerTypes.Add(new RepresentingConveyancerType
+                    {
+                        ConveyancerName = x.Name,
+                        Reference = x.Reference,
+                        RepresentativeId = x.RepresentativeId.ToString(),
+                        Item = new CareOfAddressType
+                        {
+                            CareOfName = x.CareOfName,
+                            CareOfReference = x.CareOfReference
+                        }
+                    });
+                }
+                else if (x.Type == "LodgingConveyancer")
+                {
+                    lodgingConveyancer = new LodgingConveyancerType
+                    {
+                        RepresentativeId = docRef.Representations.ToList().Select(w => w.RepresentativeId).FirstOrDefault().ToString()
+                    };
+                }
+            });
 
-            _product.Representations = Representations;
+            representations.LodgingConveyancer = lodgingConveyancer;
+            representations.RepresentingConveyancer = representingConveyancerTypes.ToArray();
+
+            _product.Representations = representations;
 
             #endregion
 
@@ -174,7 +217,7 @@ namespace eDRS_Land_Registry.ApiConverters
 
             BusinessGatewayRepositories.AttachmentServiceRequest.AttachmentType attachment = new BusinessGatewayRepositories.AttachmentServiceRequest.AttachmentType
             {
-                filename = Path.GetFileNameWithoutExtension(applicationForm.Document.FileName) ,
+                filename = Path.GetFileNameWithoutExtension(applicationForm.Document.FileName),
                 format = applicationForm.Document.FileExtension,
                 Value = fileArray,
             };

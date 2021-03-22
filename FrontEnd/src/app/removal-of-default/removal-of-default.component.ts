@@ -855,17 +855,30 @@ export class RemovalOfDefaultComponent implements OnInit {
   }
 
   UpdateDatabase() {
-    debugger
-    if (this.documentReferenceGroup.valid) {
-      let documentRef: DocumentReference = this.documentReferenceGroup.value;
-      documentRef.Titles = JSON.parse(JSON.stringify(this.titleList));
-      documentRef.Applications = JSON.parse(JSON.stringify(this.applicationList));
-      documentRef.SupportingDocuments = JSON.parse(JSON.stringify(this.supportingDocList));
-      documentRef.Parties = JSON.parse(JSON.stringify(this.partyList));
-      documentRef.AttachmentNotes = JSON.parse(JSON.stringify(this.notesList));
-      documentRef.RequestLogs = JSON.parse(JSON.stringify(this.logsList));
-      documentRef.Representations = JSON.parse(JSON.stringify(this.representationList));
-      documentRef.UserId = parseInt(localStorage.getItem("userId")!);
+
+    let documentRef: DocumentReference = this.documentReferenceGroup.value;
+    documentRef.Titles = JSON.parse(JSON.stringify(this.titleList));
+    documentRef.Applications = JSON.parse(JSON.stringify(this.applicationList));
+    documentRef.SupportingDocuments = JSON.parse(JSON.stringify(this.supportingDocList));
+    documentRef.Representations = JSON.parse(JSON.stringify(this.representationList));
+    documentRef.AttachmentNotes = JSON.parse(JSON.stringify(this.notesList));
+    documentRef.Parties = JSON.parse(JSON.stringify(this.partyList));
+    documentRef.RequestLogs = JSON.parse(JSON.stringify(this.logsList));
+    documentRef.UserId = parseInt(localStorage.getItem("userId")!);
+
+    if (documentRef.Titles?.length! < 1) {
+      this.toastr.warning("Please add at least one Title", "Fields missing")
+    } else if (documentRef.Applications?.length! < 1) {
+      this.toastr.warning("Please add at least one Application", "Fields missing")
+    } else if (documentRef.SupportingDocuments?.length! < 1) {
+      this.toastr.warning("Please add at least one Supporting Document", "Fields missing")
+    } else if (documentRef.Representations?.length! < 1) {
+      this.toastr.warning("Please add at least one Representation", "Fields missing")
+    } else if (documentRef.AttachmentNotes?.length! < 1) {
+      this.toastr.warning("Please add at least one Attachment Note", "Fields missing")
+    } else if (documentRef.Parties?.length! < 1) {
+      this.toastr.warning("Please add at least one Party", "Fields missing")
+    } else if (this.documentReferenceGroup.valid) {
 
       if (this.docRefId == 0) {
         this.registrationService.CreateRegistration(documentRef).subscribe((res) => {

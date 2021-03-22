@@ -98,13 +98,13 @@ namespace GateWayTest
                 Reference = "GHK/Youngblood 3",
                 Item = new PostalAddressType
                 {
-                    CareOfName= "CareOfName",
-                    CareOfReference= "CareOfReference",
+                    CareOfName = "CareOfName",
+                    CareOfReference = "CareOfReference",
                     AddressLine1 = "AddressLine1",
-                    AddressLine2= "AddressLine2",
-                    City="city",
-                    Country="county",
-                    Postcode="postcode"
+                    AddressLine2 = "AddressLine2",
+                    City = "city",
+                    Country = "county",
+                    Postcode = "postcode"
 
                 }
 
@@ -115,7 +115,6 @@ namespace GateWayTest
             Representations.RepresentingConveyancer = new RepresentingConveyancerType[2];
             Representations.RepresentingConveyancer[0] = representingConveyancerType;
             Representations.RepresentingConveyancer[1] = representingConveyancerType2;
-
 
             _product.Representations = Representations;
 
