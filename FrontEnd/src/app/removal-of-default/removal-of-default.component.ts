@@ -159,7 +159,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       MessageId: 1,
       ExternalReference: ['', Validators.required],
       ApplicationMessageId: ['', Validators.required],
-      ApplicationService: ['', Validators.required],
+      ApplicationService: ['104', Validators.required],
       ApplicationType: ['', Validators.required],
 
       DocumentType: [this.supDocType],
@@ -641,7 +641,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       MessageId: 1,
       ExternalReference: '',
       ApplicationMessageId: '',
-      ApplicationService: '',
+      ApplicationService: 104,
       ApplicationType: '',
 
       DocumentType: [this.supDocType],
@@ -794,7 +794,7 @@ export class RemovalOfDefaultComponent implements OnInit {
       MessageId: 1,
       ExternalReference: '',
       ApplicationMessageId: '',
-      ApplicationService: '',
+      ApplicationService: 104,
       Notes: '',
       AttachmentNotesId: 0,
       LocalId: [0],

@@ -417,16 +417,16 @@
                                                 <input formControlName="ApplicationMessageId" matInput type="text">
                                             </mat-form-field>
                                         </div>
-                                        <div class="col-md-3">
+                                        <!-- <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Application Service</mat-label>
                                                 <input formControlName="ApplicationService" matInput type="text">
                                             </mat-form-field>
-                                        </div>
+                                        </div> -->
 
                                         <div class="col-md-6">
                                             <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Certified Copy</mat-label>
+                                                <mat-label>Attachment Type</mat-label>
                                                 <mat-select formControlName="DocumentType">
                                                     <mat-option [value]="'supDoc'">
                                                         Supporting Document
@@ -449,7 +449,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3" *ngIf="supDocType == 'notes'">
+                                        <div class="col-md-6" *ngIf="supDocType == 'notes'">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Notes</mat-label>
                                                 <input formControlName="Notes" matInput type="text">
