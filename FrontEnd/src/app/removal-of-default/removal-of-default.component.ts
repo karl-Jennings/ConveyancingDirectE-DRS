@@ -52,7 +52,6 @@ export class RemovalOfDefaultComponent implements OnInit {
   applicationList: ApplicationForm[] = [];
   supportingDocList: SupportingDocuments[] = [];
   partyList: Party[] = [];
-  notesList: AttachmentNotes[] = [];
   representationList: Representation[] = [];
 
   logsList: RequestLogs[] = [];
@@ -62,7 +61,6 @@ export class RemovalOfDefaultComponent implements OnInit {
   applicationGroup!: FormGroup;
   supportingDocGroup!: FormGroup;
   partyGroup!: FormGroup;
-  notesGroup!: FormGroup;
   representationGroup!: FormGroup;
 
   selectedTitleNumber: number | undefined;
@@ -219,20 +217,6 @@ export class RemovalOfDefaultComponent implements OnInit {
 
     });
 
-    this.notesGroup = this.formBuilder.group({
-      AdditionalProviderFilter: ['', Validators.required],
-      MessageId: 1,
-      ExternalReference: ['', Validators.required],
-      ApplicationMessageId: ['', Validators.required],
-      ApplicationService: ['104'],
-      Notes: ['', Validators.required],
-      AttachmentNotesId: 0,
-      LocalId: [0],
-      IsSelected: [false],
-      DocumentReferenceId: 0,
-
-    });
-
     if (this.docRefId != 0) {
       this.registrationService.GetRegistration(this.docRefId).subscribe(res => {
         this.documentReferenceGroup = this.formBuilder.group(res);
@@ -260,12 +244,6 @@ export class RemovalOfDefaultComponent implements OnInit {
         this.partyList.forEach(s => {
           s.LocalId = this.appId++;
           s.ViewModelRoles = s.Roles!.split(',');
-        })
-
-        this.notesList = res.AttachmentNotes ?? [];
-
-        this.notesList.forEach(s => {
-          s.LocalId = this.appId++;
         })
 
         this.logsList = res.RequestLogs ?? [];
@@ -588,7 +566,7 @@ export class RemovalOfDefaultComponent implements OnInit {
   supDocfileName: any = "Choose files";
   supDocId = 1;
 
- 
+
   PushSupDocumentToGrid() {
 
     var insertObj: SupportingDocuments = {
@@ -602,8 +580,8 @@ export class RemovalOfDefaultComponent implements OnInit {
       insertObj.IsSelected = false;
 
       if (this.supportingDocList.find(s => s.LocalId == this.selectedsupportingDocId) == null) {
-       // insertObj.MessageId = this.supportingDocList[this.supportingDocList.length - 1].MessageId! + 1;
-        insertObj.MessageId=1;
+        // insertObj.MessageId = this.supportingDocList[this.supportingDocList.length - 1].MessageId! + 1;
+        insertObj.MessageId = 1;
         this.supportingDocList.push(Object.assign({}, insertObj));
       } else {
 
@@ -746,79 +724,6 @@ export class RemovalOfDefaultComponent implements OnInit {
     }
   }
 
-  // For Notes
-
-  noteId = 1;
-  PushNotesToGrid() {
-
-    var insertObj: AttachmentNotes = {
-
-    }
-
-    if (this.notesGroup.valid) {
-      insertObj = this.notesGroup.value;
-      insertObj.LocalId = this.noteId++
-      insertObj.IsSelected = false;
-
-      if (this.notesList.find(s => s.LocalId == this.selectedNotesId) == null) {
-        try {
-          insertObj.MessageId = this.notesList[this.notesList.length - 1].MessageId! + 1;
-
-        } catch (error) { }
-
-        this.notesList.push(Object.assign({}, insertObj));
-      } else {
-
-        this.notesList = this.notesList.filter(s => s.LocalId != this.selectedNotesId);
-        insertObj.LocalId = this.selectedNotesId;
-        this.notesList.push(Object.assign({}, insertObj));
-        this.notesList = this.notesList.sort((a, b) => {
-          return a.LocalId! - b.LocalId!;
-        });
-      }
-      this.ClearNotesFields();
-
-    }
-  }
-
-  SelectNotesRow(id: any) {
-    this.notesSaveBtn = "Update"
-    this.selectedNotesId = id
-    this.notesList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
-    this.notesList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
-
-    var selectedObj: any = this.notesList?.find(s => s.LocalId == id);
-    this.selectedNotesId = selectedObj.LocalId;
-    this.notesGroup.setValue(selectedObj);
-  }
-
-  ClearNotesFields() {
-    this.notesSaveBtn = "Add"
-    this.notesList.forEach(x => x.IsSelected = false);
-
-    this.selectedNotesId = 0;
-    this.notesGroup.setValue({
-      AdditionalProviderFilter: '',
-      MessageId: 1,
-      ExternalReference: '',
-      ApplicationMessageId: '',
-      ApplicationService: '104',
-      Notes: '',
-      AttachmentNotesId: 0,
-      LocalId: [0],
-      IsSelected: [false],
-      DocumentReferenceId: 0,
-
-    })
-  }
-
-  RemoveNotes(id: any) {
-    this.notesList = this.notesList.filter(x => x.LocalId != id);
-    if (this.selectedNotesId == id) {
-      this.selectedNotesId = undefined;
-    }
-  }
-
   // For Representation and Additional Parties
 
   repId = 1;
@@ -915,7 +820,6 @@ export class RemovalOfDefaultComponent implements OnInit {
     documentRef.Applications = JSON.parse(JSON.stringify(this.applicationList));
     documentRef.SupportingDocuments = JSON.parse(JSON.stringify(this.supportingDocList));
     documentRef.Representations = JSON.parse(JSON.stringify(this.representationList));
-    documentRef.AttachmentNotes = JSON.parse(JSON.stringify(this.notesList));
     documentRef.Parties = JSON.parse(JSON.stringify(this.partyList));
     documentRef.RequestLogs = JSON.parse(JSON.stringify(this.logsList));
     documentRef.UserId = parseInt(localStorage.getItem("userId")!);
@@ -1057,23 +961,23 @@ export class RemovalOfDefaultComponent implements OnInit {
   }
 
   onAttcmntTypeChange() {
-    
-    console.log("this.supDocType",this.supDocType);
 
-    if( this.supDocType =="supDoc"){
+    console.log("this.supDocType", this.supDocType);
 
-       this.supportingDocGroup.get('DocumentName')?.setValidators([Validators.required]);
+    if (this.supDocType == "supDoc") {
 
-       this.supportingDocGroup.get('CertifiedCopy')?.setValidators([Validators.required]);     
-           
-    }else{
+      this.supportingDocGroup.get('DocumentName')?.setValidators([Validators.required]);
+
+      this.supportingDocGroup.get('CertifiedCopy')?.setValidators([Validators.required]);
+
+    } else {
 
       this.supportingDocGroup.get('DocumentName')?.clearValidators();
       this.supportingDocGroup.controls['DocumentName'].updateValueAndValidity();
 
-      this.supportingDocGroup.get('CertifiedCopy')?.clearValidators();     
+      this.supportingDocGroup.get('CertifiedCopy')?.clearValidators();
       this.supportingDocGroup.controls['CertifiedCopy'].updateValueAndValidity();
 
     }
-  } 
+  }
 }

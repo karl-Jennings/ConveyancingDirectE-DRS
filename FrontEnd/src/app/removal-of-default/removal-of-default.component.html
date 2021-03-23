@@ -356,25 +356,26 @@
                             <div class="col-12 mt-3">
                                 <form [formGroup]="supportingDocGroup">
                                     <div class="row">
-                                        
+
                                         <div class="col-md-6">
-                                                <mat-form-field class="example-form-field w-100">
-                                                        <mat-label>Attachment Type</mat-label>
-                                                        <mat-select formControlName="DocumentType" (selectionChange)="onAttcmntTypeChange()">
-                                                            <mat-option [value]="'supDoc'">
-                                                                Supporting Document
-                                                            </mat-option>
-                                                            <mat-option [value]="'notes'">
-                                                                Notes
-                                                            </mat-option>
-                                                        </mat-select>
-                                                </mat-form-field>
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Attachment Type</mat-label>
+                                                <mat-select formControlName="DocumentType"
+                                                    (selectionChange)="onAttcmntTypeChange()">
+                                                    <mat-option [value]="'supDoc'">
+                                                        Supporting Document
+                                                    </mat-option>
+                                                    <mat-option [value]="'notes'">
+                                                        Notes
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
                                         </div>
                                         <div class="col-md-6"></div>
                                         <div class="col-md-3" *ngIf="supDocType == 'supDoc'">
-                                            <mat-form-field   class="example-form-field w-100">
+                                            <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Document Name</mat-label>
-                                                <mat-select formControlName="DocumentName" >
+                                                <mat-select formControlName="DocumentName">
                                                     <mat-option *ngFor="let item of supDocNameList" [value]="item">
                                                         {{item}}
                                                     </mat-option>
@@ -383,7 +384,7 @@
                                             </mat-form-field>
                                         </div>
                                         <div class="col-md-6" *ngIf="supDocType == 'supDoc'">
-                                            <mat-form-field class="example-form-field w-100" >
+                                            <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Certified Copy</mat-label>
                                                 <mat-select formControlName="CertifiedCopy">
                                                     <mat-option [value]="'Original'">
@@ -451,11 +452,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6" *ngIf="supDocType == 'notes'" >
+                                        <div class="col-md-6" *ngIf="supDocType == 'notes'">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Notes</mat-label>
-                                                 <!-- <input formControlName="Notes" matInput type="text">  -->
-                                                <textarea matInput placeholder="Notes" formControlName="Notes" rows="5" >
+                                                <!-- <input formControlName="Notes" matInput type="text">  -->
+                                                <textarea matInput placeholder="Notes" formControlName="Notes" rows="5">
                                                         </textarea>
                                             </mat-form-field>
                                         </div>
@@ -693,101 +694,6 @@
                     </div>
                 </mat-tab>
 
-                <!-- Attachment Notes -->
-                <mat-tab>
-                    <ng-template mat-tab-label>
-                        <span matBadge="{{notesList.length}}" matBadgeOverlap="false">Notes</span>
-                    </ng-template>
-                    <div class="container-fluid" style="height: 600px; overflow: scroll;">
-                        <div class="row">
-                            <div class="col-12 mt-3">
-                                <form [formGroup]="notesGroup">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Additional Provider Filter</mat-label>
-                                                <input formControlName="AdditionalProviderFilter" matInput type="text">
-
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Message ID</mat-label>
-                                                <input formControlName="MessageId" readonly matInput type="number">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>External Reference</mat-label>
-                                                <input formControlName="ExternalReference" matInput type="text">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Application Message ID</mat-label>
-                                                <input formControlName="ApplicationMessageId" matInput type="text">
-                                            </mat-form-field>
-                                        </div>
-                                        <!-- <div class="col-md-3">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Application Service</mat-label>
-                                                <input formControlName="ApplicationService" matInput type="text">
-                                            </mat-form-field>
-                                        </div> -->
-                                        <div class="col-md-3">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Notes</mat-label>
-                                                <input formControlName="Notes" matInput type="text">
-                                            </mat-form-field>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <button class="mr-1 ml-auto" (click)="PushNotesToGrid()" mat-flat-button
-                                                color="primary">{{notesSaveBtn}}</button>
-                                            <button (click)="ClearNotesFields()" class="btn-warning"
-                                                mat-flat-button>Clear</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-12 mt-3">
-                                <hr class="mb-0">
-                                <table mdbTable class="table-hover table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th class="font-weight-bold">Additional Provider Filter</th>
-                                            <th class="font-weight-bold">External Reference</th>
-                                            <th class="font-weight-bold">Application Message ID</th>
-                                            <th class="font-weight-bold">Application Service</th>
-                                            <th class="font-weight-bold">Notes</th>
-                                            <th class="font-weight-bold">Remove</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr mdbTableCol *ngFor="let item of notesList"
-                                            class="{{item.IsSelected ? 'light-blue-row' : '' }}"
-                                            (click)="SelectNotesRow(item.LocalId)">
-                                            <th scope="row"> {{item.AdditionalProviderFilter}}</th>
-                                            <th scope="row"> {{item.ExternalReference}}</th>
-                                            <th scope="row"> {{item.ApplicationMessageId}}</th>
-                                            <th scope="row"> {{item.ApplicationService}}</th>
-                                            <th scope="row"> {{item.Notes}}</th>
-                                            <th scope="row">
-                                                <button class="btn btn-danger btn-sm"
-                                                    (click)="RemoveNotes(item.LocalId)">
-                                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete
-                                                </button>
-                                            </th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                                <hr class="mt-0">
-                            </div>
-                        </div>
-                    </div>
-                </mat-tab>
 
                 <!-- Parties -->
                 <mat-tab>
@@ -901,47 +807,47 @@
                         </div>
                     </div>
                 </mat-tab>
-     <!-- Requisition Log -->
-     <mat-tab label="Requisition" *ngIf="docRefId != 0">
-        <div class="container-fluid pl-1 pr-1 py-3" style="height: 600px; overflow: scroll;">
-            <div class="row">
-                <div class="col-12">
-                    <div class="col-12 pt-3">
-                        <button mat-flat-button color="primary" type="button"
-                            (click)="FindRequisitions()">Find Requisitions</button>
-                    </div>
-                </div>
-                <div class="col-12 pt-3">
-                    <h3 class="font-weight-bold">Requisition Logs</h3>
-                    <table class="table table-bordered mt-1">
-                        <thead>
-                            <tr class="grey lighten-3">
-                                <th scope="col" class="py-2">Application Message Id</th>
-                                <th scope="col" class="py-2">Type Code</th>
-                                <th scope="col" class="py-2">Attachment</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of logsList">
-                                <ng-container *ngIf="item.Type == 'correspondence'">
-                                    <td class="py-2">{{item.AppMessageId}}</td>
-                                    <td class="py-2">{{item.TypeCode}}</td>
-                                    <td class="py-2">
-                                        <button class="btn btn-primary btn-sm"
-                                            (click)="DownloadAttachedPoll(item)">
-                                            <i class="fa fa-paperclip" aria-hidden="true"></i>
-                                            Download
-                                        </button>
+                <!-- Requisition Log -->
+                <mat-tab label="Requisition" *ngIf="docRefId != 0">
+                    <div class="container-fluid pl-1 pr-1 py-3" style="height: 600px; overflow: scroll;">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="col-12 pt-3">
+                                    <button mat-flat-button color="primary" type="button"
+                                        (click)="FindRequisitions()">Find Requisitions</button>
+                                </div>
+                            </div>
+                            <div class="col-12 pt-3">
+                                <h3 class="font-weight-bold">Requisition Logs</h3>
+                                <table class="table table-bordered mt-1">
+                                    <thead>
+                                        <tr class="grey lighten-3">
+                                            <th scope="col" class="py-2">Application Message Id</th>
+                                            <th scope="col" class="py-2">Type Code</th>
+                                            <th scope="col" class="py-2">Attachment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of logsList">
+                                            <ng-container *ngIf="item.Type == 'correspondence'">
+                                                <td class="py-2">{{item.AppMessageId}}</td>
+                                                <td class="py-2">{{item.TypeCode}}</td>
+                                                <td class="py-2">
+                                                    <button class="btn btn-primary btn-sm"
+                                                        (click)="DownloadAttachedPoll(item)">
+                                                        <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                                        Download
+                                                    </button>
 
-                                    </td>
-                                </ng-container>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </mat-tab>
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
                 <!-- Response Log -->
                 <mat-tab label="Response" *ngIf="docRefId != 0">
                     <div class="container-fluid pl-1 pr-1 py-3" style="height: 600px; overflow: scroll;">
@@ -953,7 +859,7 @@
                                         Application
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
-                                
+
                                 <div class="row">
                                     <div class="col-12 pt-3">
                                         <h3 class="font-weight-bold">Application Responses</h3>
@@ -980,7 +886,7 @@
                                     <div class="col-12 pt-3">
                                         <h3 class="font-weight-bold">Application Poll Responses</h3>
 
-                                        <div >
+                                        <div>
                                             <button mat-flat-button color="primary" type="button"
                                                 (click)="SendPoolRequest()">Collect
                                                 Application Result</button>
@@ -1013,7 +919,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                   
+
                                 </div>
                             </mat-expansion-panel>
 
@@ -1110,7 +1016,7 @@
                             <mat-expansion-panel>
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
-                                        Early Completion 
+                                        Early Completion
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
                                 <div class="row">
@@ -1155,7 +1061,7 @@
                     </div>
                 </mat-tab>
 
-           
+
 
             </mat-tab-group>
 
