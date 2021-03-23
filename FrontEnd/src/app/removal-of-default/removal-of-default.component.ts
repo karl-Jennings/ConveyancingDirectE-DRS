@@ -922,6 +922,8 @@ export class RemovalOfDefaultComponent implements OnInit {
       this.toastr.warning("Please add at least one Representation", "Fields missing")
     } else if (documentRef.Parties?.length! < 1) {
       this.toastr.warning("Please add at least one Party", "Fields missing")
+    } else if (documentRef.Representations?.filter(s => s.Type == "LodgingConveyancer").length! < 1) {
+      this.toastr.warning("Please add at least one Lodging Conveyancer", "Fields missing")
     } else if (this.documentReferenceGroup.valid) {
 
       if (this.docRefId == 0) {
