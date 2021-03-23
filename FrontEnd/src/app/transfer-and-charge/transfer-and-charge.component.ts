@@ -807,7 +807,6 @@ export class TransferAndChargeComponent implements OnInit {
       documentRef.Applications = JSON.parse(JSON.stringify(this.applicationList));
       documentRef.SupportingDocuments = JSON.parse(JSON.stringify(this.supportingDocList));
       documentRef.Parties = JSON.parse(JSON.stringify(this.partyList));
-      documentRef.AttachmentNotes = JSON.parse(JSON.stringify(this.notesList));
       documentRef.RequestLogs = JSON.parse(JSON.stringify(this.logsList));
       documentRef.Representations = JSON.parse(JSON.stringify(this.representationList));
       documentRef.UserId = parseInt(localStorage.getItem("userId")!);

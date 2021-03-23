@@ -101,6 +101,13 @@ namespace eDrsManagers.Managers
                 party.Roles = string.Join(",", party.ViewModelRoles);
             });
 
+            var count = 1;
+            viewModel.Applications.ToList().ForEach(x=>x.Document.AttachmentId  = count++);
+            viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
+            {
+                supDoc.DocumentId = count++;
+            });
+
             var deletingTitle = _context.TitleNumbers
                 .Where(x => !viewModel.Titles.Select(s => s.TitleNumberId).ToList().Contains(x.TitleNumberId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
 
@@ -113,9 +120,6 @@ namespace eDrsManagers.Managers
             var deletingParties = _context.Parties
                 .Where(x => !viewModel.Parties.Select(s => s.PartyId).ToList().Contains(x.PartyId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
 
-            var deletingNotes = _context.AttachmentNotes
-                .Where(x => !viewModel.AttachmentNotes.Select(s => s.AttachmentNotesId).ToList().Contains(x.AttachmentNotesId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
-
             if (viewModel.Representations != null)
             {
                 var representations = _context.Representations
@@ -127,7 +131,6 @@ namespace eDrsManagers.Managers
             _context.ApplicationForms.RemoveRange(deletingApplications);
             _context.SupportingDocuments.RemoveRange(deletingSupportingDocuments);
             _context.Parties.RemoveRange(deletingParties);
-            _context.AttachmentNotes.RemoveRange(deletingNotes);
 
             if (string.IsNullOrEmpty(viewModel.MessageID))
                 viewModel.MessageID = Guid.NewGuid().ToString();
@@ -476,7 +479,6 @@ namespace eDrsManagers.Managers
                         AdditionalProviderFilter = sel.AdditionalProviderFilter,
                         ExternalReference = sel.ExternalReference,
                         Password = sel.Password,
-                        AttachmentNotes = sel.AttachmentNotes,
                         RequestLogs = sel.RequestLogs,
                         Representations = sel.Representations,
                         Outstanding = sel.Outstanding

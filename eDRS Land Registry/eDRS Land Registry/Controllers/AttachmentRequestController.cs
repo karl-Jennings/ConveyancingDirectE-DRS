@@ -11,7 +11,7 @@ using eDRS_Land_Registry.Models;
 
 namespace eDRS_Land_Registry.Controllers
 {
-    [Route("api/[controller]")]  
+    [Route("api/[controller]")]
     public partial class AttachmentController : ApiController
     {
 
@@ -21,9 +21,9 @@ namespace eDRS_Land_Registry.Controllers
         {
             try
             {
-                BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();             
+                BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
 
-                var _reponse = _services.AttachmentRequest( Request.Username,Request.Password, Request.Request);
+                var _reponse = _services.AttachmentRequest(Request.Username, Request.Password, Request.Request);
 
                 return _reponse;
 
