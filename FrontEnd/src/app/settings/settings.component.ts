@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
- 
+
   sliderTime = 1;
 
   private hubConnection!: HubConnection;

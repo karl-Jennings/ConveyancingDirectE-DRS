@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { Error404Component } from './error404/error404.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { SettingsComponent } from './settings/settings.component';
-import { ScenarioComponent } from './removal-of-default/scenario.component';
+import { ScenarioComponent } from './scenario/scenario.component';
 import { ViewDocumentRegistrationsComponent } from './view-document-registrations/view-document-registrations.component';
 
 const routes: Routes = [

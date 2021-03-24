@@ -20,6 +20,8 @@ import { RequestLogs } from '../models/request-logs';
 import { Representation } from '../models/representation';
 import { Outstanding } from '../models/outstanding';
 import { AttachmentService } from '../services/attachment.service';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-scenario',
@@ -96,6 +98,9 @@ export class ScenarioComponent implements OnInit {
 
   isOtherApplication = true;
 
+  private hubConnection!: HubConnection;
+  private connectionUrl = environment.apiURL + 'attachment/';
+
   constructor(
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -109,7 +114,11 @@ export class ScenarioComponent implements OnInit {
     this.regType = +this.route.snapshot.paramMap.get("regTypeId")!;
     this.docRefId = +this.route.snapshot.paramMap.get("docRefId")!;
 
-
+    this.hubConnection = new HubConnectionBuilder()
+      .withUrl(this.connectionUrl)
+      .withAutomaticReconnect()
+      .build();
+    this.hubConnection.start()
     this.documentReferenceGroup = this.formBuilder.group({
       Password: ['', Validators.required],
       AdditionalProviderFilter: ['', Validators.required],
@@ -149,7 +158,8 @@ export class ScenarioComponent implements OnInit {
       ChargeDate: [new Date().toISOString().substring(0, 10)],
       IsMdRef: ['yes'],
       MdRef: [''],
-      SortCode: ['']
+      SortCode: [''],
+      IsChecked: true
     });
 
     this.supportingDocGroup = this.formBuilder.group({
@@ -164,11 +174,11 @@ export class ScenarioComponent implements OnInit {
 
       DocumentType: [this.supDocType],
 
-      FileName: [''],
-      Base64: [''],
-      FileExtension: [''],
+      FileName: '',
+      Base64: '',
+      FileExtension: '',
 
-      Notes: [''],
+      Notes: '',
 
       LocalId: [0],
       IsSelected: [false],
@@ -638,12 +648,10 @@ export class ScenarioComponent implements OnInit {
       //ApplicationType: '',
 
       DocumentType: [this.supDocType],
-
-      FileName: [''],
-      Base64: [''],
-      FileExtension: [''],
-
-      Notes: [''],
+      FileName: '',
+      Base64: '',
+      FileExtension: '',
+      Notes: '',
 
     })
   }
@@ -1029,5 +1037,19 @@ export class ScenarioComponent implements OnInit {
       this.supportingDocGroup.get('Notes')?.setValidators([Validators.required]);
 
     }
+  }
+
+  ChangeCheckEvent(item: any) {
+
+    if (item.ApplicationFormId != null) {
+      this.hubConnection.invoke("ChangeAttachmentState", item.ApplicationFormId, "app", item.IsChecked).then(res => {
+
+      })
+    } else if (item.SupportingDocumentId != null) {
+      this.hubConnection.invoke("ChangeAttachmentState", item.SupportingDocumentId, "sup", item.IsChecked).then(res => {
+
+      })
+    }
+
   }
 }

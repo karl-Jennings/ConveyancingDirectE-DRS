@@ -33,6 +33,8 @@ namespace eDrsDB.Models
         public string FileName { get; set; }
         public string FileExtension { get; set; }
 
+        public bool IsChecked { get; set; }
+
         public long DocumentReferenceId { get; set; }
         [JsonIgnore]
         public DocumentReference DocumentReference { get; set; }

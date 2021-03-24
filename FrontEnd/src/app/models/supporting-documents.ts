@@ -1,5 +1,6 @@
 export class SupportingDocuments {
 
+    SupportingDocumentId?: number;
     ApplicationType?: string;
     CertifiedCopy?: string;
     DocumentId?: string;
@@ -20,4 +21,7 @@ export class SupportingDocuments {
 
     LocalId?: any;
     IsSelected?: boolean;
+
+    IsChecked?: boolean;
+
 }

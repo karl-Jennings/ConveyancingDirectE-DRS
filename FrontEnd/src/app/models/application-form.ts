@@ -1,4 +1,5 @@
 export class ApplicationForm {
+    ApplicationFormId?: number;
     Priority?: number;
     Value?: string;
     FeeInPence?: number;
@@ -7,6 +8,8 @@ export class ApplicationForm {
     IsSelected?: boolean;
     Document?: Document;
     Variety?: string;
+    IsChecked?: boolean;
+
 }
 
 export class Document {

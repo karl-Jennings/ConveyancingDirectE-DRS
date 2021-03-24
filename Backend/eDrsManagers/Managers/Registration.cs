@@ -102,7 +102,7 @@ namespace eDrsManagers.Managers
             });
 
             var count = 1;
-            viewModel.Applications.ToList().ForEach(x=>x.Document.AttachmentId  = count++);
+            viewModel.Applications.ToList().ForEach(x => x.Document.AttachmentId = count++);
             viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
             {
                 supDoc.DocumentId = count++;
@@ -447,7 +447,8 @@ namespace eDrsManagers.Managers
                             MdRef = app.MdRef,
                             SortCode = app.SortCode,
                             ChargeDate = app.ChargeDate,
-                            Variety = app.Variety
+                            Variety = app.Variety,
+                            IsChecked = app.IsChecked
                         }).ToList(),
                         DisclosableOveridingInterests = sel.DisclosableOveridingInterests,
                         LocalAuthority = sel.LocalAuthority,
@@ -459,7 +460,19 @@ namespace eDrsManagers.Managers
                             SupportingDocumentId = sup.SupportingDocumentId,
                             DocumentReferenceId = sup.DocumentReferenceId,
                             DocumentName = sup.DocumentName,
-                            DocumentId = sup.DocumentId
+                            DocumentId = sup.DocumentId,
+                            IsChecked = sup.IsChecked,
+                            Notes = sup.Notes,
+                            AdditionalProviderFilter = sup.AdditionalProviderFilter,
+                            ApplicationMessageId = sup.ApplicationMessageId,
+                            ApplicationService = sup.ApplicationService,
+                            ApplicationType = sup.ApplicationType,
+                            Base64 = sup.Base64,
+                            DocumentType = sup.DocumentType,
+                            ExternalReference = sup.ExternalReference,
+                            FileExtension = sup.FileExtension,
+                            FileName = sup.FileName,
+                            MessageId = sup.MessageId
                         }).ToList(),
                         PostcodeOfProperty = sel.PostcodeOfProperty,
                         Reference = sel.Reference,

@@ -23,6 +23,7 @@ namespace eDrsDB.Models
         public string IsMdRef { get; set; }
         public string SortCode { get; set; }
         public string MdRef { get; set; }
+        public bool IsChecked { get; set; }
 
         public long DocumentReferenceId { get; set; }
         [JsonIgnore]

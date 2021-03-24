@@ -311,6 +311,7 @@
                                             <th class="font-weight-bold">Type</th>
                                             <th class="font-weight-bold">Attachment</th>
                                             <th class="font-weight-bold">Remove</th>
+                                            <th *ngIf="docRefId != 0" class="font-weight-bold">Valid Attachments</th>
 
                                         </tr>
                                     </thead>
@@ -334,6 +335,12 @@
                                                 <button class="btn btn-danger btn-sm" (click)="RemoveApp(item.LocalId)">
                                                     <i class="fa fa-trash" aria-hidden="true"></i> Delete
                                                 </button>
+                                            </th>
+                                            <th *ngIf="docRefId != 0">
+                                                <mat-checkbox (click)="$event.stopPropagation();"
+                                                    (change)="ChangeCheckEvent(item)" [(ngModel)]="item.IsChecked">
+                                                    Checked
+                                                </mat-checkbox>
                                             </th>
                                         </tr>
                                     </tbody>
@@ -477,8 +484,9 @@
                                         <tr>
                                             <th class="font-weight-bold">Document Name</th>
                                             <th class="font-weight-bold">Note</th>
-                                            <th class="font-weight-bold">Certified Copy</th>                                        
+                                            <th class="font-weight-bold">Certified Copy</th>
                                             <th class="font-weight-bold">Remove</th>
+                                            <th *ngIf="docRefId != 0" class="font-weight-bold">Valid Attachments</th>
 
                                         </tr>
                                     </thead>
@@ -488,12 +496,18 @@
                                             (click)="SelectSupDocRow(item.LocalId)">
                                             <th scope="row"> {{item.DocumentName}}</th>
                                             <th scope="row"> {{item.Notes}}</th>
-                                            <th scope="row"> {{item.CertifiedCopy}}</th>                                                                                    
+                                            <th scope="row"> {{item.CertifiedCopy}}</th>
                                             <th scope="row">
                                                 <button class="btn btn-danger btn-sm"
                                                     (click)="RemoveSupDoc(item.LocalId)">
                                                     <i class="fa fa-trash" aria-hidden="true"></i> Delete
                                                 </button>
+                                            </th>
+                                            <th *ngIf="docRefId != 0">
+                                                <mat-checkbox (click)="$event.stopPropagation();"
+                                                    (change)="ChangeCheckEvent(item)" [(ngModel)]="item.IsChecked">
+                                                    Checked
+                                                </mat-checkbox>
                                             </th>
                                         </tr>
                                     </tbody>
@@ -1018,9 +1032,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-
                                 </div>
-
                             </mat-expansion-panel>
 
                             <mat-expansion-panel>

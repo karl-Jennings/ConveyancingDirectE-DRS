@@ -25,12 +25,13 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ApplicationViewComponent } from './angular-dialogs/application-view/application-view.component';
 import { ViewDocumentRegistrationsComponent } from './view-document-registrations/view-document-registrations.component';
-import { ScenarioComponent } from './removal-of-default/scenario.component';
+import { ScenarioComponent } from './scenario/scenario.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { LrCredentialsComponent } from './settings/lr-credentials/lr-credentials.component';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     ToastrModule.forRoot(),
     MatTableModule,
     MatDatepickerModule,
+    MatCheckboxModule,
     MatTabsModule,
     MatExpansionModule,
     MatBadgeModule,

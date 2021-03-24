@@ -151,7 +151,7 @@ namespace eDrsAPI
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<SettingsHub>("/api/settings");
-
+                endpoints.MapHub<AttachmentHub>("/api/attachment");
             });
 
             //recurringJobManager.AddOrUpdate(
