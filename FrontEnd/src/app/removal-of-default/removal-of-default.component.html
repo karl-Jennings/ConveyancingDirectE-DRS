@@ -475,9 +475,9 @@
                                 <table mdbTable class="table-hover table-bordered">
                                     <thead>
                                         <tr>
-                                            <th class="font-weight-bold">Certified Copy</th>
-                                            <th class="font-weight-bold">Document Id</th>
                                             <th class="font-weight-bold">Document Name</th>
+                                            <th class="font-weight-bold">Note</th>
+                                            <th class="font-weight-bold">Certified Copy</th>                                        
                                             <th class="font-weight-bold">Remove</th>
 
                                         </tr>
@@ -486,9 +486,9 @@
                                         <tr mdbTableCol *ngFor="let item of supportingDocList"
                                             class="{{item.IsSelected ? 'light-blue-row' : '' }}"
                                             (click)="SelectSupDocRow(item.LocalId)">
-                                            <th scope="row"> {{item.CertifiedCopy}}</th>
-                                            <th scope="row"> {{item.DocumentId}}</th>
                                             <th scope="row"> {{item.DocumentName}}</th>
+                                            <th scope="row"> {{item.Notes}}</th>
+                                            <th scope="row"> {{item.CertifiedCopy}}</th>                                                                                    
                                             <th scope="row">
                                                 <button class="btn btn-danger btn-sm"
                                                     (click)="RemoveSupDoc(item.LocalId)">
