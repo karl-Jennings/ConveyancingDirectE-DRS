@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, Form, FormGroupDirective } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -7,21 +7,26 @@ import { ConfirmRegistrationComponent } from '../angular-dialogs/confirm-registr
 import { ApplicationForm, Document } from '../models/application-form';
 import { DocumentReference } from '../models/document-reference';
 import { Party } from '../models/party';
+import { Roles } from '../models/roles';
 import { SupportingDocuments } from '../models/supporting-documents';
 import { TitleNumber } from '../models/title-number';
 import { RegistrationService } from '../services/registration.service';
 import * as FileSaver from 'file-saver';
+import { DatePipe } from '@angular/common';
+import { CommonUtils } from 'src/environments/common-utils';
 import Swal from 'sweetalert2';
 import { AttachmentNotes } from '../models/attachment-notes';
 import { RequestLogs } from '../models/request-logs';
 import { Representation } from '../models/representation';
+import { Outstanding } from '../models/outstanding';
+import { AttachmentService } from '../services/attachment.service';
 
 @Component({
-  selector: 'app-dispositionary',
-  templateUrl: './dispositionary.component.html',
-  styleUrls: ['./dispositionary.component.css']
+  selector: 'app-scenario',
+  templateUrl: './scenario.component.html',
+  styleUrls: ['./scenario.component.css']
 })
-export class DispositionaryComponent implements OnInit {
+export class ScenarioComponent implements OnInit {
 
   rolesList: string[] = ["Borrower", "Lender", "Lessee", "Lessor", "PersonalRepresentative", "PowerOfAttorney", "Proprietor", "Third Party", "Transferee", "Transferor"];
   appTypeList: string[] = [
@@ -47,15 +52,15 @@ export class DispositionaryComponent implements OnInit {
   applicationList: ApplicationForm[] = [];
   supportingDocList: SupportingDocuments[] = [];
   partyList: Party[] = [];
-  notesList: AttachmentNotes[] = [];
-  logsList: RequestLogs[] = [];
   representationList: Representation[] = [];
+
+  logsList: RequestLogs[] = [];
+  outstandingList: Outstanding[] = [];
 
   txtTitle: FormControl = new FormControl();
   applicationGroup!: FormGroup;
   supportingDocGroup!: FormGroup;
   partyGroup!: FormGroup;
-  notesGroup!: FormGroup;
   representationGroup!: FormGroup;
 
   selectedTitleNumber: number | undefined;
@@ -72,6 +77,9 @@ export class DispositionaryComponent implements OnInit {
   regType!: number;
   docRefId!: any;
   @ViewChild("file") file: ElementRef | undefined;
+  @ViewChild("supportingDocumentfile") supportingDocumentfile: ElementRef | undefined;
+
+  supportingDocumentFileObject: any = {};
 
   titleSaveBtn = "Add";
   appSaveBtn = "Add";
@@ -80,15 +88,19 @@ export class DispositionaryComponent implements OnInit {
   notesSaveBtn = "Add";
   repSaveBtn = "Add";
 
-  partyType = 'company';
+  appType = 'other';
   repType = 'LodgingConveyancer';
   addressType = 'DXAddress';
 
+  supDocType = 'supDoc';
+
+  isOtherApplication = true;
 
   constructor(
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private registrationService: RegistrationService,
+    private attachmentServices: AttachmentService,
     private route: ActivatedRoute,
     private toastr: ToastrService
   ) { }
@@ -105,18 +117,16 @@ export class DispositionaryComponent implements OnInit {
       ExternalReference: ['', Validators.required],
       UserID: [+localStorage.getItem("userId")!],
       Reference: ['', Validators.required],
-      TotalFeeInPence: [0],
+      TotalFeeInPence: ['', Validators.required],
       Email: ['', [Validators.required, Validators.email]],
-      Notes: ['', Validators.required],
-      TelephoneNumber: [0, Validators.required],
+      TelephoneNumber: ['', Validators.required],
       AP1WarningUnderstood: [true],
       ApplicationDate: [new Date().toISOString().substring(0, 10), Validators.required],
       DisclosableOveridingInterests: [true],
-      RepresentativeId: [0],
       ApplicationAffects: ['', Validators.required],
       RegistrationTypeId: [this.regType],
-      PostcodeOfProperty: ['', Validators.required],
-      LocalAuthority: ['', Validators.required],
+      PostcodeOfProperty: [''],
+      LocalAuthority: [''],
       DocumentReferenceId: 0
     })
 
@@ -124,67 +134,52 @@ export class DispositionaryComponent implements OnInit {
     // this.documentReferenceGroup.controls.ApplicationDate.setValue(_today.toISOString().substring(0, 10););
 
     this.applicationGroup = this.formBuilder.group({
-      Priority: [1, Validators.required],
-      Value: ['', Validators.required],
-      FeeInPence: [0],
-      Variety: ['other'],
+      Priority: [],
+      Value: [],
+      FeeInPence: [],
       Type: [''],
       LocalId: [0],
       IsSelected: [false],
       ApplicationFormId: 0,
       DocumentReferenceId: 0,
-
       CertifiedCopy: [''],
       ExternalReference: ['', Validators.required],
       Document: {},
-      ChargeDate: [new Date().toISOString().substring(0, 10), Validators.required],
-      MDRef: ['']
+      Variety: [this.appType],
+      ChargeDate: [new Date().toISOString().substring(0, 10)],
+      IsMdRef: ['yes'],
+      MdRef: [''],
+      SortCode: ['']
     });
 
     this.supportingDocGroup = this.formBuilder.group({
-      CertifiedCopy: ['', Validators.required],
-      DocumentId: ['', Validators.required],
-      DocumentName: ['', Validators.required],
-      LocalId: [0],
-      IsSelected: [false],
-      SupportingDocumentId: 0,
-      DocumentReferenceId: 0,
-
-    });
-
-    this.partyGroup = this.formBuilder.group({
-      PartyType: [true],
-      IsApplicant: [true],
-      CompanyOrForeName: ['', Validators.required],
-      Surname: [''],
-      Roles: [''],
-      AddressForService: ['', Validators.required],
-      ViewModelRoles: [[], Validators.required],
-      LocalId: [0],
-      IsSelected: [false],
-      PartyId: 0,
-      DocumentReferenceId: 0,
-
-    });
-
-    this.notesGroup = this.formBuilder.group({
+      CertifiedCopy: [],
+      DocumentName: [],
       AdditionalProviderFilter: ['', Validators.required],
       MessageId: 1,
       ExternalReference: ['', Validators.required],
       ApplicationMessageId: ['', Validators.required],
-      ApplicationService: ['', Validators.required],
-      Notes: ['', Validators.required],
-      AttachmentNotesId: 0,
+      ApplicationService: ['104'],
+      //ApplicationType: ['', Validators.required],
+
+      DocumentType: [this.supDocType],
+
+      FileName: [''],
+      Base64: [''],
+      FileExtension: [''],
+
+      Notes: [''],
+
       LocalId: [0],
       IsSelected: [false],
-      DocumentReferenceId: 0,
-
+      SupportingDocumentId: 0,
+      DocumentReferenceId: 0
     });
 
     this.representationGroup = this.formBuilder.group({
       RepresentationId: [0],
       Type: ['LodgingConveyancer'],
-      RepresentativeId: [0, Validators.required],
+      RepresentativeId: [1, Validators.required],
       Name: [''],
       Reference: [''],
       AddressType: ['DXAddress'],
@@ -208,6 +203,20 @@ export class DispositionaryComponent implements OnInit {
       County: [''],
       Country: [''],
       PostCode: ['']
+    });
+
+    this.partyGroup = this.formBuilder.group({
+      PartyType: [true],
+      IsApplicant: [true],
+      CompanyOrForeName: ['', Validators.required],
+      Surname: [''],
+      Roles: [''],
+      ViewModelRoles: [[], Validators.required],
+      LocalId: [0],
+      IsSelected: [false],
+      PartyId: 0,
+      DocumentReferenceId: 0,
+
     });
 
     if (this.docRefId != 0) {
@@ -239,11 +248,8 @@ export class DispositionaryComponent implements OnInit {
           s.ViewModelRoles = s.Roles!.split(',');
         })
 
-        this.notesList = res.AttachmentNotes ?? [];
-
-        this.notesList.forEach(s => {
-          s.LocalId = this.appId++;
-        })
+        this.logsList = res.RequestLogs ?? [];
+        this.outstandingList = res.Outstanding ?? [];
 
         this.representationList = res.Representations ?? [];
 
@@ -251,10 +257,28 @@ export class DispositionaryComponent implements OnInit {
           s.LocalId = this.appId++;
         })
 
-        this.logsList = res.RequestLogs ?? [];
-
       })
     }
+
+    this.applicationGroup.get('Variety')?.valueChanges.subscribe(res => {
+      this.appType = res
+
+    })
+
+    this.supportingDocGroup.get('DocumentType')?.valueChanges.subscribe(res => {
+      this.supDocType = res
+
+    })
+
+    this.applicationGroup.get('IsMdRef')?.valueChanges.subscribe(res => {
+
+      if (res == 'yes') {
+        this.applicationGroup.controls.MdRef.enable();
+      } else {
+        this.applicationGroup.controls.MdRef.disable();
+        this.applicationGroup.controls.MdRef.setValue("");
+      }
+    })
 
     this.partyGroup.get('PartyType')?.valueChanges.subscribe(res => {
       this.partyType = res
@@ -313,8 +337,12 @@ export class DispositionaryComponent implements OnInit {
       }
     })
 
+
+    // set validations in Support documents form based on selected Attachment Type
+    this.onAttcmntTypeChange();
   }
 
+  partyType = 'company';
 
   // Title Numbers
 
@@ -324,8 +352,9 @@ export class DispositionaryComponent implements OnInit {
     var insertObj: TitleNumber = {
       LocalId: this.titleId++,
       TitleNumberCode: this.txtTitle.value,
-      IsSelected: false
+      IsSelected: false,
     }
+
     if (this.txtTitle.valid) {
       if (this.titleList.find(s => s.LocalId == this.selectedTitleNumber) == null) {
         this.titleList.push(Object.assign({}, insertObj));
@@ -371,18 +400,17 @@ export class DispositionaryComponent implements OnInit {
     }
   }
 
-
-
-
   // For Applications
 
   appId = 1;
   fileName: any = "Choose files";
-  PushApplicationToGrid() {
+  PushApplicationToGrid(formDirective: FormGroupDirective) {
 
     var insertObj: ApplicationForm = {
 
     }
+
+    debugger;
     if (this.applicationGroup.valid) {
 
       var documents: Document = {};
@@ -413,7 +441,7 @@ export class DispositionaryComponent implements OnInit {
             FileName: fileName, Base64: fileString, FileExtension: fileExtension
           };
 
-          that.InsertDataToAppList(insertObj, documents)
+          that.InsertDataToAppList(insertObj, documents, formDirective);
 
 
         };
@@ -421,15 +449,24 @@ export class DispositionaryComponent implements OnInit {
           console.log('Error: ', error);
         };
       } else if (insertObj.Document?.DocumentId != null) {
-
-        this.InsertDataToAppList(insertObj, insertObj.Document)
+        this.InsertDataToAppList(insertObj, insertObj.Document, formDirective);
       }
     }
   }
 
-  InsertDataToAppList(insertObj: ApplicationForm, documents: Document) {
+  InsertDataToAppList(insertObj: ApplicationForm, documents: Document, formDirective: FormGroupDirective) {
     insertObj.Document = documents;
     if (this.applicationList.find(s => s.LocalId == this.selectedApplicationId) == null) {
+
+      if (this.applicationList.length == 0) {
+
+        insertObj.Priority = 1;
+
+      } else {
+
+        insertObj.Priority = this.applicationList[this.applicationList.length - 1].Priority! + 1;
+      }
+
       this.applicationList.push(Object.assign({}, insertObj));
 
     } else {
@@ -440,7 +477,7 @@ export class DispositionaryComponent implements OnInit {
         return a.LocalId! - b.LocalId!;
       });
     }
-    this.ClearAppFields();
+    this.ClearAppFields(formDirective);
   }
 
   SelectAppRow(id: any) {
@@ -449,7 +486,7 @@ export class DispositionaryComponent implements OnInit {
     this.applicationList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
     this.applicationList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
 
-    var selectedObj: ApplicationForm = this.applicationList?.find(s => s.LocalId == id)!;
+    var selectedObj: ApplicationForm = this.applicationList.find(s => s.LocalId == id)!;
     this.selectedApplicationId = selectedObj.LocalId;
     this.applicationGroup.setValue(selectedObj);
     this.fileName = ""
@@ -457,28 +494,36 @@ export class DispositionaryComponent implements OnInit {
 
   }
 
-  ClearAppFields() {
+  ClearAppFields(formDirective: FormGroupDirective) {
     this.appSaveBtn = "Add"
 
     this.applicationList.forEach(x => x.IsSelected = false);
     this.selectedApplicationId = 0;
-    this.fileName = "Choose File"
-    this.applicationGroup.patchValue({
-      Priority: 1,
-      Value: '',
-      FeeInPence: 0,
-      Type: '',
-      LocalId: 0,
-      IsSelected: false,
-      ApplicationFormId: 0,
-      DocumentReferenceId: 0,
+    this.fileName = "Choose File";
 
-      Document: [],
-      ExternalReference: '',
-      Variety: 'other',
-      ChargeDate: new Date().toISOString().substring(0, 10),
-      MDRef: ''
-    })
+
+    formDirective.resetForm();
+    this.applicationGroup.reset();
+
+
+    // this.applicationGroup.patchValue({
+    //   Priority: 1,
+    //   Value: '',
+    //   FeeInPence: null,
+    //   Type: '',
+    //   LocalId: 0,
+    //   IsSelected: false,
+    //   ApplicationFormId: 0,
+    //   DocumentReferenceId: 0,
+
+    //   Document: [],
+    //   ExternalReference: '',
+    //   Variety: 'other',
+    //   MDRef: '',
+    //   ChargeDate: new Date().toISOString().substring(0, 10),
+    //   IsMdRef: 'yes',
+    //   SortCode: ''
+    // })
   }
 
   RemoveApp(id: any) {
@@ -495,6 +540,22 @@ export class DispositionaryComponent implements OnInit {
     for (let i = 0; i < files.length; i++) {
       this.fileName += files[i].name + (i + 1 != files.length ? ", " : "");
     }
+  }
+
+
+  //handle application varity change event
+  VarietyChange(value: any) {
+
+    console.log('change value:', value);
+
+    if (value == 'other') {
+      this.isOtherApplication = true;
+      this.applicationGroup.controls['Type'].setValidators([Validators.required]);
+    } else {
+      this.isOtherApplication = false;
+      this.applicationGroup.controls['Type'].clearValidators();
+      this.applicationGroup.controls['Type'].updateValueAndValidity();
+    }
 
   }
 
@@ -504,19 +565,30 @@ export class DispositionaryComponent implements OnInit {
 
 
   // For Supporting Documents
-
+  supDocfileName: any = "Choose files";
   supDocId = 1;
-  PushSupDocumentToGrid() {
+
+  async PushSupDocumentToGrid() {
 
     var insertObj: SupportingDocuments = {
 
     }
+
     if (this.supportingDocGroup.valid) {
       insertObj = this.supportingDocGroup.value;
       insertObj.LocalId = this.supDocId++
       insertObj.IsSelected = false;
 
+
+      if (insertObj.DocumentType == "supDoc") {
+        insertObj.FileName = this.supportingDocumentFileObject.FileName;
+        insertObj.Base64 = this.supportingDocumentFileObject.Base64;
+        insertObj.FileExtension = this.supportingDocumentFileObject.FileExtension;
+      }
+
       if (this.supportingDocList.find(s => s.LocalId == this.selectedsupportingDocId) == null) {
+        // insertObj.MessageId = this.supportingDocList[this.supportingDocList.length - 1].MessageId! + 1;
+        insertObj.MessageId = 1;
         this.supportingDocList.push(Object.assign({}, insertObj));
       } else {
 
@@ -545,18 +617,33 @@ export class DispositionaryComponent implements OnInit {
 
   ClearSupDocFields() {
     this.supDocSaveBtn = "Add"
+    this.supDocfileName = "Choose File";
 
     this.supportingDocList.forEach(x => x.IsSelected = false);
 
     this.selectedsupportingDocId = 0;
     this.supportingDocGroup.patchValue({
-      CertifiedCopy: [''],
-      DocumentId: [''],
-      DocumentName: [''],
+      CertifiedCopy: [],
+      DocumentName: [],
       LocalId: [0],
       IsSelected: [false],
       SupportingDocumentId: 0,
       DocumentReferenceId: 0,
+
+      AdditionalProviderFilter: '',
+      MessageId: 1,
+      ExternalReference: '',
+      ApplicationMessageId: '',
+      ApplicationService: '104',
+      //ApplicationType: '',
+
+      DocumentType: [this.supDocType],
+
+      FileName: [''],
+      Base64: [''],
+      FileExtension: [''],
+
+      Notes: [''],
 
     })
   }
@@ -568,7 +655,40 @@ export class DispositionaryComponent implements OnInit {
     }
   }
 
-  // For Parties
+  uploadSupDocFile() {
+
+    this.supDocfileName = "";
+    var fileToUpload: any = this.supportingDocumentfile!.nativeElement.files[0];
+
+
+    /**** Uploading file if the type is Supporting Document */
+
+    var that = this;
+    if (fileToUpload != undefined) {
+      this.supDocfileName = fileToUpload.name;
+      let fileName = this.supDocfileName.split('.').slice(0, -1).join('.')
+      let fileString: any = "";
+      let reader = new FileReader();
+      reader.readAsDataURL(fileToUpload);
+      reader.onload = function () {
+        fileString = reader.result;
+        let fileExtension = fileToUpload.name.substr(
+          fileToUpload.name.lastIndexOf(".") + 1
+        );
+
+        that.supportingDocumentFileObject.FileName = fileName;
+        that.supportingDocumentFileObject.Base64 = fileString;
+        that.supportingDocumentFileObject.FileExtension = fileExtension;
+
+      };
+      reader.onerror = function (error) {
+        console.log('Error: ', error);
+      };
+    }
+
+  }
+
+  /********* For Supporting Documents End ************/
 
   partyId = 1;
   PushPartyToGrid() {
@@ -619,7 +739,6 @@ export class DispositionaryComponent implements OnInit {
       CompanyOrForeName: '',
       Surname: '',
       Roles: '',
-      AddressForService: '',
       ViewModelRoles: [],
       LocalId: [0],
       IsSelected: [false],
@@ -636,80 +755,6 @@ export class DispositionaryComponent implements OnInit {
     }
   }
 
-  // For Notes
-
-  noteId = 1;
-  PushNotesToGrid() {
-
-    var insertObj: AttachmentNotes = {
-
-    }
-
-    if (this.notesGroup.valid) {
-      insertObj = this.notesGroup.value;
-      insertObj.LocalId = this.noteId++
-      insertObj.IsSelected = false;
-
-      if (this.notesList.find(s => s.LocalId == this.selectedNotesId) == null) {
-        try {
-          insertObj.MessageId = this.notesList[this.notesList.length - 1].MessageId! + 1;
-
-        } catch (error) { }
-
-        this.notesList.push(Object.assign({}, insertObj));
-      } else {
-
-        this.notesList = this.notesList.filter(s => s.LocalId != this.selectedNotesId);
-        insertObj.LocalId = this.selectedNotesId;
-        this.notesList.push(Object.assign({}, insertObj));
-        this.notesList = this.notesList.sort((a, b) => {
-          return a.LocalId! - b.LocalId!;
-        });
-      }
-      this.ClearNotesFields();
-
-    }
-  }
-
-  SelectNotesRow(id: any) {
-    this.notesSaveBtn = "Update"
-    this.selectedNotesId = id
-    this.notesList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
-    this.notesList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
-
-    var selectedObj: any = this.notesList?.find(s => s.LocalId == id);
-    this.selectedNotesId = selectedObj.LocalId;
-    this.notesGroup.setValue(selectedObj);
-  }
-
-  ClearNotesFields() {
-    this.notesSaveBtn = "Add"
-    this.notesList.forEach(x => x.IsSelected = false);
-
-    this.selectedNotesId = 0;
-    this.notesGroup.setValue({
-      AdditionalProviderFilter: '',
-      MessageId: 1,
-      ExternalReference: '',
-      ApplicationMessageId: '',
-      ApplicationService: '',
-      Notes: '',
-      AttachmentNotesId: 0,
-      LocalId: [0],
-      IsSelected: [false],
-      DocumentReferenceId: 0,
-
-    })
-  }
-
-  RemoveNotes(id: any) {
-    this.notesList = this.notesList.filter(x => x.LocalId != id);
-    if (this.selectedNotesId == id) {
-      this.selectedNotesId = undefined;
-    }
-  }
-
-
   // For Representation and Additional Parties
 
   repId = 1;
@@ -724,6 +769,12 @@ export class DispositionaryComponent implements OnInit {
       insertObj.IsSelected = false;
 
       if (this.representationList.find(s => s.LocalId == this.selectedRepId) == null) {
+        try {
+
+          insertObj.RepresentativeId = this.representationList[this.representationList.length - 1].RepresentativeId! + 1;
+
+        } catch (error) { }
+
         this.representationList.push(Object.assign({}, insertObj));
       } else {
 
@@ -767,7 +818,6 @@ export class DispositionaryComponent implements OnInit {
       IsSelected: [false],
       DocumentReferenceId: 0,
 
-
       CareOfName: '',
       CareOfReference: '',
 
@@ -783,6 +833,8 @@ export class DispositionaryComponent implements OnInit {
       Country: '',
       PostCode: '',
     })
+
+    this.representationGroup.controls.Type.setValue("LodgingConveyancer");
   }
 
   RemoveRep(id: any) {
@@ -792,32 +844,43 @@ export class DispositionaryComponent implements OnInit {
     }
   }
 
-
   UpdateDatabase() {
 
-    if (this.documentReferenceGroup.valid) {
-      let documentRef: DocumentReference = this.documentReferenceGroup.value;
-      documentRef.Titles = JSON.parse(JSON.stringify(this.titleList));
-      documentRef.Applications = JSON.parse(JSON.stringify(this.applicationList));
-      documentRef.SupportingDocuments = JSON.parse(JSON.stringify(this.supportingDocList));
-      documentRef.Parties = JSON.parse(JSON.stringify(this.partyList));
-      documentRef.RequestLogs = JSON.parse(JSON.stringify(this.logsList));
-      documentRef.Representations = JSON.parse(JSON.stringify(this.representationList));
-      documentRef.UserId = parseInt(localStorage.getItem("userId")!);
+    let documentRef: DocumentReference = this.documentReferenceGroup.value;
+    documentRef.Titles = JSON.parse(JSON.stringify(this.titleList));
+    documentRef.Applications = JSON.parse(JSON.stringify(this.applicationList));
+    documentRef.SupportingDocuments = JSON.parse(JSON.stringify(this.supportingDocList));
+    documentRef.Representations = JSON.parse(JSON.stringify(this.representationList));
+    documentRef.Parties = JSON.parse(JSON.stringify(this.partyList));
+    documentRef.RequestLogs = JSON.parse(JSON.stringify(this.logsList));
+    documentRef.UserId = parseInt(localStorage.getItem("userId")!);
+
+    if (documentRef.Titles?.length! < 1) {
+      this.toastr.warning("Please add at least one Title", "Fields missing")
+    } else if (documentRef.Applications?.length! < 1) {
+      this.toastr.warning("Please add at least one Application", "Fields missing")
+    } else if (documentRef.SupportingDocuments?.length! < 1) {
+      this.toastr.warning("Please add at least one Supporting Document", "Fields missing")
+    } else if (documentRef.Representations?.length! < 1) {
+      this.toastr.warning("Please add at least one Representation", "Fields missing")
+    } else if (documentRef.Parties?.length! < 1) {
+      this.toastr.warning("Please add at least one Party", "Fields missing")
+    } else if (documentRef.Representations?.filter(s => s.Type == "LodgingConveyancer").length! < 1) {
+      this.toastr.warning("Please add at least one Lodging Conveyancer", "Fields missing")
+    } else if (this.documentReferenceGroup.valid) {
 
       if (this.docRefId == 0) {
         this.registrationService.CreateRegistration(documentRef).subscribe((res) => {
           this.ShowResponse(res);
         }, () => {
-          this.toastr.error("Transfer of charge has not successfully updated", "Changes failed")
+          this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed");
 
         });
       } else {
         this.registrationService.UpdateRegistration(documentRef).subscribe((res) => {
           this.ShowResponse(res);
         }, () => {
-          this.toastr.error("Transfer of charge has not successfully updated", "Changes failed")
-
+          this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed");
         });
       }
     } else {
@@ -836,14 +899,14 @@ export class DispositionaryComponent implements OnInit {
     } else {
       this.toastr.error("There was an error occured while trying to connect, please check all fields again", "Error sending request")
     }
+
   }
 
   SendPoolRequest() {
-    this.registrationService.GetPoolResponse(this.docRefId).subscribe(res => {
+    this.registrationService.GetPoolResponse(this.docRefId).subscribe((res: RequestLogs) => {
       // console.log()
-
       Swal.fire({
-        title: 'Pool Response from Gateway',
+        title: 'Poll Response from Gateway',
         html: `
         ${res.Description}
         `,
@@ -854,16 +917,98 @@ export class DispositionaryComponent implements OnInit {
         confirmButtonText: 'Download Zip'
       }).then((result) => {
         if (result.isConfirmed) {
-          console.log(res)
-          FileSaver.saveAs(res.File);
+          FileSaver.saveAs(res.File!, res.FileName + "." + res.FileExtension?.toLowerCase());
         }
       })
-
     });
   }
 
   DownloadAttachedPoll(item: RequestLogs) {
-    FileSaver.saveAs(item.File!, "Att_" + item.RequestLogId + ".zip");
+    this.attachmentServices.GetAttachment(item.RequestLogId!).subscribe(res => {
+      FileSaver.saveAs(res!, item.FileName + "." + item.FileExtension?.toLowerCase());
+
+    })
   }
 
+  CollectAttachmentResult() {
+    this.registrationService.CollectAttachmentResult(this.docRefId, "70").subscribe(res => {
+      // console.log()
+      // Swal.fire({
+      //   title: 'Pool Response from Gateway',
+      //   html: `
+      //   ${res.Description}
+      //   `,
+      //   icon: 'success',
+      //   showCancelButton: true,
+      //   confirmButtonColor: '#3085d6',
+      //   cancelButtonColor: '#d33',
+      //   confirmButtonText: 'Download Zip'
+      // }).then((result) => {
+      //   if (result.isConfirmed) {
+      //     console.log(res)
+      //     FileSaver.saveAs(res.File);
+      //   }
+      // })
+      if (res.Successful)
+        this.toastr.success("Please refresh the page to view the results", "Attachment Results collected")
+      else
+        this.toastr.error("Something went wrong while collecting results", "Attachment Results Error")
+
+    });
+  }
+
+  FindRequisitions() {
+    this.registrationService.GetRequisition(this.docRefId, "70").subscribe(res => {
+
+      if (res != false) {
+        if (res.IsSuccess)
+          this.toastr.success("Please refresh the page to view the results", "Requisition Results collected")
+        else
+          this.toastr.error("Something went wrong while collecting results", "Requisition Results Error")
+
+      } else {
+        this.toastr.error("Something went wrong while collecting results", "Requisition Results Error")
+
+      }
+
+    });
+  }
+
+  CollectFinalResults() {
+    this.registrationService.CollectFinalResults(this.docRefId, "70").subscribe(res => {
+
+      if (res != false) {
+        if (res.IsSuccess)
+          this.toastr.success("Please refresh the page to view the results", "Requisition Results collected")
+        else
+          this.toastr.error("Something went wrong while collecting results", "Requisition Results Error")
+
+      } else {
+        this.toastr.error("Something went wrong while collecting results", "Requisition Results Error")
+
+      }
+
+    });
+  }
+
+  onAttcmntTypeChange() {
+
+    console.log("this.supDocType", this.supDocType);
+
+    if (this.supDocType == "supDoc") {
+
+      this.supportingDocGroup.get('DocumentName')?.setValidators([Validators.required]);
+
+      this.supportingDocGroup.get('CertifiedCopy')?.setValidators([Validators.required]);
+
+    } else {
+
+      this.supportingDocGroup.get('DocumentName')?.clearValidators();
+      this.supportingDocGroup.controls['DocumentName'].updateValueAndValidity();
+
+      this.supportingDocGroup.get('CertifiedCopy')?.clearValidators();
+      this.supportingDocGroup.controls['CertifiedCopy'].updateValueAndValidity();
+
+    }
+  }
 }

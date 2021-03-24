@@ -18,10 +18,30 @@ namespace eDrsManagers.Managers
 
         public byte[] GetAttachment(long requestId)
         {
-            var requestLog = _context.RequestLogs.FirstOrDefault(x => x.RequestLogId == requestId);
-            byte[] bytes = System.Convert.FromBase64String(requestLog?.File);
-            return bytes;
-            throw new NotImplementedException();
+            try
+            {
+                var requestLog = _context.RequestLogs.FirstOrDefault(x => x.RequestLogId == requestId);
+                byte[] bytes = System.Convert.FromBase64String(requestLog?.File);
+                return bytes;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
+        public object ReplyAttachments(long docRefId)
+        {
+            try
+            {
+                var supDoc = _context.SupportingDocuments.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

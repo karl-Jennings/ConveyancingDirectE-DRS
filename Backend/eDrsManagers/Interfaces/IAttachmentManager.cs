@@ -4,5 +4,6 @@
     {
         byte[] GetAttachment(long requestId);
 
+        object ReplyAttachments(long docRefId);
     }
 }
