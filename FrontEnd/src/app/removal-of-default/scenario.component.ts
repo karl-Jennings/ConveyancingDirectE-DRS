@@ -1026,6 +1026,8 @@ export class ScenarioComponent implements OnInit {
       this.supportingDocGroup.get('CertifiedCopy')?.clearValidators();
       this.supportingDocGroup.controls['CertifiedCopy'].updateValueAndValidity();
 
+      this.supportingDocGroup.get('Notes')?.setValidators([Validators.required]);
+
     }
   }
 }
