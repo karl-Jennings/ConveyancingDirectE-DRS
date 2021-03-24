@@ -36,6 +36,7 @@ namespace eDrsDB.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long DocumentId { get; set; }
+        public long AttachmentId { get; set; }
 
         [MaxLength]
         public string Base64 { get; set; }

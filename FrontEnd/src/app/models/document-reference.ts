@@ -28,7 +28,6 @@ export class DocumentReference {
     Applications?: ApplicationForm[];
     SupportingDocuments?: SupportingDocuments[];
     Parties?: Party[];
-    AttachmentNotes?: AttachmentNotes[];
     RequestLogs?: RequestLogs[];
     Representations?: Representation[];
 

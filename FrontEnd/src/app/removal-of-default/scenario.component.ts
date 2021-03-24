@@ -22,11 +22,11 @@ import { Outstanding } from '../models/outstanding';
 import { AttachmentService } from '../services/attachment.service';
 
 @Component({
-  selector: 'app-removal-of-default',
-  templateUrl: './removal-of-default.component.html',
-  styleUrls: ['./removal-of-default.component.css']
+  selector: 'app-scenario',
+  templateUrl: './scenario.component.html',
+  styleUrls: ['./scenario.component.css']
 })
-export class RemovalOfDefaultComponent implements OnInit {
+export class ScenarioComponent implements OnInit {
 
   rolesList: string[] = ["Borrower", "Lender", "Lessee", "Lessor", "PersonalRepresentative", "PowerOfAttorney", "Proprietor", "Third Party", "Transferee", "Transferor"];
   appTypeList: string[] = [
@@ -78,6 +78,8 @@ export class RemovalOfDefaultComponent implements OnInit {
   docRefId!: any;
   @ViewChild("file") file: ElementRef | undefined;
   @ViewChild("supportingDocumentfile") supportingDocumentfile: ElementRef | undefined;
+
+  supportingDocumentFileObject: any = {};
 
   titleSaveBtn = "Add";
   appSaveBtn = "Add";
@@ -566,18 +568,23 @@ export class RemovalOfDefaultComponent implements OnInit {
   supDocfileName: any = "Choose files";
   supDocId = 1;
 
-
-  PushSupDocumentToGrid() {
+  async PushSupDocumentToGrid() {
 
     var insertObj: SupportingDocuments = {
 
     }
 
-    debugger;
     if (this.supportingDocGroup.valid) {
       insertObj = this.supportingDocGroup.value;
       insertObj.LocalId = this.supDocId++
       insertObj.IsSelected = false;
+
+
+      if (insertObj.DocumentType == "supDoc") {
+        insertObj.FileName = this.supportingDocumentFileObject.FileName;
+        insertObj.Base64 = this.supportingDocumentFileObject.Base64;
+        insertObj.FileExtension = this.supportingDocumentFileObject.FileExtension;
+      }
 
       if (this.supportingDocList.find(s => s.LocalId == this.selectedsupportingDocId) == null) {
         // insertObj.MessageId = this.supportingDocList[this.supportingDocList.length - 1].MessageId! + 1;
@@ -649,12 +656,36 @@ export class RemovalOfDefaultComponent implements OnInit {
   }
 
   uploadSupDocFile() {
-    this.supDocfileName = "";
-    var files: any = this.supportingDocumentfile!.nativeElement.files;
 
-    for (let i = 0; i < files.length; i++) {
-      this.supDocfileName += files[i].name + (i + 1 != files.length ? ", " : "");
+    this.supDocfileName = "";
+    var fileToUpload: any = this.supportingDocumentfile!.nativeElement.files[0];
+
+
+    /**** Uploading file if the type is Supporting Document */
+
+    var that = this;
+    if (fileToUpload != undefined) {
+      this.supDocfileName = fileToUpload.name;
+      let fileName = this.supDocfileName.split('.').slice(0, -1).join('.')
+      let fileString: any = "";
+      let reader = new FileReader();
+      reader.readAsDataURL(fileToUpload);
+      reader.onload = function () {
+        fileString = reader.result;
+        let fileExtension = fileToUpload.name.substr(
+          fileToUpload.name.lastIndexOf(".") + 1
+        );
+
+        that.supportingDocumentFileObject.FileName = fileName;
+        that.supportingDocumentFileObject.Base64 = fileString;
+        that.supportingDocumentFileObject.FileExtension = fileExtension;
+
+      };
+      reader.onerror = function (error) {
+        console.log('Error: ', error);
+      };
     }
+
   }
 
   /********* For Supporting Documents End ************/

@@ -35,7 +35,6 @@ namespace eDrsManagers.ViewModels
         public List<SupportingDocuments> SupportingDocuments { get; set; }
         public List<Representation> Representations { get; set; }
         public List<Party> Parties { get; set; }
-        public List<AttachmentNote> AttachmentNotes { get; set; }
         public List<RequestLog> RequestLogs { get; set; }
 
 

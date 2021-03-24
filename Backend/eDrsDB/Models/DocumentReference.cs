@@ -40,7 +40,6 @@ namespace eDrsDB.Models
         public ICollection<SupportingDocuments> SupportingDocuments { get; set; }
         public ICollection<Representation> Representations { get; set; }
         public ICollection<Party> Parties { get; set; }
-        public ICollection<AttachmentNote> AttachmentNotes { get; set; }
         public ICollection<RequestLog> RequestLogs { get; set; }
         public ICollection<Outstanding> Outstanding { get; set; }
 

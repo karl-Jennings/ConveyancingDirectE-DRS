@@ -23,8 +23,7 @@ namespace eDrsDB.Data
         public DbSet<Party> Parties { get; set; }
         public DbSet<ErrorLogs> ErrorLogs { get; set; }
         public DbSet<RequestLog> RequestLogs { get; set; }
-        public DbSet<AttachmentNote> AttachmentNotes { get; set; }
-        public DbSet<Representation> Representations { get; set; }
+         public DbSet<Representation> Representations { get; set; }
         public DbSet<Outstanding> Outstanding { get; set; }
         public DbSet<LrCredential> LrCredentials { get; set; }
 

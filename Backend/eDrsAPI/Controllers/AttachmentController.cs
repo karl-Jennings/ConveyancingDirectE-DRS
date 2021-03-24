@@ -43,5 +43,23 @@ namespace eDrsAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Calling Attachments
+        /// </summary>
+        /// <returns>byte[]</returns>
+        [HttpGet]
+        public IActionResult ReplyAttachments(long docRefId)
+        {
+            try
+            {
+                return Ok(_attachment.ReplyAttachments(docRefId));
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+        }
+
     }
 }

@@ -29,6 +29,7 @@ namespace eDrsDB.Models
     public class Document
     {
         public long DocumentId { get; set; }
+        public long AttachmentId { get; set; }
 
         public string Base64 { get; set; }
         public string FileName { get; set; }
