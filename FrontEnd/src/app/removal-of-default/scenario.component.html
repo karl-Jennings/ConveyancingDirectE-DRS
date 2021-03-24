@@ -845,9 +845,19 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            <div class="col-12">
+                                <div class="col-12 pt-3">
+                                    <button mat-flat-button color="primary" type="button"
+                                        (click)="ReplyAttachments()">Reply Attachments</button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </mat-tab>
+
+
                 <!-- Response Log -->
                 <mat-tab label="Response" *ngIf="docRefId != 0">
                     <div class="container-fluid pl-1 pr-1 py-3" style="height: 600px; overflow: scroll;">

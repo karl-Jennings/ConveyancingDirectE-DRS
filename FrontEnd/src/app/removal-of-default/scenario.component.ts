@@ -974,6 +974,23 @@ export class ScenarioComponent implements OnInit {
     });
   }
 
+  ReplyAttachments() {
+    this.registrationService.ReplyAttachments(this.docRefId).subscribe(res => {
+
+      if (res != false) {
+        if (res.IsSuccess)
+          this.toastr.success("Please refresh the page to view the results", "Replied to Attachments")
+        else
+          this.toastr.error("Something went wrong while replying to results", "Attachments Results Error")
+
+      } else {
+        this.toastr.error("Something went wrong while replying to results", "Attachments Results Error")
+
+      }
+
+    });
+  }
+
   CollectFinalResults() {
     this.registrationService.CollectFinalResults(this.docRefId, "70").subscribe(res => {
 

@@ -11,6 +11,7 @@ export class RegistrationService {
 
 
 
+
   private GetRegistrationTypesUrl = environment.apiURL + 'Registration/GetRegistrationTypes';
   private GetRegistrationTypeUrl = environment.apiURL + 'Registration/GetRegistrationType';
   private CreateRegistrationUrl = environment.apiURL + 'Registration/CreateRegistration';
@@ -22,6 +23,7 @@ export class RegistrationService {
   private CollectAttachmentResultUrl = environment.apiURL + 'Registration/GetOutStandingPollRequest';
   private GetRequisitionUrl = environment.apiURL + 'Registration/GetRequisition';
   private GetFinalResultUrl = environment.apiURL + 'Registration/GetFinalResult';
+  private ReplyAttachmentsUrl = environment.apiURL + 'Registration/ReplyAttachments';
 
   constructor(private http: HttpClient) {
 
@@ -69,6 +71,10 @@ export class RegistrationService {
 
   CollectFinalResults(docRefId: any, serviceId: string): Observable<any> {
     return this.http.get(this.GetFinalResultUrl, { params: { docRefId, serviceId } });
+  }
+
+  ReplyAttachments(docRefId: any): Observable<any> {
+    return this.http.get(this.ReplyAttachmentsUrl, { params: { docRefId } });
   }
 
 
