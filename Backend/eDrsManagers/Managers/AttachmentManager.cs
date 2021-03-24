@@ -21,7 +21,7 @@ namespace eDrsManagers.Managers
             try
             {
                 var requestLog = _context.RequestLogs.FirstOrDefault(x => x.RequestLogId == requestId);
-                byte[] bytes = System.Convert.FromBase64String(requestLog?.File);
+                var bytes = Convert.FromBase64String(requestLog?.File);
                 return bytes;
             }
             catch (Exception)
@@ -36,6 +36,10 @@ namespace eDrsManagers.Managers
             try
             {
                 var supDoc = _context.SupportingDocuments.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
+                var requestLog = _context.RequestLogs.FirstOrDefault(x => x.DocumentReferenceId == docRefId && x.Type == "attachment_poll");
+            
+
+
                 return true;
             }
             catch (Exception)
