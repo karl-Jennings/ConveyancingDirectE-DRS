@@ -31,7 +31,7 @@ namespace eDrsManagers.Managers
 
         }
 
-        public object ReplyAttachments(long docRefId)
+        public object RespondToRequisition(long docRefId)
         {
             try
             {

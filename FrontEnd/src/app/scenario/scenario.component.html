@@ -311,7 +311,12 @@
                                             <th class="font-weight-bold">Type</th>
                                             <th class="font-weight-bold">Attachment</th>
                                             <th class="font-weight-bold">Remove</th>
-                                            <th *ngIf="docRefId != 0" class="font-weight-bold">Valid Attachments</th>
+                                            <th *ngIf="docRefId != 0" class="font-weight-bold">
+                                                <p class="my-0"
+                                                    mdbTooltip="Only Selected Attachments will be sent to Requisition">
+                                                    Requisition Attachment
+                                                </p>
+                                            </th>
 
                                         </tr>
                                     </thead>
@@ -486,8 +491,10 @@
                                             <th class="font-weight-bold">Note</th>
                                             <th class="font-weight-bold">Certified Copy</th>
                                             <th class="font-weight-bold">Remove</th>
-                                            <th *ngIf="docRefId != 0" class="font-weight-bold">Valid Attachments</th>
-
+                                            <p class="my-0"
+                                                mdbTooltip="Only Selected Attachments will be sent to Requisition">
+                                                Requisition Attachment
+                                            </p>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -821,6 +828,7 @@
                         </div>
                     </div>
                 </mat-tab>
+
                 <!-- Requisition Log -->
                 <mat-tab label="Requisition" *ngIf="docRefId != 0">
                     <div class="container-fluid pl-1 pr-1 py-3" style="height: 600px; overflow: scroll;">
@@ -863,7 +871,7 @@
                             <div class="col-12">
                                 <div class="col-12 pt-3">
                                     <button mat-flat-button color="primary" type="button"
-                                        (click)="ReplyAttachments()">Reply Attachments</button>
+                                        (click)="RespondToRequisition()">Respond to requisitions</button>
                                 </div>
                             </div>
 

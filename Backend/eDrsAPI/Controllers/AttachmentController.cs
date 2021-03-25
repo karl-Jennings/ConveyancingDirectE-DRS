@@ -48,11 +48,11 @@ namespace eDrsAPI.Controllers
         /// </summary>
         /// <returns>byte[]</returns>
         [HttpGet]
-        public IActionResult ReplyAttachments(long docRefId)
+        public IActionResult RespondToRequisition(long docRefId)
         {
             try
             {
-                return Ok(_attachment.ReplyAttachments(docRefId));
+                return Ok(_attachment.RespondToRequisition(docRefId));
 
             }
             catch (Exception ex)

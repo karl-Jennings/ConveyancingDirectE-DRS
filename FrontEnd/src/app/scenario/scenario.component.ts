@@ -970,20 +970,19 @@ export class ScenarioComponent implements OnInit {
 
       if (res != false) {
         if (res.IsSuccess)
-          this.toastr.success("Please refresh the page to view the results", "Requisition Results collected")
+          this.toastr.success("Please refresh the page to view the results", "Requisition Results collected");
         else
-          this.toastr.error("Something went wrong while collecting results", "Requisition Results Error")
+          this.toastr.error("Something went wrong while collecting results", "Requisition Results Error");
 
       } else {
-        this.toastr.error("Something went wrong while collecting results", "Requisition Results Error")
-
+        this.toastr.error("Something went wrong while collecting results", "Requisition Results Error");
       }
 
     });
   }
 
-  ReplyAttachments() {
-    this.registrationService.ReplyAttachments(this.docRefId).subscribe(res => {
+  RespondToRequisition() {
+    this.registrationService.RespondToRequisition(this.docRefId).subscribe(res => {
 
       if (res != false) {
         if (res.IsSuccess)
