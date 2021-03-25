@@ -1016,14 +1016,17 @@ export class ScenarioComponent implements OnInit {
   }
 
   onAttcmntTypeChange() {
-
-    console.log("this.supDocType", this.supDocType);
+    
 
     if (this.supDocType == "supDoc") {
 
       this.supportingDocGroup.get('DocumentName')?.setValidators([Validators.required]);
 
       this.supportingDocGroup.get('CertifiedCopy')?.setValidators([Validators.required]);
+
+      this.supportingDocGroup.get('Notes')?.clearValidators();
+      this.supportingDocGroup.controls['Notes'].updateValueAndValidity();
+
 
     } else {
 
