@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace eDrsDB.Models
+namespace eDRS_Land_Registry.Models
 {
     public class ApplicationForm
     {
         public long ApplicationFormId { get; set; }
-
         public string Variety { get; set; }
         public int Priority { get; set; }
         public string Value { get; set; }
@@ -20,7 +16,7 @@ namespace eDrsDB.Models
         public string IsMdRef { get; set; }
         public string SortCode { get; set; }
         public string MdRef { get; set; }
-
+        public bool IsChecked { get; set; }
         public long DocumentReferenceId { get; set; }
         public Document Document { get; set; }
 
@@ -28,6 +24,7 @@ namespace eDrsDB.Models
 
     public class Document
     {
+
         public long DocumentId { get; set; }
         public long AttachmentId { get; set; }
 

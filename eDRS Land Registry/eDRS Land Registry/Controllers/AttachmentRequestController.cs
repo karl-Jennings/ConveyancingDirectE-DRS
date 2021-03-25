@@ -7,30 +7,94 @@ using System.Web.Http;
 using BusinessGatewayServices;
 using BusinessGatewayRepositories.EDRSApplication;
 using BusinessGatewayModels;
+using eDRS_Land_Registry.ApiConverters;
 using eDRS_Land_Registry.Models;
+using eDrsDB.Models;
+using Newtonsoft.Json;
 
 namespace eDRS_Land_Registry.Controllers
 {
-    [Route("api/[controller]")]
-    public partial class AttachmentController : ApiController
-    {
 
-        [HttpPost]
-        [Route("AttachmentRequest")]
-        public ResponseAttachmentRequest AttachmentRequest(AttachmentViewModel Request)
+    public class AttachmentRequestController : ApiController
+    {
+        private readonly RestrictionConverter _restrictionConverter = new RestrictionConverter();
+
+        public List<RequestLog> Post([FromBody] TempClass tempClass)
         {
             try
             {
-                BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
+                var services = new Services();
 
-                var _reponse = _services.AttachmentRequest(Request.Username, Request.Password, Request.Request);
+                var attachmentViewModel = JsonConvert.DeserializeObject<AttachmentViewModel>(tempClass.Value);
+                var docRef = attachmentViewModel.DocumentReference;
+                var attachmentResponse = new List<RequestLog>();
 
-                return _reponse;
+                var count = 1;
+                docRef.Applications.Where(x => x.IsChecked).ToList().ForEach(app =>
+                  {
+                      var attResponse = _restrictionConverter.ArrangeAttachmentApi(app, null, docRef.MessageID, count++);
+                      var attachmentRequest = services.AttachmentRequest(attachmentViewModel.Username, attachmentViewModel.Username, attResponse);
+                      var attachmentRequestLog = new RequestLog() { Type = "Attachment" };
+
+                      attachmentRequestLog.TypeCode = attachmentRequest.GatewayResponse.GatewayResponse.TypeCode.ToString();
+                      attachmentRequestLog.ResponseJson = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse);
+                      attachmentRequestLog.AttachmentName = app.Document.FileName;
+                      if (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement != null)
+                      {
+                          attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription;
+                          attachmentRequestLog.CreatedDate = (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.ExpectedResponseDateTime);
+                          attachmentRequestLog.ResponseType = "Acknowledgement";
+
+                      }
+                      else if (attachmentRequest.GatewayResponse.GatewayResponse.Rejection != null)
+                      {
+                          attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Rejection.Code;
+                          attachmentRequestLog.RejectionReason = attachmentRequest.GatewayResponse.GatewayResponse.Rejection.Reason;
+
+                          attachmentRequestLog.ValidationErrors = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse.Rejection.ValidationErrors);
+
+                          attachmentRequestLog.ResponseType = "Rejection";
+                      }
+
+                      attachmentResponse.Add(attachmentRequestLog);
+                  });
+
+                docRef.SupportingDocuments.Where(x => x.IsChecked).ToList().ForEach(supDoc =>
+                {
+                    var attResponse = _restrictionConverter.ArrangeAttachmentApi(null, supDoc, docRef.MessageID, count++);
+                    var attachmentRequest = services.AttachmentRequest(attachmentViewModel.Username, attachmentViewModel.Password, attResponse);
+                    var attachmentRequestLog = new RequestLog() { Type = "Attachment" };
+
+                    attachmentRequestLog.TypeCode = attachmentRequest.GatewayResponse.GatewayResponse.TypeCode.ToString();
+                    attachmentRequestLog.ResponseJson = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse);
+                    attachmentRequestLog.AttachmentName = supDoc.FileName;
+                    if (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement != null)
+                    {
+                        attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription;
+                        attachmentRequestLog.CreatedDate = (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.ExpectedResponseDateTime);
+                        attachmentRequestLog.ResponseType = "Acknowledgement";
+
+                    }
+                    else if (attachmentRequest.GatewayResponse.GatewayResponse.Rejection != null)
+                    {
+                        attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Rejection.Code;
+                        attachmentRequestLog.RejectionReason = attachmentRequest.GatewayResponse.GatewayResponse.Rejection.Reason;
+
+                        attachmentRequestLog.ValidationErrors = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse.Rejection.ValidationErrors);
+
+                        attachmentRequestLog.ResponseType = "Rejection";
+                    }
+
+                    attachmentResponse.Add(attachmentRequestLog);
+                });
+
+
+                return attachmentResponse;
 
             }
             catch (Exception ex)
             {
-                return new ResponseAttachmentRequest { Successful = false };
+                return null;
             }
 
         }

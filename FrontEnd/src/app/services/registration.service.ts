@@ -23,7 +23,6 @@ export class RegistrationService {
   private CollectAttachmentResultUrl = environment.apiURL + 'Registration/GetOutStandingPollRequest';
   private GetRequisitionUrl = environment.apiURL + 'Registration/GetRequisition';
   private GetFinalResultUrl = environment.apiURL + 'Registration/GetFinalResult';
-  private RespondToRequisitionUrl = environment.apiURL + 'Registration/RespondToRequisition';
 
   constructor(private http: HttpClient) {
 
@@ -73,9 +72,7 @@ export class RegistrationService {
     return this.http.get(this.GetFinalResultUrl, { params: { docRefId, serviceId } });
   }
 
-  RespondToRequisition(docRefId: any): Observable<any> {
-    return this.http.get(this.RespondToRequisitionUrl, { params: { docRefId } });
-  }
+
 
 
 }

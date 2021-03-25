@@ -27,7 +27,6 @@ namespace eDRS_Land_Registry.Controllers
             public string Username { get; set; }
             public string Password { get; set; }
 
-
         }
 
         public RequestLog Post([FromBody] TempClass tempClass)
@@ -49,15 +48,44 @@ namespace eDRS_Land_Registry.Controllers
                 if (response.Successful)
                 {
                     var count = 1;
-                    docRef.Applications.ForEach(app =>
+                    docRef.Applications.Where(x => x.IsChecked).ToList().ForEach(app =>
                     {
-                        var attResponse = _restrictionConverter.ArrangeAttachmentApi(app, docRef.MessageID, count++);
+                        var attResponse = _restrictionConverter.ArrangeAttachmentApi(app, null, docRef.MessageID, count++);
                         var attachmentRequest = _services.AttachmentRequest(tempClass.Username, tempClass.Password, attResponse);
-                        var attachmentRequestLog = new RequestLog() { Type = "Attachment"};
+                        var attachmentRequestLog = new RequestLog() { Type = "Attachment" };
 
                         attachmentRequestLog.TypeCode = attachmentRequest.GatewayResponse.GatewayResponse.TypeCode.ToString();
                         attachmentRequestLog.ResponseJson = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse);
                         attachmentRequestLog.AttachmentName = app.Document.FileName;
+                        if (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement != null)
+                        {
+                            attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription;
+                            attachmentRequestLog.CreatedDate = (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.ExpectedResponseDateTime);
+                            attachmentRequestLog.ResponseType = "Acknowledgement";
+
+                        }
+                        else if (attachmentRequest.GatewayResponse.GatewayResponse.Rejection != null)
+                        {
+                            attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Rejection.Code;
+                            attachmentRequestLog.RejectionReason = attachmentRequest.GatewayResponse.GatewayResponse.Rejection.Reason;
+
+                            attachmentRequestLog.ValidationErrors = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse.Rejection.ValidationErrors);
+
+                            attachmentRequestLog.ResponseType = "Rejection";
+                        }
+
+                        attachmentResponse.Add(attachmentRequestLog);
+                    });
+
+                    docRef.SupportingDocuments.Where(x => x.IsChecked).ToList().ForEach(supDoc =>
+                    {
+                        var attResponse = _restrictionConverter.ArrangeAttachmentApi(null, supDoc, docRef.MessageID, count++);
+                        var attachmentRequest = _services.AttachmentRequest(tempClass.Username, tempClass.Password, attResponse);
+                        var attachmentRequestLog = new RequestLog() { Type = "Attachment" };
+
+                        attachmentRequestLog.TypeCode = attachmentRequest.GatewayResponse.GatewayResponse.TypeCode.ToString();
+                        attachmentRequestLog.ResponseJson = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse);
+                        attachmentRequestLog.AttachmentName = supDoc.FileName;
                         if (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement != null)
                         {
                             attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription;
