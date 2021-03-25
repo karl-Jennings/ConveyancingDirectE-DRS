@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 export class AttachmentService {
 
   private GetAttachmentUrl = environment.apiURL + 'Attachment/GetAttachment';
+  private RespondToRequisitionUrl = environment.apiURL + 'Attachment/RespondToRequisition';
 
 
   constructor(private http: HttpClient) { }
@@ -22,5 +23,8 @@ export class AttachmentService {
     });
   }
 
+  RespondToRequisition(docRefId: any): Observable<any> {
+    return this.http.get(this.RespondToRequisitionUrl, { params: { docRefId } });
+  }
 
 }

@@ -31,7 +31,7 @@ namespace eDRS_Land_Registry.Controllers
             {
                 EarlyCompletionRequest request = JsonConvert.DeserializeObject<EarlyCompletionRequest>(tempClass.Value);
 
-                BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
+                Services _services = new Services();
 
                 response = _services.EarlyCompletionRequest(request.Username, request.Password, request.MessageId);
 

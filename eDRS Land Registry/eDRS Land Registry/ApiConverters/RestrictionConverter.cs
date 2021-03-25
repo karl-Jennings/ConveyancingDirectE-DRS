@@ -6,6 +6,7 @@ using BusinessGatewayModels;
 using BusinessGatewayRepositories.AttachmentServiceRequest;
 using BusinessGatewayRepositories.EDRSApplication;
 using BusinessGatewayServices;
+using eDRS_Land_Registry.Models;
 using eDrsDB.Models;
 using CertifiedTypeContent = BusinessGatewayRepositories.EDRSApplication.CertifiedTypeContent;
 using DocumentNameContent = BusinessGatewayRepositories.EDRSApplication.DocumentNameContent;
@@ -107,9 +108,9 @@ namespace eDRS_Land_Registry.ApiConverters
                 supportingDocumentTypes.Add(new SupportingDocumentType()
                 {
                     CertifiedCopy = (CertifiedTypeContent)Enum.Parse(typeof(CertifiedTypeContent), x.CertifiedCopy),
-                    DocumentId = x.DocumentId,
+                    DocumentId = x.DocumentId.ToString(),
                     DocumentName = (DocumentNameContent)Enum.Parse(typeof(DocumentNameContent), x.DocumentName),
-
+                    
                 });
             });
             supportingDocuments.SupportingDocument = supportingDocumentTypes.ToArray();
@@ -200,7 +201,7 @@ namespace eDRS_Land_Registry.ApiConverters
             return _request;
         }
 
-        public AttachmentV2_0Type ArrangeAttachmentApi(ApplicationForm applicationForm, string messageId, int count)
+        public AttachmentV2_0Type ArrangeAttachmentApi(ApplicationForm applicationForm, SupportingDocuments supportingDocuments, string messageId, int count)
         {
 
             BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
@@ -209,31 +210,61 @@ namespace eDRS_Land_Registry.ApiConverters
             AttachmentV2_0Type _request = new AttachmentV2_0Type();
 
             _request.MessageId = messageId;
-            _request.ExternalReference = applicationForm.ExternalReference;
+            _request.ExternalReference = applicationForm != null ? applicationForm.ExternalReference : supportingDocuments.ExternalReference;
             _request.ApplicationMessageId = messageId;
             _request.ApplicationService = "104";
 
-            byte[] fileArray = Convert.FromBase64String(applicationForm.Document.Base64.Split(',')[1]);
-
-            BusinessGatewayRepositories.AttachmentServiceRequest.AttachmentType attachment = new BusinessGatewayRepositories.AttachmentServiceRequest.AttachmentType
+            BusinessGatewayRepositories.AttachmentServiceRequest.AttachmentType attachment = null;
+            if (applicationForm != null || supportingDocuments.DocumentType == "supDoc")
             {
-                filename = Path.GetFileNameWithoutExtension(applicationForm.Document.FileName),
-                format = applicationForm.Document.FileExtension,
-                Value = fileArray,
-            };
+                byte[] fileArray = Convert.FromBase64String(applicationForm != null
+                    ? applicationForm.Document.Base64.Split(',')[1]
+                    : supportingDocuments.Base64.Split(',')[1]);
+
+                attachment = new BusinessGatewayRepositories.AttachmentServiceRequest.AttachmentType
+                {
+                    filename = Path.GetFileNameWithoutExtension(applicationForm != null ? applicationForm.Document.FileName : supportingDocuments.FileName),
+                    format = applicationForm != null ? applicationForm.Document.FileExtension : supportingDocuments.FileExtension,
+                    Value = fileArray,
+                };
+            }
+
+
+
             var ItemsElementName = new BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType[3];
 
-            // ItemsElementName[0] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.ApplicationType;
-            ItemsElementName[0] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.Attachment;
-            ItemsElementName[1] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.AttachmentId;
-            ItemsElementName[2] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.CertifiedCopy;
+            if (applicationForm != null || supportingDocuments.DocumentType == "supDoc")
+            {
+                ItemsElementName[0] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.Attachment;
+                ItemsElementName[1] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.AttachmentId;
+                ItemsElementName[2] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.CertifiedCopy;
+
+            }
+            else
+            {
+                ItemsElementName[0] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.Notes;
+
+            }
+
+            object[] Items;
+
+            if (applicationForm != null || supportingDocuments.DocumentType == "supDoc")
+            {
+                Items = new object[] {
+                    attachment,
+                    count.ToString(),
+                    (BusinessGatewayRepositories.AttachmentServiceRequest.CertifiedTypeContent)Enum.Parse(typeof(BusinessGatewayRepositories.AttachmentServiceRequest.CertifiedTypeContent),
+                        applicationForm != null ? applicationForm.CertifiedCopy : supportingDocuments.CertifiedCopy),
+                };
+            }
+            else
+            {
+                Items = new object[] {
+                    supportingDocuments.Notes
+                };
+            }
 
 
-            var Items = new object[] {
-                attachment,
-                count.ToString(),
-                (BusinessGatewayRepositories.AttachmentServiceRequest.CertifiedTypeContent)Enum.Parse(typeof(BusinessGatewayRepositories.AttachmentServiceRequest.CertifiedTypeContent), applicationForm.CertifiedCopy),
-            };
 
             _request.Items = Items;
             _request.ItemsElementName = ItemsElementName;

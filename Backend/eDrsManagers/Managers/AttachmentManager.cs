@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using eDRS_Land_Registry.Models;
 using eDrsDB.Data;
+using eDrsManagers.Http;
 using eDrsManagers.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace eDrsManagers.Managers
 {
     public class AttachmentManager : IAttachmentManager
     {
         private readonly AppDbContext _context;
+        private readonly IHttpEdrsCall _httpInterceptor;
 
-        public AttachmentManager(AppDbContext context)
+        public AttachmentManager(AppDbContext context, IHttpEdrsCall httpInterceptor)
         {
             _context = context;
+            _httpInterceptor = httpInterceptor;
         }
 
         public byte[] GetAttachment(long requestId)
@@ -35,14 +40,24 @@ namespace eDrsManagers.Managers
         {
             try
             {
-                var supDoc = _context.SupportingDocuments.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
-                var requestLog = _context.RequestLogs.FirstOrDefault(x => x.DocumentReferenceId == docRefId && x.Type == "attachment_poll");
-            
+                var application = _context.ApplicationForms.Include(x => x.Document).Where(x => x.DocumentReferenceId == docRefId).ToList();
+                var docRef = _context.DocumentReferences.Include(s => s.SupportingDocuments)
+                    .FirstOrDefault(x => x.DocumentReferenceId == docRefId);
+                AttachmentViewModel attachmentViewModel = new AttachmentViewModel();
+                docRef.Applications = application;
+                attachmentViewModel.DocumentReference = docRef;
+                attachmentViewModel.Username = "BGUser001";
+                attachmentViewModel.Password = docRef.Password;
 
+                var attachmentRequest = _httpInterceptor.CallAttachmentRequestApi(attachmentViewModel);
+
+                _context.RequestLogs.AddRange(attachmentRequest);
+
+                _context.SaveChanges();
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

@@ -42,12 +42,26 @@ export class ScenarioComponent implements OnInit {
   supDocNameList: string[] = [
     "Abstract",
     "Agreement",
-    "Assent",
     "Assignment",
-    "Birth Certificate",
-    "Charge",
     "Conveyance",
     "Correspondence",
+    "Court Order",
+    "Deed",
+    "Form DI",
+    "Document List",
+    "Evidence",
+    "EX1A",
+    "Identity Evidence",
+    "Identity Form",
+    "Indenture",
+    "Lease",
+    "Licence",
+    "LR Correspondence",
+    "Power of Attorney",
+    "Stamp Duty Land Tax",
+    "Statement Of Truth",
+    "Statutory Declaration",
+    "Witness Statement",
   ];
 
   titleList: TitleNumber[] = [];
@@ -164,7 +178,7 @@ export class ScenarioComponent implements OnInit {
 
     this.supportingDocGroup = this.formBuilder.group({
       CertifiedCopy: [],
-      DocumentName: [],
+      DocumentName: '',
       AdditionalProviderFilter: ['', Validators.required],
       MessageId: 1,
       ExternalReference: ['', Validators.required],
@@ -634,7 +648,7 @@ export class ScenarioComponent implements OnInit {
     this.selectedsupportingDocId = 0;
     this.supportingDocGroup.patchValue({
       CertifiedCopy: [],
-      DocumentName: [],
+      DocumentName: '',
       LocalId: [0],
       IsSelected: [false],
       SupportingDocumentId: 0,
@@ -982,7 +996,7 @@ export class ScenarioComponent implements OnInit {
   }
 
   RespondToRequisition() {
-    this.registrationService.RespondToRequisition(this.docRefId).subscribe(res => {
+    this.attachmentServices.RespondToRequisition(this.docRefId).subscribe(res => {
 
       if (res != false) {
         if (res.IsSuccess)
@@ -1039,7 +1053,6 @@ export class ScenarioComponent implements OnInit {
   }
 
   ChangeCheckEvent(item: any) {
-
     if (item.ApplicationFormId != null) {
       this.hubConnection.invoke("ChangeAttachmentState", item.ApplicationFormId, "app", item.IsChecked).then(res => {
 
@@ -1049,6 +1062,5 @@ export class ScenarioComponent implements OnInit {
 
       })
     }
-
   }
 }

@@ -8,6 +8,7 @@ using System.Security.Policy;
 using System.Threading.Tasks;
 using BusinessGatewayModels;
 using BusinessGatewayRepositories.EDRSApplication;
+using eDRS_Land_Registry.Models;
 using eDrsDB.Models;
 using eDrsManagers.ViewModels;
 using Newtonsoft.Json;
@@ -23,9 +24,9 @@ namespace eDrsManagers.Http
         OutstandingResponse CallOutstandingApi(OutstaningRequestViewModel viewModel);
         RequestLog CallAttachmentPollApi(AttachmentPollRequestViewModel viewModel);
         RequestLog CallApplicationPollRequestApi(ApplicationPollRequest viewModel);
-
         RequestLog CallEarlyCompletionApi(EarlyCompletionRequest viewModel);
         RequestLog CallCorrespondenceRequestApi(CorrospondanceRequestViewModel viewModel);
+        List<RequestLog> CallAttachmentRequestApi(AttachmentViewModel viewModel);
     }
     public class HttpEdrsCall : IHttpEdrsCall
     {
@@ -37,21 +38,15 @@ namespace eDrsManagers.Http
 
         public RequestLog CallRegistrationApi(DocumentReferenceViewModel viewModel)
         {
-
-
             var client = new RestClient(baseUrl + "RequestApplication");
 
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.RequestFormat = DataFormat.Json;
 
-            Console.WriteLine(JsonConvert.SerializeObject(new { value = JsonConvert.SerializeObject(viewModel) }));
-
-            JsonDeserializer deserial = new JsonDeserializer();
-
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel), viewModel.Password, Username = "BGUser001" });
             IRestResponse response = client.Execute(request);
-            RequestLog apiResponse = deserial.Deserialize<RequestLog>(response);
+            RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
 
             return apiResponse;
 
@@ -88,8 +83,6 @@ namespace eDrsManagers.Http
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.RequestFormat = DataFormat.Json;
 
-            Console.WriteLine(JsonConvert.SerializeObject(new { Value = JsonConvert.SerializeObject(viewModel) }));
-
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
             RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
@@ -106,15 +99,11 @@ namespace eDrsManagers.Http
         public RequestLog CallApplicationPollRequestApi(ApplicationPollRequest viewModel)
         {
 
-
             var client = new RestClient(baseUrl + "ApplicationPoll");
 
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.RequestFormat = DataFormat.Json;
-
-            Console.WriteLine(JsonConvert.SerializeObject(new { value = JsonConvert.SerializeObject(viewModel) }));
-
 
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
@@ -131,17 +120,11 @@ namespace eDrsManagers.Http
         /// <returns></returns>
         public RequestLog CallEarlyCompletionApi(EarlyCompletionRequest viewModel)
         {
-
-            // change this
-
             var client = new RestClient(baseUrl + "EarlyCompletion");
 
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.RequestFormat = DataFormat.Json;
-
-            Console.WriteLine(JsonConvert.SerializeObject(new { value = JsonConvert.SerializeObject(viewModel) }));
-
 
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
@@ -154,22 +137,32 @@ namespace eDrsManagers.Http
 
         public RequestLog CallCorrespondenceRequestApi(CorrospondanceRequestViewModel viewModel)
         {
-            //change this api/corrospondance
             var client = new RestClient(baseUrl + "corrospondance");
 
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.RequestFormat = DataFormat.Json;
 
-            Console.WriteLine(JsonConvert.SerializeObject(new { value = JsonConvert.SerializeObject(viewModel) }));
-
-
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
             RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
 
             return apiResponse;
+        }
 
+        public List<RequestLog> CallAttachmentRequestApi(AttachmentViewModel viewModel)
+        {
+            var client = new RestClient(baseUrl + "AttachmentRequest");
+
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.RequestFormat = DataFormat.Json;
+
+            request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
+            IRestResponse response = client.Execute(request);
+            List<RequestLog> apiResponse = JsonConvert.DeserializeObject<List<RequestLog>>(response.Content);
+
+            return apiResponse;
         }
 
     }
