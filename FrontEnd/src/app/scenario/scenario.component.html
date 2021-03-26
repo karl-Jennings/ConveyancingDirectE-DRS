@@ -224,13 +224,7 @@
                                                 <mat-label>Fee In Pence</mat-label>
                                                 <input formControlName="FeeInPence" matInput type="number" required>
                                             </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Attachment Reference</mat-label>
-                                                <input formControlName="ExternalReference" matInput type="text">
-                                            </mat-form-field>
-                                        </div>
+                                        </div>                                        
                                         <div class="col-md-6">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Certification Type</mat-label>
@@ -276,6 +270,13 @@
                                                 <input formControlName="SortCode" matInput type="text">
                                             </mat-form-field>
                                         </div>
+                                        <div class="col-md-6"></div>
+                                        <div class="col-md-3">
+                                                <mat-form-field class="example-form-field w-100">
+                                                    <mat-label>Attachment Reference</mat-label>
+                                                    <input formControlName="ExternalReference" matInput type="text">
+                                                </mat-form-field>
+                                            </div>
                                         <div class="col-md-6 mb-2">
                                             <div class="input-group">
                                                 <div class="custom-file">
@@ -427,7 +428,7 @@
 
                                             </mat-form-field>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3" hidden >
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Message ID</mat-label>
                                                 <input formControlName="MessageId" readonly matInput type="number">
@@ -832,7 +833,10 @@
                 </mat-tab>
 
                 <!-- Requisition Log -->
-                <mat-tab label="Requisition" *ngIf="docRefId != 0">
+                <mat-tab *ngIf="docRefId != 0">
+                        <ng-template mat-tab-label>
+                                <span matBadge="!" matBadgeOverlap="false" matBadgeColor="accent">Requisition</span>
+                            </ng-template>
                     <div class="container-fluid pl-1 pr-1 py-3" style="height: 600px; overflow: scroll;">
                         <div class="row">
                             <div class="col-12">

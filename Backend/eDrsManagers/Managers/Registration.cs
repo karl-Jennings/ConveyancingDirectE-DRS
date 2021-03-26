@@ -49,10 +49,11 @@ namespace eDrsManagers.Managers
 
             });
 
-            var count = 1;
+            var count = model.Applications.Count();
+            
             model.SupportingDocuments.ToList().ForEach(supDoc =>
             {
-                supDoc.DocumentId = count++;
+                supDoc.DocumentId = ++count;
             });
 
             model.MessageID = Guid.NewGuid().ToString();

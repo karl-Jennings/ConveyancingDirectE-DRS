@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, Form, FormGroupDirective } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmRegistrationComponent } from '../angular-dialogs/confirm-registration/confirm-registration.component';
 import { ApplicationForm, Document } from '../models/application-form';
@@ -116,6 +116,7 @@ export class ScenarioComponent implements OnInit {
   private connectionUrl = environment.apiURL + 'attachment/';
 
   constructor(
+    private router:Router,
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private registrationService: RegistrationService,
@@ -165,7 +166,7 @@ export class ScenarioComponent implements OnInit {
       IsSelected: [false],
       ApplicationFormId: 0,
       DocumentReferenceId: 0,
-      CertifiedCopy: [''],
+      CertifiedCopy: ['',Validators.required],
       ExternalReference: ['', Validators.required],
       Document: {},
       Variety: [this.appType],
@@ -436,44 +437,54 @@ export class ScenarioComponent implements OnInit {
    
     if (this.applicationGroup.valid) {
 
-      var documents: Document = {};
-      let fileToUpload = this.file?.nativeElement.files[0];
+      if(this.file?.nativeElement.files[0]!=null){
 
-      var that = this;
-
-      insertObj = that.applicationGroup.value;
-
-      if (fileToUpload != undefined) {
-        let fileName = fileToUpload.name;
-        let fileString: any = "";
-        let reader = new FileReader();
-        reader.readAsDataURL(fileToUpload);
-        reader.onload = function () {
-          //me.modelvalue = reader.result;  
-          fileString = reader.result;
-          let fileExtension = fileToUpload.name.substr(
-            fileToUpload.name.lastIndexOf(".") + 1
-          );
-
-          insertObj.LocalId = that.appId++
-          insertObj.IsSelected = false;
-
-          documents = {
-            DocumentId: insertObj.Document?.DocumentId == undefined ? 0 : insertObj.Document.DocumentId,
-            ApplicationFormId: insertObj.Document?.ApplicationFormId == undefined ? 0 : insertObj.Document.ApplicationFormId,
-            FileName: fileName, Base64: fileString, FileExtension: fileExtension
+        var documents: Document = {};
+        let fileToUpload = this.file?.nativeElement.files[0];
+  
+        var that = this;
+  
+        insertObj = that.applicationGroup.value;
+  
+        if (fileToUpload != undefined) {
+          let fileName = fileToUpload.name;
+          let fileString: any = "";
+          let reader = new FileReader();
+          reader.readAsDataURL(fileToUpload);
+          reader.onload = function () {
+            //me.modelvalue = reader.result;  
+            fileString = reader.result;
+            let fileExtension = fileToUpload.name.substr(
+              fileToUpload.name.lastIndexOf(".") + 1
+            );
+  
+            insertObj.LocalId = that.appId++
+            insertObj.IsSelected = false;
+  
+            documents = {
+              DocumentId: insertObj.Document?.DocumentId == undefined ? 0 : insertObj.Document.DocumentId,
+              ApplicationFormId: insertObj.Document?.ApplicationFormId == undefined ? 0 : insertObj.Document.ApplicationFormId,
+              FileName: fileName, Base64: fileString, FileExtension: fileExtension
+            };
+  
+            that.InsertDataToAppList(insertObj, documents, formDirective);
+  
+  
           };
+          reader.onerror = function (error) {
+            console.log('Error: ', error);
+          };
+        } else if (insertObj.Document?.DocumentId != null) {
+          this.InsertDataToAppList(insertObj, insertObj.Document, formDirective);
+        }
 
-          that.InsertDataToAppList(insertObj, documents, formDirective);
+      }else{
 
-
-        };
-        reader.onerror = function (error) {
-          console.log('Error: ', error);
-        };
-      } else if (insertObj.Document?.DocumentId != null) {
-        this.InsertDataToAppList(insertObj, insertObj.Document, formDirective);
+        this.toastr.warning("Please attach the Application Documnet")
+        
       }
+
+     
     }
   }
 
@@ -547,6 +558,10 @@ export class ScenarioComponent implements OnInit {
     //   IsMdRef: 'yes',
     //   SortCode: ''
     // })
+
+    this.appType='other';
+    this.applicationGroup.controls.Variety.setValue(this.appType);
+    this.file?.nativeElement.files=null;
   }
 
   RemoveApp(id: any) {
@@ -597,17 +612,49 @@ export class ScenarioComponent implements OnInit {
 
     }
 
-    if (this.supportingDocGroup.valid) {
+    debugger;
+    //Add Supporting Documnet
+    if (this.supportingDocGroup.valid && this.supDocType == "supDoc") {
+
+      if(this.supportingDocumentFileObject.Base64){
+
+        insertObj = this.supportingDocGroup.value;
+        insertObj.LocalId = this.supDocId++
+        insertObj.IsSelected = false;
+  
+  
+        if (insertObj.DocumentType == "supDoc") {
+          insertObj.FileName = this.supportingDocumentFileObject.FileName;
+          insertObj.Base64 = this.supportingDocumentFileObject.Base64;
+          insertObj.FileExtension = this.supportingDocumentFileObject.FileExtension;
+        }
+  
+        if (this.supportingDocList.find(s => s.LocalId == this.selectedsupportingDocId) == null) {
+          // insertObj.MessageId = this.supportingDocList[this.supportingDocList.length - 1].MessageId! + 1;
+          insertObj.MessageId = 1;
+          this.supportingDocList.push(Object.assign({}, insertObj));
+        } else {
+  
+          this.supportingDocList = this.supportingDocList.filter(s => s.LocalId != this.selectedsupportingDocId);
+          insertObj.LocalId = this.selectedsupportingDocId;
+          this.supportingDocList.push(Object.assign({}, insertObj));
+          this.supportingDocList = this.supportingDocList.sort((a, b) => {
+            return a.LocalId! - b.LocalId!;
+          });
+        }
+        this.ClearSupDocFields(formDirective);
+
+      }else{
+        this.toastr.warning("Please attach a Documnet");
+      }    
+
+    }
+    //Add Note
+    else if(this.supportingDocGroup.valid && this.supDocType == "notes"){
+
       insertObj = this.supportingDocGroup.value;
       insertObj.LocalId = this.supDocId++
       insertObj.IsSelected = false;
-
-
-      if (insertObj.DocumentType == "supDoc") {
-        insertObj.FileName = this.supportingDocumentFileObject.FileName;
-        insertObj.Base64 = this.supportingDocumentFileObject.Base64;
-        insertObj.FileExtension = this.supportingDocumentFileObject.FileExtension;
-      }
 
       if (this.supportingDocList.find(s => s.LocalId == this.selectedsupportingDocId) == null) {
         // insertObj.MessageId = this.supportingDocList[this.supportingDocList.length - 1].MessageId! + 1;
@@ -650,6 +697,8 @@ export class ScenarioComponent implements OnInit {
 
     formDirective.resetForm();
     this.supportingDocGroup.reset();
+
+    this.supportingDocumentFileObject.Base64=null;
 
     /*this.supportingDocGroup.patchValue({
       CertifiedCopy: [],
@@ -781,6 +830,8 @@ export class ScenarioComponent implements OnInit {
 
     })*/
 
+    this.partyGroup.controls.PartyId.setValue(0);
+    this.partyGroup.controls.DocumentReferenceId.setValue(0);
     this.partyGroup.controls.ViewModelRoles.setValue([]);
   }
 
@@ -926,7 +977,7 @@ export class ScenarioComponent implements OnInit {
         });
       }
     } else {
-      this.toastr.warning("Please fill all fields", "Fields missing")
+      this.toastr.warning("Please fill all fields in request header", "Fields missing")
     }
   }
 
@@ -936,7 +987,9 @@ export class ScenarioComponent implements OnInit {
 
         data: { res }
       });
-      dialogRef.afterClosed().subscribe(() => {
+      dialogRef.afterClosed().subscribe(() => {    
+
+        this.router.navigate("");
       });
     } else {
       this.toastr.error("There was an error occured while trying to connect, please check all fields again", "Error sending request")
@@ -1085,5 +1138,49 @@ export class ScenarioComponent implements OnInit {
 
       })
     }
+  }
+
+  ReloadData(){
+
+    
+
+    this.registrationService.GetRegistration(this.docRefId).subscribe(res => {
+      this.documentReferenceGroup = this.formBuilder.group(res);
+
+      this.titleList = res.Titles ?? [];
+
+      this.titleList.forEach(s => {
+        s.LocalId = this.titleId++;
+      })
+
+      this.applicationList = res.Applications ?? [];
+
+      this.applicationList.forEach(s => {
+        s.LocalId = this.appId++;
+      })
+
+      this.supportingDocList = res.SupportingDocuments ?? [];
+
+      this.supportingDocList.forEach(s => {
+        s.LocalId = this.appId++;
+      })
+
+      this.partyList = res.Parties ?? [];
+
+      this.partyList.forEach(s => {
+        s.LocalId = this.appId++;
+        s.ViewModelRoles = s.Roles!.split(',');
+      })
+
+      this.logsList = res.RequestLogs ?? [];
+      this.outstandingList = res.Outstanding ?? [];
+
+      this.representationList = res.Representations ?? [];
+
+      this.representationList.forEach(s => {
+        s.LocalId = this.appId++;
+      })
+
+    })
   }
 }
