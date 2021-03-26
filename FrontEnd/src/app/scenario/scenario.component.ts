@@ -186,7 +186,7 @@ export class ScenarioComponent implements OnInit {
       ApplicationService: ['104'],
       //ApplicationType: ['', Validators.required],
 
-      DocumentType: [this.supDocType],
+      DocumentType: [this.supDocType, Validators.required],
 
       FileName: '',
       Base64: '',
@@ -203,7 +203,7 @@ export class ScenarioComponent implements OnInit {
     this.representationGroup = this.formBuilder.group({
       RepresentationId: [0],
       Type: ['LodgingConveyancer'],
-      RepresentativeId: [1, Validators.required],
+      RepresentativeId: [1],
       Name: [''],
       Reference: [''],
       AddressType: ['DXAddress'],
@@ -230,7 +230,7 @@ export class ScenarioComponent implements OnInit {
     });
 
     this.partyGroup = this.formBuilder.group({
-      PartyType: [true],
+      PartyType: [true, Validators.required],
       IsApplicant: [true],
       CompanyOrForeName: ['', Validators.required],
       Surname: [''],
@@ -412,8 +412,8 @@ export class ScenarioComponent implements OnInit {
   ClearTitleFields() {
     this.titleSaveBtn = "Add";
     this.selectedTitleNumber = 0;
-    this.txtTitle.setValue([])
-
+    this.txtTitle.setValue([]);
+    this.txtTitle.reset();
     this.titleList?.forEach(s => s.IsSelected = false);
   }
 
@@ -433,8 +433,7 @@ export class ScenarioComponent implements OnInit {
     var insertObj: ApplicationForm = {
 
     }
-
-    debugger;
+   
     if (this.applicationGroup.valid) {
 
       var documents: Document = {};
@@ -592,7 +591,7 @@ export class ScenarioComponent implements OnInit {
   supDocfileName: any = "Choose files";
   supDocId = 1;
 
-  async PushSupDocumentToGrid() {
+  async PushSupDocumentToGrid(formDirective: FormGroupDirective) {
 
     var insertObj: SupportingDocuments = {
 
@@ -623,7 +622,7 @@ export class ScenarioComponent implements OnInit {
           return a.LocalId! - b.LocalId!;
         });
       }
-      this.ClearSupDocFields();
+      this.ClearSupDocFields(formDirective);
 
     }
   }
@@ -639,14 +638,20 @@ export class ScenarioComponent implements OnInit {
     this.supportingDocGroup.setValue(selectedObj);
   }
 
-  ClearSupDocFields() {
+  // CLEAR SUPPORTING DOCUMENT FORM
+
+  ClearSupDocFields(formDirective: FormGroupDirective) {
     this.supDocSaveBtn = "Add"
     this.supDocfileName = "Choose File";
 
     this.supportingDocList.forEach(x => x.IsSelected = false);
 
     this.selectedsupportingDocId = 0;
-    this.supportingDocGroup.patchValue({
+
+    formDirective.resetForm();
+    this.supportingDocGroup.reset();
+
+    /*this.supportingDocGroup.patchValue({
       CertifiedCopy: [],
       DocumentName: '',
       LocalId: [0],
@@ -667,7 +672,9 @@ export class ScenarioComponent implements OnInit {
       FileExtension: '',
       Notes: '',
 
-    })
+    }) */
+
+    
   }
 
   RemoveSupDoc(id: any) {
@@ -712,8 +719,9 @@ export class ScenarioComponent implements OnInit {
 
   /********* For Supporting Documents End ************/
 
+  // Push Party to Grid
   partyId = 1;
-  PushPartyToGrid() {
+  PushPartyToGrid(formDirective: FormGroupDirective) {
 
     var insertObj: Party = {
 
@@ -734,7 +742,7 @@ export class ScenarioComponent implements OnInit {
           return a.LocalId! - b.LocalId!;
         });
       }
-      this.ClearPartyFields();
+      this.ClearPartyFields(formDirective);
 
     }
   }
@@ -750,12 +758,16 @@ export class ScenarioComponent implements OnInit {
     this.partyGroup.setValue(selectedObj);
   }
 
-  ClearPartyFields() {
+  ClearPartyFields(formDirective: FormGroupDirective) {
     this.partSaveBtn = "Add"
     this.partyList.forEach(x => x.IsSelected = false);
 
     this.selectedPartyId = 0;
-    this.partyGroup.setValue({
+
+    formDirective.resetForm();
+    this.partyGroup.reset();
+
+    /*this.partyGroup.setValue({
       PartyType: true,
       IsApplicant: true,
       CompanyOrForeName: '',
@@ -767,7 +779,9 @@ export class ScenarioComponent implements OnInit {
       PartyId: 0,
       DocumentReferenceId: 0,
 
-    })
+    })*/
+
+    this.partyGroup.controls.ViewModelRoles.setValue([]);
   }
 
   RemoveParty(id: any) {
@@ -780,7 +794,7 @@ export class ScenarioComponent implements OnInit {
   // For Representation and Additional Parties
 
   repId = 1;
-  PushRepToGrid() {
+  PushRepToGrid(formDirective: FormGroupDirective) {
 
     var insertObj: Representation = {
 
@@ -807,7 +821,7 @@ export class ScenarioComponent implements OnInit {
           return a.LocalId! - b.LocalId!;
         });
       }
-      this.ClearRepFields();
+      this.ClearRepFields(formDirective);
 
     }
   }
@@ -823,13 +837,18 @@ export class ScenarioComponent implements OnInit {
     this.representationGroup.setValue(selectedObj);
   }
 
-  ClearRepFields() {
+  // CLEAR REPRESENTATION FORM
+  ClearRepFields(formDirective: FormGroupDirective) {
     this.repSaveBtn = "Add"
 
     this.representationList.forEach(x => x.IsSelected = false);
 
     this.selectedRepId = 0;
-    this.representationGroup.patchValue({
+
+    formDirective.resetForm();
+    this.representationGroup.reset();
+
+   /* this.representationGroup.patchValue({
       RepresentationId: 0,
       Type: 'LodgingConveyancer',
       RepresentativeId: 0,
@@ -854,9 +873,10 @@ export class ScenarioComponent implements OnInit {
       County: '',
       Country: '',
       PostCode: '',
-    })
+    }) */
 
     this.representationGroup.controls.Type.setValue("LodgingConveyancer");
+    this.representationGroup.controls.AddressType.setValue("DXAddress");
   }
 
   RemoveRep(id: any) {

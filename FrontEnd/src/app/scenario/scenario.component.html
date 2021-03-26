@@ -366,14 +366,14 @@
                     <div class="container-fluid" style="height: 600px; overflow: scroll;">
                         <div class="row">
                             <div class="col-12 mt-3">
-                                <form [formGroup]="supportingDocGroup">
+                                <form [formGroup]="supportingDocGroup"  #formDirective2="ngForm"  (submit)="PushSupDocumentToGrid(formDirective2)" novalidate>
                                     <div class="row">
 
                                         <div class="col-md-6">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Attachment Type</mat-label>
                                                 <mat-select formControlName="DocumentType"
-                                                    (selectionChange)="onAttcmntTypeChange()">
+                                                    (selectionChange)="onAttcmntTypeChange()" required >
                                                     <mat-option [value]="'supDoc'">
                                                         Supporting Document
                                                     </mat-option>
@@ -474,9 +474,9 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <button class="mr-1 ml-auto" (click)="PushSupDocumentToGrid()"
+                                            <button class="mr-1 ml-auto" type="submit"
                                                 mat-flat-button color="primary">{{supDocSaveBtn}}</button>
-                                            <button (click)="ClearSupDocFields()" class="btn-warning"
+                                            <button (click)="ClearSupDocFields(formDirective2)" class="btn-warning"
                                                 mat-flat-button>Clear</button>
                                         </div>
                                     </div>
@@ -538,7 +538,7 @@
                     <div class="container-fluid" style="height: 600px; overflow: scroll;">
                         <div class="row">
                             <div class="col-12 mt-3">
-                                <form [formGroup]="representationGroup">
+                                <form [formGroup]="representationGroup"  #formDirective3="ngForm"  (submit)="PushRepToGrid(formDirective3)" novalidate>
                                     <div class="row">
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
@@ -563,7 +563,7 @@
                                             </mat-form-field>
                                         </div>
 
-                                        <div class="col-md-3" *ngIf="repType != 'AdditionalPartyNotification'">
+                                        <div class="col-md-3" *ngIf="repType != 'AdditionalPartyNotification'"  hidden>
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Representative Id</mat-label>
                                                 <input readonly formControlName="RepresentativeId" matInput
@@ -670,9 +670,9 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <button class="mr-1 ml-auto" (click)="PushRepToGrid()" mat-flat-button
+                                            <button class="mr-1 ml-auto" type="submit"  mat-flat-button
                                                 color="primary">{{repSaveBtn}}</button>
-                                            <button (click)="ClearRepFields()" class="btn-warning"
+                                            <button (click)="ClearRepFields(formDirective3)" class="btn-warning"
                                                 mat-flat-button>Clear</button>
                                         </div>
                                     </div>
@@ -726,7 +726,7 @@
                     <div class="container-fluid" style="height: 600px; overflow: scroll;">
                         <div class="row">
                             <div class="col-12 mt-3">
-                                <form [formGroup]="partyGroup">
+                                <form [formGroup]="partyGroup" #formDirective4="ngForm"  (submit)="PushPartyToGrid(formDirective4)" novalidate>
                                     <div class="row">
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
@@ -782,9 +782,9 @@
                                             </mat-form-field>
                                         </div>
                                         <div class="col-12">
-                                            <button class="mr-1 ml-auto" (click)="PushPartyToGrid()" mat-flat-button
+                                            <button class="mr-1 ml-auto"  type="submit"  mat-flat-button
                                                 color="primary">{{partSaveBtn}}</button>
-                                            <button (click)="ClearPartyFields()" class="btn-warning"
+                                            <button (click)="ClearPartyFields(formDirective4)" class="btn-warning"
                                                 mat-flat-button>Clear</button>
                                         </div>
                                     </div>
