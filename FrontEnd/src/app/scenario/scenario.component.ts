@@ -30,7 +30,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ScenarioComponent implements OnInit {
 
-  rolesList: string[] = ["Borrower", "Lender",  "PersonalRepresentative",  "Proprietor", "Third Party", "Transferee", "Transferor"];
+  rolesList: string[] = ["Borrower", "Lender", "PersonalRepresentative", "Proprietor", "Third Party", "Transferee", "Transferor"];
   appTypeList: string[] = [
     "Adverse possession of registered land",
     "Notification of adverse possession",
@@ -114,9 +114,10 @@ export class ScenarioComponent implements OnInit {
 
   private hubConnection!: HubConnection;
   private connectionUrl = environment.apiURL + 'attachment/';
+  regTypeComponent = "document-registration";
 
   constructor(
-    private router:Router,
+    private router: Router,
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private registrationService: RegistrationService,
@@ -128,6 +129,11 @@ export class ScenarioComponent implements OnInit {
   ngOnInit(): void {
     this.regType = +this.route.snapshot.paramMap.get("regTypeId")!;
     this.docRefId = +this.route.snapshot.paramMap.get("docRefId")!;
+
+    this.registrationService.GetRegistrationType(this.regType.toString()).subscribe(res => {
+      this.regTypeComponent = res.Url;
+      console.log(res)
+    })
 
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(this.connectionUrl)
@@ -166,7 +172,7 @@ export class ScenarioComponent implements OnInit {
       IsSelected: [false],
       ApplicationFormId: 0,
       DocumentReferenceId: 0,
-      CertifiedCopy: ['',Validators.required],
+      CertifiedCopy: ['', Validators.required],
       ExternalReference: ['', Validators.required],
       Document: {},
       Variety: [this.appType],
@@ -434,18 +440,18 @@ export class ScenarioComponent implements OnInit {
     var insertObj: ApplicationForm = {
 
     }
-   
+
     if (this.applicationGroup.valid) {
 
-      if(this.file?.nativeElement.files[0]!=null){
+      if (this.file?.nativeElement.files[0] != null) {
 
         var documents: Document = {};
         let fileToUpload = this.file?.nativeElement.files[0];
-  
+
         var that = this;
-  
+
         insertObj = that.applicationGroup.value;
-  
+
         if (fileToUpload != undefined) {
           let fileName = fileToUpload.name;
           let fileString: any = "";
@@ -457,19 +463,19 @@ export class ScenarioComponent implements OnInit {
             let fileExtension = fileToUpload.name.substr(
               fileToUpload.name.lastIndexOf(".") + 1
             );
-  
+
             insertObj.LocalId = that.appId++
             insertObj.IsSelected = false;
-  
+
             documents = {
               DocumentId: insertObj.Document?.DocumentId == undefined ? 0 : insertObj.Document.DocumentId,
               ApplicationFormId: insertObj.Document?.ApplicationFormId == undefined ? 0 : insertObj.Document.ApplicationFormId,
               FileName: fileName, Base64: fileString, FileExtension: fileExtension
             };
-  
+
             that.InsertDataToAppList(insertObj, documents, formDirective);
-  
-  
+
+
           };
           reader.onerror = function (error) {
             console.log('Error: ', error);
@@ -478,13 +484,13 @@ export class ScenarioComponent implements OnInit {
           this.InsertDataToAppList(insertObj, insertObj.Document, formDirective);
         }
 
-      }else{
+      } else {
 
         this.toastr.warning("Please attach the Application Documnet")
-        
+
       }
 
-     
+
     }
   }
 
@@ -559,9 +565,9 @@ export class ScenarioComponent implements OnInit {
     //   SortCode: ''
     // })
 
-    this.appType='other';
+    this.appType = 'other';
     this.applicationGroup.controls.Variety.setValue(this.appType);
-    this.file?.nativeElement.files=null;
+    this.file = undefined;
   }
 
   RemoveApp(id: any) {
@@ -616,25 +622,25 @@ export class ScenarioComponent implements OnInit {
     //Add Supporting Documnet
     if (this.supportingDocGroup.valid && this.supDocType == "supDoc") {
 
-      if(this.supportingDocumentFileObject.Base64){
+      if (this.supportingDocumentFileObject.Base64) {
 
         insertObj = this.supportingDocGroup.value;
         insertObj.LocalId = this.supDocId++
         insertObj.IsSelected = false;
-  
-  
+
+
         if (insertObj.DocumentType == "supDoc") {
           insertObj.FileName = this.supportingDocumentFileObject.FileName;
           insertObj.Base64 = this.supportingDocumentFileObject.Base64;
           insertObj.FileExtension = this.supportingDocumentFileObject.FileExtension;
         }
-  
+
         if (this.supportingDocList.find(s => s.LocalId == this.selectedsupportingDocId) == null) {
           // insertObj.MessageId = this.supportingDocList[this.supportingDocList.length - 1].MessageId! + 1;
           insertObj.MessageId = 1;
           this.supportingDocList.push(Object.assign({}, insertObj));
         } else {
-  
+
           this.supportingDocList = this.supportingDocList.filter(s => s.LocalId != this.selectedsupportingDocId);
           insertObj.LocalId = this.selectedsupportingDocId;
           this.supportingDocList.push(Object.assign({}, insertObj));
@@ -644,13 +650,13 @@ export class ScenarioComponent implements OnInit {
         }
         this.ClearSupDocFields(formDirective);
 
-      }else{
+      } else {
         this.toastr.warning("Please attach a Documnet");
-      }    
+      }
 
     }
     //Add Note
-    else if(this.supportingDocGroup.valid && this.supDocType == "notes"){
+    else if (this.supportingDocGroup.valid && this.supDocType == "notes") {
 
       insertObj = this.supportingDocGroup.value;
       insertObj.LocalId = this.supDocId++
@@ -698,7 +704,7 @@ export class ScenarioComponent implements OnInit {
     formDirective.resetForm();
     this.supportingDocGroup.reset();
 
-    this.supportingDocumentFileObject.Base64=null;
+    this.supportingDocumentFileObject.Base64 = null;
 
     /*this.supportingDocGroup.patchValue({
       CertifiedCopy: [],
@@ -723,7 +729,7 @@ export class ScenarioComponent implements OnInit {
 
     }) */
 
-    
+
   }
 
   RemoveSupDoc(id: any) {
@@ -899,32 +905,32 @@ export class ScenarioComponent implements OnInit {
     formDirective.resetForm();
     this.representationGroup.reset();
 
-   /* this.representationGroup.patchValue({
-      RepresentationId: 0,
-      Type: 'LodgingConveyancer',
-      RepresentativeId: 0,
-      Name: '',
-      Reference: '',
-      AddressType: 'DXAddress',
-      LocalId: [0],
-      IsSelected: [false],
-      DocumentReferenceId: 0,
-
-      CareOfName: '',
-      CareOfReference: '',
-
-      DxNumber: 0,
-      DxExchange: '',
-
-      AddressLine1: '',
-      AddressLine2: '',
-      AddressLine3: '',
-      AddressLine4: '',
-      City: '',
-      County: '',
-      Country: '',
-      PostCode: '',
-    }) */
+    /* this.representationGroup.patchValue({
+       RepresentationId: 0,
+       Type: 'LodgingConveyancer',
+       RepresentativeId: 0,
+       Name: '',
+       Reference: '',
+       AddressType: 'DXAddress',
+       LocalId: [0],
+       IsSelected: [false],
+       DocumentReferenceId: 0,
+ 
+       CareOfName: '',
+       CareOfReference: '',
+ 
+       DxNumber: 0,
+       DxExchange: '',
+ 
+       AddressLine1: '',
+       AddressLine2: '',
+       AddressLine3: '',
+       AddressLine4: '',
+       City: '',
+       County: '',
+       Country: '',
+       PostCode: '',
+     }) */
 
     this.representationGroup.controls.Type.setValue("LodgingConveyancer");
     this.representationGroup.controls.AddressType.setValue("DXAddress");
@@ -987,9 +993,9 @@ export class ScenarioComponent implements OnInit {
 
         data: { res }
       });
-      dialogRef.afterClosed().subscribe(() => {    
+      dialogRef.afterClosed().subscribe(() => {
 
-        this.router.navigate("");
+        this.router.navigate(['/registration/' + this.regTypeComponent, this.regType, res.DocumentReferenceId]);
       });
     } else {
       this.toastr.error("There was an error occured while trying to connect, please check all fields again", "Error sending request")
@@ -1103,7 +1109,7 @@ export class ScenarioComponent implements OnInit {
   }
 
   onAttcmntTypeChange() {
-    
+
 
     if (this.supDocType == "supDoc") {
 
@@ -1140,47 +1146,4 @@ export class ScenarioComponent implements OnInit {
     }
   }
 
-  ReloadData(){
-
-    
-
-    this.registrationService.GetRegistration(this.docRefId).subscribe(res => {
-      this.documentReferenceGroup = this.formBuilder.group(res);
-
-      this.titleList = res.Titles ?? [];
-
-      this.titleList.forEach(s => {
-        s.LocalId = this.titleId++;
-      })
-
-      this.applicationList = res.Applications ?? [];
-
-      this.applicationList.forEach(s => {
-        s.LocalId = this.appId++;
-      })
-
-      this.supportingDocList = res.SupportingDocuments ?? [];
-
-      this.supportingDocList.forEach(s => {
-        s.LocalId = this.appId++;
-      })
-
-      this.partyList = res.Parties ?? [];
-
-      this.partyList.forEach(s => {
-        s.LocalId = this.appId++;
-        s.ViewModelRoles = s.Roles!.split(',');
-      })
-
-      this.logsList = res.RequestLogs ?? [];
-      this.outstandingList = res.Outstanding ?? [];
-
-      this.representationList = res.Representations ?? [];
-
-      this.representationList.forEach(s => {
-        s.LocalId = this.appId++;
-      })
-
-    })
-  }
 }
