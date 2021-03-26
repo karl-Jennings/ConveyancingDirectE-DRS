@@ -30,7 +30,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ScenarioComponent implements OnInit {
 
-  rolesList: string[] = ["Borrower", "Lender", "Lessee", "Lessor", "PersonalRepresentative", "PowerOfAttorney", "Proprietor", "Third Party", "Transferee", "Transferor"];
+  rolesList: string[] = ["Borrower", "Lender",  "PersonalRepresentative",  "Proprietor", "Third Party", "Transferee", "Transferor"];
   appTypeList: string[] = [
     "Adverse possession of registered land",
     "Notification of adverse possession",
