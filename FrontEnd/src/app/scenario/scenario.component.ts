@@ -989,7 +989,7 @@ export class ScenarioComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(() => {    
 
-        this.router.navigate("");
+        //this.router.navigate();
       });
     } else {
       this.toastr.error("There was an error occured while trying to connect, please check all fields again", "Error sending request")
