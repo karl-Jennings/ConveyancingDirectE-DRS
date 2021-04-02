@@ -40,12 +40,19 @@ namespace GateWayTest
             _product.Titles = _titles[0];
             #endregion
 
-            BusinessGatewayRepositories.EDRSApplication.ChargeApplicationType[] applications = new BusinessGatewayRepositories.EDRSApplication.ChargeApplicationType[1];
+            BusinessGatewayRepositories.EDRSApplication.OtherApplicationType[] applications = new BusinessGatewayRepositories.EDRSApplication.OtherApplicationType[1];
 
-            applications[0] = new BusinessGatewayRepositories.EDRSApplication.ChargeApplicationType
+            applications[0] = new BusinessGatewayRepositories.EDRSApplication.OtherApplicationType
             {
                 Priority = "1",
-                ChargeDate = DateTime.Now
+                Type= ApplicationTypeContent.AN1,
+                Document=new DocumentType { 
+                
+                    CertifiedCopy=CertifiedTypeContent.Certified
+                },
+                FeeInPence="100",
+                Value="1000"
+
 
 
             };
@@ -128,13 +135,79 @@ namespace GateWayTest
             partyRoleTypes[0] = new PartyRoleType { RoleType = RoleTypeContent.Borrower, Priority = "1" };
             partyRoleTypes[1] = new PartyRoleType { RoleType = RoleTypeContent.Lender, Priority = "1" };
 
+            //Party Main postal address
+            var _partypostalAddress = new PostalAddressType
+            {
+                CareOfName = "CareOfName",
+                CareOfReference = "CareOfReference",
+                AddressLine1 = "AddressLine1",
+                AddressLine2 = "AddressLine2",
+                City = "city",
+                Country = "county",
+                Postcode = "postcode"
+
+            };
+
+            //Additional Address
+            var _additionalDX = new DXAddressType
+            {
+
+                DXNumber = "12456",
+                DXExchange = "Peterborough 4"
+            };
+
+            //Additional postal address
+            var _additionalPostalAddress = new PostalAddressType
+            {
+                CareOfName = "CareOfName",
+                CareOfReference = "CareOfReference",
+                AddressLine1 = "AddressLine1",
+                AddressLine2 = "AddressLine2",
+                City = "city",
+                Country = "county",
+                Postcode = "postcode"
+
+            };
+
+            var _additionalEmailaddress = new EmailAddressType
+            {
+                Email = "Test@test.com"
+                
+            };
+
+            Object[] additinalAddres =new object[3];
+            additinalAddres[0] = _additionalDX;
+            additinalAddres[1] = _additionalPostalAddress;
+            additinalAddres[2] = _additionalEmailaddress;
+
+            var _partyAdditionalAddress = new AdditionalAddressForServiceType
+            {
+                Items= additinalAddres
+            };
+
+            Object[] _addressForService = new object[3];
+
+            //Address for service option
+
+            
+
+            _addressForService[0] = _partypostalAddress;
+            _addressForService[1] = _partyAdditionalAddress;
+           // _addressForService[2] = AddressForServiceTypeContent.A1;
+
             parties.Party[0] = new PartyType
             {
                 representativeId = "1",
                 IsApplicant = true,
                 Item = new CompanyType { CompanyName = "company" },
-                Roles = partyRoleTypes
+                Roles = partyRoleTypes,
+                AddressForService=new AddressForServiceType { 
+                
+                    Items= _addressForService
+                   
 
+                }
+                
             };
             // party 2
 
