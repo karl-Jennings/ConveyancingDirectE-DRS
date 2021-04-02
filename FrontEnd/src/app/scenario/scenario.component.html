@@ -5,6 +5,9 @@
                 color="primary">View
                 All</button>
         </div>
+        <div class="col-3 ml-auto">
+            <button (click)="UpdateDatabase()" mat-flat-button type="submit" class="btn-success w-100">Submit</button>
+        </div>
         <div class="col-12">
             <hr>
         </div>
@@ -110,13 +113,10 @@
                     <input type="password" formControlName="Password" matInput>
                 </mat-form-field>
             </div>
-
             <div class="col-12 text-right my-auto">
                 <a mat-flat-button href="http://landregistry.data.gov.uk/fees-calculator.html" target="_blank"
                     class="mr-1" type="button" color="primary">Fee Calculator</a>
-
             </div>
-
         </div>
     </form>
 
@@ -224,7 +224,7 @@
                                                 <mat-label>Fee In Pence</mat-label>
                                                 <input formControlName="FeeInPence" matInput type="number" required>
                                             </mat-form-field>
-                                        </div>                                        
+                                        </div>
                                         <div class="col-md-6">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Certification Type</mat-label>
@@ -272,11 +272,11 @@
                                         </div>
                                         <div class="col-md-6"></div>
                                         <div class="col-md-3">
-                                                <mat-form-field class="example-form-field w-100">
-                                                    <mat-label>Attachment Reference</mat-label>
-                                                    <input formControlName="ExternalReference" matInput type="text">
-                                                </mat-form-field>
-                                            </div>
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Attachment Reference</mat-label>
+                                                <input formControlName="ExternalReference" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
                                         <div class="col-md-6 mb-2">
                                             <div class="input-group">
                                                 <div class="custom-file">
@@ -364,17 +364,18 @@
                         <span matBadge="{{supportingDocList.length}}" matBadgeOverlap="false">Supporting
                             Documents</span>
                     </ng-template>
-                    <div class="container-fluid" style="height: 600px; overflow: scroll;">
+                    <div class="container-fluid">
                         <div class="row">
                             <div class="col-12 mt-3">
-                                <form [formGroup]="supportingDocGroup"  #formDirective2="ngForm"  (submit)="PushSupDocumentToGrid(formDirective2)" novalidate>
+                                <form [formGroup]="supportingDocGroup" #formDirective2="ngForm"
+                                    (submit)="PushSupDocumentToGrid(formDirective2)" novalidate>
                                     <div class="row">
 
                                         <div class="col-md-6">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Attachment Type</mat-label>
                                                 <mat-select formControlName="DocumentType"
-                                                    (selectionChange)="onAttcmntTypeChange()" required >
+                                                    (selectionChange)="onAttcmntTypeChange()" required>
                                                     <mat-option [value]="'supDoc'">
                                                         Supporting Document
                                                     </mat-option>
@@ -428,7 +429,7 @@
 
                                             </mat-form-field>
                                         </div>
-                                        <div class="col-md-3" hidden >
+                                        <div class="col-md-3" hidden>
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Message ID</mat-label>
                                                 <input formControlName="MessageId" readonly matInput type="number">
@@ -475,8 +476,8 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <button class="mr-1 ml-auto" type="submit"
-                                                mat-flat-button color="primary">{{supDocSaveBtn}}</button>
+                                            <button class="mr-1 ml-auto" type="submit" mat-flat-button
+                                                color="primary">{{supDocSaveBtn}}</button>
                                             <button (click)="ClearSupDocFields(formDirective2)" class="btn-warning"
                                                 mat-flat-button>Clear</button>
                                         </div>
@@ -539,7 +540,8 @@
                     <div class="container-fluid" style="height: 600px; overflow: scroll;">
                         <div class="row">
                             <div class="col-12 mt-3">
-                                <form [formGroup]="representationGroup"  #formDirective3="ngForm"  (submit)="PushRepToGrid(formDirective3)" novalidate>
+                                <form [formGroup]="representationGroup" #formDirective3="ngForm"
+                                    (submit)="PushRepToGrid(formDirective3)" novalidate>
                                     <div class="row">
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
@@ -560,11 +562,9 @@
                                                     <mat-option value="DXAddress"> DX Address </mat-option>
                                                     <mat-option value="PostalAddress"> Postal Address </mat-option>
                                                 </mat-select>
-
                                             </mat-form-field>
                                         </div>
-
-                                        <div class="col-md-3" *ngIf="repType != 'AdditionalPartyNotification'"  hidden>
+                                        <div class="col-md-3" *ngIf="repType != 'AdditionalPartyNotification'" hidden>
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Representative Id</mat-label>
                                                 <input readonly formControlName="RepresentativeId" matInput
@@ -671,7 +671,7 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <button class="mr-1 ml-auto" type="submit"  mat-flat-button
+                                            <button class="mr-1 ml-auto" type="submit" mat-flat-button
                                                 color="primary">{{repSaveBtn}}</button>
                                             <button (click)="ClearRepFields(formDirective3)" class="btn-warning"
                                                 mat-flat-button>Clear</button>
@@ -697,12 +697,12 @@
                                         <tr mdbTableCol *ngFor="let item of representationList"
                                             class="{{item.IsSelected ? 'light-blue-row' : '' }}"
                                             (click)="SelectRepRow(item.LocalId)">
-                                            <th scope="row"> {{item.Type}}</th>
-                                            <th scope="row"> {{item.RepresentativeId}}</th>
-                                            <th scope="row"> {{item.Name}}</th>
-                                            <th scope="row"> {{item.Reference}}</th>
-                                            <th scope="row"> {{item.DxNumber}}</th>
-                                            <th scope="row"> {{item.DxExchange}}</th>
+                                            <th scope="row">{{item.Type}}</th>
+                                            <th scope="row">{{item.RepresentativeId}}</th>
+                                            <th scope="row">{{item.Name}}</th>
+                                            <th scope="row">{{item.Reference}}</th>
+                                            <th scope="row">{{item.DxNumber}}</th>
+                                            <th scope="row">{{item.DxExchange}}</th>
                                             <th scope="row">
                                                 <button class="btn btn-danger btn-sm" (click)="RemoveRep(item.LocalId)">
                                                     <i class="fa fa-trash" aria-hidden="true"></i> Delete
@@ -727,7 +727,8 @@
                     <div class="container-fluid" style="height: 600px; overflow: scroll;">
                         <div class="row">
                             <div class="col-12 mt-3">
-                                <form [formGroup]="partyGroup" #formDirective4="ngForm"  (submit)="PushPartyToGrid(formDirective4)" novalidate>
+                                <form [formGroup]="partyGroup" #formDirective4="ngForm"
+                                    (submit)="PushPartyToGrid(formDirective4)" novalidate>
                                     <div class="row">
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
@@ -782,8 +783,322 @@
                                                 </mat-select>
                                             </mat-form-field>
                                         </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Address For Service Option</mat-label>
+                                                <mat-select formControlName="AddressForService">
+                                                    <mat-option [value]="'A1'">A1</mat-option>
+                                                    <mat-option [value]="'B1'">B1</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
                                         <div class="col-12">
-                                            <button class="mr-1 ml-auto"  type="submit"  mat-flat-button
+                                            <div class="container-fluid border">
+                                                <form [formGroup]="mainPostalGroup">
+                                                    <div class="row">
+                                                        <div class="col-12 pt-2">
+                                                            <h3 class="font-weight-bold">
+                                                                Postal Address
+                                                            </h3>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Address Line 1</mat-label>
+                                                                <input formControlName="AddressLine1" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Address Line 2</mat-label>
+                                                                <input formControlName="AddressLine2" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Address Line 3</mat-label>
+                                                                <input formControlName="AddressLine3" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Address Line 4</mat-label>
+                                                                <input formControlName="AddressLine4" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>City</mat-label>
+                                                                <input formControlName="City" matInput type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>County</mat-label>
+                                                                <input formControlName="County" matInput type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Country</mat-label>
+                                                                <input formControlName="Country" matInput type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>PostCode</mat-label>
+                                                                <input formControlName="PostCode" matInput type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-3">
+                                            <div class="container-fluid border">
+                                                <form [formGroup]="address1Group">
+
+                                                    <div class="row">
+                                                        <div class="col-12 pt-2">
+                                                            <h3 class="font-weight-bold">
+                                                                Additional Address 1
+                                                            </h3>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="row">
+                                                                <div class="col-3">
+                                                                    <mat-form-field class="example-form-field w-100">
+                                                                        <mat-label>Address Type</mat-label>
+                                                                        <mat-select formControlName="SubType">
+                                                                            <mat-option [value]="'post'">Postal Address
+                                                                            </mat-option>
+                                                                            <mat-option [value]="'dx'">DX Address
+                                                                            </mat-option>
+                                                                            <mat-option [value]="'email'">Email Address
+                                                                            </mat-option>
+                                                                        </mat-select>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address1Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Address Line 1</mat-label>
+                                                                <input formControlName="AddressLine1" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address1Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Address Line 2</mat-label>
+                                                                <input formControlName="AddressLine2" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address1Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Address Line 3</mat-label>
+                                                                <input formControlName="AddressLine3" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address1Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Address Line 4</mat-label>
+                                                                <input formControlName="AddressLine4" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address1Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>City</mat-label>
+                                                                <input formControlName="City" matInput type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address1Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>County</mat-label>
+                                                                <input formControlName="County" matInput type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address1Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Country</mat-label>
+                                                                <input formControlName="Country" matInput type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address1Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>PostCode</mat-label>
+                                                                <input formControlName="PostCode" matInput type="text">
+                                                            </mat-form-field>
+                                                        </div>
+
+                                                        <div class="col-md-3" *ngIf="address1Type == 'dx'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Care Of Name</mat-label>
+                                                                <input formControlName="CareOfName" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address1Type == 'dx'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Care Of Reference</mat-label>
+                                                                <input formControlName="CareOfReference" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address1Type == 'dx'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Dx Number</mat-label>
+                                                                <input formControlName="DxNumber" matInput type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address1Type == 'dx'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Dx Exchange</mat-label>
+                                                                <input formControlName="DxExchange" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+
+                                                        <div class="col-md-3" *ngIf="address1Type == 'email'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Email Address</mat-label>
+                                                                <input formControlName="EmailAddress" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-3">
+                                            <div class="container-fluid border">
+                                                <form [formGroup]="address2Group">
+
+                                                    <div class="row">
+                                                        <div class="col-12 pt-2">
+                                                            <h3 class="font-weight-bold">
+                                                                Additional Address 2
+                                                            </h3>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="row">
+                                                                <div class="col-3">
+                                                                    <mat-form-field class="example-form-field w-100">
+                                                                        <mat-label>Address Type</mat-label>
+                                                                        <mat-select formControlName="SubType">
+                                                                            <mat-option [value]="'post'">Postal Address
+                                                                            </mat-option>
+                                                                            <mat-option [value]="'dx'">DX Address
+                                                                            </mat-option>
+                                                                            <mat-option [value]="'email'">Email Address
+                                                                            </mat-option>
+                                                                        </mat-select>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address2Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Address Line 1</mat-label>
+                                                                <input formControlName="AddressLine1" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address2Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Address Line 2</mat-label>
+                                                                <input formControlName="AddressLine2" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address2Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Address Line 3</mat-label>
+                                                                <input formControlName="AddressLine3" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address2Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Address Line 4</mat-label>
+                                                                <input formControlName="AddressLine4" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address2Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>City</mat-label>
+                                                                <input formControlName="City" matInput type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address2Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>County</mat-label>
+                                                                <input formControlName="County" matInput type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address2Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Country</mat-label>
+                                                                <input formControlName="Country" matInput type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address2Type == 'post'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>PostCode</mat-label>
+                                                                <input formControlName="PostCode" matInput type="text">
+                                                            </mat-form-field>
+                                                        </div>
+
+                                                        <div class="col-md-3" *ngIf="address2Type == 'dx'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Care Of Name</mat-label>
+                                                                <input formControlName="CareOfName" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address2Type == 'dx'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Care Of Reference</mat-label>
+                                                                <input formControlName="CareOfReference" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address2Type == 'dx'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Dx Number</mat-label>
+                                                                <input formControlName="DxNumber" matInput type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="address2Type == 'dx'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Dx Exchange</mat-label>
+                                                                <input formControlName="DxExchange" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+
+                                                        <div class="col-md-3" *ngIf="address2Type == 'email'">
+                                                            <mat-form-field class="example-form-field w-100">
+                                                                <mat-label>Email Address</mat-label>
+                                                                <input formControlName="EmailAddress" matInput
+                                                                    type="text">
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 mt-3">
+                                            <button class="mr-1 ml-auto" type="submit" mat-flat-button
                                                 color="primary">{{partSaveBtn}}</button>
                                             <button (click)="ClearPartyFields(formDirective4)" class="btn-warning"
                                                 mat-flat-button>Clear</button>
@@ -834,9 +1149,9 @@
 
                 <!-- Requisition Log -->
                 <mat-tab *ngIf="docRefId != 0">
-                        <ng-template mat-tab-label>
-                                <span matBadge="!" matBadgeOverlap="false" matBadgeColor="accent">Requisition</span>
-                            </ng-template>
+                    <ng-template mat-tab-label>
+                        <span matBadge="!" matBadgeOverlap="false" matBadgeColor="accent">Requisition</span>
+                    </ng-template>
                     <div class="container-fluid pl-1 pr-1 py-3" style="height: 600px; overflow: scroll;">
                         <div class="row">
                             <div class="col-12">
@@ -1106,9 +1421,5 @@
         </div>
     </div>
 
-    <div class="row mt-3">
-        <div class="col text-right my-auto">
-            <button (click)="UpdateDatabase()" mat-flat-button type="button" class="btn-success">Submit</button>
-        </div>
-    </div>
+
 </div>

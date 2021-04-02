@@ -1,27 +1,26 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, Form, FormGroupDirective } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { FormControl, FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmRegistrationComponent } from '../angular-dialogs/confirm-registration/confirm-registration.component';
 import { ApplicationForm, Document } from '../models/application-form';
 import { DocumentReference } from '../models/document-reference';
-import { Party } from '../models/party';
-import { Roles } from '../models/roles';
+import { Address, Party } from '../models/party';
 import { SupportingDocuments } from '../models/supporting-documents';
 import { TitleNumber } from '../models/title-number';
 import { RegistrationService } from '../services/registration.service';
 import * as FileSaver from 'file-saver';
-import { DatePipe } from '@angular/common';
 import { CommonUtils } from 'src/environments/common-utils';
 import Swal from 'sweetalert2';
-import { AttachmentNotes } from '../models/attachment-notes';
 import { RequestLogs } from '../models/request-logs';
 import { Representation } from '../models/representation';
 import { Outstanding } from '../models/outstanding';
 import { AttachmentService } from '../services/attachment.service';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
+import { ProgressComponent } from '../angular-dialogs/progress/progress.component';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-scenario',
@@ -78,6 +77,10 @@ export class ScenarioComponent implements OnInit {
   supportingDocGroup!: FormGroup;
   partyGroup!: FormGroup;
   representationGroup!: FormGroup;
+  mainPostalGroup!: FormGroup;
+  address1Group!: FormGroup;
+  address2Group!: FormGroup;
+
 
   selectedTitleNumber: number | undefined;
   selectedApplicationId: number | undefined;
@@ -115,6 +118,8 @@ export class ScenarioComponent implements OnInit {
   private hubConnection!: HubConnection;
   private connectionUrl = environment.apiURL + 'attachment/';
   regTypeComponent = "document-registration";
+
+  showProgress!: MatDialogRef<ProgressComponent, any>;
 
   constructor(
     private router: Router,
@@ -219,13 +224,20 @@ export class ScenarioComponent implements OnInit {
       IsSelected: [false],
       DocumentReferenceId: 0,
 
-
       CareOfName: [''],
       CareOfReference: [''],
 
       DxNumber: [0],
       DxExchange: [''],
 
+
+    });
+    this.mainPostalGroup = this.formBuilder.group({
+      AddressId: [0],
+      PartyId: [0],
+
+      Type: ['main'],
+      SubType: ['post'],
       AddressLine1: [''],
       AddressLine2: [''],
       AddressLine3: [''],
@@ -233,8 +245,60 @@ export class ScenarioComponent implements OnInit {
       City: [''],
       County: [''],
       Country: [''],
-      PostCode: ['']
-    });
+      PostCode: [''],
+
+      CareOfName: [''],
+      CareOfReference: [''],
+      DxNumber: [0],
+      DxExchange: [''],
+
+      EmailAddress: ['', Validators.email]
+    })
+
+    this.address1Group = this.formBuilder.group({
+      AddressId: [0],
+      PartyId: [0],
+
+      Type: ['ad1'],
+      SubType: ['post'],
+      AddressLine1: [''],
+      AddressLine2: [''],
+      AddressLine3: [''],
+      AddressLine4: [''],
+      City: [''],
+      County: [''],
+      Country: [''],
+      PostCode: [''],
+
+      CareOfName: [''],
+      CareOfReference: [''],
+      DxNumber: [0],
+      DxExchange: [''],
+
+      EmailAddress: ['', Validators.email]
+    })
+    this.address2Group = this.formBuilder.group({
+      AddressId: [0],
+      PartyId: [0],
+
+      Type: ['ad2'],
+      SubType: ['post'],
+      AddressLine1: [''],
+      AddressLine2: [''],
+      AddressLine3: [''],
+      AddressLine4: [''],
+      City: [''],
+      County: [''],
+      Country: [''],
+      PostCode: [''],
+
+      CareOfName: [''],
+      CareOfReference: [''],
+      DxNumber: [0],
+      DxExchange: [''],
+
+      EmailAddress: ['', Validators.email]
+    })
 
     this.partyGroup = this.formBuilder.group({
       PartyType: [true, Validators.required],
@@ -246,7 +310,9 @@ export class ScenarioComponent implements OnInit {
       LocalId: [0],
       IsSelected: [false],
       PartyId: 0,
+      AddressForService: [''],
       DocumentReferenceId: 0,
+      Addresses: [],
 
     });
 
@@ -369,11 +435,21 @@ export class ScenarioComponent implements OnInit {
     })
 
 
+    this.address1Group.get('SubType')?.valueChanges.subscribe(res => {
+      this.address1Type = res
+    })
+
+    this.address2Group.get('SubType')?.valueChanges.subscribe(res => {
+      this.address2Type = res
+    })
+
     // set validations in Support documents form based on selected Attachment Type
     this.onAttcmntTypeChange();
   }
 
   partyType = 'company';
+  address1Type = 'post';
+  address2Type = 'post';
 
   // Title Numbers
 
@@ -713,20 +789,20 @@ export class ScenarioComponent implements OnInit {
       IsSelected: [false],
       SupportingDocumentId: 0,
       DocumentReferenceId: 0,
-
+  
       AdditionalProviderFilter: '',
       MessageId: 1,
       ExternalReference: '',
       ApplicationMessageId: '',
       ApplicationService: '104',
       //ApplicationType: '',
-
+  
       DocumentType: [this.supDocType],
       FileName: '',
       Base64: '',
       FileExtension: '',
       Notes: '',
-
+  
     }) */
 
 
@@ -785,6 +861,15 @@ export class ScenarioComponent implements OnInit {
       insertObj = this.partyGroup.value;
       insertObj.LocalId = this.supDocId++
       insertObj.IsSelected = false;
+      insertObj.Addresses = [];
+
+      let postalAddress: Address = this.mainPostalGroup.value;
+      let additionalAddress1: Address = this.address1Group.value;
+      let additionalAddress2: Address = this.address2Group.value;
+
+      insertObj.Addresses?.push(postalAddress);
+      insertObj.Addresses?.push(additionalAddress1);
+      insertObj.Addresses?.push(additionalAddress2);
 
       if (this.partyList.find(s => s.LocalId == this.selectedPartyId) == null) {
         this.partyList.push(Object.assign({}, insertObj));
@@ -808,9 +893,12 @@ export class ScenarioComponent implements OnInit {
     this.partyList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
     this.partyList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
 
-    var selectedObj: any = this.partyList?.find(s => s.LocalId == id);
+    var selectedObj: Party = this.partyList?.find(s => s.LocalId == id)!;
     this.selectedPartyId = selectedObj.LocalId;
     this.partyGroup.setValue(selectedObj);
+    this.mainPostalGroup.setValue(selectedObj.Addresses![0]);
+    this.address1Group.setValue(selectedObj.Addresses![1]);
+    this.address2Group.setValue(selectedObj.Addresses![2]);
   }
 
   ClearPartyFields(formDirective: FormGroupDirective) {
@@ -833,7 +921,7 @@ export class ScenarioComponent implements OnInit {
       IsSelected: [false],
       PartyId: 0,
       DocumentReferenceId: 0,
-
+  
     })*/
 
     this.partyGroup.controls.PartyId.setValue(0);
@@ -915,13 +1003,13 @@ export class ScenarioComponent implements OnInit {
        LocalId: [0],
        IsSelected: [false],
        DocumentReferenceId: 0,
- 
+   
        CareOfName: '',
        CareOfReference: '',
- 
+   
        DxNumber: 0,
        DxExchange: '',
- 
+   
        AddressLine1: '',
        AddressLine2: '',
        AddressLine3: '',
@@ -944,7 +1032,6 @@ export class ScenarioComponent implements OnInit {
   }
 
   UpdateDatabase() {
-
     let documentRef: DocumentReference = this.documentReferenceGroup.value;
     documentRef.Titles = JSON.parse(JSON.stringify(this.titleList));
     documentRef.Applications = JSON.parse(JSON.stringify(this.applicationList));
@@ -953,6 +1040,8 @@ export class ScenarioComponent implements OnInit {
     documentRef.Parties = JSON.parse(JSON.stringify(this.partyList));
     documentRef.RequestLogs = JSON.parse(JSON.stringify(this.logsList));
     documentRef.UserId = parseInt(localStorage.getItem("userId")!);
+
+
 
     if (documentRef.Titles?.length! < 1) {
       this.toastr.warning("Please add at least one Title", "Fields missing")
@@ -968,15 +1057,22 @@ export class ScenarioComponent implements OnInit {
       this.toastr.warning("Please add at least one Lodging Conveyancer", "Fields missing")
     } else if (this.documentReferenceGroup.valid) {
 
+      this.showProgress = CommonUtils.showProgress(this.dialog);
+
       if (this.docRefId == 0) {
-        this.registrationService.CreateRegistration(documentRef).subscribe((res) => {
+        this.registrationService.CreateRegistration(documentRef).pipe(
+          finalize(() => this.showProgress.close())
+        ).subscribe((res) => {
+
           this.ShowResponse(res);
         }, () => {
           this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed");
 
         });
       } else {
-        this.registrationService.UpdateRegistration(documentRef).subscribe((res) => {
+        this.registrationService.UpdateRegistration(documentRef).pipe(
+          finalize(() => this.showProgress.close())
+        ).subscribe((res) => {
           this.ShowResponse(res);
         }, () => {
           this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed");
@@ -1004,7 +1100,11 @@ export class ScenarioComponent implements OnInit {
   }
 
   SendPoolRequest() {
-    this.registrationService.GetPoolResponse(this.docRefId).subscribe((res: RequestLogs) => {
+    this.showProgress = CommonUtils.showProgress(this.dialog);
+
+    this.registrationService.GetPoolResponse(this.docRefId).pipe(
+      finalize(() => this.showProgress.close())
+    ).subscribe((res: RequestLogs) => {
       // console.log()
       Swal.fire({
         title: 'Poll Response from Gateway',
@@ -1025,14 +1125,21 @@ export class ScenarioComponent implements OnInit {
   }
 
   DownloadAttachedPoll(item: RequestLogs) {
-    this.attachmentServices.GetAttachment(item.RequestLogId!).subscribe(res => {
+    this.showProgress = CommonUtils.showProgress(this.dialog);
+
+    this.attachmentServices.GetAttachment(item.RequestLogId!).pipe(
+      finalize(() => this.showProgress.close())
+    ).subscribe(res => {
       FileSaver.saveAs(res!, item.FileName + "." + item.FileExtension?.toLowerCase());
 
     })
   }
 
   CollectAttachmentResult() {
-    this.registrationService.CollectAttachmentResult(this.docRefId, "70").subscribe(res => {
+    this.showProgress = CommonUtils.showProgress(this.dialog);
+    this.registrationService.CollectAttachmentResult(this.docRefId, "70").pipe(
+      finalize(() => this.showProgress.close())
+    ).subscribe(res => {
       // console.log()
       // Swal.fire({
       //   title: 'Pool Response from Gateway',
@@ -1050,8 +1157,10 @@ export class ScenarioComponent implements OnInit {
       //     FileSaver.saveAs(res.File);
       //   }
       // })
-      if (res.Successful)
+      if (res.Successful) {
+        this.router.navigate(['/registration/' + this.regTypeComponent, this.regType, res.DocumentReferenceId]);
         this.toastr.success("Please refresh the page to view the results", "Attachment Results collected")
+      }
       else
         this.toastr.error("Something went wrong while collecting results", "Attachment Results Error")
 
@@ -1059,9 +1168,14 @@ export class ScenarioComponent implements OnInit {
   }
 
   FindRequisitions() {
-    this.registrationService.GetRequisition(this.docRefId, "70").subscribe(res => {
+    this.showProgress = CommonUtils.showProgress(this.dialog);
+    this.registrationService.GetRequisition(this.docRefId, "70").pipe(
+      finalize(() => this.showProgress.close())
+    ).subscribe(res => {
 
       if (res != false) {
+        this.router.navigate(['/registration/' + this.regTypeComponent, this.regType, res.DocumentReferenceId]);
+
         if (res.IsSuccess)
           this.toastr.success("Please refresh the page to view the results", "Requisition Results collected");
         else
@@ -1075,9 +1189,14 @@ export class ScenarioComponent implements OnInit {
   }
 
   RespondToRequisition() {
-    this.attachmentServices.RespondToRequisition(this.docRefId).subscribe(res => {
+    this.showProgress = CommonUtils.showProgress(this.dialog);
+    this.attachmentServices.RespondToRequisition(this.docRefId).pipe(
+      finalize(() => this.showProgress.close())
+    ).subscribe(res => {
 
       if (res != false) {
+        this.router.navigate(['/registration/' + this.regTypeComponent, this.regType, res.DocumentReferenceId]);
+
         if (res.IsSuccess)
           this.toastr.success("Please refresh the page to view the results", "Replied to Attachments")
         else
@@ -1092,9 +1211,14 @@ export class ScenarioComponent implements OnInit {
   }
 
   CollectFinalResults() {
-    this.registrationService.CollectFinalResults(this.docRefId, "70").subscribe(res => {
+    this.showProgress = CommonUtils.showProgress(this.dialog);
+    this.registrationService.CollectFinalResults(this.docRefId, "70").pipe(
+      finalize(() => this.showProgress.close())
+    ).subscribe(res => {
 
       if (res != false) {
+        this.router.navigate(['/registration/' + this.regTypeComponent, this.regType, res.DocumentReferenceId]);
+
         if (res.IsSuccess)
           this.toastr.success("Please refresh the page to view the results", "Requisition Results collected")
         else
@@ -1109,7 +1233,6 @@ export class ScenarioComponent implements OnInit {
   }
 
   onAttcmntTypeChange() {
-
 
     if (this.supDocType == "supDoc") {
 
@@ -1145,5 +1268,6 @@ export class ScenarioComponent implements OnInit {
       })
     }
   }
+
 
 }

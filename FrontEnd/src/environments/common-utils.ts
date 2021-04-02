@@ -1,4 +1,6 @@
 import { Injectable } from "@angular/core";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { ProgressComponent } from "src/app/angular-dialogs/progress/progress.component";
 
 @Injectable()
 export class CommonUtils {
@@ -25,5 +27,11 @@ export class CommonUtils {
             console.log('Error: ', error);
         };
         return fileStr;
+    }
+
+    static showProgress(dialog: MatDialog): MatDialogRef<ProgressComponent, any> {
+        return dialog.open(ProgressComponent, {
+            data: {},
+        });
     }
 }

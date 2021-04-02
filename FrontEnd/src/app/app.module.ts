@@ -32,6 +32,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { LrCredentialsComponent } from './settings/lr-credentials/lr-credentials.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ProgressComponent } from './angular-dialogs/progress/progress.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ViewDocumentRegistrationsComponent,
     ApplicationViewComponent,
     ScenarioComponent,
-    LrCredentialsComponent
+    LrCredentialsComponent,
+    ProgressComponent
   ],
   imports: [
     BrowserModule,

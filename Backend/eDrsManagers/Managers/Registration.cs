@@ -50,7 +50,7 @@ namespace eDrsManagers.Managers
             });
 
             var count = model.Applications.Count();
-            
+
             model.SupportingDocuments.ToList().ForEach(supDoc =>
             {
                 supDoc.DocumentId = ++count;
@@ -487,7 +487,8 @@ namespace eDrsManagers.Managers
                             CompanyOrForeName = party.CompanyOrForeName,
                             PartyId = party.PartyId,
                             Roles = party.Roles,
-                            AddressForService = party.AddressForService
+                            AddressForService = party.AddressForService,
+                            Addresses = party.Addresses
                         }).ToList(),
                         Status = sel.Status,
                         AdditionalProviderFilter = sel.AdditionalProviderFilter,

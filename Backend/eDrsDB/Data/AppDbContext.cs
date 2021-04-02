@@ -26,6 +26,7 @@ namespace eDrsDB.Data
          public DbSet<Representation> Representations { get; set; }
         public DbSet<Outstanding> Outstanding { get; set; }
         public DbSet<LrCredential> LrCredentials { get; set; }
+        public DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
