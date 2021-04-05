@@ -71,7 +71,7 @@ namespace eDrsAPI.Controllers
         public IActionResult CreateRegistration(DocumentReferenceViewModel viewModel)
         {
             try
-            {
+            { 
                 return Ok(_registration.CreateRegistration(viewModel));
             }
             catch (Exception ex)

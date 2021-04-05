@@ -1,4 +1,5 @@
-﻿using eDrsManagers.ViewModels;
+﻿using eDrsDB.Models;
+using eDrsManagers.ViewModels;
 using FluentValidation;
 
 namespace eDrsManagers.FluentValidation
@@ -7,18 +8,41 @@ namespace eDrsManagers.FluentValidation
     {
         public DocumentReferenceValidator()
         {
-            RuleFor(x => x.Reference).NotNull();
-            RuleFor(x => x.TotalFeeInPence).NotNull();
-            RuleFor(x => x.Email).NotNull().EmailAddress();
-            RuleFor(x => x.TelephoneNumber).NotNull();
-            RuleFor(x => x.AdditionalProviderFilter).NotNull();
-            RuleFor(x => x.ExternalReference).NotNull();
-            RuleFor(x => x.ApplicationDate).NotNull();
-            RuleFor(x => x.DisclosableOveridingInterests).NotNull();
-            RuleFor(x => x.RegistrationTypeId).NotNull();
-            RuleFor(x => x.UserId).NotNull();
-            RuleFor(x => x.Applications).NotEmpty();
+            RuleFor(x => x.Reference)
+                .NotNull().NotEmpty().WithMessage("Reference should not be Empty");
 
+            RuleFor(x => x.TotalFeeInPence)
+                .NotNull().NotEmpty().WithMessage("TotoalFeeInPence should not be Empty");
+
+            RuleFor(x => x.Email)
+                .NotNull().NotEmpty().WithMessage("Email should not be Empty")
+                .EmailAddress().WithMessage("Invalid Email Address");
+
+            RuleFor(x => x.TelephoneNumber)
+                .NotNull().NotEmpty().WithMessage("Telephone Number should not be Empty");
+
+            RuleFor(x => x.AdditionalProviderFilter)
+                .NotNull().NotEmpty().WithMessage("AdditionalProviderFilter should not be Empty");
+
+            RuleFor(x => x.ExternalReference)
+                .NotNull().NotEmpty().WithMessage("ExternalReference should not be Empty");
+
+            RuleFor(x => x.ApplicationDate)
+                .NotNull().NotEmpty().WithMessage("ApplicationDate should not be Empty");
+
+            RuleFor(x => x.DisclosableOveridingInterests)
+                .NotNull().NotEmpty().WithMessage("DisclosableOveridingInterests should not be Empty");
+
+            RuleFor(x => x.RegistrationTypeId)
+                .NotNull().NotEmpty().WithMessage("RegistrationTypeId should not be Empty");
+
+            RuleFor(x => x.UserId)
+                .NotNull().NotEmpty().WithMessage("UserId should not be Empty");
+
+            RuleFor(x => x.Titles)
+                .NotNull().NotEmpty().WithMessage("Titles should not be Empty");
+
+            RuleForEach(x => x.Titles).SetValidator(new TitleValidator());
         }
 
     }
