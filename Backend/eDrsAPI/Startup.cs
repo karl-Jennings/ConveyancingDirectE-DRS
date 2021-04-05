@@ -64,7 +64,7 @@ namespace eDrsAPI
                 config.UseSqlServerStorage(Configuration.GetConnectionString("SqlServerConnection"));
             });
 
-            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>()));
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services.AddSignalR().AddJsonProtocol(options =>
             {
