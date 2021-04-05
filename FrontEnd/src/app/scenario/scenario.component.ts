@@ -72,6 +72,8 @@ export class ScenarioComponent implements OnInit {
   logsList: RequestLogs[] = [];
   outstandingList: Outstanding[] = [];
 
+  documentReferenceGroup!: FormGroup;
+
   txtTitle: FormControl = new FormControl();
   applicationGroup!: FormGroup;
   supportingDocGroup!: FormGroup;
@@ -89,7 +91,6 @@ export class ScenarioComponent implements OnInit {
   selectedNotesId: number | undefined;
   selectedRepId: number | undefined;
 
-  documentReferenceGroup!: FormGroup;
 
   @ViewChild('txtCustomEmail') txtCustomEmail!: ElementRef;
 
