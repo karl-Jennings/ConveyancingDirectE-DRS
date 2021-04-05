@@ -52,7 +52,9 @@ namespace eDrsAPI.Controllers
         {
             try
             {
+
                 return Ok(_registration.GetRegistrationType(regType));
+
             }
             catch (Exception ex)
             {
@@ -66,7 +68,7 @@ namespace eDrsAPI.Controllers
         /// </summary>
         /// <returns>boolean</returns>
         [HttpPost]
-        public IActionResult CreateRegistration(DocumentReference viewModel)
+        public IActionResult CreateRegistration(DocumentReferenceViewModel viewModel)
         {
             try
             {

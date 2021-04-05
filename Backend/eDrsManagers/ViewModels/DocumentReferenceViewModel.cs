@@ -7,7 +7,7 @@ using eDrsDB.Models;
 namespace eDrsManagers.ViewModels
 {
     public class DocumentReferenceViewModel
-    {
+    { 
         public long DocumentReferenceId { get; set; }
         public string Reference { get; set; }
         public int TotalFeeInPence { get; set; }
@@ -27,15 +27,17 @@ namespace eDrsManagers.ViewModels
         public long RegistrationTypeId { get; set; }
         public RegistrationType RegistrationType { get; set; }
         public long UserId { get; set; }
+
         public User User { get; set; }
 
 
-        public List<TitleNumber> Titles { get; set; }
-        public List<ApplicationForm> Applications { get; set; }
-        public List<SupportingDocuments> SupportingDocuments { get; set; }
-        public List<Representation> Representations { get; set; }
-        public List<Party> Parties { get; set; }
-        public List<RequestLog> RequestLogs { get; set; }
+        public ICollection<TitleNumber> Titles { get; set; }
+        public ICollection<ApplicationForm> Applications { get; set; }
+        public ICollection<SupportingDocuments> SupportingDocuments { get; set; }
+        public ICollection<Representation> Representations { get; set; }
+        public ICollection<Party> Parties { get; set; }
+        public ICollection<RequestLog> RequestLogs { get; set; }
+        public ICollection<Outstanding> Outstanding { get; set; }
 
 
     }

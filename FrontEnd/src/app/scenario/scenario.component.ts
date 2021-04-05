@@ -316,46 +316,7 @@ export class ScenarioComponent implements OnInit {
 
     });
 
-    if (this.docRefId != 0) {
-      this.registrationService.GetRegistration(this.docRefId).subscribe(res => {
-        this.documentReferenceGroup = this.formBuilder.group(res);
-
-        this.titleList = res.Titles ?? [];
-
-        this.titleList.forEach(s => {
-          s.LocalId = this.titleId++;
-        })
-
-        this.applicationList = res.Applications ?? [];
-
-        this.applicationList.forEach(s => {
-          s.LocalId = this.appId++;
-        })
-
-        this.supportingDocList = res.SupportingDocuments ?? [];
-
-        this.supportingDocList.forEach(s => {
-          s.LocalId = this.appId++;
-        })
-
-        this.partyList = res.Parties ?? [];
-
-        this.partyList.forEach(s => {
-          s.LocalId = this.appId++;
-          s.ViewModelRoles = s.Roles!.split(',');
-        })
-
-        this.logsList = res.RequestLogs ?? [];
-        this.outstandingList = res.Outstanding ?? [];
-
-        this.representationList = res.Representations ?? [];
-
-        this.representationList.forEach(s => {
-          s.LocalId = this.appId++;
-        })
-
-      })
-    }
+    this.PopulateAllFields();
 
     this.applicationGroup.get('Variety')?.valueChanges.subscribe(res => {
       this.appType = res
@@ -445,6 +406,49 @@ export class ScenarioComponent implements OnInit {
 
     // set validations in Support documents form based on selected Attachment Type
     this.onAttcmntTypeChange();
+  }
+
+  PopulateAllFields() {
+    if (this.docRefId != 0) {
+      this.registrationService.GetRegistration(this.docRefId).subscribe(res => {
+        this.documentReferenceGroup = this.formBuilder.group(res);
+
+        this.titleList = res.Titles ?? [];
+
+        this.titleList.forEach(s => {
+          s.LocalId = this.titleId++;
+        })
+
+        this.applicationList = res.Applications ?? [];
+
+        this.applicationList.forEach(s => {
+          s.LocalId = this.appId++;
+        })
+
+        this.supportingDocList = res.SupportingDocuments ?? [];
+
+        this.supportingDocList.forEach(s => {
+          s.LocalId = this.appId++;
+        })
+
+        this.partyList = res.Parties ?? [];
+
+        this.partyList.forEach(s => {
+          s.LocalId = this.appId++;
+          s.ViewModelRoles = s.Roles!.split(',');
+        })
+
+        this.logsList = res.RequestLogs ?? [];
+        this.outstandingList = res.Outstanding ?? [];
+
+        this.representationList = res.Representations ?? [];
+
+        this.representationList.forEach(s => {
+          s.LocalId = this.appId++;
+        })
+
+      })
+    }
   }
 
   partyType = 'company';
@@ -1090,8 +1094,7 @@ export class ScenarioComponent implements OnInit {
         data: { res }
       });
       dialogRef.afterClosed().subscribe(() => {
-
-        this.router.navigate(['/registration/' + this.regTypeComponent, this.regType, res.DocumentReferenceId]);
+        this.PopulateAllFields();
       });
     } else {
       this.toastr.error("There was an error occured while trying to connect, please check all fields again", "Error sending request")
@@ -1119,6 +1122,7 @@ export class ScenarioComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
           FileSaver.saveAs(res.File!, res.FileName + "." + res.FileExtension?.toLowerCase());
+          this.PopulateAllFields();
         }
       })
     });
@@ -1130,8 +1134,9 @@ export class ScenarioComponent implements OnInit {
     this.attachmentServices.GetAttachment(item.RequestLogId!).pipe(
       finalize(() => this.showProgress.close())
     ).subscribe(res => {
-      FileSaver.saveAs(res!, item.FileName + "." + item.FileExtension?.toLowerCase());
 
+      FileSaver.saveAs(res!, item.FileName + "." + item.FileExtension?.toLowerCase());
+      this.PopulateAllFields();
     })
   }
 
@@ -1140,25 +1145,9 @@ export class ScenarioComponent implements OnInit {
     this.registrationService.CollectAttachmentResult(this.docRefId, "70").pipe(
       finalize(() => this.showProgress.close())
     ).subscribe(res => {
-      // console.log()
-      // Swal.fire({
-      //   title: 'Pool Response from Gateway',
-      //   html: `
-      //   ${res.Description}
-      //   `,
-      //   icon: 'success',
-      //   showCancelButton: true,
-      //   confirmButtonColor: '#3085d6',
-      //   cancelButtonColor: '#d33',
-      //   confirmButtonText: 'Download Zip'
-      // }).then((result) => {
-      //   if (result.isConfirmed) {
-      //     console.log(res)
-      //     FileSaver.saveAs(res.File);
-      //   }
-      // })
+
       if (res.Successful) {
-        this.router.navigate(['/registration/' + this.regTypeComponent, this.regType, res.DocumentReferenceId]);
+        this.PopulateAllFields();
         this.toastr.success("Please refresh the page to view the results", "Attachment Results collected")
       }
       else
@@ -1174,10 +1163,10 @@ export class ScenarioComponent implements OnInit {
     ).subscribe(res => {
 
       if (res != false) {
-        this.router.navigate(['/registration/' + this.regTypeComponent, this.regType, res.DocumentReferenceId]);
-
-        if (res.IsSuccess)
+        if (res.IsSuccess) {
+          this.PopulateAllFields();
           this.toastr.success("Please refresh the page to view the results", "Requisition Results collected");
+        }
         else
           this.toastr.error("Something went wrong while collecting results", "Requisition Results Error");
 
@@ -1195,10 +1184,11 @@ export class ScenarioComponent implements OnInit {
     ).subscribe(res => {
 
       if (res != false) {
-        this.router.navigate(['/registration/' + this.regTypeComponent, this.regType, res.DocumentReferenceId]);
 
-        if (res.IsSuccess)
+        if (res.IsSuccess) {
+          this.PopulateAllFields();
           this.toastr.success("Please refresh the page to view the results", "Replied to Attachments")
+        }
         else
           this.toastr.error("Something went wrong while replying to results", "Attachments Results Error")
 
@@ -1217,7 +1207,7 @@ export class ScenarioComponent implements OnInit {
     ).subscribe(res => {
 
       if (res != false) {
-        this.router.navigate(['/registration/' + this.regTypeComponent, this.regType, res.DocumentReferenceId]);
+        this.PopulateAllFields();
 
         if (res.IsSuccess)
           this.toastr.success("Please refresh the page to view the results", "Requisition Results collected")

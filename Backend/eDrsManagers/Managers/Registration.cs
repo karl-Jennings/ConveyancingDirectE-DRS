@@ -4,7 +4,7 @@ using System.Linq;
 using AutoMapper;
 using BusinessGatewayModels;
 using BusinessGatewayRepositories.EDRSApplication;
-using eDrsDB.Data;
+using eDrsDB.Data; 
 using eDrsDB.Models;
 using eDrsManagers.ApiConverters;
 using eDrsManagers.Http;
@@ -40,37 +40,36 @@ namespace eDrsManagers.Managers
             return _context.RegistrationTypes.Where(s => s.Status).ToList();
         }
 
-        public RequestLog CreateRegistration(DocumentReference model)
+        public RequestLog CreateRegistration(DocumentReferenceViewModel viewModel)
         {
 
-            model.Parties.ToList().ForEach(party =>
+            viewModel.Parties.ToList().ForEach(party =>
             {
                 party.Roles = string.Join(",", party.ViewModelRoles);
 
             });
 
-            var count = model.Applications.Count();
+            var count = viewModel.Applications.Count();
 
-            model.SupportingDocuments.ToList().ForEach(supDoc =>
+            viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
             {
                 supDoc.DocumentId = ++count;
             });
 
-            model.MessageID = Guid.NewGuid().ToString();
+            viewModel.MessageID = Guid.NewGuid().ToString();
 
             //_context.SaveChanges();
-            model.User = _context.Users.FirstOrDefault(x => x.UserId == model.UserId);
+            viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
 
-            if (model.Representations == null)
+            if (viewModel.Representations == null)
             {
-                model.Representations = new List<Representation>();
-                model.Representations.Add(new Representation() { RepresentativeId = 1 });
+                viewModel.Representations = new List<Representation>();
+                viewModel.Representations.Add(new Representation() { RepresentativeId = 1 });
             }
 
             /********** Calling LR Api backend ***********/
-            var realViewModel = _mapper.Map<DocumentReference, DocumentReferenceViewModel>(model);
-            var requestLog = _httpInterceptor.CallRegistrationApi(realViewModel);
-            requestLog.DocumentReferenceId = model.DocumentReferenceId;
+            var requestLog = _httpInterceptor.CallRegistrationApi(viewModel);
+            requestLog.DocumentReferenceId = viewModel.DocumentReferenceId;
             /********** Calling LR Api backend ***********/
 
 
@@ -80,9 +79,9 @@ namespace eDrsManagers.Managers
             {
 
 
-                requestLogList.ForEach(s => { model.RequestLogs.Add(s); });
-                model.RequestLogs.Add(requestLog);
-
+                requestLogList.ForEach(s => { viewModel.RequestLogs.Add(s); });
+                viewModel.RequestLogs.Add(requestLog);
+                var model = _mapper.Map<DocumentReferenceViewModel, eDrsDB.Models.DocumentReference>(viewModel);
                 _context.DocumentReferences.Add(model);
 
                 if (requestLog.IsSuccess)
@@ -137,7 +136,7 @@ namespace eDrsManagers.Managers
                 viewModel.MessageID = Guid.NewGuid().ToString();
 
             viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
-            var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
+            var model = _mapper.Map<DocumentReferenceViewModel, eDrsDB.Models.DocumentReference>(viewModel);
 
             _context.DocumentReferences.Update(model);
 
@@ -177,8 +176,7 @@ namespace eDrsManagers.Managers
 
         public List<DocumentReference> GetRegistrations(string regType)
         {
-            return _context.DocumentReferences.Where(s => s.Status && s.RegistrationTypeId == int.Parse(regType))
-                .ToList();
+            return _context.DocumentReferences.Where(s => s.Status && s.RegistrationTypeId == int.Parse(regType)).ToList();
         }
 
         public dynamic GetPollResponse(long docRefId)

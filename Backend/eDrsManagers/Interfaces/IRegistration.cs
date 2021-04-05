@@ -14,7 +14,7 @@ namespace eDrsManagers.Interfaces
     {
         List<RegistrationType> GetRegistrationTypes();
 
-        RequestLog CreateRegistration(DocumentReference viewModel);
+        RequestLog CreateRegistration(DocumentReferenceViewModel viewModel);
         List<DocumentReference> GetRegistrations(string regType);
         DocumentReference GetRegistration(long regId);
         RequestLog UpdateRegistration(DocumentReferenceViewModel viewModel);

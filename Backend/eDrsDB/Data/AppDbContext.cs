@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using eDrsDB.Models;
 using eDrsDB.Password;
 using Microsoft.EntityFrameworkCore;
+using DocumentReference = eDrsDB.Models.DocumentReference;
 
 namespace eDrsDB.Data
 {
@@ -23,7 +24,7 @@ namespace eDrsDB.Data
         public DbSet<Party> Parties { get; set; }
         public DbSet<ErrorLogs> ErrorLogs { get; set; }
         public DbSet<RequestLog> RequestLogs { get; set; }
-         public DbSet<Representation> Representations { get; set; }
+        public DbSet<Representation> Representations { get; set; }
         public DbSet<Outstanding> Outstanding { get; set; }
         public DbSet<LrCredential> LrCredentials { get; set; }
         public DbSet<Address> Addresses { get; set; }

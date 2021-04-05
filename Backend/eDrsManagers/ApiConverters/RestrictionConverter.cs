@@ -6,11 +6,11 @@ using System.Xml.Schema;
 using BusinessGatewayModels;
 using BusinessGatewayRepositories.EDRSApplication;
 using BusinessGatewayServices;
-using eDrsDB.Data;
+using eDrsDB.Data; 
 using eDrsDB.Models;
 using eDrsManagers.ViewModels;
 using LrApiManager.SOAPManager;
-using LrApiManager.XMLClases.Restriction;
+using LrApiManager.XMLClases.Restriction; 
 
 namespace eDrsManagers.ApiConverters
 {

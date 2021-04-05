@@ -24,9 +24,14 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using System.Xml;
 using eDrsAPI.Controllers;
+using eDrsDB.Models;
 using eDrsManagers.ApiConverters;
+using eDrsManagers.FluentValidation;
 using eDrsManagers.Http;
 using eDrsManagers.SignalRHub;
+using eDrsManagers.ViewModels;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Hangfire;
 using LrApiManager.XMLClases;
 using LrApiManager.XMLClases.TransferOfPart;
@@ -59,7 +64,7 @@ namespace eDrsAPI
                 config.UseSqlServerStorage(Configuration.GetConnectionString("SqlServerConnection"));
             });
 
-            services.AddMvc();
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>()));
 
             services.AddSignalR().AddJsonProtocol(options =>
             {
@@ -126,6 +131,7 @@ namespace eDrsAPI
 
             IdentityModelEventSource.ShowPII = true;
 
+            services.AddTransient<IValidator<DocumentReferenceViewModel>, DocumentReferenceValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
