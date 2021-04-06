@@ -27,7 +27,7 @@ namespace eDrsDB.Models
         public string CareOfName { get; set; }
         public string CareOfReference { get; set; }
 
-        public long DxNumber { get; set; }
+        public string DxNumber { get; set; }
         public string DxExchange { get; set; }
 
 

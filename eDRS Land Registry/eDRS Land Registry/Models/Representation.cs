@@ -18,13 +18,11 @@ namespace eDrsDB.Models
 
         public long DocumentReferenceId { get; set; }
 
-
         public string CareOfName { get; set; }
         public string CareOfReference { get; set; }
 
-        public long DxNumber { get; set; }
+        public string DxNumber { get; set; }
         public string DxExchange { get; set; }
-
 
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }

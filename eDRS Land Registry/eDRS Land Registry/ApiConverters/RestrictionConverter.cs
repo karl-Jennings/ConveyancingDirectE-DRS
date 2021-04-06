@@ -110,7 +110,7 @@ namespace eDRS_Land_Registry.ApiConverters
                     CertifiedCopy = (CertifiedTypeContent)Enum.Parse(typeof(CertifiedTypeContent), x.CertifiedCopy),
                     DocumentId = x.DocumentId.ToString(),
                     DocumentName = (DocumentNameContent)Enum.Parse(typeof(DocumentNameContent), x.DocumentName),
-                    
+
                 });
             });
             supportingDocuments.SupportingDocument = supportingDocumentTypes.ToArray();
@@ -136,10 +136,24 @@ namespace eDRS_Land_Registry.ApiConverters
                         ConveyancerName = x.Name,
                         Reference = x.Reference,
                         RepresentativeId = x.RepresentativeId.ToString(),
-                        Item = new CareOfAddressType
+                        Item = (x.AddressType == "DXAddress") ? new DXAddressType()
                         {
+                            DXNumber = x.DxNumber,
+                            DXExchange = x.DxExchange,
                             CareOfName = x.CareOfName,
                             CareOfReference = x.CareOfReference
+                        } : new PostalAddressType()
+                        {
+                            CareOfName = x.CareOfName,
+                            CareOfReference = x.CareOfReference,
+                            AddressLine1 = x.AddressLine1,
+                            AddressLine2 = x.AddressLine1,
+                            AddressLine3 = x.AddressLine1,
+                            AddressLine4 = x.AddressLine1,
+                            City = x.City,
+                            Country = x.Country,
+                            County = x.County,
+                            Postcode = x.AddressLine1
                         }
                     });
                 }
@@ -228,8 +242,6 @@ namespace eDRS_Land_Registry.ApiConverters
                     Value = fileArray,
                 };
             }
-
-
 
             var ItemsElementName = new BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType[3];
 
