@@ -4,7 +4,7 @@ export class Representation {
     RepresentativeId?: number;
     Name?: string;
     Reference?: string;
-    DxNumber?: number;
+    DxNumber?: string;
     DxExchange?: string;
     DocumentReferenceId?: number;
 
