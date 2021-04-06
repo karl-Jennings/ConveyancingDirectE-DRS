@@ -27,6 +27,7 @@ using eDrsAPI.Controllers;
 using eDrsDB.Models;
 using eDrsManagers.ApiConverters;
 using eDrsManagers.FluentValidation;
+using eDrsManagers.FluentValidation.Validators;
 using eDrsManagers.Http;
 using eDrsManagers.SignalRHub;
 using eDrsManagers.ViewModels;

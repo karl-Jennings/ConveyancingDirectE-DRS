@@ -1,8 +1,9 @@
 ﻿using eDrsDB.Models;
+using eDrsManagers.FluentValidation.Validators;
 using eDrsManagers.ViewModels;
 using FluentValidation;
 
-namespace eDrsManagers.FluentValidation
+namespace eDrsManagers.FluentValidation.Validators
 {
     public class DocumentReferenceValidator : AbstractValidator<DocumentReferenceViewModel>
     {
@@ -42,7 +43,28 @@ namespace eDrsManagers.FluentValidation
             RuleFor(x => x.Titles)
                 .NotNull().NotEmpty().WithMessage("Titles should not be Empty");
 
+            RuleFor(x => x.Applications)
+                .NotNull().NotEmpty().WithMessage("Applications should not be Empty");
+
+            RuleFor(x => x.SupportingDocuments)
+                .NotNull().NotEmpty().WithMessage("SupportingDocuments should not be Empty");
+
+            RuleFor(x => x.Representations)
+                .NotNull().NotEmpty().WithMessage("Representations should not be Empty");
+
+            RuleFor(x => x.Parties)
+                .NotNull().NotEmpty().WithMessage("Parties should not be Empty");
+
             RuleForEach(x => x.Titles).SetValidator(new TitleValidator());
+
+            RuleForEach(x => x.Applications).SetValidator(new ApplicationValidator());
+
+            RuleForEach(x => x.SupportingDocuments).SetValidator(new SupportingDocumentValidator());
+
+            RuleForEach(x => x.Representations).SetValidator(new RepresentationValidator());
+
+            RuleForEach(x => x.Parties).SetValidator(new PartyValidator());
+
         }
 
     }

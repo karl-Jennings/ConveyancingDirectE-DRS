@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using eDrsDB.Models;
+﻿using eDrsDB.Models;
 using FluentValidation;
 
-namespace eDrsManagers.FluentValidation
+namespace eDrsManagers.FluentValidation.Validators
 {
     public class TitleValidator : AbstractValidator<TitleNumber>
     {
