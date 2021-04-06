@@ -545,7 +545,7 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Document Name</mat-label>
+                                                <mat-label>Representation Type</mat-label>
                                                 <mat-select formControlName="Type">
                                                     <mat-option [value]="'LodgingConveyancer'"> Lodging Conveyancer
                                                     </mat-option>
@@ -555,15 +555,7 @@
 
                                             </mat-form-field>
                                         </div>
-                                        <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Address Type</mat-label>
-                                                <mat-select formControlName="AddressType">
-                                                    <mat-option value="DXAddress"> DX Address </mat-option>
-                                                    <mat-option value="PostalAddress"> Postal Address </mat-option>
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
+                                       
                                         <div class="col-md-3" *ngIf="repType != 'AdditionalPartyNotification'" hidden>
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Representative Id</mat-label>
@@ -587,22 +579,19 @@
                                         </div>
                                         <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
                                             <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Care of Name</mat-label>
-                                                <input formControlName="CareOfName" matInput type="text">
+                                                <mat-label>Address Type</mat-label>
+                                                <mat-select formControlName="AddressType">
+                                                    <mat-option value="DXAddress"> DX Address </mat-option>
+                                                    <mat-option value="PostalAddress"> Postal Address </mat-option>
+                                                </mat-select>
                                             </mat-form-field>
                                         </div>
-                                        <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
-                                            <mat-form-field class="example-form-field w-100">
-                                                <mat-label>Care of Reference</mat-label>
-                                                <input formControlName="CareOfReference" matInput type="text">
-                                            </mat-form-field>
-                                        </div>
-
+                                       
                                         <div class="col-md-3"
                                             *ngIf="repType != 'LodgingConveyancer' && addressType == 'DXAddress'">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>DXNumber</mat-label>
-                                                <input formControlName="DxNumber" matInput type="number">
+                                                <input formControlName="DxNumber" matInput type="text">
                                             </mat-form-field>
                                         </div>
                                         <div class="col-md-3"
@@ -617,7 +606,7 @@
                                             *ngIf="repType != 'LodgingConveyancer' && addressType == 'PostalAddress'">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Address Line 1</mat-label>
-                                                <input formControlName="AddressLine1" matInput type="text">
+                                                <input formControlName="AddressLine1" matInput type="text" required>
                                             </mat-form-field>
                                         </div>
                                         <div class="col-md-3"
@@ -669,6 +658,19 @@
                                                 <input formControlName="PostCode" matInput type="text">
                                             </mat-form-field>
                                         </div>
+                                        <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Care of Name</mat-label>
+                                                <input formControlName="CareOfName" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3" *ngIf="repType != 'LodgingConveyancer'">
+                                            <mat-form-field class="example-form-field w-100">
+                                                <mat-label>Care of Reference</mat-label>
+                                                <input formControlName="CareOfReference" matInput type="text">
+                                            </mat-form-field>
+                                        </div>
+                                      
 
                                         <div class="col-12">
                                             <button class="mr-1 ml-auto" type="submit" mat-flat-button
@@ -733,7 +735,7 @@
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Party type</mat-label>
-                                                <mat-select formControlName="PartyType">
+                                                <mat-select formControlName="PartyType" required >
                                                     <mat-option [value]="'company'">Company</mat-option>
                                                     <mat-option [value]="'person'">Person</mat-option>
                                                 </mat-select>
@@ -742,7 +744,7 @@
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Is Applicant</mat-label>
-                                                <mat-select formControlName="IsApplicant">
+                                                <mat-select formControlName="IsApplicant" required>
                                                     <mat-option [value]="true">Yes</mat-option>
                                                     <mat-option [value]="false">No</mat-option>
                                                 </mat-select>
@@ -752,19 +754,19 @@
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>{{partyType == 'company' ? 'Company Name' : 'Forename'}}
                                                 </mat-label>
-                                                <input formControlName="CompanyOrForeName" matInput type="text">
+                                                <input formControlName="CompanyOrForeName" matInput type="text" required>
                                             </mat-form-field>
                                         </div>
                                         <div class="col-md-3" *ngIf="partyType === 'person'">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Surname</mat-label>
-                                                <input formControlName="Surname" matInput type="text">
+                                                <input formControlName="Surname" matInput type="text" required>
                                             </mat-form-field>
                                         </div>
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Roles</mat-label>
-                                                <mat-select formControlName="ViewModelRoles" multiple>
+                                                <mat-select formControlName="ViewModelRoles" multiple required>
                                                     <mat-select-trigger>
 
                                                         {{partyGroup.controls['ViewModelRoles']?.value[0] ?
@@ -805,7 +807,7 @@
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Address Line 1</mat-label>
                                                                 <input formControlName="AddressLine1" matInput
-                                                                    type="text">
+                                                                    type="text" required>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3">
@@ -888,7 +890,7 @@
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Address Line 1</mat-label>
                                                                 <input formControlName="AddressLine1" matInput
-                                                                    type="text">
+                                                                    type="text" required> 
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="address1Type == 'post'">
@@ -902,7 +904,7 @@
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Address Line 3</mat-label>
                                                                 <input formControlName="AddressLine3" matInput
-                                                                    type="text">
+                                                                    type="text" required>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="address1Type == 'post'">
@@ -954,21 +956,21 @@
                                                         <div class="col-md-3" *ngIf="address1Type == 'dx'">
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Dx Number</mat-label>
-                                                                <input formControlName="DxNumber" matInput type="text">
+                                                                <input formControlName="DxNumber" matInput type="text" required>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="address1Type == 'dx'">
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Dx Exchange</mat-label>
                                                                 <input formControlName="DxExchange" matInput
-                                                                    type="text">
+                                                                    type="text" required>
                                                             </mat-form-field>
                                                         </div>
 
                                                         <div class="col-md-3" *ngIf="address1Type == 'email'">
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Email Address</mat-label>
-                                                                <input formControlName="EmailAddress" matInput
+                                                                <input formControlName="EmailAddress" matInput required
                                                                     type="text">
                                                             </mat-form-field>
                                                         </div>
@@ -1007,7 +1009,7 @@
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Address Line 1</mat-label>
                                                                 <input formControlName="AddressLine1" matInput
-                                                                    type="text">
+                                                                    type="text" required>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="address2Type == 'post'">
@@ -1073,14 +1075,14 @@
                                                         <div class="col-md-3" *ngIf="address2Type == 'dx'">
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Dx Number</mat-label>
-                                                                <input formControlName="DxNumber" matInput type="text">
+                                                                <input formControlName="DxNumber" matInput type="text" required>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="address2Type == 'dx'">
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Dx Exchange</mat-label>
                                                                 <input formControlName="DxExchange" matInput
-                                                                    type="text">
+                                                                    type="text" required >
                                                             </mat-form-field>
                                                         </div>
 
@@ -1088,7 +1090,7 @@
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Email Address</mat-label>
                                                                 <input formControlName="EmailAddress" matInput
-                                                                    type="text">
+                                                                    type="text" required>
                                                             </mat-form-field>
                                                         </div>
                                                     </div>

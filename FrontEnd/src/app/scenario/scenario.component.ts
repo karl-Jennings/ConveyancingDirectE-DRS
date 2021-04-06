@@ -228,8 +228,10 @@ export class ScenarioComponent implements OnInit {
       CareOfName: [''],
       CareOfReference: [''],
 
-      DxNumber: [0],
+      DxNumber: [''],
       DxExchange: [''],
+
+      AddressLine1:['']
 
 
     });
@@ -239,7 +241,7 @@ export class ScenarioComponent implements OnInit {
 
       Type: ['main'],
       SubType: ['post'],
-      AddressLine1: [''],
+      AddressLine1: ['',Validators.required],
       AddressLine2: [''],
       AddressLine3: [''],
       AddressLine4: [''],
@@ -250,7 +252,7 @@ export class ScenarioComponent implements OnInit {
 
       CareOfName: [''],
       CareOfReference: [''],
-      DxNumber: [0],
+      DxNumber: [''],
       DxExchange: [''],
 
       EmailAddress: ['', Validators.email]
@@ -261,8 +263,8 @@ export class ScenarioComponent implements OnInit {
       PartyId: [0],
 
       Type: ['ad1'],
-      SubType: ['post'],
-      AddressLine1: [''],
+      SubType: [''],
+      AddressLine1: ['',Validators.required],
       AddressLine2: [''],
       AddressLine3: [''],
       AddressLine4: [''],
@@ -273,7 +275,7 @@ export class ScenarioComponent implements OnInit {
 
       CareOfName: [''],
       CareOfReference: [''],
-      DxNumber: [0],
+      DxNumber: [''],
       DxExchange: [''],
 
       EmailAddress: ['', Validators.email]
@@ -283,8 +285,8 @@ export class ScenarioComponent implements OnInit {
       PartyId: [0],
 
       Type: ['ad2'],
-      SubType: ['post'],
-      AddressLine1: [''],
+      SubType: [''],
+      AddressLine1: ['',Validators.required],
       AddressLine2: [''],
       AddressLine3: [''],
       AddressLine4: [''],
@@ -295,7 +297,7 @@ export class ScenarioComponent implements OnInit {
 
       CareOfName: [''],
       CareOfReference: [''],
-      DxNumber: [0],
+      DxNumber: [''],
       DxExchange: [''],
 
       EmailAddress: ['', Validators.email]
@@ -344,6 +346,8 @@ export class ScenarioComponent implements OnInit {
     })
 
     this.representationGroup.get('Type')?.valueChanges.subscribe(res => {
+     
+      console.log("RES:",res);
       this.repType = res
 
       this.representationGroup.controls['Name'].clearValidators();
@@ -365,13 +369,14 @@ export class ScenarioComponent implements OnInit {
       if (res != 'LodgingConveyancer') {
         this.representationGroup.controls['Name'].setValidators([Validators.required]);
         this.representationGroup.controls['Reference'].setValidators([Validators.required]);
-        this.representationGroup.controls['CareOfName'].setValidators([Validators.required]);
-        this.representationGroup.controls['CareOfReference'].setValidators([Validators.required]);
+        //this.representationGroup.controls['CareOfName'].setValidators([Validators.required]);
+        //this.representationGroup.controls['CareOfReference'].setValidators([Validators.required]);
 
         if (this.representationGroup.controls['AddressType'].value == 'DXAddress') {
           this.representationGroup.controls['DxNumber'].setValidators([Validators.required]);
           this.representationGroup.controls['DxExchange'].setValidators([Validators.required]);
         } else {
+          
           this.representationGroup.controls['AddressLine1'].setValidators([Validators.required]);
         }
       }
@@ -862,32 +867,122 @@ export class ScenarioComponent implements OnInit {
     var insertObj: Party = {
 
     }
-    if (this.partyGroup.valid) {
-      insertObj = this.partyGroup.value;
-      insertObj.LocalId = this.supDocId++
-      insertObj.IsSelected = false;
-      insertObj.Addresses = [];
+    if (this.partyGroup.valid && this.mainPostalGroup.valid) {
 
-      let postalAddress: Address = this.mainPostalGroup.value;
-      let additionalAddress1: Address = this.address1Group.value;
-      let additionalAddress2: Address = this.address2Group.value;
+      var isValid=true;
 
-      insertObj.Addresses?.push(postalAddress);
-      insertObj.Addresses?.push(additionalAddress1);
-      insertObj.Addresses?.push(additionalAddress2);
+      debugger;
 
-      if (this.partyList.find(s => s.LocalId == this.selectedPartyId) == null) {
-        this.partyList.push(Object.assign({}, insertObj));
-      } else {
+      if(this.address1Group.controls.SubType.value=='post' ||this.address1Group.controls.SubType.value=='dx' || this.address1Group.controls.SubType.value=='email' ){
+        if(this.address1Type=='post'){
 
-        this.partyList = this.partyList.filter(s => s.LocalId != this.selectedPartyId);
-        insertObj.LocalId = this.selectedPartyId;
-        this.partyList.push(Object.assign({}, insertObj));
-        this.partyList = this.partyList.sort((a, b) => {
-          return a.LocalId! - b.LocalId!;
-        });
+          if(this.address1Group.controls.AddressLine1.status=='INVALID'){
+  
+            isValid=false;
+            this.toastr.warning('Please fill Address Line 1 in Additional Adddress 1')
+  
+          }
+  
+        }else if(this.address1Type=='dx'){
+  
+          if(this.address1Group.controls.DxNumber.status=='INVALID'){
+            isValid=false;
+            this.toastr.warning('Please fill DXNumber in Additional Adddress 1')
+  
+          }
+  
+          if(this.address1Group.controls.DxExchange.status=='INVALID'){
+  
+            isValid=false;
+            this.toastr.warning('Please fill DxExchange in Additional Adddress 1')
+  
+          }
+  
+        }else if(this.address1Type=='email'){
+  
+  
+          if(this.address1Group.controls.EmailAddress.status=='INVALID'){
+  
+            isValid=false;
+            this.toastr.warning('Please fill EmailAddress in Additional Adddress 1')
+  
+          }
+  
+        }
+
       }
-      this.ClearPartyFields(formDirective);
+
+      if(this.address2Group.controls.SubType.value=='post' ||this.address2Group.controls.SubType.value=='dx' || this.address2Group.controls.SubType.value=='email'){
+        if(this.address2Type=='post'){
+
+          if(this.address2Group.controls.AddressLine1.status=='INVALID'){
+  
+            isValid=false;
+            this.toastr.warning('Please fill Address Line 1 in Additional Adddress 2')
+  
+          }
+  
+        }else if(this.address2Type=='dx'){
+  
+          if(this.address2Group.controls.DxNumber.status=='INVALID'){
+  
+            isValid=false;
+            this.toastr.warning('Please fill DXNumber in Additional Adddress 2')
+  
+          }
+  
+          if(this.address2Group.controls.DxExchange.status=='INVALID'){
+  
+            isValid=false;
+            this.toastr.warning('Please fill DxExchange in Additional Adddress 2')
+  
+          }
+  
+        }else if(this.address2Type=='email'){
+  
+  
+          if(this.address2Group.controls.EmailAddress.status=='INVALID'){
+  
+            isValid=false;
+            this.toastr.warning('Please fill EmailAddress in Additional Adddress 2')
+  
+          }
+  
+        }
+
+      }
+
+      if(isValid){
+
+        insertObj = this.partyGroup.value;
+        insertObj.LocalId = this.supDocId++
+        insertObj.IsSelected = false;
+        insertObj.Addresses = [];
+  
+        let postalAddress: Address = this.mainPostalGroup.value;
+        let additionalAddress1: Address = this.address1Group.value;
+        let additionalAddress2: Address = this.address2Group.value;
+  
+        insertObj.Addresses?.push(postalAddress);
+        insertObj.Addresses?.push(additionalAddress1);
+        insertObj.Addresses?.push(additionalAddress2);
+  
+        if (this.partyList.find(s => s.LocalId == this.selectedPartyId) == null) {
+          this.partyList.push(Object.assign({}, insertObj));
+        } else {
+  
+          this.partyList = this.partyList.filter(s => s.LocalId != this.selectedPartyId);
+          insertObj.LocalId = this.selectedPartyId;
+          this.partyList.push(Object.assign({}, insertObj));
+          this.partyList = this.partyList.sort((a, b) => {
+            return a.LocalId! - b.LocalId!;
+          });
+        }
+        this.ClearPartyFields(formDirective);
+
+      }
+
+      
 
     }
   }
@@ -914,7 +1009,9 @@ export class ScenarioComponent implements OnInit {
 
     formDirective.resetForm();
     this.partyGroup.reset();
-
+    this.mainPostalGroup.reset();
+    this.address1Group.reset();
+    this.address2Group.reset();
     /*this.partyGroup.setValue({
       PartyType: true,
       IsApplicant: true,
