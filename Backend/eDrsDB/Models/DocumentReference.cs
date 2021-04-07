@@ -12,6 +12,8 @@ namespace eDrsDB.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long DocumentReferenceId { get; set; }
+
+        [Required]
         public string Reference { get; set; }
         public int TotalFeeInPence { get; set; }
         public string MessageID { get; set; }

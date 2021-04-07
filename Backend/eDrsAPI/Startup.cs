@@ -36,6 +36,7 @@ using FluentValidation.AspNetCore;
 using Hangfire;
 using LrApiManager.XMLClases;
 using LrApiManager.XMLClases.TransferOfPart;
+using Microsoft.OpenApi.Models;
 
 namespace eDrsAPI
 {
@@ -92,6 +93,16 @@ namespace eDrsAPI
             );
 
             services.AddAutoMapper(typeof(Startup)); // adding auto mapper profile
+
+            services.AddSwaggerGen(swagger =>
+            {
+                swagger.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Demo Employee API",
+                    Version = "v1.1",
+                    Description = "API to understand request and response schema.",
+                });
+            });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme) // adding Json Web Token
                 .AddJwtBearer(options =>
@@ -159,6 +170,13 @@ namespace eDrsAPI
                 endpoints.MapControllers();
                 endpoints.MapHub<SettingsHub>("/api/settings");
                 endpoints.MapHub<AttachmentHub>("/api/attachment");
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Demo Employee API");
             });
 
             //recurringJobManager.AddOrUpdate(
