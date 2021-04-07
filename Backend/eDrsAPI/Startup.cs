@@ -176,7 +176,7 @@ namespace eDrsAPI
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Demo Employee API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HM Land Registry");
             });
 
             //recurringJobManager.AddOrUpdate(
