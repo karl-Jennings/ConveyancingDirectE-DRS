@@ -351,8 +351,4 @@ MigrationBackup/
 
 Backend/eDrsAPI/appsettings.Development.json
 FrontEnd/src/environments/environment.ts
-Backend/eDrsAPI/appsettings.json
-Backend/eDrsAPI/appsettings.Development.json
-Backend/eDrsAPI/appsettings.Development.json
-Backend/eDrsAPI/appsettings.json
-Backend/eDrsAPI/appsettings.Development.json
+Backend/eDrsAPI/appsettings.json 
