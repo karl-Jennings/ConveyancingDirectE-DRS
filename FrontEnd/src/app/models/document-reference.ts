@@ -21,6 +21,7 @@ export class DocumentReference {
     ApplicationDate?: string;
     DisclosableOveridingInterests?: boolean;
     ApplicationAffects?: string;
+    IsApiSuccess?: string;
     RegistrationTypeId?: string;
     UserId?: number;
 

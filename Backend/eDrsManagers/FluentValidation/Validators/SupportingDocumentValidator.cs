@@ -12,15 +12,16 @@ namespace eDrsManagers.FluentValidation.Validators
         {
             RuleFor(x => x.DocumentType)
                 .NotNull().NotEmpty().WithMessage("DocumentType should not be Empty");
-
-            RuleFor(x => x.CertifiedCopy)
-                .NotNull().NotEmpty().WithMessage("CertifiedCopy should not be Empty");
-
+             
             RuleFor(x => x.AdditionalProviderFilter)
                 .NotNull().NotEmpty().WithMessage("AdditionalProviderFilter should not be Empty");
 
             When(x => x.DocumentType == "supDoc", () =>
             {
+
+                RuleFor(x => x.CertifiedCopy)
+                    .NotNull().NotEmpty().WithMessage("CertifiedCopy should not be Empty");
+
                 RuleFor(x => x.DocumentName)
                     .NotNull().NotEmpty().WithMessage("DocumentName should not be Empty");
 

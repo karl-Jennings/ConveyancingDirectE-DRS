@@ -32,6 +32,7 @@ namespace eDrsDB.Models
         public long RegistrationTypeId { get; set; }
         public RegistrationType RegistrationType { get; set; }
         public long UserId { get; set; }
+        public bool IsApiSuccess { get; set; }
 
         [JsonIgnore]
         public User User { get; set; }

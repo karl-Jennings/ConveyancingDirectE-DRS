@@ -9,13 +9,11 @@ using eDrsDB.Models;
 namespace eDrsManagers.ViewModels
 {
     public class DocumentReferenceViewModel
-    { 
+    {
         public long DocumentReferenceId { get; set; }
 
         [Required]
         public string Password { get; set; }
-
-        [Required]
         public string MessageID { get; set; }
 
         [Required]
@@ -26,7 +24,7 @@ namespace eDrsManagers.ViewModels
 
         [Required]
         [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }        
+        public string Email { get; set; }
 
         [Required]
         public long TelephoneNumber { get; set; }
@@ -69,6 +67,7 @@ namespace eDrsManagers.ViewModels
         public ICollection<Party> Parties { get; set; }
         public ICollection<RequestLog> RequestLogs { get; set; }
         public ICollection<Outstanding> Outstanding { get; set; }
+        public bool IsApiSuccess { get; set; }
 
 
     }
@@ -84,7 +83,7 @@ namespace eDrsManagers.ViewModels
                 return ValidationResult.Success;
             }
 
-            var msg = $"Please enter one of the allowable values: {string.Join(", ", (AllowableValues ?? new string[] { "No allowable values found" }))}.";
+            var msg = $"Please enter one of the allowable values: {string.Join(", ", AllowableValues ?? new[] { "No allowable values found" })}.";
             return new ValidationResult(msg);
         }
     }
