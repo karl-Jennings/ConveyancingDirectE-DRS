@@ -12,12 +12,25 @@ namespace eDrsDB.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long ApplicationFormId { get; set; }
 
+        [Required]
         public string Variety { get; set; }
+
+        [Required]
         public int Priority { get; set; }
+
+        [Required]
         public string Value { get; set; }
+
+        [Required]
         public int FeeInPence { get; set; }
+
+        [Required]
         public string Type { get; set; }
+
+        [Required]
         public string ExternalReference { get; set; }
+
+        [Required]
         public string CertifiedCopy { get; set; }
         public DateTime ChargeDate { get; set; }
         public string IsMdRef { get; set; }
@@ -28,6 +41,8 @@ namespace eDrsDB.Models
         public long DocumentReferenceId { get; set; }
         [JsonIgnore]
         public DocumentReference DocumentReference { get; set; }
+
+        [Required]
         public Document Document { get; set; }
 
     }

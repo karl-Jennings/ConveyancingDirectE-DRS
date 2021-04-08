@@ -98,7 +98,7 @@ namespace eDrsAPI
             {
                 swagger.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Demo Employee API",
+                    Title = "HM Land Registry - Electronic Document Registration Service API",
                     Version = "v1.1",
                     Description = "API to understand request and response schema.",
                 });
