@@ -471,9 +471,7 @@ namespace eDrsManagers.Managers
                             IsChecked = sup.IsChecked,
                             Notes = sup.Notes,
                             AdditionalProviderFilter = sup.AdditionalProviderFilter,
-                            ApplicationMessageId = sup.ApplicationMessageId,
-                            ApplicationService = sup.ApplicationService,
-                            ApplicationType = sup.ApplicationType,
+                            ApplicationMessageId = sup.ApplicationMessageId, 
                             Base64 = sup.Base64,
                             DocumentType = sup.DocumentType,
                             ExternalReference = sup.ExternalReference,
@@ -506,7 +504,7 @@ namespace eDrsManagers.Managers
                     })
                     .FirstOrDefault(s => s.Status && s.DocumentReferenceId == regId);
 
-            return documentReference;
+             return documentReference;
 
         }
 

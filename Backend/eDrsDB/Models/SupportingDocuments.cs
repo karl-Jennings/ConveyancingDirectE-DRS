@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text; 
+using System.Text;
 using Newtonsoft.Json;
 
 namespace eDrsDB.Models
@@ -31,12 +31,6 @@ namespace eDrsDB.Models
 
         [Required]
         public string ApplicationMessageId { get; set; }
-        public string ApplicationService { get; set; }
-
-
-        [Required]
-        public string ApplicationType { get; set; }
-
         [Required]
         public string DocumentType { get; set; }
 

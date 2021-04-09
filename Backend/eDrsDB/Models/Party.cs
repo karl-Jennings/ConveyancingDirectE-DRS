@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text; 
+using System.Text;
 using Newtonsoft.Json;
 
 namespace eDrsDB.Models
@@ -20,7 +20,6 @@ namespace eDrsDB.Models
         public string CompanyOrForeName { get; set; }
         public string Surname { get; set; }
 
-        [Required]
         public string Roles { get; set; }
 
         [Required]

@@ -31,6 +31,7 @@ export class DocumentReference {
     Parties?: Party[];
     RequestLogs?: RequestLogs[];
     Representations?: Representation[];
+    Outstanding: any;
 
 
 }

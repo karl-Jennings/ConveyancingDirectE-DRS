@@ -196,9 +196,9 @@ export class ScenarioComponent implements OnInit {
       MessageId: 1,
       ExternalReference: ['', Validators.required],
       ApplicationMessageId: ['', Validators.required],
-      ApplicationService: ['104'],
       //ApplicationType: ['', Validators.required],
 
+      DocumentId: [0],
       DocumentType: [this.supDocType, Validators.required],
 
       FileName: '',
@@ -206,7 +206,7 @@ export class ScenarioComponent implements OnInit {
       FileExtension: '',
 
       Notes: '',
-
+      IsChecked: true,
       LocalId: [0],
       IsSelected: [false],
       SupportingDocumentId: 0,
@@ -557,12 +557,12 @@ export class ScenarioComponent implements OnInit {
             insertObj.LocalId = that.appId++
             insertObj.IsSelected = false;
 
+
             documents = {
               DocumentId: insertObj.Document?.DocumentId == undefined ? 0 : insertObj.Document.DocumentId,
               ApplicationFormId: insertObj.Document?.ApplicationFormId == undefined ? 0 : insertObj.Document.ApplicationFormId,
               FileName: fileName, Base64: fileString, FileExtension: fileExtension
             };
-
             that.InsertDataToAppList(insertObj, documents, formDirective);
 
 
@@ -615,7 +615,7 @@ export class ScenarioComponent implements OnInit {
     this.selectedApplicationId = id
     this.applicationList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
     this.applicationList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
-
+    debugger
     var selectedObj: ApplicationForm = this.applicationList.find(s => s.LocalId == id)!;
     this.selectedApplicationId = selectedObj.LocalId;
     this.applicationGroup.setValue(selectedObj);
@@ -708,7 +708,6 @@ export class ScenarioComponent implements OnInit {
 
     }
 
-    debugger;
     //Add Supporting Documnet
     if (this.supportingDocGroup.valid && this.supDocType == "supDoc") {
 
@@ -771,16 +770,17 @@ export class ScenarioComponent implements OnInit {
   }
 
   SelectSupDocRow(id: any) {
+    debugger
     this.supDocSaveBtn = "Update"
     this.selectedsupportingDocId = id
     this.supportingDocList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
     this.supportingDocList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
 
-    var selectedObj: any = this.supportingDocList?.find(s => s.LocalId == id);
+    var selectedObj: SupportingDocuments = this.supportingDocList?.find(s => s.LocalId == id)!;
     this.selectedsupportingDocId = selectedObj.LocalId;
     this.supportingDocGroup.setValue(selectedObj);
     this.supDocfileName = ""
-    this.supDocfileName = selectedObj.FileName;
+    this.supDocfileName = selectedObj.FileName + "." + selectedObj.FileExtension;
   }
 
   // CLEAR SUPPORTING DOCUMENT FORM
@@ -809,8 +809,7 @@ export class ScenarioComponent implements OnInit {
       AdditionalProviderFilter: '',
       MessageId: 1,
       ExternalReference: '',
-      ApplicationMessageId: '',
-      ApplicationService: '104',
+      ApplicationMessageId: '', 
       //ApplicationType: '',
   
       DocumentType: [this.supDocType],
@@ -835,7 +834,6 @@ export class ScenarioComponent implements OnInit {
 
     this.supDocfileName = "";
     var fileToUpload: any = this.supportingDocumentfile!.nativeElement.files[0];
-
 
     /**** Uploading file if the type is Supporting Document */
 
@@ -1146,6 +1144,7 @@ export class ScenarioComponent implements OnInit {
     documentRef.Parties = JSON.parse(JSON.stringify(this.partyList));
     documentRef.RequestLogs = JSON.parse(JSON.stringify(this.logsList));
     documentRef.UserId = parseInt(localStorage.getItem("userId")!);
+    documentRef.Outstanding = undefined;
 
     if (documentRef.Titles?.length! < 1) {
       this.toastr.warning("Please add at least one Title", "Fields missing")
@@ -1186,7 +1185,10 @@ export class ScenarioComponent implements OnInit {
   }
 
   ShowResponse(res: any) {
-    if (res.IsSuccess) {
+    if (res == null) {
+      this.toastr.error("There was an error occured while trying to connect Land Registry API", "Error sending request")
+
+    } else if (res.IsSuccess) {
       const dialogRef = this.dialog.open(ConfirmRegistrationComponent, {
         data: { res }
       });
