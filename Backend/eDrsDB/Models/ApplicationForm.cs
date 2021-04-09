@@ -42,7 +42,7 @@ namespace eDrsDB.Models
 
         public long DocumentReferenceId { get; set; }
         [JsonIgnore]
-        public DocumentReference DocumentReference { get; set; }
+        internal DocumentReference DocumentReference { get; set; }
 
         [Required]
         public Document Document { get; set; }
@@ -73,7 +73,7 @@ namespace eDrsDB.Models
         public long ApplicationFormId { get; set; }
 
         [JsonIgnore]
-        public ApplicationForm ApplicationForm { get; set; }
+        internal ApplicationForm ApplicationForm { get; set; }
 
     }
 }

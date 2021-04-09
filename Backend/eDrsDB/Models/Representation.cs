@@ -25,7 +25,7 @@ namespace eDrsDB.Models
 
         public long DocumentReferenceId { get; set; }
         [JsonIgnore]
-        public DocumentReference DocumentReference { get; set; }
+        internal DocumentReference DocumentReference { get; set; }
 
 
         public string CareOfName { get; set; }

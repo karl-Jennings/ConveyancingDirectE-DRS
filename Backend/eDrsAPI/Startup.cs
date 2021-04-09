@@ -26,7 +26,6 @@ using System.Xml;
 using eDrsAPI.Controllers;
 using eDrsAPI.Swagger;
 using eDrsDB.Models;
-using eDrsManagers.ApiConverters;
 using eDrsManagers.FluentValidation;
 using eDrsManagers.FluentValidation.Validators;
 using eDrsManagers.Http;
@@ -138,7 +137,6 @@ namespace eDrsAPI
             services.AddScoped<ILogsManager, LogsManager>();
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IRegistration, Registration>();
-            services.AddScoped<IRestrictionConverter, RestrictionConverter>();
             services.AddScoped<IHttpEdrsCall, HttpEdrsCall>();
             services.AddScoped<IAttachmentManager, AttachmentManager>();
 
@@ -178,7 +176,7 @@ namespace eDrsAPI
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "HM Land Registry");
-                
+
             });
 
             //recurringJobManager.AddOrUpdate(

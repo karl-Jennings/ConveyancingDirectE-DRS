@@ -6,7 +6,6 @@ using BusinessGatewayModels;
 using BusinessGatewayRepositories.EDRSApplication;
 using eDrsDB.Data;
 using eDrsDB.Models;
-using eDrsManagers.ApiConverters;
 using eDrsManagers.Http;
 using eDrsManagers.Interfaces;
 using eDrsManagers.ViewModels;
@@ -24,13 +23,11 @@ namespace eDrsManagers.Managers
         private readonly PollRequestManager _pollRequestManager = new PollRequestManager();
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IRestrictionConverter _restrictionConverter;
 
-        public Registration(AppDbContext context, IMapper mapper, IRestrictionConverter restrictionConverter, IHttpEdrsCall httpInterceptor)
+        public Registration(AppDbContext context, IMapper mapper, IHttpEdrsCall httpInterceptor)
         {
             _context = context;
             _mapper = mapper;
-            _restrictionConverter = restrictionConverter;
             _httpInterceptor = httpInterceptor;
         }
 
@@ -471,7 +468,7 @@ namespace eDrsManagers.Managers
                             IsChecked = sup.IsChecked,
                             Notes = sup.Notes,
                             AdditionalProviderFilter = sup.AdditionalProviderFilter,
-                            ApplicationMessageId = sup.ApplicationMessageId, 
+                            ApplicationMessageId = sup.ApplicationMessageId,
                             Base64 = sup.Base64,
                             DocumentType = sup.DocumentType,
                             ExternalReference = sup.ExternalReference,
@@ -504,7 +501,7 @@ namespace eDrsManagers.Managers
                     })
                     .FirstOrDefault(s => s.Status && s.DocumentReferenceId == regId);
 
-             return documentReference;
+            return documentReference;
 
         }
 

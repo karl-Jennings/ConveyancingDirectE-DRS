@@ -34,7 +34,7 @@ namespace eDrsDB.Models
 
         public long PartyId { get; set; }
         [JsonIgnore]
-        public Party Party { get; set; }
+        internal Party Party { get; set; }
 
 
 

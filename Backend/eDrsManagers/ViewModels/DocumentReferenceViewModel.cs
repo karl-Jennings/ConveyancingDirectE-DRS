@@ -51,7 +51,7 @@ namespace eDrsManagers.ViewModels
         public RegistrationType RegistrationType { get; set; }
         public long UserId { get; set; }
 
-        public User User { get; set; }
+        internal User User { get; set; }
 
         [Required]
         public ICollection<TitleNumber> Titles { get; set; }

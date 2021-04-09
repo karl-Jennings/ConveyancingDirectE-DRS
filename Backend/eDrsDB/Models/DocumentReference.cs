@@ -35,7 +35,7 @@ namespace eDrsDB.Models
         public bool IsApiSuccess { get; set; }
 
         [JsonIgnore]
-        public User User { get; set; }
+        internal User User { get; set; }
 
 
         public ICollection<TitleNumber> Titles { get; set; }
