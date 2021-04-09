@@ -24,6 +24,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using System.Xml;
 using eDrsAPI.Controllers;
+using eDrsAPI.Swagger;
 using eDrsDB.Models;
 using eDrsManagers.ApiConverters;
 using eDrsManagers.FluentValidation;
@@ -177,6 +178,7 @@ namespace eDrsAPI
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "HM Land Registry");
+                
             });
 
             //recurringJobManager.AddOrUpdate(
