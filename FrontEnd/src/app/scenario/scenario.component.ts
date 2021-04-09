@@ -416,7 +416,11 @@ export class ScenarioComponent implements OnInit {
 
   PopulateAllFields() {
     if (this.docRefId != 0) {
-      this.registrationService.GetRegistration(this.docRefId).subscribe(res => {
+      this.showProgress = CommonUtils.showProgress(this.dialog);
+
+      this.registrationService.GetRegistration(this.docRefId).pipe(
+        finalize(() => this.showProgress.close())
+      ).subscribe(res => {
         this.documentReferenceGroup = this.formBuilder.group(res);
 
         this.titleList = res.Titles ?? [];
@@ -775,6 +779,8 @@ export class ScenarioComponent implements OnInit {
     var selectedObj: any = this.supportingDocList?.find(s => s.LocalId == id);
     this.selectedsupportingDocId = selectedObj.LocalId;
     this.supportingDocGroup.setValue(selectedObj);
+    this.supDocfileName = ""
+    this.supDocfileName = selectedObj.FileName;
   }
 
   // CLEAR SUPPORTING DOCUMENT FORM
@@ -956,7 +962,7 @@ export class ScenarioComponent implements OnInit {
         insertObj.LocalId = this.supDocId++
         insertObj.IsSelected = false;
         insertObj.Addresses = [];
-        debugger
+
         let postalAddress: Address = this.mainPostalGroup.value;
         let additionalAddress1: Address = this.address1Group.value;
         let additionalAddress2: Address = this.address2Group.value;
