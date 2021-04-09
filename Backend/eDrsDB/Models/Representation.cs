@@ -13,9 +13,14 @@ namespace eDrsDB.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long RepresentationId { get; set; }
 
+        [Required]
         public string Type { get; set; }
+
+        [Required]
         public long RepresentativeId { get; set; }
         public string Name { get; set; }
+
+        [Required]
         public string Reference { get; set; }
         public string AddressType { get; set; }
 

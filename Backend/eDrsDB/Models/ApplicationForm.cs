@@ -33,6 +33,8 @@ namespace eDrsDB.Models
         [Required]
         public string CertifiedCopy { get; set; }
         public DateTime ChargeDate { get; set; }
+
+        [Required]
         public string IsMdRef { get; set; }
         public string SortCode { get; set; }
         public string MdRef { get; set; }
@@ -51,15 +53,25 @@ namespace eDrsDB.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
+        [Required]
         public long DocumentId { get; set; }
+
+        [Required]
         public long AttachmentId { get; set; }
 
         [MaxLength]
+        [Required]
         public string Base64 { get; set; }
+
+        [Required]
         public string FileName { get; set; }
+
+        [Required]
         public string FileExtension { get; set; }
 
         public long ApplicationFormId { get; set; }
+
         [JsonIgnore]
         public ApplicationForm ApplicationForm { get; set; }
 
