@@ -13,11 +13,20 @@ namespace eDrsDB.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long PartyId { get; set; }
 
+        [Required]
         public bool IsApplicant { get; set; }
+
+        [Required]
         public string CompanyOrForeName { get; set; }
         public string Surname { get; set; }
+
+        [Required]
         public string Roles { get; set; }
+
+        [Required]
         public List<string> ViewModelRoles { get; set; }
+
+        [Required]
         public string PartyType { get; set; }
         public string AddressForService { get; set; }
 

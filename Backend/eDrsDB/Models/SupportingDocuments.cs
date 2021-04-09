@@ -13,17 +13,31 @@ namespace eDrsDB.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long SupportingDocumentId { get; set; }
 
+        [Required]
         public string CertifiedCopy { get; set; }
+
+        [Required]
         public long DocumentId { get; set; }
+
+        [Required]
         public string DocumentName { get; set; }
 
+        [Required]
         public string AdditionalProviderFilter { get; set; }
         public long MessageId { get; set; }
+
+        [Required]
         public string ExternalReference { get; set; }
+
+        [Required]
         public string ApplicationMessageId { get; set; }
         public string ApplicationService { get; set; }
 
+
+        [Required]
         public string ApplicationType { get; set; }
+
+        [Required]
         public string DocumentType { get; set; }
 
         public string Notes { get; set; }
@@ -32,6 +46,7 @@ namespace eDrsDB.Models
         public string Base64 { get; set; }
         public string FileName { get; set; }
         public string FileExtension { get; set; }
+
 
         public bool IsChecked { get; set; }
 
