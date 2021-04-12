@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text; 
+using System.Text;
 using Newtonsoft.Json;
 
 namespace eDrsDB.Models
@@ -13,17 +13,25 @@ namespace eDrsDB.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long SupportingDocumentId { get; set; }
 
+        [Required]
         public string CertifiedCopy { get; set; }
+
+        [Required]
         public long DocumentId { get; set; }
+
+        [Required]
         public string DocumentName { get; set; }
 
+        [Required]
         public string AdditionalProviderFilter { get; set; }
         public long MessageId { get; set; }
-        public string ExternalReference { get; set; }
-        public string ApplicationMessageId { get; set; }
-        public string ApplicationService { get; set; }
 
-        public string ApplicationType { get; set; }
+        [Required]
+        public string ExternalReference { get; set; }
+
+        [Required]
+        public string ApplicationMessageId { get; set; }
+        [Required]
         public string DocumentType { get; set; }
 
         public string Notes { get; set; }
@@ -33,11 +41,12 @@ namespace eDrsDB.Models
         public string FileName { get; set; }
         public string FileExtension { get; set; }
 
+
         public bool IsChecked { get; set; }
 
         public long DocumentReferenceId { get; set; }
         [JsonIgnore]
-        public DocumentReference DocumentReference { get; set; }
+        internal DocumentReference DocumentReference { get; set; }
 
     }
 }

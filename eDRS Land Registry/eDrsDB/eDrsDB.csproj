@@ -56,32 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\AggregatedCounter.cs" />
-    <Compile Include="Models\ApplicationForm.cs" />
-    <Compile Include="Models\Counter.cs" />
-    <Compile Include="Models\C__EFMigrationsHistory.cs" />
-    <Compile Include="Models\Document.cs" />
-    <Compile Include="Models\DocumentReference.cs" />
-    <Compile Include="Models\ErrorLog.cs" />
-    <Compile Include="Models\Hash.cs" />
-    <Compile Include="Models\Job.cs" />
-    <Compile Include="Models\JobParameter.cs" />
-    <Compile Include="Models\JobQueue.cs" />
-    <Compile Include="Models\List.cs" />
-    <Compile Include="Models\LrCredential.cs" />
-    <Compile Include="Models\Model1.cs" />
-    <Compile Include="Models\Outstanding.cs" />
-    <Compile Include="Models\Party.cs" />
-    <Compile Include="Models\RegistrationType.cs" />
-    <Compile Include="Models\Representation.cs" />
-    <Compile Include="Models\RequestLog.cs" />
-    <Compile Include="Models\Schema.cs" />
-    <Compile Include="Models\Server.cs" />
-    <Compile Include="Models\Set.cs" />
-    <Compile Include="Models\State.cs" />
-    <Compile Include="Models\SupportingDocument.cs" />
-    <Compile Include="Models\TitleNumber.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Password\PasswordManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

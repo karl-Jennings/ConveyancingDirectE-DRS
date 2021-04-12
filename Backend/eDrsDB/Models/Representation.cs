@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text; 
+using System.Text;
 using Newtonsoft.Json;
 
 namespace eDrsDB.Models
@@ -13,15 +13,19 @@ namespace eDrsDB.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long RepresentationId { get; set; }
 
+        [Required]
         public string Type { get; set; }
+
+        [Required]
         public long RepresentativeId { get; set; }
         public string Name { get; set; }
+
         public string Reference { get; set; }
         public string AddressType { get; set; }
 
         public long DocumentReferenceId { get; set; }
         [JsonIgnore]
-        public DocumentReference DocumentReference { get; set; }
+        internal DocumentReference DocumentReference { get; set; }
 
 
         public string CareOfName { get; set; }

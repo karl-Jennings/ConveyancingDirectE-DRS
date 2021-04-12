@@ -4,9 +4,8 @@ using System.Linq;
 using AutoMapper;
 using BusinessGatewayModels;
 using BusinessGatewayRepositories.EDRSApplication;
-using eDrsDB.Data; 
+using eDrsDB.Data;
 using eDrsDB.Models;
-using eDrsManagers.ApiConverters;
 using eDrsManagers.Http;
 using eDrsManagers.Interfaces;
 using eDrsManagers.ViewModels;
@@ -24,13 +23,11 @@ namespace eDrsManagers.Managers
         private readonly PollRequestManager _pollRequestManager = new PollRequestManager();
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IRestrictionConverter _restrictionConverter;
 
-        public Registration(AppDbContext context, IMapper mapper, IRestrictionConverter restrictionConverter, IHttpEdrsCall httpInterceptor)
+        public Registration(AppDbContext context, IMapper mapper, IHttpEdrsCall httpInterceptor)
         {
             _context = context;
             _mapper = mapper;
-            _restrictionConverter = restrictionConverter;
             _httpInterceptor = httpInterceptor;
         }
 
@@ -58,7 +55,6 @@ namespace eDrsManagers.Managers
 
             viewModel.MessageID = Guid.NewGuid().ToString();
 
-            //_context.SaveChanges();
             viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
 
             if (viewModel.Representations == null)
@@ -67,28 +63,35 @@ namespace eDrsManagers.Managers
                 viewModel.Representations.Add(new Representation() { RepresentativeId = 1 });
             }
 
+            var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
+
+            _context.DocumentReferences.Add(model);
+
+            _context.SaveChanges();
+
+
             /********** Calling LR Api backend ***********/
             var requestLog = _httpInterceptor.CallRegistrationApi(viewModel);
-            requestLog.DocumentReferenceId = viewModel.DocumentReferenceId;
             /********** Calling LR Api backend ***********/
 
-
-            var requestLogList = requestLog.AttachmentResponse;
-
-            if (requestLogList != null)
+            if (requestLog == null)
             {
-
-
-                requestLogList.ForEach(s => { viewModel.RequestLogs.Add(s); });
-                viewModel.RequestLogs.Add(requestLog);
-                var model = _mapper.Map<DocumentReferenceViewModel, eDrsDB.Models.DocumentReference>(viewModel);
-                _context.DocumentReferences.Add(model);
-
-                if (requestLog.IsSuccess)
+                model.IsApiSuccess = false;
+            }
+            else
+            {
+                model.IsApiSuccess = true;
+                requestLog.DocumentReferenceId = model.DocumentReferenceId;
+                var requestLogList = requestLog.AttachmentResponse;
+                if (requestLogList != null)
                 {
-                    _context.SaveChanges();
+                    requestLogList.ForEach(s => { model.RequestLogs.Add(s); });
+                    model.RequestLogs.Add(requestLog);
                 }
             }
+
+            _context.SaveChanges();
+
 
             return requestLog;
 
@@ -141,21 +144,23 @@ namespace eDrsManagers.Managers
             _context.DocumentReferences.Update(model);
 
             var requestLog = _httpInterceptor.CallRegistrationApi(viewModel);
-            requestLog.DocumentReferenceId = viewModel.DocumentReferenceId;
 
-            var requestLogList = requestLog.AttachmentResponse;
-            requestLogList.ForEach(s =>
+            if (requestLog == null)
             {
-                model.RequestLogs.Add(s);
-            });
-            model.RequestLogs.Add(requestLog);
-
-
-            if (requestLog.IsSuccess)
-            {
-                _context.SaveChanges();
+                model.IsApiSuccess = false;
             }
+            else
+            {
+                requestLog.DocumentReferenceId = viewModel.DocumentReferenceId;
 
+                var requestLogList = requestLog.AttachmentResponse;
+                requestLogList.ForEach(s =>
+                {
+                    model.RequestLogs.Add(s);
+                });
+                model.RequestLogs.Add(requestLog);
+            }
+            _context.SaveChanges();
             return requestLog;
 
         }
@@ -464,8 +469,6 @@ namespace eDrsManagers.Managers
                             Notes = sup.Notes,
                             AdditionalProviderFilter = sup.AdditionalProviderFilter,
                             ApplicationMessageId = sup.ApplicationMessageId,
-                            ApplicationService = sup.ApplicationService,
-                            ApplicationType = sup.ApplicationType,
                             Base64 = sup.Base64,
                             DocumentType = sup.DocumentType,
                             ExternalReference = sup.ExternalReference,

@@ -24,8 +24,8 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using System.Xml;
 using eDrsAPI.Controllers;
+using eDrsAPI.Swagger;
 using eDrsDB.Models;
-using eDrsManagers.ApiConverters;
 using eDrsManagers.FluentValidation;
 using eDrsManagers.FluentValidation.Validators;
 using eDrsManagers.Http;
@@ -36,6 +36,7 @@ using FluentValidation.AspNetCore;
 using Hangfire;
 using LrApiManager.XMLClases;
 using LrApiManager.XMLClases.TransferOfPart;
+using Microsoft.OpenApi.Models;
 
 namespace eDrsAPI
 {
@@ -93,6 +94,16 @@ namespace eDrsAPI
 
             services.AddAutoMapper(typeof(Startup)); // adding auto mapper profile
 
+            services.AddSwaggerGen(swagger =>
+            {
+                swagger.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "HM Land Registry - Electronic Document Registration Service API",
+                    Version = "v1.1",
+                    Description = "API to understand request and response schema.",
+                });
+            });
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme) // adding Json Web Token
                 .AddJwtBearer(options =>
                 {
@@ -126,7 +137,6 @@ namespace eDrsAPI
             services.AddScoped<ILogsManager, LogsManager>();
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IRegistration, Registration>();
-            services.AddScoped<IRestrictionConverter, RestrictionConverter>();
             services.AddScoped<IHttpEdrsCall, HttpEdrsCall>();
             services.AddScoped<IAttachmentManager, AttachmentManager>();
 
@@ -159,6 +169,14 @@ namespace eDrsAPI
                 endpoints.MapControllers();
                 endpoints.MapHub<SettingsHub>("/api/settings");
                 endpoints.MapHub<AttachmentHub>("/api/attachment");
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HM Land Registry");
+
             });
 
             //recurringJobManager.AddOrUpdate(

@@ -131,30 +131,33 @@ namespace eDRS_Land_Registry.ApiConverters
             {
                 if (x.Type == "RepresentingConveyancer")
                 {
+                    CareOfAddressType tempDx = new DXAddressType()
+                    {
+                        DXNumber = x.DxNumber,
+                        DXExchange = x.DxExchange,
+                        CareOfName = x.CareOfName,
+                        CareOfReference = x.CareOfReference
+                    };
+                    CareOfAddressType tempPostal = new PostalAddressType()
+                    {
+                        CareOfName = x.CareOfName,
+                        CareOfReference = x.CareOfReference,
+                        AddressLine1 = x.AddressLine1,
+                        AddressLine2 = x.AddressLine1,
+                        AddressLine3 = x.AddressLine1,
+                        AddressLine4 = x.AddressLine1,
+                        City = x.City,
+                        Country = x.Country,
+                        County = x.County,
+                        Postcode = x.AddressLine1
+                    };
+
                     representingConveyancerTypes.Add(new RepresentingConveyancerType
                     {
                         ConveyancerName = x.Name,
                         Reference = x.Reference,
                         RepresentativeId = x.RepresentativeId.ToString(),
-                        Item = (x.AddressType == "DXAddress") ? new DXAddressType()
-                        {
-                            DXNumber = x.DxNumber,
-                            DXExchange = x.DxExchange,
-                            CareOfName = x.CareOfName,
-                            CareOfReference = x.CareOfReference
-                        } : new PostalAddressType()
-                        {
-                            CareOfName = x.CareOfName,
-                            CareOfReference = x.CareOfReference,
-                            AddressLine1 = x.AddressLine1,
-                            AddressLine2 = x.AddressLine1,
-                            AddressLine3 = x.AddressLine1,
-                            AddressLine4 = x.AddressLine1,
-                            City = x.City,
-                            Country = x.Country,
-                            County = x.County,
-                            Postcode = x.AddressLine1
-                        }
+                        Item = x.AddressType == "DXAddress" ? tempDx : tempPostal
                     });
                 }
                 else if (x.Type == "LodgingConveyancer")

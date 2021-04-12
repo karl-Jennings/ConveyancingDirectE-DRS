@@ -12,6 +12,8 @@ namespace eDrsDB.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long DocumentReferenceId { get; set; }
+
+        [Required]
         public string Reference { get; set; }
         public int TotalFeeInPence { get; set; }
         public string MessageID { get; set; }
@@ -30,9 +32,10 @@ namespace eDrsDB.Models
         public long RegistrationTypeId { get; set; }
         public RegistrationType RegistrationType { get; set; }
         public long UserId { get; set; }
+        public bool IsApiSuccess { get; set; }
 
         [JsonIgnore]
-        public User User { get; set; }
+        internal User User { get; set; }
 
 
         public ICollection<TitleNumber> Titles { get; set; }

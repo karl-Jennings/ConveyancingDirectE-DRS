@@ -21,6 +21,7 @@ export class DocumentReference {
     ApplicationDate?: string;
     DisclosableOveridingInterests?: boolean;
     ApplicationAffects?: string;
+    IsApiSuccess?: string;
     RegistrationTypeId?: string;
     UserId?: number;
 
@@ -30,6 +31,7 @@ export class DocumentReference {
     Parties?: Party[];
     RequestLogs?: RequestLogs[];
     Representations?: Representation[];
+    Outstanding: any;
 
 
 }

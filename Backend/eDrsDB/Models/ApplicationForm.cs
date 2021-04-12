@@ -12,14 +12,29 @@ namespace eDrsDB.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long ApplicationFormId { get; set; }
 
+        [Required]
         public string Variety { get; set; }
+
+        [Required]
         public int Priority { get; set; }
+
+        [Required]
         public string Value { get; set; }
+
+        [Required]
         public int FeeInPence { get; set; }
+
+        [Required]
         public string Type { get; set; }
+
+        [Required]
         public string ExternalReference { get; set; }
+
+        [Required]
         public string CertifiedCopy { get; set; }
         public DateTime ChargeDate { get; set; }
+
+        [Required]
         public string IsMdRef { get; set; }
         public string SortCode { get; set; }
         public string MdRef { get; set; }
@@ -27,7 +42,9 @@ namespace eDrsDB.Models
 
         public long DocumentReferenceId { get; set; }
         [JsonIgnore]
-        public DocumentReference DocumentReference { get; set; }
+        internal DocumentReference DocumentReference { get; set; }
+
+        [Required]
         public Document Document { get; set; }
 
     }
@@ -36,17 +53,27 @@ namespace eDrsDB.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
+        [Required]
         public long DocumentId { get; set; }
+
+        [Required]
         public long AttachmentId { get; set; }
 
         [MaxLength]
+        [Required]
         public string Base64 { get; set; }
+
+        [Required]
         public string FileName { get; set; }
+
+        [Required]
         public string FileExtension { get; set; }
 
         public long ApplicationFormId { get; set; }
+
         [JsonIgnore]
-        public ApplicationForm ApplicationForm { get; set; }
+        internal ApplicationForm ApplicationForm { get; set; }
 
     }
 }

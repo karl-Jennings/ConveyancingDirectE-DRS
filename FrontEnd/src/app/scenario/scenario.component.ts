@@ -196,9 +196,9 @@ export class ScenarioComponent implements OnInit {
       MessageId: 1,
       ExternalReference: ['', Validators.required],
       ApplicationMessageId: ['', Validators.required],
-      ApplicationService: ['104'],
       //ApplicationType: ['', Validators.required],
 
+      DocumentId: [0],
       DocumentType: [this.supDocType, Validators.required],
 
       FileName: '',
@@ -206,7 +206,7 @@ export class ScenarioComponent implements OnInit {
       FileExtension: '',
 
       Notes: '',
-
+      IsChecked: true,
       LocalId: [0],
       IsSelected: [false],
       SupportingDocumentId: 0,
@@ -231,7 +231,7 @@ export class ScenarioComponent implements OnInit {
       DxNumber: [''],
       DxExchange: [''],
 
-      AddressLine1:['']
+      AddressLine1: ['']
 
 
     });
@@ -241,7 +241,7 @@ export class ScenarioComponent implements OnInit {
 
       Type: ['main'],
       SubType: ['post'],
-      AddressLine1: ['',Validators.required],
+      AddressLine1: ['', Validators.required],
       AddressLine2: [''],
       AddressLine3: [''],
       AddressLine4: [''],
@@ -264,7 +264,7 @@ export class ScenarioComponent implements OnInit {
 
       Type: ['ad1'],
       SubType: [''],
-      AddressLine1: ['',Validators.required],
+      AddressLine1: ['', Validators.required],
       AddressLine2: [''],
       AddressLine3: [''],
       AddressLine4: [''],
@@ -286,7 +286,7 @@ export class ScenarioComponent implements OnInit {
 
       Type: ['ad2'],
       SubType: [''],
-      AddressLine1: ['',Validators.required],
+      AddressLine1: ['', Validators.required],
       AddressLine2: [''],
       AddressLine3: [''],
       AddressLine4: [''],
@@ -346,8 +346,8 @@ export class ScenarioComponent implements OnInit {
     })
 
     this.representationGroup.get('Type')?.valueChanges.subscribe(res => {
-     
-      console.log("RES:",res);
+
+      console.log("RES:", res);
       this.repType = res
 
       this.representationGroup.controls['Name'].clearValidators();
@@ -376,7 +376,7 @@ export class ScenarioComponent implements OnInit {
           this.representationGroup.controls['DxNumber'].setValidators([Validators.required]);
           this.representationGroup.controls['DxExchange'].setValidators([Validators.required]);
         } else {
-          
+
           this.representationGroup.controls['AddressLine1'].setValidators([Validators.required]);
         }
       }
@@ -416,7 +416,11 @@ export class ScenarioComponent implements OnInit {
 
   PopulateAllFields() {
     if (this.docRefId != 0) {
-      this.registrationService.GetRegistration(this.docRefId).subscribe(res => {
+      this.showProgress = CommonUtils.showProgress(this.dialog);
+
+      this.registrationService.GetRegistration(this.docRefId).pipe(
+        finalize(() => this.showProgress.close())
+      ).subscribe(res => {
         this.documentReferenceGroup = this.formBuilder.group(res);
 
         this.titleList = res.Titles ?? [];
@@ -553,12 +557,12 @@ export class ScenarioComponent implements OnInit {
             insertObj.LocalId = that.appId++
             insertObj.IsSelected = false;
 
+
             documents = {
               DocumentId: insertObj.Document?.DocumentId == undefined ? 0 : insertObj.Document.DocumentId,
               ApplicationFormId: insertObj.Document?.ApplicationFormId == undefined ? 0 : insertObj.Document.ApplicationFormId,
               FileName: fileName, Base64: fileString, FileExtension: fileExtension
             };
-
             that.InsertDataToAppList(insertObj, documents, formDirective);
 
 
@@ -611,7 +615,7 @@ export class ScenarioComponent implements OnInit {
     this.selectedApplicationId = id
     this.applicationList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
     this.applicationList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
-
+    debugger
     var selectedObj: ApplicationForm = this.applicationList.find(s => s.LocalId == id)!;
     this.selectedApplicationId = selectedObj.LocalId;
     this.applicationGroup.setValue(selectedObj);
@@ -704,7 +708,6 @@ export class ScenarioComponent implements OnInit {
 
     }
 
-    debugger;
     //Add Supporting Documnet
     if (this.supportingDocGroup.valid && this.supDocType == "supDoc") {
 
@@ -767,14 +770,17 @@ export class ScenarioComponent implements OnInit {
   }
 
   SelectSupDocRow(id: any) {
+    debugger
     this.supDocSaveBtn = "Update"
     this.selectedsupportingDocId = id
     this.supportingDocList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
     this.supportingDocList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
 
-    var selectedObj: any = this.supportingDocList?.find(s => s.LocalId == id);
+    var selectedObj: SupportingDocuments = this.supportingDocList?.find(s => s.LocalId == id)!;
     this.selectedsupportingDocId = selectedObj.LocalId;
     this.supportingDocGroup.setValue(selectedObj);
+    this.supDocfileName = ""
+    this.supDocfileName = selectedObj.FileName + "." + selectedObj.FileExtension;
   }
 
   // CLEAR SUPPORTING DOCUMENT FORM
@@ -803,8 +809,7 @@ export class ScenarioComponent implements OnInit {
       AdditionalProviderFilter: '',
       MessageId: 1,
       ExternalReference: '',
-      ApplicationMessageId: '',
-      ApplicationService: '104',
+      ApplicationMessageId: '', 
       //ApplicationType: '',
   
       DocumentType: [this.supDocType],
@@ -829,7 +834,6 @@ export class ScenarioComponent implements OnInit {
 
     this.supDocfileName = "";
     var fileToUpload: any = this.supportingDocumentfile!.nativeElement.files[0];
-
 
     /**** Uploading file if the type is Supporting Document */
 
@@ -869,108 +873,106 @@ export class ScenarioComponent implements OnInit {
     }
     if (this.partyGroup.valid && this.mainPostalGroup.valid) {
 
-      var isValid=true;
+      var isValid = true;
 
-      debugger;
+      if (this.address1Group.controls.SubType.value == 'post' || this.address1Group.controls.SubType.value == 'dx' || this.address1Group.controls.SubType.value == 'email') {
+        if (this.address1Type == 'post') {
 
-      if(this.address1Group.controls.SubType.value=='post' ||this.address1Group.controls.SubType.value=='dx' || this.address1Group.controls.SubType.value=='email' ){
-        if(this.address1Type=='post'){
+          if (this.address1Group.controls.AddressLine1.status == 'INVALID') {
 
-          if(this.address1Group.controls.AddressLine1.status=='INVALID'){
-  
-            isValid=false;
+            isValid = false;
             this.toastr.warning('Please fill Address Line 1 in Additional Adddress 1')
-  
+
           }
-  
-        }else if(this.address1Type=='dx'){
-  
-          if(this.address1Group.controls.DxNumber.status=='INVALID'){
-            isValid=false;
+
+        } else if (this.address1Type == 'dx') {
+
+          if (this.address1Group.controls.DxNumber.status == 'INVALID') {
+            isValid = false;
             this.toastr.warning('Please fill DXNumber in Additional Adddress 1')
-  
+
           }
-  
-          if(this.address1Group.controls.DxExchange.status=='INVALID'){
-  
-            isValid=false;
+
+          if (this.address1Group.controls.DxExchange.status == 'INVALID') {
+
+            isValid = false;
             this.toastr.warning('Please fill DxExchange in Additional Adddress 1')
-  
+
           }
-  
-        }else if(this.address1Type=='email'){
-  
-  
-          if(this.address1Group.controls.EmailAddress.status=='INVALID'){
-  
-            isValid=false;
+
+        } else if (this.address1Type == 'email') {
+
+
+          if (this.address1Group.controls.EmailAddress.status == 'INVALID') {
+
+            isValid = false;
             this.toastr.warning('Please fill EmailAddress in Additional Adddress 1')
-  
+
           }
-  
+
         }
 
       }
 
-      if(this.address2Group.controls.SubType.value=='post' ||this.address2Group.controls.SubType.value=='dx' || this.address2Group.controls.SubType.value=='email'){
-        if(this.address2Type=='post'){
+      if (this.address2Group.controls.SubType.value == 'post' || this.address2Group.controls.SubType.value == 'dx' || this.address2Group.controls.SubType.value == 'email') {
+        if (this.address2Type == 'post') {
 
-          if(this.address2Group.controls.AddressLine1.status=='INVALID'){
-  
-            isValid=false;
+          if (this.address2Group.controls.AddressLine1.status == 'INVALID') {
+
+            isValid = false;
             this.toastr.warning('Please fill Address Line 1 in Additional Adddress 2')
-  
+
           }
-  
-        }else if(this.address2Type=='dx'){
-  
-          if(this.address2Group.controls.DxNumber.status=='INVALID'){
-  
-            isValid=false;
+
+        } else if (this.address2Type == 'dx') {
+
+          if (this.address2Group.controls.DxNumber.status == 'INVALID') {
+
+            isValid = false;
             this.toastr.warning('Please fill DXNumber in Additional Adddress 2')
-  
+
           }
-  
-          if(this.address2Group.controls.DxExchange.status=='INVALID'){
-  
-            isValid=false;
+
+          if (this.address2Group.controls.DxExchange.status == 'INVALID') {
+
+            isValid = false;
             this.toastr.warning('Please fill DxExchange in Additional Adddress 2')
-  
+
           }
-  
-        }else if(this.address2Type=='email'){
-  
-  
-          if(this.address2Group.controls.EmailAddress.status=='INVALID'){
-  
-            isValid=false;
+
+        } else if (this.address2Type == 'email') {
+
+
+          if (this.address2Group.controls.EmailAddress.status == 'INVALID') {
+
+            isValid = false;
             this.toastr.warning('Please fill EmailAddress in Additional Adddress 2')
-  
+
           }
-  
+
         }
 
       }
 
-      if(isValid){
+      if (isValid) {
 
         insertObj = this.partyGroup.value;
         insertObj.LocalId = this.supDocId++
         insertObj.IsSelected = false;
         insertObj.Addresses = [];
-  
+
         let postalAddress: Address = this.mainPostalGroup.value;
         let additionalAddress1: Address = this.address1Group.value;
         let additionalAddress2: Address = this.address2Group.value;
-  
+
         insertObj.Addresses?.push(postalAddress);
         insertObj.Addresses?.push(additionalAddress1);
         insertObj.Addresses?.push(additionalAddress2);
-  
+
         if (this.partyList.find(s => s.LocalId == this.selectedPartyId) == null) {
           this.partyList.push(Object.assign({}, insertObj));
         } else {
-  
+
           this.partyList = this.partyList.filter(s => s.LocalId != this.selectedPartyId);
           insertObj.LocalId = this.selectedPartyId;
           this.partyList.push(Object.assign({}, insertObj));
@@ -982,7 +984,7 @@ export class ScenarioComponent implements OnInit {
 
       }
 
-      
+
 
     }
   }
@@ -1142,8 +1144,7 @@ export class ScenarioComponent implements OnInit {
     documentRef.Parties = JSON.parse(JSON.stringify(this.partyList));
     documentRef.RequestLogs = JSON.parse(JSON.stringify(this.logsList));
     documentRef.UserId = parseInt(localStorage.getItem("userId")!);
-
-
+    documentRef.Outstanding = undefined;
 
     if (documentRef.Titles?.length! < 1) {
       this.toastr.warning("Please add at least one Title", "Fields missing")
@@ -1165,11 +1166,9 @@ export class ScenarioComponent implements OnInit {
         this.registrationService.CreateRegistration(documentRef).pipe(
           finalize(() => this.showProgress.close())
         ).subscribe((res) => {
-
           this.ShowResponse(res);
         }, () => {
           this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed");
-
         });
       } else {
         this.registrationService.UpdateRegistration(documentRef).pipe(
@@ -1186,9 +1185,11 @@ export class ScenarioComponent implements OnInit {
   }
 
   ShowResponse(res: any) {
-    if (res.IsSuccess) {
-      const dialogRef = this.dialog.open(ConfirmRegistrationComponent, {
+    if (res == null) {
+      this.toastr.error("There was an error occured while trying to connect Land Registry API", "Error sending request")
 
+    } else if (res.IsSuccess) {
+      const dialogRef = this.dialog.open(ConfirmRegistrationComponent, {
         data: { res }
       });
       dialogRef.afterClosed().subscribe(() => {
@@ -1197,7 +1198,6 @@ export class ScenarioComponent implements OnInit {
     } else {
       this.toastr.error("There was an error occured while trying to connect, please check all fields again", "Error sending request")
     }
-
   }
 
   SendPoolRequest() {

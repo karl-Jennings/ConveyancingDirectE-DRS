@@ -27,14 +27,14 @@ namespace eDrsDB.Models
 
         public string CareOfName { get; set; }
         public string CareOfReference { get; set; }
-        public int DxNumber { get; set; }
+        public string DxNumber { get; set; }
         public string DxExchange { get; set; }
 
         public string EmailAddress { get; set; }
 
         public long PartyId { get; set; }
         [JsonIgnore]
-        public Party Party { get; set; }
+        internal Party Party { get; set; }
 
 
 

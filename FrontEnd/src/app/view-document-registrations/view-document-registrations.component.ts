@@ -15,7 +15,7 @@ export class ViewDocumentRegistrationsComponent implements OnInit {
 
   regType!: string;
 
-  displayedColumns: string[] = ['ID', 'Reference', 'AppDate', 'View'];
+  displayedColumns: string[] = ['ID', 'Reference', 'AppDate', 'LR API Call', 'View'];
 
   regTypeComponent = "document-registration";
 
