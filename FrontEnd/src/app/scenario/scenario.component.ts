@@ -119,6 +119,7 @@ export class ScenarioComponent implements OnInit {
   private hubConnection!: HubConnection;
   private connectionUrl = environment.apiURL + 'attachment/';
   regTypeComponent = "document-registration";
+  regTypeComponentName = "";
 
   showProgress!: MatDialogRef<ProgressComponent, any>;
 
@@ -138,6 +139,7 @@ export class ScenarioComponent implements OnInit {
 
     this.registrationService.GetRegistrationType(this.regType.toString()).subscribe(res => {
       this.regTypeComponent = res.Url;
+      this.regTypeComponentName = res.TypeName;
       console.log(res)
     })
 
@@ -615,7 +617,7 @@ export class ScenarioComponent implements OnInit {
     this.selectedApplicationId = id
     this.applicationList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
     this.applicationList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
-    debugger
+
     var selectedObj: ApplicationForm = this.applicationList.find(s => s.LocalId == id)!;
     this.selectedApplicationId = selectedObj.LocalId;
     this.applicationGroup.setValue(selectedObj);
@@ -635,25 +637,6 @@ export class ScenarioComponent implements OnInit {
     formDirective.resetForm();
     this.applicationGroup.reset();
 
-
-    // this.applicationGroup.patchValue({
-    //   Priority: 1,
-    //   Value: '',
-    //   FeeInPence: null,
-    //   Type: '',
-    //   LocalId: 0,
-    //   IsSelected: false,
-    //   ApplicationFormId: 0,
-    //   DocumentReferenceId: 0,
-
-    //   Document: [],
-    //   ExternalReference: '',
-    //   Variety: 'other',
-    //   MDRef: '',
-    //   ChargeDate: new Date().toISOString().substring(0, 10),
-    //   IsMdRef: 'yes',
-    //   SortCode: ''
-    // })
 
     this.appType = 'other';
     this.applicationGroup.controls.Variety.setValue(this.appType);
@@ -770,7 +753,7 @@ export class ScenarioComponent implements OnInit {
   }
 
   SelectSupDocRow(id: any) {
-    debugger
+
     this.supDocSaveBtn = "Update"
     this.selectedsupportingDocId = id
     this.supportingDocList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
@@ -1168,7 +1151,7 @@ export class ScenarioComponent implements OnInit {
         ).subscribe((res) => {
           this.ShowResponse(res);
         }, () => {
-          this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed");
+          this.toastr.error(this.regTypeComponentName + " has not successfully updated", "Changes failed");
         });
       } else {
         this.registrationService.UpdateRegistration(documentRef).pipe(
@@ -1176,7 +1159,7 @@ export class ScenarioComponent implements OnInit {
         ).subscribe((res) => {
           this.ShowResponse(res);
         }, () => {
-          this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed");
+          this.toastr.error(this.regTypeComponentName + " has not successfully updated", "Changes failed");
         });
       }
     } else {

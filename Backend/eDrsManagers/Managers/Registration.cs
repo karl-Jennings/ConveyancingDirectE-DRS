@@ -105,7 +105,9 @@ namespace eDrsManagers.Managers
             });
 
             var count = 1;
+          
             viewModel.Applications.ToList().ForEach(x => x.Document.AttachmentId = count++);
+         
             viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
             {
                 supDoc.DocumentId = count++;
@@ -177,8 +179,7 @@ namespace eDrsManagers.Managers
         {
             return _context.RegistrationTypes.FirstOrDefault(s => s.RegistrationTypeId == regType);
         }
-
-
+         
         public List<DocumentReference> GetRegistrations(string regType)
         {
             return _context.DocumentReferences.Where(s => s.Status && s.RegistrationTypeId == int.Parse(regType)).ToList();
@@ -431,7 +432,6 @@ namespace eDrsManagers.Managers
                             TitleNumberId = s.TitleNumberId,
                             CreatedDate = s.CreatedDate,
                             TitleNumberCode = s.TitleNumberCode,
-                            LesseeTitleNumber = s.LesseeTitleNumber
                         }).ToList(),
                         RegistrationTypeId = sel.RegistrationTypeId,
                         ApplicationAffects = sel.ApplicationAffects,
