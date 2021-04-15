@@ -22,6 +22,11 @@ namespace eDrsManagers.FluentValidation.Validators
             RuleFor(x => x.TelephoneNumber)
                 .NotNull().NotEmpty().WithMessage("Telephone Number should not be Empty");
 
+
+            RuleFor(x => x.AP1WarningUnderstood)
+                .NotNull().NotEmpty().WithMessage("AP1WarningUnderstood should not be Empty");
+
+           
             RuleFor(x => x.AdditionalProviderFilter)
                 .NotNull().NotEmpty().WithMessage("AdditionalProviderFilter should not be Empty");
 
@@ -43,11 +48,14 @@ namespace eDrsManagers.FluentValidation.Validators
             RuleFor(x => x.Titles)
                 .NotNull().NotEmpty().WithMessage("Titles should not be Empty");
 
+            RuleFor(x => x.ApplicationAffects)
+              .NotNull().NotEmpty().WithMessage("Application Affects should not be Empty");
+
             RuleFor(x => x.Applications)
                 .NotNull().NotEmpty().WithMessage("Applications should not be Empty");
 
-            RuleFor(x => x.SupportingDocuments)
-                .NotNull().NotEmpty().WithMessage("SupportingDocuments should not be Empty");
+            //RuleFor(x => x.SupportingDocuments)
+            //    .NotNull().NotEmpty().WithMessage("SupportingDocuments should not be Empty");
 
             RuleFor(x => x.Representations)
                 .NotNull().NotEmpty().WithMessage("Representations should not be Empty");

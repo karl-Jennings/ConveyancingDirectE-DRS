@@ -10,6 +10,9 @@ namespace eDrsManagers.FluentValidation
     {
         public ApplicationValidator()
         {
+            RuleFor(x => x.Priority)
+               .NotNull().NotEmpty().WithMessage("Priority should not be Empty");
+
             RuleFor(x => x.Variety)
                 .NotNull().NotEmpty().WithMessage("Variety should not be Empty");
 

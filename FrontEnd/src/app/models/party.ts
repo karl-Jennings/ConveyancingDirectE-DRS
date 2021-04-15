@@ -30,7 +30,7 @@ export class Address {
 
     CareOfName?: string;
     CareOfReference?: string;
-    DxNumber?: number;
+    DxNumber?: string;
     DxExchange?: string;
 
     EmailAddress?: string;
