@@ -14,13 +14,26 @@ namespace eDrsAPI.Controllers
     [ApiController]
     public class SettingsController : ControllerBase
     {
-        private readonly AppDbContext _context;
         private readonly ILogsManager _logsManager;
+        private readonly ISettingsManager _settingsManager;
 
-        public SettingsController(AppDbContext context, ILogsManager logsManager)
+        public SettingsController(ILogsManager logsManager, ISettingsManager settingsManager)
         {
-            _context = context;
             _logsManager = logsManager;
+            _settingsManager = settingsManager;
+        }
+
+        [HttpGet]
+        public IActionResult GetCredentials()
+        {
+            try
+            {
+                return Ok(_settingsManager.GetCredentials());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
         }
 
         [HttpPost]
@@ -28,7 +41,7 @@ namespace eDrsAPI.Controllers
         {
             try
             {
-                return Ok();
+                return Ok(_settingsManager.ChangeCredentials(model));
             }
             catch (Exception ex)
             {

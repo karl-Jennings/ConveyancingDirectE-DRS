@@ -107,12 +107,6 @@
                     <input formControlName="LocalAuthority" matInput type="text">
                 </mat-form-field>
             </div>
-            <div class="col-3">
-                <mat-form-field class="example-form-field w-100">
-                    <mat-label>Password</mat-label>
-                    <input type="password" formControlName="Password" matInput required>
-                </mat-form-field>
-            </div>
             <div class="col-12 text-right my-auto">
                 <a mat-flat-button href="http://landregistry.data.gov.uk/fees-calculator.html" target="_blank"
                     class="mr-1" type="button" color="primary">Fee Calculator</a>
@@ -555,7 +549,7 @@
 
                                             </mat-form-field>
                                         </div>
-                                       
+
                                         <div class="col-md-3" *ngIf="repType != 'AdditionalPartyNotification'" hidden>
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Representative Id</mat-label>
@@ -586,7 +580,7 @@
                                                 </mat-select>
                                             </mat-form-field>
                                         </div>
-                                       
+
                                         <div class="col-md-3"
                                             *ngIf="repType != 'LodgingConveyancer' && addressType == 'DXAddress'">
                                             <mat-form-field class="example-form-field w-100">
@@ -670,7 +664,7 @@
                                                 <input formControlName="CareOfReference" matInput type="text">
                                             </mat-form-field>
                                         </div>
-                                      
+
 
                                         <div class="col-12">
                                             <button class="mr-1 ml-auto" type="submit" mat-flat-button
@@ -735,7 +729,7 @@
                                         <div class="col-md-3">
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>Party type</mat-label>
-                                                <mat-select formControlName="PartyType" required >
+                                                <mat-select formControlName="PartyType" required>
                                                     <mat-option [value]="'company'">Company</mat-option>
                                                     <mat-option [value]="'person'">Person</mat-option>
                                                 </mat-select>
@@ -754,7 +748,8 @@
                                             <mat-form-field class="example-form-field w-100">
                                                 <mat-label>{{partyType == 'company' ? 'Company Name' : 'Forename'}}
                                                 </mat-label>
-                                                <input formControlName="CompanyOrForeName" matInput type="text" required>
+                                                <input formControlName="CompanyOrForeName" matInput type="text"
+                                                    required>
                                             </mat-form-field>
                                         </div>
                                         <div class="col-md-3" *ngIf="partyType === 'person'">
@@ -890,7 +885,7 @@
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Address Line 1</mat-label>
                                                                 <input formControlName="AddressLine1" matInput
-                                                                    type="text" required> 
+                                                                    type="text" required>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="address1Type == 'post'">
@@ -956,14 +951,15 @@
                                                         <div class="col-md-3" *ngIf="address1Type == 'dx'">
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Dx Number</mat-label>
-                                                                <input formControlName="DxNumber" matInput type="text" required>
+                                                                <input formControlName="DxNumber" matInput type="text"
+                                                                    required>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="address1Type == 'dx'">
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Dx Exchange</mat-label>
-                                                                <input formControlName="DxExchange" matInput
-                                                                    type="text" required>
+                                                                <input formControlName="DxExchange" matInput type="text"
+                                                                    required>
                                                             </mat-form-field>
                                                         </div>
 
@@ -1075,14 +1071,15 @@
                                                         <div class="col-md-3" *ngIf="address2Type == 'dx'">
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Dx Number</mat-label>
-                                                                <input formControlName="DxNumber" matInput type="text" required>
+                                                                <input formControlName="DxNumber" matInput type="text"
+                                                                    required>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="address2Type == 'dx'">
                                                             <mat-form-field class="example-form-field w-100">
                                                                 <mat-label>Dx Exchange</mat-label>
-                                                                <input formControlName="DxExchange" matInput
-                                                                    type="text" required >
+                                                                <input formControlName="DxExchange" matInput type="text"
+                                                                    required>
                                                             </mat-form-field>
                                                         </div>
 

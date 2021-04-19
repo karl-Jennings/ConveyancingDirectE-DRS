@@ -46,8 +46,6 @@ namespace eDrsManagers.Managers
                 AttachmentViewModel attachmentViewModel = new AttachmentViewModel();
                 docRef.Applications = application;
                 attachmentViewModel.DocumentReference = docRef;
-                attachmentViewModel.Username = "BGUser001";
-                attachmentViewModel.Password = docRef.Password;
 
                 var attachmentRequest = _httpInterceptor.CallAttachmentRequestApi(attachmentViewModel);
 

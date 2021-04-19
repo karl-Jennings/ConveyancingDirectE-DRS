@@ -18,7 +18,6 @@ namespace eDrsDB.Models
         public int TotalFeeInPence { get; set; }
         public string MessageID { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
         public long TelephoneNumber { get; set; }
         public string AdditionalProviderFilter { get; set; }
         public string ExternalReference { get; set; }

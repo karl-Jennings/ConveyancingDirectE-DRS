@@ -13,7 +13,6 @@ namespace eDrsManagers.ViewModels
         public long DocumentReferenceId { get; set; }
 
         [Required]
-        public string Password { get; set; }
         public string MessageID { get; set; }
 
         [Required]

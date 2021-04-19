@@ -9,7 +9,6 @@ import { TitleNumber } from "./title-number";
 export class DocumentReference {
     DocumentReferenceId?: number;
     UserID?: string;
-    Password?: string;
     AdditionalProviderFilter?: string;
     MessageID?: string;
     ExternalReference?: string;

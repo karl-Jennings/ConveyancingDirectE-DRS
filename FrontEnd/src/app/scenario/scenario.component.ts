@@ -149,7 +149,6 @@ export class ScenarioComponent implements OnInit {
       .build();
     this.hubConnection.start()
     this.documentReferenceGroup = this.formBuilder.group({
-      Password: ['', Validators.required],
       AdditionalProviderFilter: ['', Validators.required],
       MessageID: [''],
       ExternalReference: ['', Validators.required],
