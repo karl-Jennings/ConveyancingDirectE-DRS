@@ -232,8 +232,14 @@ export class ScenarioComponent implements OnInit {
       DxNumber: [''],
       DxExchange: [''],
 
-      AddressLine1: ['']
-
+      AddressLine1: [''],
+      AddressLine2: [''],
+      AddressLine3: [''],
+      AddressLine4: [''],
+      City: [''],
+      County: [''],
+      Country: [''],
+      PostCode: [''],
 
     });
     this.mainPostalGroup = this.formBuilder.group({
@@ -1102,10 +1108,9 @@ export class ScenarioComponent implements OnInit {
     this.representationGroup.controls.Type.setValue("LodgingConveyancer");
     this.representationGroup.controls.AddressType.setValue("DXAddress");
 
-    if (this.docRefId == 0) {
-      this.representationGroup.controls.RepresentationId.setValue(0);
-      this.representationGroup.controls.DocumentReferenceId.setValue(0);
-    }
+    this.representationGroup.controls.RepresentationId.setValue(0);
+    this.representationGroup.controls.DocumentReferenceId.setValue(0);
+
   }
 
   RemoveRep(id: any) {
