@@ -12,7 +12,6 @@ namespace eDrsManagers.ViewModels
     {
         public long DocumentReferenceId { get; set; }
 
-        [Required]
         public string MessageID { get; set; }
 
         [Required]

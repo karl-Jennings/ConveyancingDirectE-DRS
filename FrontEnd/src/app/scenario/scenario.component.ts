@@ -215,7 +215,7 @@ export class ScenarioComponent implements OnInit {
     });
 
     this.representationGroup = this.formBuilder.group({
-      RepresentationId: [0],
+      RepresentationId: 0,
       Type: ['LodgingConveyancer'],
       RepresentativeId: [1],
       Name: [''],
@@ -679,7 +679,6 @@ export class ScenarioComponent implements OnInit {
     FileSaver.saveAs(item.Document?.Base64!, item.Document?.FileName);
   }
 
-
   // For Supporting Documents
   supDocfileName: any = "Choose files";
   supDocId = 1;
@@ -891,9 +890,7 @@ export class ScenarioComponent implements OnInit {
             this.toastr.warning('Please fill EmailAddress in Additional Adddress 1')
 
           }
-
         }
-
       }
 
       if (this.address2Group.controls.SubType.value == 'post' || this.address2Group.controls.SubType.value == 'dx' || this.address2Group.controls.SubType.value == 'email') {
@@ -931,9 +928,7 @@ export class ScenarioComponent implements OnInit {
             this.toastr.warning('Please fill EmailAddress in Additional Adddress 2')
 
           }
-
         }
-
       }
 
       if (isValid) {
@@ -965,8 +960,6 @@ export class ScenarioComponent implements OnInit {
         this.ClearPartyFields(formDirective);
 
       }
-
-
 
     }
   }
@@ -1108,6 +1101,11 @@ export class ScenarioComponent implements OnInit {
 
     this.representationGroup.controls.Type.setValue("LodgingConveyancer");
     this.representationGroup.controls.AddressType.setValue("DXAddress");
+
+    if (this.docRefId == 0) {
+      this.representationGroup.controls.RepresentationId.setValue(0);
+      this.representationGroup.controls.DocumentReferenceId.setValue(0);
+    }
   }
 
   RemoveRep(id: any) {
@@ -1338,6 +1336,4 @@ export class ScenarioComponent implements OnInit {
       })
     }
   }
-
-
 }
