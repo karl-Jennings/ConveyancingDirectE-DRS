@@ -7,6 +7,13 @@
   </PropertyGroup>
  
   <ItemGroup>
+    <Compile Remove="Swagger\**" />
+    <Content Remove="Swagger\**" />
+    <EmbeddedResource Remove="Swagger\**" />
+    <None Remove="Swagger\**" />
+  </ItemGroup>
+ 
+  <ItemGroup>
     <Content Remove="App.config" />
   </ItemGroup>
 
@@ -36,10 +43,6 @@
     <ProjectReference Include="..\eDrsDB\eDrsDB.csproj" />
     <ProjectReference Include="..\eDrsManagers\eDrsManagers.csproj" />
     <ProjectReference Include="..\LrApiManager\LrApiManager.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Swagger\" />
   </ItemGroup>
 
 
