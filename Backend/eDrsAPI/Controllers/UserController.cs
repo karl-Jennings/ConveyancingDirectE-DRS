@@ -44,6 +44,27 @@ namespace eDrsAPI.Controllers
         }
 
         /// <summary>
+        /// Getting the eDRS user list
+        /// </summary>
+        /// <returns>Token and boolean</returns> 
+        [HttpGet]
+        public IActionResult Get()
+        {
+            try
+            {
+                return Ok(_userManager.Get());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
+
+
+
+        /// <summary>
         /// Getting Token for login
         /// </summary> 
         /// <param name="viewModel"></param>

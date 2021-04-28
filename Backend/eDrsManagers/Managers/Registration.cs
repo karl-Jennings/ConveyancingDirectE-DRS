@@ -59,8 +59,10 @@ namespace eDrsManagers.Managers
 
             if (viewModel.Representations == null)
             {
-                viewModel.Representations = new List<Representation>();
-                viewModel.Representations.Add(new Representation() { RepresentativeId = 1 });
+                viewModel.Representations = new List<Representation>
+                {
+                    new Representation { RepresentativeId = 1 }
+                };
             }
 
             var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
