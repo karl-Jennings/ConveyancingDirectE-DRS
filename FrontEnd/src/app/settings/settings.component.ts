@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
+import { UserAccountService } from '../services/user-account.service';
+import { User } from '../models/user';
 
 
 @Component({
@@ -15,7 +17,10 @@ export class SettingsComponent implements OnInit {
   private hubConnection!: HubConnection;
   private connectionUrl = environment.apiURL + 'settings/';
 
-  constructor() { }
+  allUsers:User[]=[];
+  displayedColumns: string[] = ['Username','Firstname','Lastname' ,'Role','Action'];
+
+  constructor(private userAccountService: UserAccountService) { }
 
   TriggerSlider() {
     this.hubConnection.invoke("CreatePollRequest", this.sliderTime).then(res => {
@@ -42,6 +47,7 @@ export class SettingsComponent implements OnInit {
       this.sliderTime = data
     })
 
+    this.GetAllUsers();
   }
 
   formatLabel(value: number) {
@@ -52,5 +58,13 @@ export class SettingsComponent implements OnInit {
     return value;
   }
 
+  //Get All Users
 
+  GetAllUsers(){
+  this.userAccountService.getAllUsers().subscribe(res => {
+    this.allUsers = res;
+
+    console.log('this.allUsers',this.allUsers);
+  })
+  }
 }

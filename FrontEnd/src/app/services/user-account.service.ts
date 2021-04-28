@@ -11,6 +11,7 @@ import { User } from '../models/user';
 export class UserAccountService {
 
   private loginUrl = environment.apiURL + 'User/Login';
+  private GetAllUsersUrl = environment.apiURL + 'User/Get';
 
   constructor(private http: HttpClient) {
 
@@ -18,5 +19,9 @@ export class UserAccountService {
 
   login(user: User): Observable<any> {
     return this.http.post(this.loginUrl, user);
+  }
+
+  getAllUsers(): Observable<any> {
+    return this.http.get(this.GetAllUsersUrl);
   }
 }
