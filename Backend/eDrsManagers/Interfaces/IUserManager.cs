@@ -10,5 +10,6 @@ namespace eDrsManagers.Interfaces
         UserViewModel Login(UserViewModel viewModel);
 
         List<UserViewModel> Get();
+        bool Update(UserViewModel viewModel);
     }
 }

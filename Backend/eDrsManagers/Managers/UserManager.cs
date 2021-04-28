@@ -59,11 +59,30 @@ namespace eDrsManagers.Managers
 
         }
 
+
         public List<UserViewModel> Get()
         {
             var userList = _context.Users.Where(x => x.Status).ToList();
             return _mapper.Map<List<User>, List<UserViewModel>>(userList);
         }
+
+        public bool Update(UserViewModel viewModel)
+        {
+            var user = _mapper.Map<UserViewModel, User>(viewModel);
+
+            if (!string.IsNullOrEmpty(viewModel.Password))
+            {
+                var passwordByte = PasswordManager.CreatePasswordHash(viewModel.Password);
+                user.PasswordSalt = passwordByte[0];
+                user.PasswordHash = passwordByte[1];
+            }
+
+            user.Status = true; 
+            _context.Users.Update(user);
+
+            return _context.SaveChanges() > 0;
+        }
+
 
         private string GenerateToken(string id, string role, DateTime exp)
         {

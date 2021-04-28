@@ -61,13 +61,28 @@ namespace eDrsAPI.Controllers
 
         }
 
+        /// <summary>
+        /// Creating/Updating eDRS user
+        /// /// </summary>
+        /// <returns>Token and boolean</returns> 
+        [HttpPost]
+        public IActionResult Update(UserViewModel userViewModel)
+        {
+            try
+            {
+                return Ok(_userManager.Update(userViewModel));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
 
+        }
 
 
         /// <summary>
         /// Getting Token for login
-        /// </summary> 
-        /// <param name="viewModel"></param>
+        /// </summary>
         /// <returns>Token and boolean</returns> 
         [HttpGet]
         public IActionResult CallSoap()
