@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace eDrsManagers.ViewModels
 {
@@ -17,7 +18,8 @@ namespace eDrsManagers.ViewModels
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public bool Status { get; set; }
-        public virtual ICollection<DocumentReferenceViewModel> DocumentReferences { get; set; }
+        [JsonIgnore]
+        internal virtual ICollection<DocumentReferenceViewModel> DocumentReferences { get; set; }
         public string Fullname { get; set; }
         public bool IsUserValid { get; set; }
         public string Token { get; set; }
