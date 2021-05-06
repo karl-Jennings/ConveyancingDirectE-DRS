@@ -33,6 +33,7 @@ import { LrCredentialsComponent } from './settings/lr-credentials/lr-credentials
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ProgressComponent } from './angular-dialogs/progress/progress.component';
+import { UserDetailsComponent } from './angular-dialogs/user-details/user-details.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ProgressComponent } from './angular-dialogs/progress/progress.component
     ApplicationViewComponent,
     ScenarioComponent,
     LrCredentialsComponent,
-    ProgressComponent
+    ProgressComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,

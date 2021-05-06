@@ -3,6 +3,8 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
 import { UserAccountService } from '../services/user-account.service';
 import { User } from '../models/user';
+import { MatDialog } from '@angular/material/dialog';
+import { UserDetailsComponent } from '../angular-dialogs/user-details/user-details.component';
 
 
 @Component({
@@ -17,10 +19,13 @@ export class SettingsComponent implements OnInit {
   private hubConnection!: HubConnection;
   private connectionUrl = environment.apiURL + 'settings/';
 
-  allUsers:User[]=[];
-  displayedColumns: string[] = ['Username','Firstname','Lastname' ,'Role','Action'];
+  allUsers: User[] = [];
+  displayedColumns: string[] = ['Username', 'Firstname', 'Lastname', 'Role', 'Action'];
 
-  constructor(private userAccountService: UserAccountService) { }
+  constructor(
+    private userAccountService: UserAccountService,
+    private dialog: MatDialog,
+  ) { }
 
   TriggerSlider() {
     this.hubConnection.invoke("CreatePollRequest", this.sliderTime).then(res => {
@@ -60,11 +65,21 @@ export class SettingsComponent implements OnInit {
 
   //Get All Users
 
-  GetAllUsers(){
-  this.userAccountService.getAllUsers().subscribe(res => {
-    this.allUsers = res;
+  GetAllUsers() {
+    this.userAccountService.getAllUsers().subscribe(res => {
+      this.allUsers = res;
 
-    console.log('this.allUsers',this.allUsers);
-  })
+      console.log('this.allUsers', this.allUsers);
+    })
+  }
+
+  UserDetails(type: string) {
+    const dialogRef = this.dialog.open(UserDetailsComponent, {
+      data: { type }, width: "400px"
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // on closing the dialog
+    });
   }
 }
