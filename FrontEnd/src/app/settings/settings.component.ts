@@ -73,13 +73,16 @@ export class SettingsComponent implements OnInit {
     })
   }
 
-  UserDetails(type: string) {
+  UserDetails(type: string, element?: User) {
     const dialogRef = this.dialog.open(UserDetailsComponent, {
-      data: { type }, width: "400px"
+      data: { type, element }, width: "400px"
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       // on closing the dialog
+      if (result.type == "save") {
+        this.GetAllUsers()
+      }
     });
   }
 }

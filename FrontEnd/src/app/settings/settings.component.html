@@ -43,9 +43,14 @@
 
             <table mat-table [dataSource]="allUsers" class="w-100 mat-elevation-0">
 
+                <ng-container matColumnDef="Email">
+                    <th mat-header-cell *matHeaderCellDef> Email </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Email}} </td>
+                </ng-container>
+
                 <ng-container matColumnDef="Username">
                     <th mat-header-cell *matHeaderCellDef> Username </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Email}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.Username}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="Firstname">
@@ -67,7 +72,8 @@
                 <ng-container matColumnDef="Action">
                     <th mat-header-cell *matHeaderCellDef> Edit </th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-flat-button class="mr-1" (click)="UserDetails('view')" color="primary">Edit</button>
+                        <button mat-flat-button class="mr-1" (click)="UserDetails('view', element)"
+                            color="primary">Edit</button>
 
                     </td>
 
