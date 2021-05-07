@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { User } from '../models/user';
+import { User,Login } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class UserAccountService {
 
   }
 
-  login(user: User): Observable<any> {
+  login(user: Login): Observable<any> {
     return this.http.post(this.loginUrl, user);
   }
 

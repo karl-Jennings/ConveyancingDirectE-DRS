@@ -7,7 +7,7 @@ namespace eDrsManagers.Interfaces
 {
     public interface IUserManager
     {
-        UserViewModel Login(UserViewModel viewModel);
+        UserViewModel Login(LoginViewModel viewModel);
 
         List<UserViewModel> Get();
         bool Update(UserViewModel viewModel);

@@ -28,7 +28,7 @@ namespace eDrsManagers.Managers
             _mapper = mapper;
         }
 
-        public UserViewModel Login(UserViewModel viewModel)
+        public UserViewModel Login(LoginViewModel viewModel)
         {
             var user = _context.Users.FirstOrDefault(x => x.Email == viewModel.Email);
             if (user == null) // Email does not exist

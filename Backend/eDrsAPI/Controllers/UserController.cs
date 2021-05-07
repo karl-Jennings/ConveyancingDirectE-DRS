@@ -30,7 +30,7 @@ namespace eDrsAPI.Controllers
         /// <param name="viewModel"></param>
         /// <returns>Token and boolean</returns> 
         [HttpPost]
-        public IActionResult Login(UserViewModel viewModel)
+        public IActionResult Login(LoginViewModel viewModel)
         {
             try
             {
