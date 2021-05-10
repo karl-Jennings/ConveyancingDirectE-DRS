@@ -66,7 +66,7 @@ namespace eDrsManagers.ViewModels
         public ICollection<RequestLog> RequestLogs { get; set; }
         public ICollection<Outstanding> Outstanding { get; set; }
         public bool IsApiSuccess { get; set; }
-
+        public bool OverallStatus { get; set; }
 
     }
 
