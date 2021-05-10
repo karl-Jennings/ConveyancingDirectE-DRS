@@ -317,7 +317,7 @@ namespace eDrsManagers.Managers
 
             var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
 
-            if (response.Successful)
+            if (response!=null && response.Successful)
             {
                 var outResponse = response.Requests.FirstOrDefault();
 

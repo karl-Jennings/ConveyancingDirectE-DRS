@@ -180,11 +180,11 @@ namespace eDrsAPI
 
             });
 
-            //recurringJobManager.AddOrUpdate(
-            //    "poll_request",
-            //    () => serviceProvider.GetService<IRegistration>().AutomatePollRequest(),
-            //    Cron.Weekly(DayOfWeek.Thursday, 0)
-            //);
+            recurringJobManager.AddOrUpdate(
+                "poll_request",
+                () => serviceProvider.GetService<IRegistration>().AutomatePollRequest(),
+                Cron.Weekly(DayOfWeek.Thursday, 0)
+            );
 
         }
 
