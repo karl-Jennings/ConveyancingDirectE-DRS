@@ -65,8 +65,8 @@ namespace eDrsManagers.ViewModels
 
         [Required]
         public ICollection<Party> Parties { get; set; }
-        public ICollection<RequestLog> RequestLogs { get; set; }
-        public ICollection<Outstanding> Outstanding { get; set; }
+        internal ICollection<RequestLog> RequestLogs { get; set; }
+        internal ICollection<Outstanding> Outstanding { get; set; }
         public bool IsApiSuccess { get; set; }
 
 
