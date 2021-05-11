@@ -59,8 +59,10 @@ namespace eDrsManagers.Managers
 
             if (viewModel.Representations == null)
             {
-                viewModel.Representations = new List<Representation>();
-                viewModel.Representations.Add(new Representation() { RepresentativeId = 1 });
+                viewModel.Representations = new List<Representation>
+                {
+                    new Representation { RepresentativeId = 1 }
+                };
             }
 
             var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
@@ -105,7 +107,9 @@ namespace eDrsManagers.Managers
             });
 
             var count = 1;
+
             viewModel.Applications.ToList().ForEach(x => x.Document.AttachmentId = count++);
+
             viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
             {
                 supDoc.DocumentId = count++;
@@ -139,7 +143,7 @@ namespace eDrsManagers.Managers
                 viewModel.MessageID = Guid.NewGuid().ToString();
 
             viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
-            var model = _mapper.Map<DocumentReferenceViewModel, eDrsDB.Models.DocumentReference>(viewModel);
+            var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
 
             _context.DocumentReferences.Update(model);
 
@@ -178,7 +182,6 @@ namespace eDrsManagers.Managers
             return _context.RegistrationTypes.FirstOrDefault(s => s.RegistrationTypeId == regType);
         }
 
-
         public List<DocumentReference> GetRegistrations(string regType)
         {
             return _context.DocumentReferences.Where(s => s.Status && s.RegistrationTypeId == int.Parse(regType)).ToList();
@@ -194,7 +197,6 @@ namespace eDrsManagers.Managers
                 outstaningRequest.Username = "BGUser001";
                 if (docRef != null)
                 {
-                    outstaningRequest.Password = docRef.Password;
                     outstaningRequest.Service = 70;
                     outstaningRequest.MessageId = docRef.MessageID;
                 }
@@ -206,8 +208,6 @@ namespace eDrsManagers.Managers
                         var outResponse = response.Requests.FirstOrDefault();
 
                         ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
-                        applicationPollRequest.Username = "BGUser001";
-                        if (docRef != null) applicationPollRequest.Password = docRef.Password;
                         applicationPollRequest.MessageId = outResponse.Id;
 
                         var responseEarlyCompletionApi = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
@@ -256,7 +256,6 @@ namespace eDrsManagers.Managers
             outstaningRequest.Username = "BGUser001";
             if (docRef != null)
             {
-                outstaningRequest.Password = docRef.Password;
                 outstaningRequest.Service = serviceId;
                 outstaningRequest.MessageId = docRef.MessageID;
             }
@@ -285,7 +284,6 @@ namespace eDrsManagers.Managers
                 attachmentPoll.Username = "BGUser001";
                 if (docRef != null)
                 {
-                    attachmentPoll.Password = docRef.Password;
                     attachmentPoll.MessageId = docRef.MessageID;
                 }
 
@@ -313,7 +311,6 @@ namespace eDrsManagers.Managers
             outstaningRequest.Username = "BGUser001";
             if (docRef != null)
             {
-                outstaningRequest.Password = docRef.Password;
                 outstaningRequest.Service = serviceId;
                 outstaningRequest.MessageId = docRef.MessageID;
             }
@@ -326,7 +323,6 @@ namespace eDrsManagers.Managers
 
                 CorrospondanceRequestViewModel corrospondanceRequestViewModel = new CorrospondanceRequestViewModel();
                 corrospondanceRequestViewModel.Username = "BGUser001";
-                if (docRef != null) corrospondanceRequestViewModel.Password = docRef.Password;
                 if (outResponse != null) corrospondanceRequestViewModel.MessageId = outResponse.Id;
 
                 var correspondenceResponse = _httpInterceptor.CallCorrespondenceRequestApi(corrospondanceRequestViewModel);
@@ -356,7 +352,6 @@ namespace eDrsManagers.Managers
             outstaningRequest.Username = "BGUser001";
             if (docRef != null)
             {
-                outstaningRequest.Password = docRef.Password;
                 outstaningRequest.Service = serviceId;
                 outstaningRequest.MessageId = docRef.MessageID;
             }
@@ -371,7 +366,6 @@ namespace eDrsManagers.Managers
                 {
                     EarlyCompletionRequest earlyCompletionRequest = new EarlyCompletionRequest();
                     earlyCompletionRequest.Username = "BGUser001";
-                    if (docRef != null) earlyCompletionRequest.Password = docRef.Password;
                     earlyCompletionRequest.MessageId = outResponse.Id;
 
                     var responseEarlyCompletionApi = _httpInterceptor.CallEarlyCompletionApi(earlyCompletionRequest);
@@ -388,7 +382,6 @@ namespace eDrsManagers.Managers
                 {
                     ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
                     applicationPollRequest.Username = "BGUser001";
-                    if (docRef != null) applicationPollRequest.Password = docRef.Password;
                     applicationPollRequest.MessageId = outResponse.Id;
 
                     var responseEarlyCompletionApi = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
@@ -431,7 +424,6 @@ namespace eDrsManagers.Managers
                             TitleNumberId = s.TitleNumberId,
                             CreatedDate = s.CreatedDate,
                             TitleNumberCode = s.TitleNumberCode,
-                            LesseeTitleNumber = s.LesseeTitleNumber
                         }).ToList(),
                         RegistrationTypeId = sel.RegistrationTypeId,
                         ApplicationAffects = sel.ApplicationAffects,
@@ -494,7 +486,6 @@ namespace eDrsManagers.Managers
                         Status = sel.Status,
                         AdditionalProviderFilter = sel.AdditionalProviderFilter,
                         ExternalReference = sel.ExternalReference,
-                        Password = sel.Password,
                         RequestLogs = sel.RequestLogs,
                         Representations = sel.Representations,
                         Outstanding = sel.Outstanding

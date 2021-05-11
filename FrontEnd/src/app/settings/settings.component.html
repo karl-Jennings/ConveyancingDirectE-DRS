@@ -23,5 +23,70 @@
                 </mdb-card-body>
             </mdb-card>
         </div>
+
+
     </div>
+
+
+
+    <div class="row">
+
+        <div class="col-md-5 col-lg-3 col-sm-5 col-xs-2 h-100">
+            <label>Application Users</label>
+        </div>
+        <div class="col-12 mb-0">
+            <button mat-flat-button class="mr-1 btn-success" (click)="UserDetails('add')">
+                <i class="fa fa-plus mr-1"></i> Add User
+            </button>
+        </div>
+        <div class="col-md-10 col-xs-2 h-100">
+
+            <table mat-table [dataSource]="allUsers" class="w-100 mat-elevation-0">
+
+                <ng-container matColumnDef="Email">
+                    <th mat-header-cell *matHeaderCellDef> Email </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Email}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Username">
+                    <th mat-header-cell *matHeaderCellDef> Username </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Username}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Firstname">
+                    <th mat-header-cell *matHeaderCellDef> First Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Firstname}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Lastname">
+                    <th mat-header-cell *matHeaderCellDef> Last Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Lastname}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Role">
+                    <th mat-header-cell *matHeaderCellDef> Role </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Designation }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Action">
+                    <th mat-header-cell *matHeaderCellDef> Edit </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-flat-button class="mr-1" (click)="UserDetails('view', element)"
+                            color="primary">Edit</button>
+
+                    </td>
+
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+        </div>
+
+
+    </div>
+
 </div>

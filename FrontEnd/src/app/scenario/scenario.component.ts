@@ -119,6 +119,7 @@ export class ScenarioComponent implements OnInit {
   private hubConnection!: HubConnection;
   private connectionUrl = environment.apiURL + 'attachment/';
   regTypeComponent = "document-registration";
+  regTypeComponentName = "";
 
   showProgress!: MatDialogRef<ProgressComponent, any>;
 
@@ -138,6 +139,7 @@ export class ScenarioComponent implements OnInit {
 
     this.registrationService.GetRegistrationType(this.regType.toString()).subscribe(res => {
       this.regTypeComponent = res.Url;
+      this.regTypeComponentName = res.TypeName;
       console.log(res)
     })
 
@@ -147,7 +149,6 @@ export class ScenarioComponent implements OnInit {
       .build();
     this.hubConnection.start()
     this.documentReferenceGroup = this.formBuilder.group({
-      Password: ['', Validators.required],
       AdditionalProviderFilter: ['', Validators.required],
       MessageID: [''],
       ExternalReference: ['', Validators.required],
@@ -214,7 +215,7 @@ export class ScenarioComponent implements OnInit {
     });
 
     this.representationGroup = this.formBuilder.group({
-      RepresentationId: [0],
+      RepresentationId: 0,
       Type: ['LodgingConveyancer'],
       RepresentativeId: [1],
       Name: [''],
@@ -231,8 +232,14 @@ export class ScenarioComponent implements OnInit {
       DxNumber: [''],
       DxExchange: [''],
 
-      AddressLine1: ['']
-
+      AddressLine1: [''],
+      AddressLine2: [''],
+      AddressLine3: [''],
+      AddressLine4: [''],
+      City: [''],
+      County: [''],
+      Country: [''],
+      PostCode: [''],
 
     });
     this.mainPostalGroup = this.formBuilder.group({
@@ -615,7 +622,7 @@ export class ScenarioComponent implements OnInit {
     this.selectedApplicationId = id
     this.applicationList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
     this.applicationList.filter(x => x.LocalId != id).forEach(x => x.IsSelected = false);
-    debugger
+
     var selectedObj: ApplicationForm = this.applicationList.find(s => s.LocalId == id)!;
     this.selectedApplicationId = selectedObj.LocalId;
     this.applicationGroup.setValue(selectedObj);
@@ -635,25 +642,6 @@ export class ScenarioComponent implements OnInit {
     formDirective.resetForm();
     this.applicationGroup.reset();
 
-
-    // this.applicationGroup.patchValue({
-    //   Priority: 1,
-    //   Value: '',
-    //   FeeInPence: null,
-    //   Type: '',
-    //   LocalId: 0,
-    //   IsSelected: false,
-    //   ApplicationFormId: 0,
-    //   DocumentReferenceId: 0,
-
-    //   Document: [],
-    //   ExternalReference: '',
-    //   Variety: 'other',
-    //   MDRef: '',
-    //   ChargeDate: new Date().toISOString().substring(0, 10),
-    //   IsMdRef: 'yes',
-    //   SortCode: ''
-    // })
 
     this.appType = 'other';
     this.applicationGroup.controls.Variety.setValue(this.appType);
@@ -696,7 +684,6 @@ export class ScenarioComponent implements OnInit {
   DownloadAttached(item: ApplicationForm) {
     FileSaver.saveAs(item.Document?.Base64!, item.Document?.FileName);
   }
-
 
   // For Supporting Documents
   supDocfileName: any = "Choose files";
@@ -770,7 +757,7 @@ export class ScenarioComponent implements OnInit {
   }
 
   SelectSupDocRow(id: any) {
-    debugger
+
     this.supDocSaveBtn = "Update"
     this.selectedsupportingDocId = id
     this.supportingDocList.filter(x => x.LocalId == id).forEach(x => x.IsSelected = true);
@@ -909,9 +896,7 @@ export class ScenarioComponent implements OnInit {
             this.toastr.warning('Please fill EmailAddress in Additional Adddress 1')
 
           }
-
         }
-
       }
 
       if (this.address2Group.controls.SubType.value == 'post' || this.address2Group.controls.SubType.value == 'dx' || this.address2Group.controls.SubType.value == 'email') {
@@ -949,9 +934,7 @@ export class ScenarioComponent implements OnInit {
             this.toastr.warning('Please fill EmailAddress in Additional Adddress 2')
 
           }
-
         }
-
       }
 
       if (isValid) {
@@ -983,8 +966,6 @@ export class ScenarioComponent implements OnInit {
         this.ClearPartyFields(formDirective);
 
       }
-
-
 
     }
   }
@@ -1126,6 +1107,10 @@ export class ScenarioComponent implements OnInit {
 
     this.representationGroup.controls.Type.setValue("LodgingConveyancer");
     this.representationGroup.controls.AddressType.setValue("DXAddress");
+
+    this.representationGroup.controls.RepresentationId.setValue(0);
+    this.representationGroup.controls.DocumentReferenceId.setValue(0);
+
   }
 
   RemoveRep(id: any) {
@@ -1168,7 +1153,7 @@ export class ScenarioComponent implements OnInit {
         ).subscribe((res) => {
           this.ShowResponse(res);
         }, () => {
-          this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed");
+          this.toastr.error(this.regTypeComponentName + " has not successfully updated", "Changes failed");
         });
       } else {
         this.registrationService.UpdateRegistration(documentRef).pipe(
@@ -1176,7 +1161,7 @@ export class ScenarioComponent implements OnInit {
         ).subscribe((res) => {
           this.ShowResponse(res);
         }, () => {
-          this.toastr.error("Restriction, hostile takeover has not successfully updated", "Changes failed");
+          this.toastr.error(this.regTypeComponentName + " has not successfully updated", "Changes failed");
         });
       }
     } else {
@@ -1356,6 +1341,4 @@ export class ScenarioComponent implements OnInit {
       })
     }
   }
-
-
 }

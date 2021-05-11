@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text; 
+using System.Text;
 using Newtonsoft.Json;
 
 namespace eDrsDB.Models
@@ -15,7 +15,6 @@ namespace eDrsDB.Models
 
         [StringLength(150)]
         public string TitleNumberCode { get; set; }
-        public string LesseeTitleNumber { get; set; }
 
         public DateTime CreatedDate { get; set; }
 

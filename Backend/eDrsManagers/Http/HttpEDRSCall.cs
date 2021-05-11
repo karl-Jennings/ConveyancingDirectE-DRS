@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using BusinessGatewayModels;
 using BusinessGatewayRepositories.EDRSApplication;
 using eDRS_Land_Registry.Models;
+using eDrsDB.Data;
 using eDrsDB.Models;
 using eDrsManagers.ViewModels;
 using Newtonsoft.Json;
@@ -30,9 +31,13 @@ namespace eDrsManagers.Http
     }
     public class HttpEdrsCall : IHttpEdrsCall
     {
+        private LrCredential lrCredentials;
+        private readonly AppDbContext _context;
         private string baseUrl = "https://localhost:44340/api/";
-        public HttpEdrsCall()
+        public HttpEdrsCall(AppDbContext context)
         {
+            _context = context;
+            lrCredentials = _context.LrCredentials.FirstOrDefault();
 
         }
 
@@ -44,7 +49,7 @@ namespace eDrsManagers.Http
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.RequestFormat = DataFormat.Json;
 
-            request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel), viewModel.Password, Username = "BGUser001" });
+            request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel), lrCredentials.Password, lrCredentials.Username });
             IRestResponse response = client.Execute(request);
             RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
 
@@ -65,6 +70,8 @@ namespace eDrsManagers.Http
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.RequestFormat = DataFormat.Json;
+            viewModel.Username = lrCredentials.Username;
+            viewModel.Password = lrCredentials.Password;
 
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
@@ -82,6 +89,9 @@ namespace eDrsManagers.Http
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.RequestFormat = DataFormat.Json;
+
+            viewModel.Username = lrCredentials.Username;
+            viewModel.Password = lrCredentials.Password;
 
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
@@ -105,6 +115,9 @@ namespace eDrsManagers.Http
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.RequestFormat = DataFormat.Json;
 
+            viewModel.Username = lrCredentials.Username;
+            viewModel.Password = lrCredentials.Password;
+
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
             RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
@@ -126,6 +139,9 @@ namespace eDrsManagers.Http
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.RequestFormat = DataFormat.Json;
 
+            viewModel.Username = lrCredentials.Username;
+            viewModel.Password = lrCredentials.Password;
+
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
             RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
@@ -143,6 +159,9 @@ namespace eDrsManagers.Http
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.RequestFormat = DataFormat.Json;
 
+            viewModel.Username = lrCredentials.Username;
+            viewModel.Password = lrCredentials.Password;
+
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
             RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
@@ -157,6 +176,9 @@ namespace eDrsManagers.Http
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.RequestFormat = DataFormat.Json;
+
+            viewModel.Username = lrCredentials.Username;
+            viewModel.Password = lrCredentials.Password;
 
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);

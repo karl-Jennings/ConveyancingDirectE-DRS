@@ -30,7 +30,7 @@ namespace eDrsAPI.Controllers
         /// <param name="viewModel"></param>
         /// <returns>Token and boolean</returns> 
         [HttpPost]
-        public IActionResult Login(UserViewModel viewModel)
+        public IActionResult Login(LoginViewModel viewModel)
         {
             try
             {
@@ -44,9 +44,45 @@ namespace eDrsAPI.Controllers
         }
 
         /// <summary>
+        /// Getting the eDRS user list
+        /// </summary>
+        /// <returns>Token and boolean</returns> 
+        [HttpGet]
+        public IActionResult Get()
+        {
+            try
+            {
+                return Ok(_userManager.Get());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
+        /// <summary>
+        /// Creating/Updating eDRS user
+        /// /// </summary>
+        /// <returns>Token and boolean</returns> 
+        [HttpPost]
+        public IActionResult Update(UserViewModel userViewModel)
+        {
+            try
+            {
+                return Ok(_userManager.Update(userViewModel));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
+
+        /// <summary>
         /// Getting Token for login
-        /// </summary> 
-        /// <param name="viewModel"></param>
+        /// </summary>
         /// <returns>Token and boolean</returns> 
         [HttpGet]
         public IActionResult CallSoap()

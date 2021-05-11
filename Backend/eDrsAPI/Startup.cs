@@ -24,7 +24,6 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using System.Xml;
 using eDrsAPI.Controllers;
-using eDrsAPI.Swagger;
 using eDrsDB.Models;
 using eDrsManagers.FluentValidation;
 using eDrsManagers.FluentValidation.Validators;
@@ -139,10 +138,12 @@ namespace eDrsAPI
             services.AddScoped<IRegistration, Registration>();
             services.AddScoped<IHttpEdrsCall, HttpEdrsCall>();
             services.AddScoped<IAttachmentManager, AttachmentManager>();
+            services.AddScoped<ISettingsManager, SettingsManager>();
 
             IdentityModelEventSource.ShowPII = true;
 
             services.AddTransient<IValidator<DocumentReferenceViewModel>, DocumentReferenceValidator>();
+            services.AddTransient<IValidator<UserViewModel>, UserValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
