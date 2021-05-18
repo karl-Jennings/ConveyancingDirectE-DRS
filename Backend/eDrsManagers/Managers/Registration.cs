@@ -247,7 +247,7 @@ namespace eDrsManagers.Managers
         {
             try
             {
-                var messageIds = _context.DocumentReferences.Where(x => x.Status).Select(x => x.DocumentReferenceId).ToList();
+                var messageIds = _context.DocumentReferences.Where(x => x.Status && x.OverallStatus == 1).Select(x => x.DocumentReferenceId).ToList();
                 messageIds.ForEach(x =>
                 {
                     GetPollResponse(x);
