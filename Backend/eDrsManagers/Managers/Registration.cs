@@ -376,32 +376,44 @@ namespace eDrsManagers.Managers
             {
                 var outResponse = response.Requests.FirstOrDefault();
 
-                if (outResponse.TypeCode == 30)
+                if (outResponse != null && outResponse.TypeCode == 30)
                 {
-                    EarlyCompletionRequest earlyCompletionRequest = new EarlyCompletionRequest();
-                    earlyCompletionRequest.Username = "BGUser001";
-                    earlyCompletionRequest.MessageId = outResponse.Id;
+                    var earlyCompletionRequest = new EarlyCompletionRequest
+                    {
+                        Username = "BGUser001",
+                        MessageId = outResponse.Id
+                    };
 
                     var responseEarlyCompletionApi = _httpInterceptor.CallEarlyCompletionApi(earlyCompletionRequest);
 
                     if (responseEarlyCompletionApi.IsSuccess)
                     {
+                        if (!string.IsNullOrEmpty(responseEarlyCompletionApi.File))
+                        {
+                            if (docRef != null) docRef.OverallStatus = 10; // Overall Process is completed
+                        }
                         responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
                         _context.RequestLogs.Add(responseEarlyCompletionApi);
                         _context.SaveChanges();
                         return responseEarlyCompletionApi;
                     }
                 }
-                else if (outResponse.TypeCode == 20)
+                else if (outResponse != null && outResponse.TypeCode == 20)
                 {
-                    ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
-                    applicationPollRequest.Username = "BGUser001";
-                    applicationPollRequest.MessageId = outResponse.Id;
+                    var applicationPollRequest = new ApplicationPollRequest
+                    {
+                        Username = "BGUser001",
+                        MessageId = outResponse.Id
+                    };
 
                     var responseEarlyCompletionApi = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
 
                     if (responseEarlyCompletionApi.IsSuccess)
                     {
+                        if (!string.IsNullOrEmpty(responseEarlyCompletionApi.File))
+                        {
+                            if (docRef != null) docRef.OverallStatus = 10; // Overall Process is completed
+                        }
                         responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
                         _context.RequestLogs.Add(responseEarlyCompletionApi);
                         _context.SaveChanges();
