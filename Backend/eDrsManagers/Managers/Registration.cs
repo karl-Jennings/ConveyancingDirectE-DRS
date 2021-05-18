@@ -95,7 +95,7 @@ namespace eDrsManagers.Managers
                     {
                         model.RequestLogs = new List<RequestLog>();
                     }
-                   
+
                     requestLogList.ForEach(s => { model.RequestLogs.Add(s); });
                     model.RequestLogs.Add(requestLog);
                 }
@@ -223,6 +223,11 @@ namespace eDrsManagers.Managers
 
                         if (responseEarlyCompletionApi.IsSuccess)
                         {
+                            if (!string.IsNullOrEmpty(responseEarlyCompletionApi.File))
+                            {
+                                docRef.OverallStatus = 10; // Overall Process is completed
+                            }
+
                             responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
                             _context.RequestLogs.Add(responseEarlyCompletionApi);
                             _context.SaveChanges();
@@ -326,7 +331,7 @@ namespace eDrsManagers.Managers
 
             var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
 
-            if (response!=null && response.Successful)
+            if (response != null && response.Successful)
             {
                 var outResponse = response.Requests.FirstOrDefault();
 
@@ -498,7 +503,7 @@ namespace eDrsManagers.Managers
                         RequestLogs = sel.RequestLogs,
                         Representations = sel.Representations,
                         Outstanding = sel.Outstanding,
-                        OverallStatus=sel.OverallStatus
+                        OverallStatus = sel.OverallStatus
                     })
                     .FirstOrDefault(s => s.Status && s.DocumentReferenceId == regId);
 
