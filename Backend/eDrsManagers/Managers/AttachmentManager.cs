@@ -49,7 +49,9 @@ namespace eDrsManagers.Managers
 
                 var attachmentRequest = _httpInterceptor.CallAttachmentRequestApi(attachmentViewModel);
 
-                _context.RequestLogs.AddRange(attachmentRequest);
+                docRef.RequestLogs = attachmentRequest;
+
+              //  _context.RequestLogs.AddRange(attachmentRequest);
 
                 _context.SaveChanges();
 

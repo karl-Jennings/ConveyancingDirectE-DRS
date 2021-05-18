@@ -425,9 +425,11 @@ export class ScenarioComponent implements OnInit {
     if (this.docRefId != 0) {
       this.showProgress = CommonUtils.showProgress(this.dialog);
 
-      this.registrationService.GetRegistration(this.docRefId).pipe(
-        finalize(() => this.showProgress.close())
-      ).subscribe(res => {
+      this.registrationService.GetRegistration(this.docRefId).subscribe(res => {
+
+        console.log("CASE:",res);
+
+        this.showProgress.close();
         this.documentReferenceGroup = this.formBuilder.group(res);
 
         this.titleList = res.Titles ?? [];
@@ -1219,7 +1221,7 @@ export class ScenarioComponent implements OnInit {
     ).subscribe(res => {
 
       FileSaver.saveAs(res!, item.FileName + "." + item.FileExtension?.toLowerCase());
-      this.PopulateAllFields();
+     //this.PopulateAllFields();
     })
   }
 
@@ -1241,14 +1243,15 @@ export class ScenarioComponent implements OnInit {
 
   FindRequisitions() {
     this.showProgress = CommonUtils.showProgress(this.dialog);
-    this.registrationService.GetRequisition(this.docRefId, "70").pipe(
-      finalize(() => this.showProgress.close())
-    ).subscribe(res => {
+    this.registrationService.GetRequisition(this.docRefId, "70").subscribe(res => {
+
+      this.showProgress.close();
 
       if (res != false) {
         if (res.IsSuccess) {
           this.PopulateAllFields();
-          this.toastr.success("Please refresh the page to view the results", "Requisition Results collected");
+          this.toastr.success("Requisition Results collected", "Successe");
+          
         }
         else
           this.toastr.error("Something went wrong while collecting results", "Requisition Results Error");
@@ -1267,16 +1270,14 @@ export class ScenarioComponent implements OnInit {
     ).subscribe(res => {
 
       if (res != false) {
-
-        if (res.IsSuccess) {
+      
           this.PopulateAllFields();
-          this.toastr.success("Please refresh the page to view the results", "Replied to Attachments")
-        }
-        else
-          this.toastr.error("Something went wrong while replying to results", "Attachments Results Error")
+          this.toastr.success("Success", "Replied to Requisition")
+        
 
       } else {
-        this.toastr.error("Something went wrong while replying to results", "Attachments Results Error")
+
+        this.toastr.error("Something went wrong while replying to Requisition", "Requisition Reply Error")
 
       }
 

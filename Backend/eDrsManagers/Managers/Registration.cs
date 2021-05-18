@@ -83,10 +83,19 @@ namespace eDrsManagers.Managers
             else
             {
                 model.IsApiSuccess = true;
+
+                //Update case overall status 1=>Inprogress 
+                model.OverallStatus = 1;
+
                 requestLog.DocumentReferenceId = model.DocumentReferenceId;
                 var requestLogList = requestLog.AttachmentResponse;
                 if (requestLogList != null)
                 {
+                    if (model.RequestLogs == null)
+                    {
+                        model.RequestLogs = new List<RequestLog>();
+                    }
+                   
                     requestLogList.ForEach(s => { model.RequestLogs.Add(s); });
                     model.RequestLogs.Add(requestLog);
                 }
@@ -488,7 +497,8 @@ namespace eDrsManagers.Managers
                         ExternalReference = sel.ExternalReference,
                         RequestLogs = sel.RequestLogs,
                         Representations = sel.Representations,
-                        Outstanding = sel.Outstanding
+                        Outstanding = sel.Outstanding,
+                        OverallStatus=sel.OverallStatus
                     })
                     .FirstOrDefault(s => s.Status && s.DocumentReferenceId == regId);
 
