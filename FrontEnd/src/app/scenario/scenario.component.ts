@@ -421,13 +421,14 @@ export class ScenarioComponent implements OnInit {
     this.onAttcmntTypeChange();
   }
 
-  PopulateAllFields() {
+  async PopulateAllFields() {
     if (this.docRefId != 0) {
+      await new Promise(resolve => setTimeout(resolve, 100));
       this.showProgress = CommonUtils.showProgress(this.dialog);
 
       this.registrationService.GetRegistration(this.docRefId).subscribe(res => {
 
-        console.log("CASE:",res);
+        console.log("CASE:", res);
 
         this.showProgress.close();
         this.documentReferenceGroup = this.formBuilder.group(res);
@@ -466,6 +467,8 @@ export class ScenarioComponent implements OnInit {
           s.LocalId = this.appId++;
         })
 
+      }, err => {
+        this.showProgress.close();
       })
     }
   }
@@ -1221,7 +1224,7 @@ export class ScenarioComponent implements OnInit {
     ).subscribe(res => {
 
       FileSaver.saveAs(res!, item.FileName + "." + item.FileExtension?.toLowerCase());
-     //this.PopulateAllFields();
+      //this.PopulateAllFields();
     })
   }
 
@@ -1230,7 +1233,6 @@ export class ScenarioComponent implements OnInit {
     this.registrationService.CollectAttachmentResult(this.docRefId, "70").pipe(
       finalize(() => this.showProgress.close())
     ).subscribe(res => {
-
       if (res.Successful) {
         this.PopulateAllFields();
         this.toastr.success("Please refresh the page to view the results", "Attachment Results collected")
@@ -1251,7 +1253,7 @@ export class ScenarioComponent implements OnInit {
         if (res.IsSuccess) {
           this.PopulateAllFields();
           this.toastr.success("Requisition Results collected", "Successe");
-          
+
         }
         else
           this.toastr.error("Something went wrong while collecting results", "Requisition Results Error");
@@ -1270,10 +1272,10 @@ export class ScenarioComponent implements OnInit {
     ).subscribe(res => {
 
       if (res != false) {
-      
-          this.PopulateAllFields();
-          this.toastr.success("Success", "Replied to Requisition")
-        
+
+        this.PopulateAllFields();
+        this.toastr.success("Success", "Replied to Requisition")
+
 
       } else {
 
