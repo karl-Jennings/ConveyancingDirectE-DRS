@@ -350,6 +350,12 @@ export class ScenarioComponent implements OnInit {
 
     this.partyGroup.get('PartyType')?.valueChanges.subscribe(res => {
       this.partyType = res
+      if (this.partyType == "company") {
+
+      } else if (this.partyType == "person") {
+
+      }
+
     })
 
     this.representationGroup.get('Type')?.valueChanges.subscribe(res => {
