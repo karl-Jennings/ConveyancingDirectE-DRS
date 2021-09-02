@@ -15,7 +15,7 @@ namespace eDrsManagers.FluentValidation.Validators
                 .NotNull().NotEmpty().WithMessage("PartyType should not be Empty");
             
             RuleFor(x => x.IsApplicant)
-                .NotNull().NotEmpty().WithMessage("IsApplicant should not be Empty");
+                .NotNull().WithMessage("IsApplicant should not be Empty");
             
             RuleFor(x => x.CompanyOrForeName)
                 .NotNull().NotEmpty().WithMessage("CompanyOrForeName should not be Empty");

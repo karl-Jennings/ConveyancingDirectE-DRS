@@ -33,7 +33,7 @@ namespace eDrsManagers.Http
     {
         private LrCredential lrCredentials;
         private readonly AppDbContext _context;
-        private string baseUrl = "https://localhost:44340/api/";
+        private string baseUrl = "https://cdhis90:92/api/";
         public HttpEdrsCall(AppDbContext context)
         {
             _context = context;

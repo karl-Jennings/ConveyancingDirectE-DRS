@@ -238,15 +238,20 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="Abstract" />
       <xs:enumeration value="Agreement" />
+      <xs:enumeration value="Assent" />
       <xs:enumeration value="Assignment" />
+      <xs:enumeration value="Birth Certificate" />
+      <xs:enumeration value="Charge" />
       <xs:enumeration value="Conveyance" />
       <xs:enumeration value="Correspondence" />
       <xs:enumeration value="Court Order" />
+      <xs:enumeration value="Death Certificate" />
       <xs:enumeration value="Deed" />
-      <xs:enumeration value="Form DI" />
+      <xs:enumeration value="Discharge" />
       <xs:enumeration value="Document List" />
       <xs:enumeration value="Evidence" />
       <xs:enumeration value="EX1A" />
+      <xs:enumeration value="Form DI" />
       <xs:enumeration value="Identity Evidence" />
       <xs:enumeration value="Identity Form" />
       <xs:enumeration value="Indenture" />
@@ -254,10 +259,15 @@
       <xs:enumeration value="Lease" />
       <xs:enumeration value="Licence" />
       <xs:enumeration value="LR Correspondence" />
+      <xs:enumeration value="Marriage Certificate" />
+      <xs:enumeration value="Plan" />
       <xs:enumeration value="Power of Attorney" />
+      <xs:enumeration value="Probate" />
       <xs:enumeration value="Stamp Duty Land Tax" />
       <xs:enumeration value="Statement Of Truth" />
       <xs:enumeration value="Statutory Declaration" />
+      <xs:enumeration value="Sub Charge" />
+      <xs:enumeration value="Transfer" />
       <xs:enumeration value="Witness Statement" />
     </xs:restriction>
   </xs:simpleType>
