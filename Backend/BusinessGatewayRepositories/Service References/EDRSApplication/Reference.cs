@@ -2330,10 +2330,20 @@ namespace BusinessGatewayRepositories.EDRSApplication {
         
         /// <remarks/>
         Agreement,
-        
+
+        /// <remarks/>
+        Assent,
+
         /// <remarks/>
         Assignment,
-        
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("Birth Certificate")]
+        BirthCertificate,
+
+        /// <remarks/>
+        Charge,
+
         /// <remarks/>
         Conveyance,
         
@@ -2343,23 +2353,30 @@ namespace BusinessGatewayRepositories.EDRSApplication {
         /// <remarks/>
         [System.Xml.Serialization.XmlEnumAttribute("Court Order")]
         CourtOrder,
-        
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("Death Certificate")]
+        DeathCertificate,
+
         /// <remarks/>
         Deed,
-        
+
         /// <remarks/>
-        [System.Xml.Serialization.XmlEnumAttribute("Form DI")]
-        FormDI,
-        
+        Discharge,
+
         /// <remarks/>
         [System.Xml.Serialization.XmlEnumAttribute("Document List")]
         DocumentList,
-        
+
         /// <remarks/>
         Evidence,
-        
+
         /// <remarks/>
         EX1A,
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("Form DI")]
+        FormDI,
         
         /// <remarks/>
         [System.Xml.Serialization.XmlEnumAttribute("Identity Evidence")]
@@ -2371,7 +2388,11 @@ namespace BusinessGatewayRepositories.EDRSApplication {
         
         /// <remarks/>
         Indenture,
-        
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("Land Transaction Tax")]
+        LandTransactionTax,
+
         /// <remarks/>
         Lease,
         
@@ -2381,11 +2402,21 @@ namespace BusinessGatewayRepositories.EDRSApplication {
         /// <remarks/>
         [System.Xml.Serialization.XmlEnumAttribute("LR Correspondence")]
         LRCorrespondence,
-        
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("Marriage Certificate")]
+        MarriageCertificate,
+
+        /// <remarks/>
+        Plan,
+
         /// <remarks/>
         [System.Xml.Serialization.XmlEnumAttribute("Power of Attorney")]
         PowerofAttorney,
-        
+
+        /// <remarks/>
+        Probate,
+
         /// <remarks/>
         [System.Xml.Serialization.XmlEnumAttribute("Stamp Duty Land Tax")]
         StampDutyLandTax,
@@ -2398,6 +2429,13 @@ namespace BusinessGatewayRepositories.EDRSApplication {
         [System.Xml.Serialization.XmlEnumAttribute("Statutory Declaration")]
         StatutoryDeclaration,
         
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("Sub Charge")]
+        SubCharge,
+
+        /// <remarks/>
+        Transfer,
+
         /// <remarks/>
         [System.Xml.Serialization.XmlEnumAttribute("Witness Statement")]
         WitnessStatement,

@@ -85,7 +85,7 @@ namespace eDrsAPI.Migrations
                     AdditionalProviderFilter = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicationMessageId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicationService = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DocumentReferenceId = table.Column<long>(type: "bigint", nullable: false),
+                    DocumentReferenceId = table.Column<long>(type: "bigint", nullable: true),
                     ExternalReference = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MessageId = table.Column<long>(type: "bigint", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)

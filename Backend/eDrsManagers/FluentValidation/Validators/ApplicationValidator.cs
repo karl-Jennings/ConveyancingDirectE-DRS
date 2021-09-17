@@ -28,32 +28,32 @@ namespace eDrsManagers.FluentValidation
                     .NotNull().NotEmpty().WithMessage("ChargeDate should not be Empty");
 
                 RuleFor(x => x.IsMdRef)
-                    .NotNull().NotEmpty().WithMessage("IsMdRef should not be Empty");
+                    .NotNull().WithMessage("IsMdRef should not be Empty");
+
+                RuleFor(x => x.Value)
+                    .NotNull().NotEmpty().WithMessage("Value should not be Empty");
+
+                RuleFor(x => x.FeeInPence)
+                    .NotNull().NotEmpty().WithMessage("FeeInPence should not be Empty");
+
+                RuleFor(x => x.CertifiedCopy)
+                    .NotNull().WithMessage("CertifiedCopy should not be Empty");
+
+                RuleFor(x => x.ExternalReference)
+                    .NotNull().WithMessage("ExternalReference should not be Empty");
+
+                RuleFor(x => x.Document)
+                    .NotNull().WithMessage("Document should not be Empty");
+
+                RuleFor(x => x.Document.Base64)
+                    .NotNull().NotEmpty().WithMessage("Base64 should not be Empty");
+
+                RuleFor(x => x.Document.FileName)
+                    .NotNull().NotEmpty().WithMessage("FileName should not be Empty");
+
+                RuleFor(x => x.Document.FileExtension)
+                    .NotNull().NotEmpty().WithMessage("FileExtension should not be Empty");
             });
-             
-            RuleFor(x => x.Value)
-                .NotNull().NotEmpty().WithMessage("Value should not be Empty");
-
-            RuleFor(x => x.FeeInPence)
-                .NotNull().NotEmpty().WithMessage("FeeInPence should not be Empty");
-
-            RuleFor(x => x.CertifiedCopy)
-                .NotNull().NotEmpty().WithMessage("CertifiedCopy should not be Empty");
-
-            RuleFor(x => x.ExternalReference)
-                .NotNull().NotEmpty().WithMessage("CertifiedCopy should not be Empty");
-
-            RuleFor(x => x.Document)
-                .NotNull().NotEmpty().WithMessage("Document should not be Empty");
-
-            RuleFor(x => x.Document.Base64)
-                .NotNull().NotEmpty().WithMessage("Base64 should not be Empty");
-
-            RuleFor(x => x.Document.FileName)
-                .NotNull().NotEmpty().WithMessage("FileName should not be Empty");
-
-            RuleFor(x => x.Document.FileExtension)
-                .NotNull().NotEmpty().WithMessage("FileExtension should not be Empty");
 
         }
     }

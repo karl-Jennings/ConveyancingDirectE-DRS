@@ -91,7 +91,6 @@ namespace eDrsAPI.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CertifiedCopy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ChargeDate")
@@ -101,7 +100,6 @@ namespace eDrsAPI.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("ExternalReference")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("FeeInPence")
@@ -111,7 +109,6 @@ namespace eDrsAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("IsMdRef")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MdRef")
@@ -124,7 +121,6 @@ namespace eDrsAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Value")
@@ -617,36 +613,30 @@ namespace eDrsAPI.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdditionalProviderFilter")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ApplicationMessageId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Base64")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CertifiedCopy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("DocumentId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("DocumentName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("DocumentReferenceId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("DocumentType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ExternalReference")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FileExtension")
@@ -718,7 +708,6 @@ namespace eDrsAPI.Migrations
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Designation")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -726,7 +715,6 @@ namespace eDrsAPI.Migrations
                         .HasMaxLength(350);
 
                     b.Property<string>("Firstname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(150)")
                         .HasMaxLength(150);
 
@@ -749,7 +737,6 @@ namespace eDrsAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(150)")
                         .HasMaxLength(150);
 
@@ -767,7 +754,7 @@ namespace eDrsAPI.Migrations
                             UserId = 1L,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Designation = "admin",
-                            Email = "dushyanthaccura@gmail.com",
+                            Email = "it@cdpll.co.uk",
                             Firstname = "Admin",
                             PasswordHash = new byte[] { 211, 99, 90, 81, 220, 56, 17, 32, 136, 81, 207, 191, 9, 82, 136, 89, 112, 131, 214, 128, 51, 165, 187, 238, 172, 16, 47, 43, 198, 166, 218, 56, 59, 195, 61, 159, 165, 47, 189, 42, 98, 42, 112, 72, 154, 246, 164, 63, 216, 70, 120, 31, 187, 134, 38, 210, 9, 224, 86, 114, 39, 215, 107, 47 },
                             PasswordSalt = new byte[] { 206, 31, 200, 223, 122, 18, 106, 79, 214, 22, 198, 42, 6, 15, 69, 148, 90, 169, 44, 161, 238, 160, 101, 86, 190, 191, 215, 107, 101, 193, 194, 39, 195, 121, 95, 4, 117, 43, 40, 97, 51, 130, 62, 36, 57, 46, 173, 6, 124, 41, 171, 50, 172, 122, 198, 91, 72, 228, 18, 114, 176, 140, 15, 66, 63, 177, 113, 188, 112, 66, 243, 173, 166, 91, 115, 65, 211, 154, 231, 211, 134, 12, 0, 225, 138, 91, 38, 12, 17, 136, 125, 87, 176, 111, 136, 227, 157, 105, 7, 251, 200, 59, 78, 199, 146, 9, 198, 117, 237, 33, 208, 25, 78, 159, 228, 169, 112, 120, 122, 89, 12, 196, 0, 242, 63, 63, 73, 213 },
@@ -782,8 +769,7 @@ namespace eDrsAPI.Migrations
                     b.HasOne("eDrsDB.Models.Party", null)
                         .WithMany("Addresses")
                         .HasForeignKey("PartyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("eDrsDB.Models.ApplicationForm", b =>
@@ -791,8 +777,7 @@ namespace eDrsAPI.Migrations
                     b.HasOne("eDrsDB.Models.DocumentReference", null)
                         .WithMany("Applications")
                         .HasForeignKey("DocumentReferenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("eDrsDB.Models.Document", b =>
@@ -800,8 +785,7 @@ namespace eDrsAPI.Migrations
                     b.HasOne("eDrsDB.Models.ApplicationForm", null)
                         .WithOne("Document")
                         .HasForeignKey("eDrsDB.Models.Document", "ApplicationFormId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("eDrsDB.Models.DocumentReference", b =>
@@ -809,14 +793,12 @@ namespace eDrsAPI.Migrations
                     b.HasOne("eDrsDB.Models.RegistrationType", "RegistrationType")
                         .WithMany()
                         .HasForeignKey("RegistrationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("eDrsDB.Models.User", null)
                         .WithMany("DocumentReferences")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("eDrsDB.Models.Outstanding", b =>
@@ -833,8 +815,7 @@ namespace eDrsAPI.Migrations
                     b.HasOne("eDrsDB.Models.DocumentReference", null)
                         .WithMany("Parties")
                         .HasForeignKey("DocumentReferenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("eDrsDB.Models.Representation", b =>
@@ -842,8 +823,7 @@ namespace eDrsAPI.Migrations
                     b.HasOne("eDrsDB.Models.DocumentReference", null)
                         .WithMany("Representations")
                         .HasForeignKey("DocumentReferenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("eDrsDB.Models.RequestLog", b =>
@@ -851,8 +831,7 @@ namespace eDrsAPI.Migrations
                     b.HasOne("eDrsDB.Models.DocumentReference", null)
                         .WithMany("RequestLogs")
                         .HasForeignKey("DocumentReferenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("eDrsDB.Models.SupportingDocuments", b =>
@@ -860,8 +839,7 @@ namespace eDrsAPI.Migrations
                     b.HasOne("eDrsDB.Models.DocumentReference", null)
                         .WithMany("SupportingDocuments")
                         .HasForeignKey("DocumentReferenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("eDrsDB.Models.TitleNumber", b =>
@@ -869,8 +847,7 @@ namespace eDrsAPI.Migrations
                     b.HasOne("eDrsDB.Models.DocumentReference", null)
                         .WithMany("Titles")
                         .HasForeignKey("DocumentReferenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

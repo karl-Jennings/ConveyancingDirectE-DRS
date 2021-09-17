@@ -18,7 +18,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "ExternalReference",
                 table: "SupportingDocuments",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -26,7 +26,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "DocumentType",
                 table: "SupportingDocuments",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -34,7 +34,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "DocumentName",
                 table: "SupportingDocuments",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -42,7 +42,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "CertifiedCopy",
                 table: "SupportingDocuments",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -50,7 +50,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "ApplicationMessageId",
                 table: "SupportingDocuments",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -58,7 +58,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "AdditionalProviderFilter",
                 table: "SupportingDocuments",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -66,7 +66,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "Type",
                 table: "Representations",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -74,7 +74,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "Roles",
                 table: "Parties",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -82,7 +82,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "PartyType",
                 table: "Parties",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -90,7 +90,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "CompanyOrForeName",
                 table: "Parties",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -98,7 +98,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "FileName",
                 table: "Documents",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -106,7 +106,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "FileExtension",
                 table: "Documents",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -114,7 +114,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "Base64",
                 table: "Documents",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -122,7 +122,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "IsMdRef",
                 table: "ApplicationForms",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);

@@ -84,7 +84,7 @@ namespace eDrsAPI.Migrations
                 name: "DxNumber",
                 table: "Representations",
                 type: "bigint",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldNullable: true);
 

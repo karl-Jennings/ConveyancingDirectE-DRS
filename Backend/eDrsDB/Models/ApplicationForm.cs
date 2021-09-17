@@ -12,29 +12,29 @@ namespace eDrsDB.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long ApplicationFormId { get; set; }
 
-        [Required]
+      //  [Required]
         public string Variety { get; set; }
 
-        [Required]
+      //  [Required]
         public int Priority { get; set; }
 
-        [Required]
+     //   [Required]
         public string Value { get; set; }
 
-        [Required]
+     //   [Required]
         public int FeeInPence { get; set; }
 
-        [Required]
+      //  [Required]
         public string Type { get; set; }
 
-        [Required]
+      //  [Required]
         public string ExternalReference { get; set; }
 
-        [Required]
+      //  [Required]
         public string CertifiedCopy { get; set; }
         public DateTime ChargeDate { get; set; }
 
-        [Required]
+     //   [Required]
         public string IsMdRef { get; set; }
         public string SortCode { get; set; }
         public string MdRef { get; set; }
@@ -44,7 +44,7 @@ namespace eDrsDB.Models
         [JsonIgnore]
         internal DocumentReference DocumentReference { get; set; }
 
-        [Required]
+     //   [Required]
         public Document Document { get; set; }
 
     }

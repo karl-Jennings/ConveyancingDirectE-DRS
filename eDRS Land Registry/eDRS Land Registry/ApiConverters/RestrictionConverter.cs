@@ -227,17 +227,26 @@ namespace eDRS_Land_Registry.ApiConverters
             AttachmentV2_0Type _request = new AttachmentV2_0Type();
 
             _request.MessageId = messageId;
+            File.WriteAllText(@"\\cdhpc73\c$\LR_APImessageIdresponse.txt", _request.MessageId.ToString());
             _request.ExternalReference = applicationForm != null ? applicationForm.ExternalReference : supportingDocuments.ExternalReference;
+            File.WriteAllText(@"\\cdhpc73\c$\LR_APIExternalReferenceresponse.txt", _request.ExternalReference.ToString());
             _request.ApplicationMessageId = messageId;
+            File.WriteAllText(@"\\cdhpc73\c$\LR_APIApplicationMessageIdresponse.txt", _request.ApplicationMessageId.ToString());
             _request.ApplicationService = "104";
+            File.WriteAllText(@"\\cdhpc73\c$\LR_APIApplicationServiceresponse.txt", _request.ApplicationService.ToString());
+
+            File.WriteAllText(@"\\cdhpc73\c$\LR_APIAppTyperesponse.txt", applicationForm.Type.ToString());
 
             BusinessGatewayRepositories.AttachmentServiceRequest.AttachmentType attachment = null;
-            if (applicationForm != null || supportingDocuments.DocumentType == "supDoc")
+            if (applicationForm != null && applicationForm.Type.ToString() != "DIS" || supportingDocuments.DocumentType == "supDoc" && applicationForm.Type.ToString() != "DIS")
             {
-                byte[] fileArray = Convert.FromBase64String(applicationForm != null
-                    ? applicationForm.Document.Base64.Split(',')[1]
-                    : supportingDocuments.Base64.Split(',')[1]);
+                File.WriteAllText(@"\\cdhpc73\c$\LR_APIAppTypeInIF.txt", "LR_APIAppTypeInIF");
+                File.WriteAllText(@"\\cdhpc73\c$\LR_APIAppFormDocument.txt", applicationForm.Document.Base64.ToString());
 
+                byte[] fileArray = Convert.FromBase64String(applicationForm != null
+                    ? applicationForm.Document.Base64.Split(',')[0]
+                    : supportingDocuments.Base64.Split(',')[0]);
+                File.WriteAllText(@"\\cdhpc73\c$\LR_APIMadefileArray.txt", "LR_APIMadefileArray");
                 attachment = new BusinessGatewayRepositories.AttachmentServiceRequest.AttachmentType
                 {
                     filename = Path.GetFileNameWithoutExtension(applicationForm != null ? applicationForm.Document.FileName : supportingDocuments.FileName),
@@ -245,6 +254,8 @@ namespace eDRS_Land_Registry.ApiConverters
                     Value = fileArray,
                 };
             }
+
+            File.WriteAllText(@"\\cdhpc73\c$\LR_APIattachmentresponse.txt", "Ran past attachment");
 
             var ItemsElementName = new BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType[3];
 

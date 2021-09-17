@@ -47,8 +47,8 @@ namespace eDrsAPI.Migrations
                     TypeName = table.Column<string>(maxLength: 150, nullable: true),
                     TypeCode = table.Column<string>(maxLength: 150, nullable: true),
                     Url = table.Column<string>(maxLength: 300, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(nullable: false),
-                    Status = table.Column<bool>(nullable: false, defaultValue: true)
+                    UpdatedDate = table.Column<DateTime>(nullable: true),
+                    Status = table.Column<bool>(nullable: true, defaultValue: true)
                 },
                 constraints: table =>
                 {
@@ -61,16 +61,16 @@ namespace eDrsAPI.Migrations
                 {
                     UserId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(maxLength: 150, nullable: false),
-                    Firstname = table.Column<string>(maxLength: 150, nullable: false),
+                    Username = table.Column<string>(maxLength: 150, nullable: true),
+                    Firstname = table.Column<string>(maxLength: 150, nullable: true),
                     Lastname = table.Column<string>(maxLength: 150, nullable: true),
                     Email = table.Column<string>(maxLength: 350, nullable: true),
-                    Designation = table.Column<string>(nullable: false),
+                    Designation = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<byte[]>(nullable: true),
                     PasswordSalt = table.Column<byte[]>(nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
-                    UpdatedDate = table.Column<DateTime>(nullable: false),
-                    Status = table.Column<bool>(nullable: false, defaultValue: true)
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValueSql: "GETDATE()"),
+                    UpdatedDate = table.Column<DateTime>(nullable: true),
+                    Status = table.Column<bool>(nullable: true, defaultValue: true)
                 },
                 constraints: table =>
                 {
@@ -84,20 +84,20 @@ namespace eDrsAPI.Migrations
                     DocumentReferenceId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Reference = table.Column<string>(nullable: true),
-                    TotalFeeInPence = table.Column<int>(nullable: false),
+                    TotalFeeInPence = table.Column<int>(nullable: true),
                     MessageID = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
-                    TelephoneNumber = table.Column<long>(nullable: false),
+                    TelephoneNumber = table.Column<long>(nullable: true),
                     AdditionalProviderFilter = table.Column<string>(nullable: true),
                     ExternalReference = table.Column<string>(nullable: true),
-                    AP1WarningUnderstood = table.Column<bool>(nullable: false),
-                    ApplicationDate = table.Column<DateTime>(nullable: false),
-                    DisclosableOveridingInterests = table.Column<bool>(nullable: false),
+                    AP1WarningUnderstood = table.Column<bool>(nullable: true),
+                    ApplicationDate = table.Column<DateTime>(nullable: true),
+                    DisclosableOveridingInterests = table.Column<bool>(nullable: true),
                     PostcodeOfProperty = table.Column<string>(nullable: true),
                     LocalAuthority = table.Column<string>(nullable: true),
                     ApplicationAffects = table.Column<string>(nullable: true),
-                    Status = table.Column<bool>(nullable: false, defaultValue: true),
+                    Status = table.Column<bool>(nullable: true, defaultValue: true),
                     RegistrationTypeId = table.Column<long>(nullable: false),
                     UserId = table.Column<long>(nullable: false)
                 },
@@ -125,13 +125,13 @@ namespace eDrsAPI.Migrations
                     ApplicationFormId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Variety = table.Column<string>(nullable: true),
-                    Priority = table.Column<int>(nullable: false),
+                    Priority = table.Column<int>(nullable: true),
                     Value = table.Column<string>(nullable: true),
-                    FeeInPence = table.Column<int>(nullable: false),
+                    FeeInPence = table.Column<int>(nullable: true),
                     Type = table.Column<string>(nullable: true),
                     ExternalReference = table.Column<string>(nullable: true),
                     CertifiedCopy = table.Column<string>(nullable: true),
-                    ChargeDate = table.Column<DateTime>(nullable: false),
+                    ChargeDate = table.Column<DateTime>(nullable: true),
                     IsMdRef = table.Column<string>(nullable: true),
                     SortCode = table.Column<string>(nullable: true),
                     MdRef = table.Column<string>(nullable: true),
@@ -155,7 +155,7 @@ namespace eDrsAPI.Migrations
                     AttachmentNotesId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AdditionalProviderFilter = table.Column<string>(nullable: true),
-                    MessageId = table.Column<long>(nullable: false),
+                    MessageId = table.Column<long>(nullable: true),
                     ExternalReference = table.Column<string>(nullable: true),
                     ApplicationMessageId = table.Column<string>(nullable: true),
                     ApplicationService = table.Column<string>(nullable: true),
@@ -181,8 +181,8 @@ namespace eDrsAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LandRegistryId = table.Column<string>(nullable: true),
                     ServiceType = table.Column<string>(nullable: true),
-                    NewResponse = table.Column<bool>(nullable: false),
-                    TypeCode = table.Column<int>(nullable: false),
+                    NewResponse = table.Column<bool>(nullable: true),
+                    TypeCode = table.Column<int>(nullable: true),
                     Type = table.Column<string>(nullable: true),
                     DocumentReferenceId = table.Column<long>(nullable: false)
                 },
@@ -203,7 +203,7 @@ namespace eDrsAPI.Migrations
                 {
                     PartyId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IsApplicant = table.Column<bool>(nullable: false),
+                    IsApplicant = table.Column<bool>(nullable: true),
                     CompanyOrForeName = table.Column<string>(nullable: true),
                     Surname = table.Column<string>(nullable: true),
                     Roles = table.Column<string>(nullable: true),
@@ -229,14 +229,14 @@ namespace eDrsAPI.Migrations
                     RepresentationId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Type = table.Column<string>(nullable: true),
-                    RepresentativeId = table.Column<long>(nullable: false),
+                    RepresentativeId = table.Column<long>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Reference = table.Column<string>(nullable: true),
                     AddressType = table.Column<string>(nullable: true),
-                    DocumentReferenceId = table.Column<long>(nullable: false),
+                    DocumentReferenceId = table.Column<long>(nullable: true),
                     CareOfName = table.Column<string>(nullable: true),
                     CareOfReference = table.Column<string>(nullable: true),
-                    DxNumber = table.Column<long>(nullable: false),
+                    DxNumber = table.Column<long>(nullable: true),
                     DxExchange = table.Column<string>(nullable: true),
                     AddressLine1 = table.Column<string>(nullable: true),
                     AddressLine2 = table.Column<string>(nullable: true),
@@ -267,7 +267,7 @@ namespace eDrsAPI.Migrations
                     Type = table.Column<string>(nullable: true),
                     TypeCode = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValueSql: "GETDATE()"),
                     File = table.Column<string>(nullable: true),
                     FileName = table.Column<string>(nullable: true),
                     FileExtension = table.Column<string>(nullable: true),
@@ -320,8 +320,8 @@ namespace eDrsAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TitleNumberCode = table.Column<string>(maxLength: 150, nullable: true),
                     LesseeTitleNumber = table.Column<string>(nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
-                    UpdatedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValueSql: "GETDATE()"),
+                    UpdatedDate = table.Column<DateTime>(nullable: true),
                     Status = table.Column<bool>(nullable: false, defaultValue: true),
                     DocumentReferenceId = table.Column<long>(nullable: false)
                 },
@@ -381,7 +381,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "Designation", "Email", "Firstname", "Lastname", "PasswordHash", "PasswordSalt", "Status", "UpdatedDate", "Username" },
-                values: new object[] { 1L, "admin", "dushyanthaccura@gmail.com", "Admin", null, new byte[] { 171, 97, 4, 246, 184, 214, 163, 128, 239, 183, 207, 159, 149, 61, 245, 31, 57, 108, 69, 65, 237, 66, 35, 57, 40, 36, 236, 179, 162, 76, 238, 128, 41, 145, 213, 100, 7, 43, 123, 46, 178, 45, 188, 92, 174, 97, 229, 64, 29, 145, 129, 188, 54, 144, 43, 254, 50, 156, 55, 89, 8, 218, 103, 129 }, new byte[] { 177, 226, 152, 130, 119, 167, 31, 27, 164, 218, 163, 235, 1, 37, 210, 54, 207, 201, 47, 197, 232, 61, 52, 129, 255, 228, 56, 246, 72, 196, 149, 219, 244, 219, 247, 20, 181, 64, 129, 202, 205, 0, 125, 231, 41, 67, 81, 13, 99, 76, 186, 205, 178, 77, 89, 56, 96, 76, 61, 26, 240, 152, 0, 36, 50, 162, 5, 176, 146, 69, 182, 93, 76, 219, 198, 156, 155, 147, 72, 166, 47, 43, 183, 90, 17, 194, 216, 62, 10, 91, 204, 68, 241, 228, 161, 59, 45, 41, 94, 99, 51, 127, 202, 182, 212, 201, 141, 1, 243, 213, 28, 252, 54, 141, 235, 141, 116, 71, 134, 237, 100, 122, 46, 194, 7, 200, 192, 112 }, true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "edrs-admin" });
+                values: new object[] { 1L, "admin", "it@cdpll.co.uk", "Admin", null, new byte[] { 171, 97, 4, 246, 184, 214, 163, 128, 239, 183, 207, 159, 149, 61, 245, 31, 57, 108, 69, 65, 237, 66, 35, 57, 40, 36, 236, 179, 162, 76, 238, 128, 41, 145, 213, 100, 7, 43, 123, 46, 178, 45, 188, 92, 174, 97, 229, 64, 29, 145, 129, 188, 54, 144, 43, 254, 50, 156, 55, 89, 8, 218, 103, 129 }, new byte[] { 177, 226, 152, 130, 119, 167, 31, 27, 164, 218, 163, 235, 1, 37, 210, 54, 207, 201, 47, 197, 232, 61, 52, 129, 255, 228, 56, 246, 72, 196, 149, 219, 244, 219, 247, 20, 181, 64, 129, 202, 205, 0, 125, 231, 41, 67, 81, 13, 99, 76, 186, 205, 178, 77, 89, 56, 96, 76, 61, 26, 240, 152, 0, 36, 50, 162, 5, 176, 146, 69, 182, 93, 76, 219, 198, 156, 155, 147, 72, 166, 47, 43, 183, 90, 17, 194, 216, 62, 10, 91, 204, 68, 241, 228, 161, 59, 45, 41, 94, 99, 51, 127, 202, 182, 212, 201, 141, 1, 243, 213, 28, 252, 54, 141, 235, 141, 116, 71, 134, 237, 100, 122, 46, 194, 7, 200, 192, 112 }, true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "edrs-admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ApplicationForms_DocumentReferenceId",

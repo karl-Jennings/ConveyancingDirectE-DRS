@@ -686,7 +686,7 @@ namespace eDrsAPI.Migrations
                             UserId = 1L,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Designation = "admin",
-                            Email = "dushyanthaccura@gmail.com",
+                            Email = "it@cdpll.co.uk",
                             Firstname = "Admin",
                             PasswordHash = new byte[] { 105, 134, 14, 192, 141, 98, 135, 94, 98, 225, 134, 115, 207, 191, 106, 139, 122, 103, 73, 186, 235, 180, 200, 175, 227, 115, 104, 184, 22, 42, 101, 135, 23, 146, 238, 182, 25, 145, 94, 224, 32, 25, 56, 36, 233, 206, 223, 46, 255, 95, 135, 38, 190, 78, 9, 115, 181, 76, 100, 68, 144, 207, 7, 22 },
                             PasswordSalt = new byte[] { 225, 183, 136, 84, 147, 15, 201, 163, 218, 42, 106, 7, 245, 60, 191, 101, 127, 143, 16, 254, 86, 77, 34, 41, 163, 35, 121, 60, 204, 94, 124, 90, 52, 168, 209, 56, 181, 14, 70, 166, 12, 183, 24, 158, 241, 95, 146, 81, 170, 128, 99, 16, 189, 85, 57, 35, 212, 87, 127, 27, 54, 173, 127, 245, 164, 17, 68, 190, 129, 196, 95, 243, 32, 146, 207, 76, 99, 239, 210, 179, 6, 10, 173, 19, 28, 105, 103, 84, 67, 27, 254, 158, 239, 66, 72, 76, 144, 165, 199, 115, 23, 185, 220, 189, 219, 51, 225, 252, 248, 137, 83, 87, 113, 35, 50, 53, 63, 139, 253, 185, 150, 129, 158, 192, 45, 194, 21, 243 },
@@ -770,8 +770,7 @@ namespace eDrsAPI.Migrations
                     b.HasOne("eDrsDB.Models.DocumentReference", "DocumentReference")
                         .WithMany("SupportingDocuments")
                         .HasForeignKey("DocumentReferenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("eDrsDB.Models.TitleNumber", b =>

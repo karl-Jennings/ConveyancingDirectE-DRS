@@ -1,6 +1,7 @@
 ﻿using BusinessGatewayRepositories.EDRSApplication;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,16 @@ namespace BusinessGatewayRepositories
           
             _service.ChannelFactory.Endpoint.EndpointBehaviors.Add(new BusinessGatewayRepositories.HMLRBGMessageEndpointBehavior(username, password));
             _response=  _service.eDocumentRegistration(_request);
+
+
+            if (_response == null)
+            {
+                File.WriteAllText(@"\\cdhpc73\c$\LR_APIError.txt", @"Empty Response");
+            }
+            else
+            {
+                File.WriteAllText(@"\\cdhpc73\c$\LR_APIError.txt", _response.ToString());
+            }
 
             return _response;
 

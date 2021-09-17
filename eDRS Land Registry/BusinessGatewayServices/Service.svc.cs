@@ -9,6 +9,7 @@ using BusinessGatewayRepositories;
 using BusinessGatewayModels;
 using BusinessGatewayRepositories.EDRSApplication;
 using BusinessGatewayRepositories.AttachmentServiceRequest;
+using System.IO;
 
 namespace BusinessGatewayServices
 {
@@ -177,13 +178,32 @@ namespace BusinessGatewayServices
                 responseEDRSAppRequest.Successful = true;
                 responseEDRSAppRequest.GatewayResponse = _response;
 
+                if (responseEDRSAppRequest == null)
+                {
+                    File.WriteAllText(@"\\cdhpc73\c$\LR_APIError.txt", @"Empty Response");
+                }
+                else
+                {
+                    File.WriteAllText(@"\\cdhpc73\c$\LR_APIError.txt", responseEDRSAppRequest.GatewayResponse.ToString());
+                }
+
                 return responseEDRSAppRequest;
             }
             catch (Exception ex)
             {
                 responseEDRSAppRequest.Successful = false;
                 responseEDRSAppRequest.Error = ex;
+
+                if (responseEDRSAppRequest == null)
+                {
+                    File.WriteAllText(@"\\cdhpc73\c$\LR_APIError1.txt", @"Empty Response");
+                }
+                else
+                {
+                    File.WriteAllText(@"\\cdhpc73\c$\LR_APIError1.txt", responseEDRSAppRequest.Error.ToString());
+                }
                 return responseEDRSAppRequest;
+
             }
         }
 
@@ -200,12 +220,15 @@ namespace BusinessGatewayServices
                 responseEDRSAppRequest.Successful = true;
                 responseEDRSAppRequest.GatewayResponse = _response;
 
+                File.WriteAllText(@"\\cdhpc73\c$\AttachmentRequest.txt", @"AttachmentRequest.SuccessFul");
+
                 return responseEDRSAppRequest;
             }
             catch (Exception ex)
             {
                 responseEDRSAppRequest.Successful = false;
                 responseEDRSAppRequest.Error = ex;
+                File.WriteAllText(@"\\cdhpc73\c$\AttachmentRequest.txt", @"AttachmentRequest.FAILED! because " + ex.ToString());
                 return responseEDRSAppRequest;
             }
         }

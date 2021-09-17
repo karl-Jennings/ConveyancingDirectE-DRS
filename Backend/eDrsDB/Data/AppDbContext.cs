@@ -60,7 +60,7 @@ namespace eDrsDB.Data
                     Username = "edrs-admin",
                     Firstname = "Admin",
                     Designation = "admin",
-                    Email = "dushyanthaccura@gmail.com",
+                    Email = "it@cdpll.co.uk",
                     PasswordSalt = PasswordByte[0],
                     PasswordHash = PasswordByte[1]
                 });

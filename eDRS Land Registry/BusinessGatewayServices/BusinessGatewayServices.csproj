@@ -54,6 +54,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="ObjectDumping, Version=3.3.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ObjectDumper.NET.3.3.7\lib\net45\ObjectDumping.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />

@@ -84,7 +84,7 @@ namespace eDrsAPI.Migrations
                 name: "OverallStatus",
                 table: "DocumentReferences",
                 type: "bit",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(int),
                 oldNullable: true);
 

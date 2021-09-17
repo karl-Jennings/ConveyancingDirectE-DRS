@@ -10,7 +10,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "Reference",
                 table: "DocumentReferences",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -18,13 +18,13 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AddColumn<bool>(
                 name: "IsApiSuccess",
                 table: "DocumentReferences",
-                nullable: false,
+                nullable: true,
                 defaultValue: false);
 
             migrationBuilder.AlterColumn<string>(
                 name: "Variety",
                 table: "ApplicationForms",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -32,7 +32,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "Value",
                 table: "ApplicationForms",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -40,7 +40,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "Type",
                 table: "ApplicationForms",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -48,7 +48,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "ExternalReference",
                 table: "ApplicationForms",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -56,7 +56,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "CertifiedCopy",
                 table: "ApplicationForms",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -184,7 +184,7 @@ namespace eDrsAPI.Migrations
                 name: "DxNumber",
                 table: "Addresses",
                 type: "int",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldNullable: true);
 

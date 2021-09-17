@@ -10,13 +10,13 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AddColumn<bool>(
                 name: "IsChecked",
                 table: "SupportingDocuments",
-                nullable: false,
+                nullable: true,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
                 name: "IsChecked",
                 table: "ApplicationForms",
-                nullable: false,
+                nullable: true,
                 defaultValue: false);
 
             migrationBuilder.UpdateData(

@@ -482,7 +482,7 @@
     <xs:restriction base="xs:string">
       <xs:minLength value="1" />
       <xs:maxLength value="90" />
-      <xs:pattern value=".*\S.*" />
+      <xs:pattern value=".*\.*" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="Q1ForenamesTextContentType">
@@ -508,7 +508,7 @@
   </xs:simpleType>
   <xs:simpleType name="Q3TextContentType">
     <xs:restriction base="xs:string">
-      <xs:pattern value=".*\S.*" />
+      <xs:pattern value=".*\.*" />
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

@@ -25,7 +25,7 @@ namespace eDrsAPI.Migrations
                     PostCode = table.Column<string>(nullable: true),
                     CareOfName = table.Column<string>(nullable: true),
                     CareOfReference = table.Column<string>(nullable: true),
-                    DxNumber = table.Column<int>(nullable: false),
+                    DxNumber = table.Column<int>(nullable: true),
                     DxExchange = table.Column<string>(nullable: true),
                     EmailAddress = table.Column<string>(nullable: true),
                     PartyId = table.Column<long>(nullable: false)

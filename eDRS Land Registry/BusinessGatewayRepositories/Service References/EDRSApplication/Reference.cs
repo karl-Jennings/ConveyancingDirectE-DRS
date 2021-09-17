@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.IO;
+
 namespace BusinessGatewayRepositories.EDRSApplication
 {
 
@@ -112,6 +114,8 @@ namespace BusinessGatewayRepositories.EDRSApplication
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.oscre.org/ns/eReg-Final/2012/RequestApplicationToChangeRegisterV1_0")]
     public partial class ProductType : object, System.ComponentModel.INotifyPropertyChanged
     {
+
+        // I AM MAKING XML HERE!!! WHY WHY WHY AM I NOT CALLED FRANK!!
 
         private string referenceField;
 
@@ -3348,14 +3352,37 @@ namespace BusinessGatewayRepositories.EDRSApplication
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         BusinessGatewayRepositories.EDRSApplication.eDocumentRegistrationResponse BusinessGatewayRepositories.EDRSApplication.EDocumentRegistrationV1_0Service.eDocumentRegistration(BusinessGatewayRepositories.EDRSApplication.eDocumentRegistrationRequest request)
         {
+            File.WriteAllText(@"\\cdhpc73\c$\ResponseApplicationToChangeRegisterV1_0Type_eDocumentRegistrationError.txt", ObjectDumper.Dump(request).ToString());
+            
             return base.Channel.eDocumentRegistration(request);
+
         }
 
         public BusinessGatewayRepositories.EDRSApplication.ResponseApplicationToChangeRegisterV1_0Type eDocumentRegistration(BusinessGatewayRepositories.EDRSApplication.RequestApplicationToChangeRegisterV1_0Type arg0)
         {
             BusinessGatewayRepositories.EDRSApplication.eDocumentRegistrationRequest inValue = new BusinessGatewayRepositories.EDRSApplication.eDocumentRegistrationRequest();
+
+            if (inValue == null)
+            {
+                File.WriteAllText(@"\\cdhpc73\c$\ResponseApplicationToChangeRegisterV1_0Type)_inValueError.txt", @"Empty Response");
+            }
+            else
+            {
+                File.WriteAllText(@"\\cdhpc73\c$\ResponseApplicationToChangeRegisterV1_0Type_inValueError.txt", ObjectDumper.Dump(arg0).ToString());
+            }
+
             inValue.arg0 = arg0;
             BusinessGatewayRepositories.EDRSApplication.eDocumentRegistrationResponse retVal = ((BusinessGatewayRepositories.EDRSApplication.EDocumentRegistrationV1_0Service)(this)).eDocumentRegistration(inValue);
+
+            if (retVal == null)
+            {
+                File.WriteAllText(@"\\cdhpc73\c$\ResponseApplicationToChangeRegisterV1_0Type_retValError.txt", @"Empty Response");
+            }
+            else
+            {
+                File.WriteAllText(@"\\cdhpc73\c$\ResponseApplicationToChangeRegisterV1_0Type_retValError.txt", retVal.ToString());
+            }
+
             return retVal.@return;
         }
 

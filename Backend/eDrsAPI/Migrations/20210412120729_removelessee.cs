@@ -94,7 +94,7 @@ namespace eDrsAPI.Migrations
                 name: "Roles",
                 table: "Parties",
                 type: "nvarchar(max)",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
                 oldNullable: true);
 

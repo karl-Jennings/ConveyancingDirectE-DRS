@@ -14,7 +14,7 @@ namespace eDrsAPI.Migrations
             migrationBuilder.AddColumn<bool>(
                 name: "OverallStatus",
                 table: "DocumentReferences",
-                nullable: false,
+                nullable: true,
                 defaultValue: false);
 
             migrationBuilder.UpdateData(

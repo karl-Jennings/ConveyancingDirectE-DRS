@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AutoMapper;
 using BusinessGatewayModels;
@@ -75,6 +76,15 @@ namespace eDrsManagers.Managers
             /********** Calling LR Api backend ***********/
             var requestLog = _httpInterceptor.CallRegistrationApi(viewModel);
             /********** Calling LR Api backend ***********/
+
+            if (requestLog == null)
+            {
+                File.WriteAllText(@"\\cdhpc73\c$\LRError.txt", @"Empty Response");
+            }
+            else
+            {
+                File.WriteAllText(@"\\cdhpc73\c$\LRError.txt", requestLog.ToString());
+            }
 
             if (requestLog == null)
             {
@@ -158,7 +168,7 @@ namespace eDrsManagers.Managers
 
             var requestLog = _httpInterceptor.CallRegistrationApi(viewModel);
 
-            if (requestLog == null)
+           if (requestLog == null)
             {
                 model.IsApiSuccess = false;
             }
@@ -174,6 +184,7 @@ namespace eDrsManagers.Managers
                 model.RequestLogs.Add(requestLog);
             }
             _context.SaveChanges();
+
             return requestLog;
 
         }
