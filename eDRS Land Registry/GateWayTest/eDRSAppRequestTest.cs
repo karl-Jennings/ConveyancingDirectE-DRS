@@ -225,9 +225,6 @@ namespace GateWayTest
 
             };
 
-
-
-
             _product.Parties = parties;
 
             _request.Product = _product;
@@ -238,3 +235,6 @@ namespace GateWayTest
         }
     }
 }
+
+
+

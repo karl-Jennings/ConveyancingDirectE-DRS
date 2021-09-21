@@ -199,9 +199,9 @@ namespace eDRS_Land_Registry.ApiConverters
                 });
                 partyType.Roles = partyRoleType.ToArray();
 
-                if (x.PartyType == "company")
+                if (x.PartyType == "Company")
                     partyType.Item = new CompanyType { CompanyName = x.CompanyOrForeName };
-                else if (x.PartyType == "person")
+                else if (x.PartyType == "Person")
                     partyType.Item = new PersonType { Forenames = x.CompanyOrForeName, Surname = x.Surname };
 
 
@@ -232,11 +232,11 @@ namespace eDRS_Land_Registry.ApiConverters
             _request.ApplicationService = "104";
 
             BusinessGatewayRepositories.AttachmentServiceRequest.AttachmentType attachment = null;
-            if (applicationForm != null || supportingDocuments.DocumentType == "supDoc")
+            if (supportingDocuments != null && (applicationForm != null || supportingDocuments.DocumentType == "supDoc"))
             {
                 byte[] fileArray = Convert.FromBase64String(applicationForm != null
-                    ? applicationForm.Document.Base64.Split(',')[1]
-                    : supportingDocuments.Base64.Split(',')[1]);
+                    ? applicationForm.Document.Base64
+                    : supportingDocuments.Base64);
 
                 attachment = new BusinessGatewayRepositories.AttachmentServiceRequest.AttachmentType
                 {
@@ -248,7 +248,7 @@ namespace eDRS_Land_Registry.ApiConverters
 
             var ItemsElementName = new BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType[3];
 
-            if (applicationForm != null || supportingDocuments.DocumentType == "supDoc")
+            if (supportingDocuments!=null && (applicationForm != null || supportingDocuments.DocumentType == "supDoc"))
             {
                 ItemsElementName[0] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.Attachment;
                 ItemsElementName[1] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.AttachmentId;
@@ -263,25 +263,32 @@ namespace eDRS_Land_Registry.ApiConverters
 
             object[] Items;
 
-            if (applicationForm != null || supportingDocuments.DocumentType == "supDoc")
+            if (supportingDocuments != null)
             {
-                Items = new object[] {
+
+                if (supportingDocuments != null && (applicationForm != null || supportingDocuments.DocumentType == "supDoc"))
+                {
+                    Items = new object[] {
                     attachment,
                     count.ToString(),
                     (BusinessGatewayRepositories.AttachmentServiceRequest.CertifiedTypeContent)Enum.Parse(typeof(BusinessGatewayRepositories.AttachmentServiceRequest.CertifiedTypeContent),
                         applicationForm != null ? applicationForm.CertifiedCopy : supportingDocuments.CertifiedCopy),
                 };
-            }
-            else
-            {
-                Items = new object[] {
+                }
+                else
+                {
+
+
+                    Items = new object[] {
                     supportingDocuments.Notes
                 };
+                }
+
+                _request.Items = Items;
             }
 
 
-
-            _request.Items = Items;
+          
             _request.ItemsElementName = ItemsElementName;
 
             return _request;

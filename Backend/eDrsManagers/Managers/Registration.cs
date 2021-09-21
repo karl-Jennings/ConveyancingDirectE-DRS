@@ -47,11 +47,14 @@ namespace eDrsManagers.Managers
             });
 
             var count = viewModel.Applications.Count();
+             
+            if (viewModel.SupportingDocuments!=null && viewModel.SupportingDocuments.Count()>0) {
 
-            viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
-            {
-                supDoc.DocumentId = ++count;
-            });
+                viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
+                {
+                    supDoc.DocumentId = ++count;
+                });
+            }           
 
             viewModel.MessageID = Guid.NewGuid().ToString();
 
