@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.Xml;
 using System.Security.Policy;
+using System.Text;
 using System.Threading.Tasks;
 using BusinessGatewayModels;
 using BusinessGatewayRepositories.EDRSApplication;
@@ -12,6 +14,8 @@ using eDRS_Land_Registry.Models;
 using eDrsDB.Data;
 using eDrsDB.Models;
 using eDrsManagers.ViewModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -43,18 +47,37 @@ namespace eDrsManagers.Http
 
         public RequestLog CallRegistrationApi(DocumentReferenceViewModel viewModel)
         {
-            var client = new RestClient(baseUrl + "RequestApplication");
 
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
-            request.RequestFormat = DataFormat.Json;
+            try{
+                var client = new RestClient(baseUrl + "RequestApplication");
 
-            request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel), lrCredentials.Password, lrCredentials.Username });
-            IRestResponse response = client.Execute(request);
-            RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+                request.RequestFormat = DataFormat.Json;
 
-            return apiResponse;
 
+                //var contents = JsonConvert.SerializeObject(viewModel);
+
+                //byte[] byteArray = Encoding.UTF8.GetBytes(contents);           
+                
+
+                //Stream streamcontent = new MemoryStream(byteArray);
+
+                //MemoryStream stream = new MemoryStream(byteArray);
+
+                //IFormFile file = new FormFile(stream, 0, byteArray.Length, "edrs", "edrs");
+
+                request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel), lrCredentials.Password, lrCredentials.Username });
+               // request.AddObject(new { Value = file, lrCredentials.Password, lrCredentials.Username });
+
+                IRestResponse response = client.Execute(request);
+                RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
+
+                return apiResponse;
+
+            }
+            catch (Exception ex) { throw ex; }
+            
         }
 
 

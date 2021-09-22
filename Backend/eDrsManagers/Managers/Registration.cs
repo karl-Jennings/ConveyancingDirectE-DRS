@@ -83,7 +83,7 @@ namespace eDrsManagers.Managers
             {
                 model.IsApiSuccess = false;
             }
-            else
+            else if(requestLog.IsSuccess)
             {
                 model.IsApiSuccess = true;
 
@@ -165,7 +165,7 @@ namespace eDrsManagers.Managers
             {
                 model.IsApiSuccess = false;
             }
-            else
+            else if(viewModel.DocumentReferenceId!=null)
             {
                 requestLog.DocumentReferenceId = viewModel.DocumentReferenceId;
 
