@@ -232,7 +232,7 @@ namespace eDRS_Land_Registry.ApiConverters
             _request.ApplicationService = "104";
 
             BusinessGatewayRepositories.AttachmentServiceRequest.AttachmentType attachment = null;
-            if (supportingDocuments != null && (applicationForm != null || supportingDocuments.DocumentType == "supDoc"))
+            if (applicationForm != null || (supportingDocuments!=null && supportingDocuments.DocumentType == "SupDoc"))
             {
                 byte[] fileArray = Convert.FromBase64String(applicationForm != null
                     ? applicationForm.Document.Base64
@@ -248,7 +248,7 @@ namespace eDRS_Land_Registry.ApiConverters
 
             var ItemsElementName = new BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType[3];
 
-            if (supportingDocuments!=null && (applicationForm != null || supportingDocuments.DocumentType == "supDoc"))
+            if (applicationForm != null ||(supportingDocuments != null && supportingDocuments.DocumentType == "SupDoc"))
             {
                 ItemsElementName[0] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.Attachment;
                 ItemsElementName[1] = BusinessGatewayRepositories.AttachmentServiceRequest.ItemsChoiceType.AttachmentId;
@@ -263,10 +263,9 @@ namespace eDRS_Land_Registry.ApiConverters
 
             object[] Items;
 
-            if (supportingDocuments != null)
-            {
+            
 
-                if (supportingDocuments != null && (applicationForm != null || supportingDocuments.DocumentType == "supDoc"))
+                if (applicationForm != null ||(supportingDocuments != null && supportingDocuments.DocumentType == "SupDoc"))
                 {
                     Items = new object[] {
                     attachment,
@@ -285,7 +284,7 @@ namespace eDRS_Land_Registry.ApiConverters
                 }
 
                 _request.Items = Items;
-            }
+            
 
 
           
