@@ -27,14 +27,14 @@ namespace eDrsDB.Models
         [Required]
         public string Type { get; set; }
 
-        [Required]
+        //[Required]
         public string ExternalReference { get; set; }
 
         [Required]
         public string CertifiedCopy { get; set; }
         public DateTime ChargeDate { get; set; }
 
-        [Required]
+       // [Required]
         public string IsMdRef { get; set; }
         public string SortCode { get; set; }
         public string MdRef { get; set; }
@@ -44,7 +44,7 @@ namespace eDrsDB.Models
         [JsonIgnore]
         internal DocumentReference DocumentReference { get; set; }
 
-        [Required]
+        // [Required]      
         public Document Document { get; set; }
 
     }

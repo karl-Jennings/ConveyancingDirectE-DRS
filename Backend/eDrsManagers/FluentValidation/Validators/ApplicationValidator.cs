@@ -40,20 +40,20 @@ namespace eDrsManagers.FluentValidation
             RuleFor(x => x.CertifiedCopy)
                 .NotNull().NotEmpty().WithMessage("CertifiedCopy should not be Empty");
 
-            RuleFor(x => x.ExternalReference)
-                .NotNull().NotEmpty().WithMessage("CertifiedCopy should not be Empty");
+            //RuleFor(x => x.ExternalReference)
+            //    .NotNull().NotEmpty().WithMessage("CertifiedCopy should not be Empty");
 
-            RuleFor(x => x.Document)
-                .NotNull().NotEmpty().WithMessage("Document should not be Empty");
+            //RuleFor(x => x.Document)
+            //    .NotNull().NotEmpty().WithMessage("Document should not be Empty");
 
-            RuleFor(x => x.Document.Base64)
-                .NotNull().NotEmpty().WithMessage("Base64 should not be Empty");
+            //RuleFor(x => x.Document.Base64)
+            //    .NotNull().NotEmpty().WithMessage("Base64 should not be Empty");
 
-            RuleFor(x => x.Document.FileName)
-                .NotNull().NotEmpty().WithMessage("FileName should not be Empty");
+            //RuleFor(x => x.Document.FileName)
+            //    .NotNull().NotEmpty().WithMessage("FileName should not be Empty");
 
-            RuleFor(x => x.Document.FileExtension)
-                .NotNull().NotEmpty().WithMessage("FileExtension should not be Empty");
+            //RuleFor(x => x.Document.FileExtension)
+            //    .NotNull().NotEmpty().WithMessage("FileExtension should not be Empty");
 
         }
     }
