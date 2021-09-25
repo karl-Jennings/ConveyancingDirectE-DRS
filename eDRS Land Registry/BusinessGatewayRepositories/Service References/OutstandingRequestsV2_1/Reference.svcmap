@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="90bb7eaa-8e8b-4d99-9137-3f939fb086e6" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://bgtest.landregistry.gov.uk/b2b/BGStubService/OutstandingRequestsV2_1WebService?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="OutstandingRequestsV2_1WebService.xsd" MetadataType="Schema" ID="05d0b46c-afd4-4842-ae6b-6dd8ae51b63e" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/BGStubService/OutstandingRequestsV2_1WebService?xsd=ResponseOutstandingRequestsV2_0.xsd" />
+    <MetadataFile FileName="OutstandingRequestsV2_1WebService1.xsd" MetadataType="Schema" ID="7c6d3b7e-544f-425e-9155-c3bd20377c60" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/BGStubService/OutstandingRequestsV2_1WebService?xsd=RequestOutstandingRequestsV2_1.xsd" />
+    <MetadataFile FileName="OutstandingRequestsV2_1WebService.wsdl" MetadataType="Wsdl" ID="1ab28fa5-d3a0-41aa-864e-fa120bb231fa" SourceId="1" SourceUrl="https://bgtest.landregistry.gov.uk/b2b/BGStubService/OutstandingRequestsV2_1WebService?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

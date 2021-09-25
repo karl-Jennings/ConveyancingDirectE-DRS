@@ -66,6 +66,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\AttachmentServiceRequestV2_1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\AttachmentServiceRequest\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -86,6 +91,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\EDRSApplicationV2_1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\EDRSApplication\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -102,6 +112,11 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Service References\OS1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\OutstandingRequestsV2_1\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -157,6 +172,19 @@
     <None Include="Service References\AttachmentPollRequest\BusinessGatewayRepositories.AttachmentPollRequest.getResponseResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\AttachmentServiceRequestV2_1\AttachmentV2_1WebService.wsdl" />
+    <None Include="Service References\AttachmentServiceRequestV2_1\AttachmentV2_1WebService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AttachmentServiceRequestV2_1\AttachmentV2_1WebService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AttachmentServiceRequestV2_1\BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentResponseV2_0Type.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AttachmentServiceRequestV2_1\BusinessGatewayRepositories.AttachmentServiceRequestV2_1.newAttachmentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\AttachmentServiceRequest\AttachmentV2_0WebService.wsdl" />
     <None Include="Service References\AttachmentServiceRequest\AttachmentV2_0WebService.xsd">
       <SubType>Designer</SubType>
@@ -209,6 +237,19 @@
     <None Include="Service References\EarlyCompletion\EarlyCompletionV2_1PollRequestWebService1.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\EDRSApplicationV2_1\BusinessGatewayRepositories.EDRSApplicationV2_1.eDocumentRegistrationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EDRSApplicationV2_1\BusinessGatewayRepositories.EDRSApplicationV2_1.ResponseApplicationToChangeRegisterV2_0Type.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EDRSApplicationV2_1\EDocumentRegistrationV2_1WebService.wsdl" />
+    <None Include="Service References\EDRSApplicationV2_1\EDocumentRegistrationV2_1WebService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\EDRSApplicationV2_1\EDocumentRegistrationV2_1WebService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\EDRSApplication\BusinessGatewayRepositories.EDRSApplication.eDocumentRegistrationResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -259,6 +300,19 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\OS1\ResponseOfficialSearchOfWholeWithPriorityV2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OutstandingRequestsV2_1\BusinessGatewayRepositories.OutstandingRequestsV2_1.getOutstandingRequestsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutstandingRequestsV2_1\BusinessGatewayRepositories.OutstandingRequestsV2_1.ResponseOutstandingRequestsType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutstandingRequestsV2_1\OutstandingRequestsV2_1WebService.wsdl" />
+    <None Include="Service References\OutstandingRequestsV2_1\OutstandingRequestsV2_1WebService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OutstandingRequestsV2_1\OutstandingRequestsV2_1WebService1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\OutstandingRequests\BusinessGatewayRepositories.OutstandingRequests.getOutstandingRequestsResponse.datasource">
@@ -348,14 +402,17 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\AttachmentPollRequest\" />
+    <WCFMetadataStorage Include="Service References\AttachmentServiceRequestV2_1\" />
     <WCFMetadataStorage Include="Service References\AttachmentServiceRequest\" />
     <WCFMetadataStorage Include="Service References\Correspondence\" />
     <WCFMetadataStorage Include="Service References\DayListEnquiry\" />
     <WCFMetadataStorage Include="Service References\EarlyCompletion\" />
+    <WCFMetadataStorage Include="Service References\EDRSApplicationV2_1\" />
     <WCFMetadataStorage Include="Service References\EDRSApplication\" />
     <WCFMetadataStorage Include="Service References\LandChargesBankruptcy\" />
     <WCFMetadataStorage Include="Service References\OC1\" />
     <WCFMetadataStorage Include="Service References\OS1\" />
+    <WCFMetadataStorage Include="Service References\OutstandingRequestsV2_1\" />
     <WCFMetadataStorage Include="Service References\OutstandingRequests\" />
     <WCFMetadataStorage Include="Service References\OwnerVerification\" />
     <WCFMetadataStorage Include="Service References\PollOS1\" />
@@ -539,6 +596,42 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\PollService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EDRSApplicationV2_1\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EDRSApplicationV2_1\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EDRSApplicationV2_1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AttachmentServiceRequestV2_1\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AttachmentServiceRequestV2_1\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AttachmentServiceRequestV2_1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OutstandingRequestsV2_1\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OutstandingRequestsV2_1\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OutstandingRequestsV2_1\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
