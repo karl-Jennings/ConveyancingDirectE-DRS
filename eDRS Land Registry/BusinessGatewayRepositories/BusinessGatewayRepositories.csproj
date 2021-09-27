@@ -46,15 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttachmentRequestRepositoryV2_1.cs" />
     <Compile Include="EarlyCompletionRepository.cs" />
     <Compile Include="DayListEntry.cs" />
     <Compile Include="AttachmentRequestRepository.cs" />
     <Compile Include="CorrespondenceRepository.cs" />
+    <Compile Include="EDRSRepositoryV2_1.cs" />
     <Compile Include="EDRSRepository.cs" />
     <Compile Include="LandChargesBankruptcySearchRepository.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="OC1Repository.cs" />
     <Compile Include="OS1Repository.cs" />
+    <Compile Include="OutstandingRespositoryV2_1.cs" />
     <Compile Include="PollRequestRespository.cs" />
     <Compile Include="OutstandingRespository.cs" />
     <Compile Include="OwnerVerification.cs" />

@@ -795,7 +795,7 @@ namespace BusinessGatewayRepositories.AttachmentServiceRequestV2_1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.oscre.org/ns/eReg-Final/2012/ResponseAttachmentV2_0")]
-    public partial class AttachmentResponseV2_0Type : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class AttachmentResponseV2_1Type : object, System.ComponentModel.INotifyPropertyChanged {
         
         private GatewayResponseType gatewayResponseField;
         
@@ -1010,12 +1010,12 @@ namespace BusinessGatewayRepositories.AttachmentServiceRequestV2_1 {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://attachmentv2_1.ws.bg.lr.gov/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentResponseV2_0Type @return;
+        public BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentResponseV2_1Type @return;
         
         public newAttachmentResponse() {
         }
         
-        public newAttachmentResponse(BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentResponseV2_0Type @return) {
+        public newAttachmentResponse(BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentResponseV2_1Type @return) {
             this.@return = @return;
         }
     }
@@ -1052,7 +1052,7 @@ namespace BusinessGatewayRepositories.AttachmentServiceRequestV2_1 {
             return base.Channel.newAttachment(request);
         }
         
-        public BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentResponseV2_0Type newAttachment(BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentV2_1Type arg0) {
+        public BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentResponseV2_1Type newAttachment(BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentV2_1Type arg0) {
             BusinessGatewayRepositories.AttachmentServiceRequestV2_1.newAttachmentRequest inValue = new BusinessGatewayRepositories.AttachmentServiceRequestV2_1.newAttachmentRequest();
             inValue.arg0 = arg0;
             BusinessGatewayRepositories.AttachmentServiceRequestV2_1.newAttachmentResponse retVal = ((BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentV2_1Service)(this)).newAttachment(inValue);

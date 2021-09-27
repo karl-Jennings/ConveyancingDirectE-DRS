@@ -159,6 +159,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiConverters\RestrictionConverterV2_1.cs" />
     <Compile Include="ApiConverters\RestrictionConverter.cs" />
     <Compile Include="ApiConverters\TransferChargeConverter.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />

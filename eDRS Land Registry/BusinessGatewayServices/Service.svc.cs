@@ -9,6 +9,8 @@ using BusinessGatewayRepositories;
 using BusinessGatewayModels;
 using BusinessGatewayRepositories.EDRSApplication;
 using BusinessGatewayRepositories.AttachmentServiceRequest;
+using BusinessGatewayRepositories.AttachmentServiceRequestV2_1;
+using BusinessGatewayRepositories.EDRSApplicationV2_1;
 
 namespace BusinessGatewayServices
 {
@@ -150,6 +152,8 @@ namespace BusinessGatewayServices
                 return new ResponsePoll { Error = ex.Message, Successful = false };
             }
         }
+       
+        
         public ResponseOutstanding Outstanding(string MessageId, int service,string Username, string Password)
         {
             OutstandingRespository _outstanding = new OutstandingRespository();
@@ -165,7 +169,21 @@ namespace BusinessGatewayServices
                 return new ResponseOutstanding { Error = ex.Message, Successful = false };
             }
         }
+        public ResponseOutstandingV2_1 OutstandingV2_1(string MessageId, int service, string Username, string Password)
+        {
+            OutstandingRespositoryV2_1 _outstanding = new OutstandingRespositoryV2_1();
+            try
+            {
+                ResponseOutstandingV2_1 _response = new ResponseOutstandingV2_1(_outstanding.GetRequests(MessageId, service, Username, Password));
 
+                _response.Successful = true;
+                return _response;
+            }
+            catch (Exception ex)
+            {
+                return new ResponseOutstandingV2_1 { Error = ex.Message, Successful = false };
+            }
+        }
         public ResponseEDRSAppRequest eDRSApplicationRequest( string Username, string Password, RequestApplicationToChangeRegisterV1_0Type _request)
         {
             EDRSRepository _erdsrepository = new EDRSRepository();
@@ -186,8 +204,26 @@ namespace BusinessGatewayServices
                 return responseEDRSAppRequest;
             }
         }
+        public ResponseEDRSAppRequestV2_1 eDRSApplicationRequestV2_1(string Username, string Password, RequestApplicationToChangeRegisterV2_1Type _request)
+        {
+            EDRSRepositoryV2_1 _erdsrepository = new EDRSRepositoryV2_1();
+            ResponseEDRSAppRequestV2_1 responseEDRSAppRequest = new ResponseEDRSAppRequestV2_1();
+            try
+            {
+                BusinessGatewayRepositories.EDRSApplicationV2_1.ResponseApplicationToChangeRegisterV2_0Type _response = _erdsrepository.edrsAllpicationRequest(_request, Username, Password);
 
+                responseEDRSAppRequest.Successful = true;
+                responseEDRSAppRequest.GatewayResponse = _response;
 
+                return responseEDRSAppRequest;
+            }
+            catch (Exception ex)
+            {
+                responseEDRSAppRequest.Successful = false;
+                responseEDRSAppRequest.Error = ex;
+                return responseEDRSAppRequest;
+            }
+        }
         public ResponseAttachmentRequest AttachmentRequest(string Username, string Password, AttachmentV2_0Type _request)
         {
             AttachmentRequestRepository _attachmentRequestRepository = new AttachmentRequestRepository();
@@ -209,16 +245,35 @@ namespace BusinessGatewayServices
                 return responseEDRSAppRequest;
             }
         }
+        public ResponseAttachmentRequestV2_1 AttachmentRequestV2_1(string Username, string Password, AttachmentV2_1Type _request)
+        {
+            AttachmentRequestRepositoryV2_1 _attachmentRequestRepository = new AttachmentRequestRepositoryV2_1();
+            ResponseAttachmentRequestV2_1 responseEDRSAppRequest = new ResponseAttachmentRequestV2_1();
+            try
+            {
 
+                AttachmentResponseV2_1Type _response = _attachmentRequestRepository.AttachmentRequest(_request, Username, Password);
 
-        public ResponseAttachmentPollRequest AttachmentPollRequest(string Username, string Password,string MessageId)
+                responseEDRSAppRequest.Successful = true;
+                responseEDRSAppRequest.GatewayResponse = _response;
+
+                return responseEDRSAppRequest;
+            }
+            catch (Exception ex)
+            {
+                responseEDRSAppRequest.Successful = false;
+                responseEDRSAppRequest.Error = ex;
+                return responseEDRSAppRequest;
+            }
+        }
+        public ResponseAttachmentPollRequest AttachmentPollRequest(string Username, string Password, string MessageId)
         {
             AttachmentRequestRepository _attachmentRequestRepository = new AttachmentRequestRepository();
             ResponseAttachmentPollRequest responseEDRSAppRequest = new ResponseAttachmentPollRequest();
             try
             {
 
-                BusinessGatewayRepositories.AttachmentPollRequest.AttachmentResponseV2_0Type _response = _attachmentRequestRepository.AttachmentPollRequest( MessageId, Username, Password);
+                BusinessGatewayRepositories.AttachmentPollRequest.AttachmentResponseV2_0Type _response = _attachmentRequestRepository.AttachmentPollRequest(MessageId, Username, Password);
 
                 responseEDRSAppRequest.Successful = true;
                 responseEDRSAppRequest.GatewayResponse = _response;
@@ -232,8 +287,6 @@ namespace BusinessGatewayServices
                 return responseEDRSAppRequest;
             }
         }
-
-
         public ResponseCorrespondenceRequest CorrespondenceRequest(string Username, string Password, string MessageID)
         {
             CorrespondenceRepository _correspondenceRepository = new CorrespondenceRepository();
@@ -255,7 +308,6 @@ namespace BusinessGatewayServices
                 return responseEDRSAppRequest;
             }
         }
-
         public EarlyCompletionResponse EarlyCompletionRequest(string Username, string Password, string MessageID)
         {
             EarlyCompletionRepository _earlyCompletionRepository = new EarlyCompletionRepository();
@@ -277,8 +329,6 @@ namespace BusinessGatewayServices
                 return responseEDRSAppRequest;
             }
         }
-
-
         public ResponsePollRequest PollRequest(string Username, string Password, string MessageID)
         {
             PollRequestRespository _pollRequestRespository = new PollRequestRespository();

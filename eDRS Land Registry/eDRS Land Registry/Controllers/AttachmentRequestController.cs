@@ -18,6 +18,7 @@ namespace eDRS_Land_Registry.Controllers
     public class AttachmentRequestController : ApiController
     {
         private readonly RestrictionConverter _restrictionConverter = new RestrictionConverter();
+        private readonly RestrictionConverterV2_1 _restrictionConverterV2_1 = new RestrictionConverterV2_1();
 
         public List<RequestLog> Post([FromBody] TempClass tempClass)
         {
@@ -32,8 +33,13 @@ namespace eDRS_Land_Registry.Controllers
                 var count = 1;
                 docRef.Applications.Where(x => x.IsChecked).ToList().ForEach(app =>
                   {
-                      var attResponse = _restrictionConverter.ArrangeAttachmentApi(app, null, docRef.MessageID, count++);
-                      var attachmentRequest = services.AttachmentRequest(attachmentViewModel.Username, attachmentViewModel.Username, attResponse);
+                      //var attResponse = _restrictionConverter.ArrangeAttachmentApi(app, null, docRef.MessageID, count++);
+                      //var attachmentRequest = services.AttachmentRequest(attachmentViewModel.Username, attachmentViewModel.Username, attResponse);
+
+                      var attResponse = _restrictionConverterV2_1.ArrangeAttachmentApi(app, null, docRef.MessageID, count++);
+                      var attachmentRequest = services.AttachmentRequestV2_1(attachmentViewModel.Username, attachmentViewModel.Username, attResponse);
+
+
                       var attachmentRequestLog = new RequestLog() { Type = "Attachment" };
 
                       attachmentRequestLog.TypeCode = attachmentRequest.GatewayResponse.GatewayResponse.TypeCode.ToString();
@@ -61,8 +67,12 @@ namespace eDRS_Land_Registry.Controllers
 
                 docRef.SupportingDocuments.Where(x => x.IsChecked).ToList().ForEach(supDoc =>
                 {
-                    var attResponse = _restrictionConverter.ArrangeAttachmentApi(null, supDoc, docRef.MessageID, count++);
-                    var attachmentRequest = services.AttachmentRequest(attachmentViewModel.Username, attachmentViewModel.Password, attResponse);
+                    //var attResponse = _restrictionConverter.ArrangeAttachmentApi(null, supDoc, docRef.MessageID, count++);
+                    //var attachmentRequest = services.AttachmentRequest(attachmentViewModel.Username, attachmentViewModel.Password, attResponse);
+
+                    var attResponse = _restrictionConverterV2_1.ArrangeAttachmentApi(null, supDoc, docRef.MessageID, count++);
+                    var attachmentRequest = services.AttachmentRequestV2_1(attachmentViewModel.Username, attachmentViewModel.Password, attResponse);
+
                     var attachmentRequestLog = new RequestLog() { Type = "Attachment" };
 
                     attachmentRequestLog.TypeCode = attachmentRequest.GatewayResponse.GatewayResponse.TypeCode.ToString();
