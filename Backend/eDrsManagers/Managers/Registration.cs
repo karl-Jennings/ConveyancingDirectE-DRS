@@ -72,14 +72,14 @@ namespace eDrsManagers.Managers
 
             _context.DocumentReferences.Add(model);
 
-           //// _context.SaveChanges();
+            _context.SaveChanges();
 
 
             /********** Calling LR Api backend ***********/
             var requestLog = _httpInterceptor.CallRegistrationApi(viewModel);
             /********** Calling LR Api backend ***********/
 
-            if (requestLog == null)
+             if (requestLog == null)
             {
                 model.IsApiSuccess = false;
             }

@@ -26,8 +26,7 @@ namespace eDRS_Land_Registry.Models
         public RegistrationType RegistrationType { get; set; }
         public long UserId { get; set; }
         public User User { get; set; }
-
-
+        public string ServiceTitleType { get; set; }
         public List<TitleNumber> Titles { get; set; }
         public List<ApplicationForm> Applications { get; set; }
         public List<SupportingDocuments> SupportingDocuments { get; set; }

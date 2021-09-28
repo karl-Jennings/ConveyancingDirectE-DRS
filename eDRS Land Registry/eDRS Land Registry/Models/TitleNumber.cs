@@ -9,10 +9,12 @@ namespace eDrsDB.Models
     public class TitleNumber
     {
 
+       
         public long TitleNumberId { get; set; }
 
-        public string TitleNumberCode { get; set; }
+        public string TitleNumberCode { get; set; }       
         public string LesseeTitleNumber { get; set; }
+        public string AdditionalTitles { get; set; }
 
         public DateTime CreatedDate { get; set; }
 

@@ -26,6 +26,8 @@ namespace eDrsManagers.ViewModels
 
         [Required]
         public long TelephoneNumber { get; set; }
+
+        [Required]
         public string AdditionalProviderFilter { get; set; }
         public string ExternalReference { get; set; }
 
@@ -50,6 +52,9 @@ namespace eDrsManagers.ViewModels
         public long UserId { get; set; }
 
         internal User User { get; set; }
+
+        [Required]
+        public string ServiceTitleType { get; set; }
 
         [Required]
         public ICollection<TitleNumber> Titles { get; set; }

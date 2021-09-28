@@ -9,16 +9,13 @@ namespace eDrsManagers.ViewModels
         public long ApplicationFormId { get; set; }
         public string Type { get; set; }
         public string Reference { get; set; }
-
         public DateTime ChargeDate { get; set; }
 
         public bool IsAgreed { get; set; }
         public string FileLocation { get; set; }
         public string FileName { get; set; }
         public string CertificationType { get; set; }
-
         public decimal Fee { get; set; }
-
         public DateTime CreatedDate { get; set; }
 
         public DateTime UpdatedDate { get; set; }

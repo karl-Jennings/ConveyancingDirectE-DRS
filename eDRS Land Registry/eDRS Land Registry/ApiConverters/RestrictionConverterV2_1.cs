@@ -31,6 +31,7 @@ namespace eDRS_Land_Registry.ApiConverters
 
             _request.ExternalReference = docRef.ExternalReference;
             _request.MessageId = docRef.MessageID;
+            _request.AdditionalProviderFilter = docRef.AdditionalProviderFilter;
 
             _product.Reference = docRef.Reference;
             _product.TotalFeeInPence = docRef.TotalFeeInPence.ToString();
@@ -40,24 +41,121 @@ namespace eDRS_Land_Registry.ApiConverters
             _product.ApplicationDate = docRef.ApplicationDate;
             _product.PostcodeOfProperty = docRef.PostcodeOfProperty;
             _product.DisclosableOveridingInterests = docRef.DisclosableOveridingInterests;
-
+            
 
 
             #region TitleNumbers
 
             var titleList = new List<string>();
+            var additionalTitleList = new List<string>();
 
             docRef.Titles.ToList().ForEach(x =>
             {
                 titleList.Add(x.TitleNumberCode);
             });
 
-            var titlesType = new ServiceTitlesType()
+            docRef.Titles.ToList().ForEach(x =>
             {
-                Item = titleList.ToArray()
-            };
+                additionalTitleList.Add(x.AdditionalTitles);
+            });      
 
-            _product.Titles = titlesType;
+
+            if (docRef.ServiceTitleType == "Dealing") {
+
+                DealingType dealingType = new DealingType
+                {
+                    DealingTitles = new TitlesType
+                    {
+                        TitleNumber = titleList.ToArray()
+                    }
+                };
+
+                var titlesType = new ServiceTitlesType()
+                {
+                    Item = dealingType
+                };
+
+                _product.Titles = titlesType;
+
+            } else if (docRef.ServiceTitleType == "TransferOfPart") {
+
+                TransferOfPartType transferOfPartType = new TransferOfPartType
+                {
+
+                    TransferorTitles = new TitlesType
+                    {
+                        TitleNumber = titleList.ToArray()
+                    },
+                    AdditionalTitles = new TitlesType
+                    {
+                        TitleNumber = additionalTitleList.ToArray()
+                    }
+
+                };
+
+                var titlesType = new ServiceTitlesType()
+                {
+                    Item = transferOfPartType
+                };
+
+                _product.Titles = titlesType;
+
+            }
+            else if (docRef.ServiceTitleType == "NewLease")
+            {
+                NewLeaseType newLeaseType = new NewLeaseType
+                {
+
+                    LessorTitles = new TitlesType
+                    {
+                        TitleNumber = titleList.ToArray()
+                    },
+                    AdditionalTitles = new TitlesType
+                    {
+                        TitleNumber = additionalTitleList.ToArray()
+                    }
+                };
+
+                var titlesType = new ServiceTitlesType()
+                {
+                    Item = newLeaseType
+                };
+
+                _product.Titles = titlesType;
+
+            }
+            else if (docRef.ServiceTitleType == "LeaseExtension")
+            {
+
+                LeaseExtensionType leaseExtensionType = new LeaseExtensionType
+                {
+
+                    LessorTitles = new TitlesType
+                    {
+                        TitleNumber = titleList.ToArray()
+                    },
+                    LesseeTitle = docRef.Titles[0].LesseeTitleNumber,
+                    AdditionalTitles = new TitlesType
+                    {
+                        TitleNumber = additionalTitleList.ToArray()
+                    }
+                };
+
+                var titlesType = new ServiceTitlesType()
+                {
+                    Item = leaseExtensionType
+                };
+
+                _product.Titles = titlesType;
+
+            }  
+
+                
+          
+
+
+
+          
             #endregion
 
             #region OtherApplication
@@ -218,7 +316,7 @@ namespace eDRS_Land_Registry.ApiConverters
             return _request;
         }
 
-        public AttachmentV2_1Type ArrangeAttachmentApi(ApplicationForm applicationForm, SupportingDocuments supportingDocuments, string messageId, int count)
+        public AttachmentV2_1Type ArrangeAttachmentApi(ApplicationForm applicationForm, SupportingDocuments supportingDocuments, string messageId, int count, string additionalProviderFilter)
         {
 
             BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
@@ -230,6 +328,7 @@ namespace eDRS_Land_Registry.ApiConverters
             _request.ExternalReference = applicationForm != null ? applicationForm.ExternalReference : supportingDocuments.ExternalReference;
             _request.ApplicationMessageId = messageId;
             _request.ApplicationService = "104";
+            _request.AdditionalProviderFilter = additionalProviderFilter;
 
             BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentType attachment = null;
             if (applicationForm != null || (supportingDocuments!=null && supportingDocuments.DocumentType == "SupDoc"))
