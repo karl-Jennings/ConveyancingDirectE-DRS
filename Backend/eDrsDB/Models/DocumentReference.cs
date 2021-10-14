@@ -34,6 +34,7 @@ namespace eDrsDB.Models
         public bool IsApiSuccess { get; set; }
         public int? OverallStatus { get; set; }
 
+
         [JsonIgnore]
         internal User User { get; set; }
 

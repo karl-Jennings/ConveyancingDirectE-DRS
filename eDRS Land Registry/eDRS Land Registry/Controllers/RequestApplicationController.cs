@@ -89,38 +89,42 @@ namespace eDRS_Land_Registry.Controllers
                         attachmentResponse.Add(attachmentRequestLog);
                     });
 
-                    docRef.SupportingDocuments.Where(x => x.IsChecked).ToList().ForEach(supDoc =>
-                    {
-                        //var attResponse = _restrictionConverter.ArrangeAttachmentApi(null, supDoc, docRef.MessageID, count++);
-                        //var attachmentRequest = _services.AttachmentRequest(tempClass.Username, tempClass.Password, attResponse);
 
-                        var attResponse = _restrictionConverterV2_1.ArrangeAttachmentApi(null, supDoc, docRef.MessageID, count++, docRef.AdditionalProviderFilter);
-                        var attachmentRequest = _services.AttachmentRequestV2_1(tempClass.Username, tempClass.Password, attResponse);
-
-                        var attachmentRequestLog = new RequestLog() { Type = "Attachment" };
-
-                        attachmentRequestLog.TypeCode = attachmentRequest.GatewayResponse.GatewayResponse.TypeCode.ToString();
-                        attachmentRequestLog.ResponseJson = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse);
-                        attachmentRequestLog.AttachmentName = supDoc.FileName;
-                        if (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement != null)
+                    if (docRef.SupportingDocuments!=null) {
+                        docRef.SupportingDocuments.Where(x => x.IsChecked).ToList().ForEach(supDoc =>
                         {
-                            attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription;
-                            attachmentRequestLog.CreatedDate = (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.ExpectedResponseDateTime);
-                            attachmentRequestLog.ResponseType = "Acknowledgement";
+                            //var attResponse = _restrictionConverter.ArrangeAttachmentApi(null, supDoc, docRef.MessageID, count++);
+                            //var attachmentRequest = _services.AttachmentRequest(tempClass.Username, tempClass.Password, attResponse);
 
-                        }
-                        else if (attachmentRequest.GatewayResponse.GatewayResponse.Rejection != null)
-                        {
-                            attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Rejection.Code;
-                            attachmentRequestLog.RejectionReason = attachmentRequest.GatewayResponse.GatewayResponse.Rejection.Reason;
+                            var attResponse = _restrictionConverterV2_1.ArrangeAttachmentApi(null, supDoc, docRef.MessageID, count++, docRef.AdditionalProviderFilter);
+                            var attachmentRequest = _services.AttachmentRequestV2_1(tempClass.Username, tempClass.Password, attResponse);
 
-                            attachmentRequestLog.ValidationErrors = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse.Rejection.ValidationErrors);
+                            var attachmentRequestLog = new RequestLog() { Type = "Attachment" };
 
-                            attachmentRequestLog.ResponseType = "Rejection";
-                        }
+                            attachmentRequestLog.TypeCode = attachmentRequest.GatewayResponse.GatewayResponse.TypeCode.ToString();
+                            attachmentRequestLog.ResponseJson = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse);
+                            attachmentRequestLog.AttachmentName = supDoc.FileName;
+                            if (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement != null)
+                            {
+                                attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription;
+                                attachmentRequestLog.CreatedDate = (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.ExpectedResponseDateTime);
+                                attachmentRequestLog.ResponseType = "Acknowledgement";
 
-                        attachmentResponse.Add(attachmentRequestLog);
-                    });
+                            }
+                            else if (attachmentRequest.GatewayResponse.GatewayResponse.Rejection != null)
+                            {
+                                attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Rejection.Code;
+                                attachmentRequestLog.RejectionReason = attachmentRequest.GatewayResponse.GatewayResponse.Rejection.Reason;
+
+                                attachmentRequestLog.ValidationErrors = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse.Rejection.ValidationErrors);
+
+                                attachmentRequestLog.ResponseType = "Rejection";
+                            }
+
+                            attachmentResponse.Add(attachmentRequestLog);
+                        });
+                    }
+                   
 
                 }
 

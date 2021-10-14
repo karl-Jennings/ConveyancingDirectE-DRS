@@ -201,19 +201,23 @@ namespace eDRS_Land_Registry.ApiConverters
             SupportingDocumentsType supportingDocuments = new SupportingDocumentsType();
             var supportingDocumentTypes = new List<SupportingDocumentType>();
 
-            docRef.SupportingDocuments.ToList().ForEach(x =>
-            {
-                supportingDocumentTypes.Add(new SupportingDocumentType()
+
+            if (docRef.SupportingDocuments!=null) {
+                docRef.SupportingDocuments.ToList().ForEach(x =>
                 {
-                    CertifiedCopy = (CertifiedTypeContent)Enum.Parse(typeof(CertifiedTypeContent), x.CertifiedCopy),
-                    DocumentId = x.DocumentId.ToString(),
-                    DocumentName = (DocumentNameContent)Enum.Parse(typeof(DocumentNameContent), x.DocumentName),
+                    supportingDocumentTypes.Add(new SupportingDocumentType()
+                    {
+                        CertifiedCopy = (CertifiedTypeContent)Enum.Parse(typeof(CertifiedTypeContent), x.CertifiedCopy),
+                        DocumentId = x.DocumentId.ToString(),
+                        DocumentName = (DocumentNameContent)Enum.Parse(typeof(DocumentNameContent), x.DocumentName),
 
+                    });
                 });
-            });
-            supportingDocuments.SupportingDocument = supportingDocumentTypes.ToArray();
+                supportingDocuments.SupportingDocument = supportingDocumentTypes.ToArray();
 
-            _product.SupportingDocuments = supportingDocuments;
+                _product.SupportingDocuments = supportingDocuments;
+            }
+            
 
             #endregion
 

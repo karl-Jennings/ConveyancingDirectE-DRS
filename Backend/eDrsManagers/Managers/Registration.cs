@@ -72,7 +72,7 @@ namespace eDrsManagers.Managers
 
             _context.DocumentReferences.Add(model);
 
-            _context.SaveChanges();
+            //_context.SaveChanges();
 
 
             /********** Calling LR Api backend ***********/
@@ -104,7 +104,7 @@ namespace eDrsManagers.Managers
                 }
             }
 
-            _context.SaveChanges();
+           // _context.SaveChanges();
 
 
             return requestLog;
@@ -122,10 +122,13 @@ namespace eDrsManagers.Managers
 
             viewModel.Applications.ToList().ForEach(x => x.Document.AttachmentId = count++);
 
-            viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
-            {
-                supDoc.DocumentId = count++;
-            });
+            if (viewModel.SupportingDocuments!=null) {
+                viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
+                {
+                    supDoc.DocumentId = count++;
+                });
+            }
+           
 
             var deletingTitle = _context.TitleNumbers
                 .Where(x => !viewModel.Titles.Select(s => s.TitleNumberId).ToList().Contains(x.TitleNumberId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
