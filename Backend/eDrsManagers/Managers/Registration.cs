@@ -72,7 +72,7 @@ namespace eDrsManagers.Managers
 
             _context.DocumentReferences.Add(model);
 
-            //_context.SaveChanges();
+            _context.SaveChanges();
 
 
             /********** Calling LR Api backend ***********/
@@ -104,7 +104,7 @@ namespace eDrsManagers.Managers
                 }
             }
 
-           // _context.SaveChanges();
+            _context.SaveChanges();
 
 
             return requestLog;
