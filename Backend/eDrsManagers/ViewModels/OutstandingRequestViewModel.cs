@@ -11,6 +11,7 @@ namespace eDrsManagers.ViewModels
         public int Service { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string AdditionalProviderFilter { get; set; }
     }
 
     public class OutstaningResponseViewModel

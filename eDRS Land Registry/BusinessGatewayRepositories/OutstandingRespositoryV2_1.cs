@@ -8,7 +8,7 @@ namespace BusinessGatewayRepositories
 {
     public class OutstandingRespositoryV2_1
     {
-        public OutstandingRequestsV2_1.ResponseOutstandingRequestsType GetRequests(string MessageId,int service,string Username, string Password)
+        public OutstandingRequestsV2_1.ResponseOutstandingRequestsType GetRequests(string MessageId,int service,string Username, string Password,string additionalProviderFilter)
         {
             OutstandingRequestsV2_1.RequestOutstandingRequestsType _request = new OutstandingRequestsV2_1.RequestOutstandingRequestsType();
             OutstandingRequestsV2_1.Q1OutstandingRequestsProductType _product = new OutstandingRequestsV2_1.Q1OutstandingRequestsProductType();
@@ -18,9 +18,12 @@ namespace BusinessGatewayRepositories
           
             _product.SpecificService = service;
             _product.SpecificServiceSpecified = true;
+            _product.AdditionalProviderFilter = additionalProviderFilter;
 
             _request.Product = _product;
-           
+            
+
+
             _service.ChannelFactory.Endpoint.EndpointBehaviors.Add(new BusinessGatewayRepositories.HMLRBGMessageEndpointBehavior(Username, Password));
 
             OutstandingRequestsV2_1.ResponseOutstandingRequestsType _reponse = _service.getOutstandingRequests(_request);

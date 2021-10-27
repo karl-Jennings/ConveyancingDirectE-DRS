@@ -169,12 +169,12 @@ namespace BusinessGatewayServices
                 return new ResponseOutstanding { Error = ex.Message, Successful = false };
             }
         }
-        public ResponseOutstandingV2_1 OutstandingV2_1(string MessageId, int service, string Username, string Password)
+        public ResponseOutstandingV2_1 OutstandingV2_1(string MessageId, int service, string Username, string Password,string additionalProviderFilter)
         {
             OutstandingRespositoryV2_1 _outstanding = new OutstandingRespositoryV2_1();
             try
             {
-                ResponseOutstandingV2_1 _response = new ResponseOutstandingV2_1(_outstanding.GetRequests(MessageId, service, Username, Password));
+                ResponseOutstandingV2_1 _response = new ResponseOutstandingV2_1(_outstanding.GetRequests(MessageId, service, Username, Password, additionalProviderFilter));
 
                 _response.Successful = true;
                 return _response;

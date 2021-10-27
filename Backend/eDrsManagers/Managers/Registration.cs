@@ -23,12 +23,13 @@ namespace eDrsManagers.Managers
         private readonly PollRequestManager _pollRequestManager = new PollRequestManager();
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
-
+        private LrCredential lrCredentials;
         public Registration(AppDbContext context, IMapper mapper, IHttpEdrsCall httpInterceptor)
         {
             _context = context;
             _mapper = mapper;
             _httpInterceptor = httpInterceptor;
+            lrCredentials = _context.LrCredentials.FirstOrDefault();
         }
 
 
@@ -209,11 +210,15 @@ namespace eDrsManagers.Managers
                 var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
 
                 OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
-                outstaningRequest.Username = "BGUser001";
+                // outstaningRequest.Username = "BGUser001";
+                outstaningRequest.Username = lrCredentials.Username;
+
+                
                 if (docRef != null)
                 {
                     outstaningRequest.Service = 70;
                     outstaningRequest.MessageId = docRef.MessageID;
+                    outstaningRequest.AdditionalProviderFilter = docRef.AdditionalProviderFilter;
                 }
 
                 var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
@@ -273,11 +278,14 @@ namespace eDrsManagers.Managers
             var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
 
             OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
-            outstaningRequest.Username = "BGUser001";
+            //outstaningRequest.Username = "BGUser001";
+            outstaningRequest.Username = lrCredentials.Username;
+
             if (docRef != null)
             {
                 outstaningRequest.Service = serviceId;
                 outstaningRequest.MessageId = docRef.MessageID;
+                outstaningRequest.AdditionalProviderFilter = docRef.AdditionalProviderFilter;
             }
 
             var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
@@ -301,7 +309,7 @@ namespace eDrsManagers.Managers
             outstanding.ForEach(x =>
             {
                 AttachmentPollRequestViewModel attachmentPoll = new AttachmentPollRequestViewModel();
-                attachmentPoll.Username = "BGUser001";
+                attachmentPoll.Username = lrCredentials.Username;
                 if (docRef != null)
                 {
                     attachmentPoll.MessageId = docRef.MessageID;
@@ -328,11 +336,14 @@ namespace eDrsManagers.Managers
             var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
 
             OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
-            outstaningRequest.Username = "BGUser001";
+            //outstaningRequest.Username = "BGUser001";
+            outstaningRequest.Username = lrCredentials.Username;
+
             if (docRef != null)
             {
                 outstaningRequest.Service = serviceId;
                 outstaningRequest.MessageId = docRef.MessageID;
+                outstaningRequest.AdditionalProviderFilter = docRef.AdditionalProviderFilter;
             }
 
             var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
@@ -369,11 +380,13 @@ namespace eDrsManagers.Managers
             var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
 
             OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
-            outstaningRequest.Username = "BGUser001";
+            // outstaningRequest.Username = "BGUser001";
+            outstaningRequest.Username = lrCredentials.Username;
             if (docRef != null)
             {
                 outstaningRequest.Service = serviceId;
                 outstaningRequest.MessageId = docRef.MessageID;
+                outstaningRequest.AdditionalProviderFilter = docRef.AdditionalProviderFilter;
             }
 
             var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
@@ -386,7 +399,7 @@ namespace eDrsManagers.Managers
                 {
                     var earlyCompletionRequest = new EarlyCompletionRequest
                     {
-                        Username = "BGUser001",
+                        Username =  lrCredentials.Username,
                         MessageId = outResponse.Id
                     };
 
@@ -408,7 +421,7 @@ namespace eDrsManagers.Managers
                 {
                     var applicationPollRequest = new ApplicationPollRequest
                     {
-                        Username = "BGUser001",
+                        Username = lrCredentials.Username,
                         MessageId = outResponse.Id
                     };
 

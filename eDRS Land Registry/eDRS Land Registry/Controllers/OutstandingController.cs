@@ -20,6 +20,7 @@ namespace eDRS_Land_Registry.Controllers
         public int Service { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string AdditionalProviderFilter { get; set; }
     }
 
     public class OutstandingResponse
@@ -53,7 +54,7 @@ namespace eDRS_Land_Registry.Controllers
 
                 //V1_0
                 // var response = _services.Outstanding(request.MessageId, request.Service, request.Username, request.Password);
-                var response = _services.OutstandingV2_1(request.MessageId, request.Service, request.Username, request.Password);
+                var response = _services.OutstandingV2_1(request.MessageId, request.Service, request.Username, request.Password,request.AdditionalProviderFilter);
 
                 responseOutstanding.Requests = response.Requests;
                 responseOutstanding.Successful = true;
