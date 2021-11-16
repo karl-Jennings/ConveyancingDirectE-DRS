@@ -152,6 +152,20 @@ namespace eDrsAPI.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult GetRegistrationByReference(string reference)
+        {
+            try
+            {
+                return Ok(_registration.GetRegistrationByReference(reference));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
         /// <summary>
         /// Getting poll request
         /// </summary>

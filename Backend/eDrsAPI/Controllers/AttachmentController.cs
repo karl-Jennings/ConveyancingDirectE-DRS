@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eDrsManagers.Interfaces;
+using eDrsManagers.ViewModels;
 
 namespace eDrsAPI.Controllers
 {
@@ -61,5 +62,32 @@ namespace eDrsAPI.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult RespondToRequisitionByReference(string reference)
+        {
+            try
+            {
+                return Ok(_attachment.RespondToRequisitionByReference(reference));
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+        }
+
+
+        [HttpPost]
+        public IActionResult DirectRespondToRequisition(DocumentReferenceViewModel viewModel)
+        {
+            try
+            {
+                return Ok(_attachment.DirectRespondToRequisition(viewModel));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+        }
     }
 }

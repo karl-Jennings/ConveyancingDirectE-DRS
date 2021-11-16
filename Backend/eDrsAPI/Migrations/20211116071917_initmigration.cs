@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace eDrsAPI.Migrations
 {
-    public partial class init : Migration
+    public partial class initmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -83,11 +83,10 @@ namespace eDrsAPI.Migrations
                 {
                     DocumentReferenceId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Reference = table.Column<string>(nullable: true),
+                    Reference = table.Column<string>(nullable: false),
                     TotalFeeInPence = table.Column<int>(nullable: false),
                     MessageID = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
                     TelephoneNumber = table.Column<long>(nullable: false),
                     AdditionalProviderFilter = table.Column<string>(nullable: true),
                     ExternalReference = table.Column<string>(nullable: true),
@@ -99,7 +98,10 @@ namespace eDrsAPI.Migrations
                     ApplicationAffects = table.Column<string>(nullable: true),
                     Status = table.Column<bool>(nullable: false, defaultValue: true),
                     RegistrationTypeId = table.Column<long>(nullable: false),
-                    UserId = table.Column<long>(nullable: false)
+                    UserId = table.Column<long>(nullable: false),
+                    IsApiSuccess = table.Column<bool>(nullable: false),
+                    OverallStatus = table.Column<int>(nullable: true),
+                    ServiceTitleType = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -124,17 +126,18 @@ namespace eDrsAPI.Migrations
                 {
                     ApplicationFormId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Variety = table.Column<string>(nullable: true),
+                    Variety = table.Column<string>(nullable: false),
                     Priority = table.Column<int>(nullable: false),
-                    Value = table.Column<string>(nullable: true),
+                    Value = table.Column<string>(nullable: false),
                     FeeInPence = table.Column<int>(nullable: false),
-                    Type = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: false),
                     ExternalReference = table.Column<string>(nullable: true),
-                    CertifiedCopy = table.Column<string>(nullable: true),
+                    CertifiedCopy = table.Column<string>(nullable: false),
                     ChargeDate = table.Column<DateTime>(nullable: false),
                     IsMdRef = table.Column<string>(nullable: true),
                     SortCode = table.Column<string>(nullable: true),
                     MdRef = table.Column<string>(nullable: true),
+                    IsChecked = table.Column<bool>(nullable: false),
                     DocumentReferenceId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -142,31 +145,6 @@ namespace eDrsAPI.Migrations
                     table.PrimaryKey("PK_ApplicationForms", x => x.ApplicationFormId);
                     table.ForeignKey(
                         name: "FK_ApplicationForms_DocumentReferences_DocumentReferenceId",
-                        column: x => x.DocumentReferenceId,
-                        principalTable: "DocumentReferences",
-                        principalColumn: "DocumentReferenceId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AttachmentNotes",
-                columns: table => new
-                {
-                    AttachmentNotesId = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AdditionalProviderFilter = table.Column<string>(nullable: true),
-                    MessageId = table.Column<long>(nullable: false),
-                    ExternalReference = table.Column<string>(nullable: true),
-                    ApplicationMessageId = table.Column<string>(nullable: true),
-                    ApplicationService = table.Column<string>(nullable: true),
-                    Notes = table.Column<string>(nullable: true),
-                    DocumentReferenceId = table.Column<long>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AttachmentNotes", x => x.AttachmentNotesId);
-                    table.ForeignKey(
-                        name: "FK_AttachmentNotes_DocumentReferences_DocumentReferenceId",
                         column: x => x.DocumentReferenceId,
                         principalTable: "DocumentReferences",
                         principalColumn: "DocumentReferenceId",
@@ -204,10 +182,10 @@ namespace eDrsAPI.Migrations
                     PartyId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IsApplicant = table.Column<bool>(nullable: false),
-                    CompanyOrForeName = table.Column<string>(nullable: true),
+                    CompanyOrForeName = table.Column<string>(nullable: false),
                     Surname = table.Column<string>(nullable: true),
                     Roles = table.Column<string>(nullable: true),
-                    PartyType = table.Column<string>(nullable: true),
+                    PartyType = table.Column<string>(nullable: false),
                     AddressForService = table.Column<string>(nullable: true),
                     DocumentReferenceId = table.Column<long>(nullable: false)
                 },
@@ -228,7 +206,7 @@ namespace eDrsAPI.Migrations
                 {
                     RepresentationId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Type = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: false),
                     RepresentativeId = table.Column<long>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Reference = table.Column<string>(nullable: true),
@@ -236,7 +214,7 @@ namespace eDrsAPI.Migrations
                     DocumentReferenceId = table.Column<long>(nullable: false),
                     CareOfName = table.Column<string>(nullable: true),
                     CareOfReference = table.Column<string>(nullable: true),
-                    DxNumber = table.Column<long>(nullable: false),
+                    DxNumber = table.Column<string>(nullable: true),
                     DxExchange = table.Column<string>(nullable: true),
                     AddressLine1 = table.Column<string>(nullable: true),
                     AddressLine2 = table.Column<string>(nullable: true),
@@ -296,9 +274,19 @@ namespace eDrsAPI.Migrations
                 {
                     SupportingDocumentId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CertifiedCopy = table.Column<string>(nullable: true),
-                    DocumentId = table.Column<string>(nullable: true),
-                    DocumentName = table.Column<string>(nullable: true),
+                    CertifiedCopy = table.Column<string>(nullable: false),
+                    DocumentId = table.Column<long>(nullable: false),
+                    DocumentName = table.Column<string>(nullable: false),
+                    AdditionalProviderFilter = table.Column<string>(nullable: false),
+                    MessageId = table.Column<long>(nullable: false),
+                    ExternalReference = table.Column<string>(nullable: false),
+                    ApplicationMessageId = table.Column<string>(nullable: false),
+                    DocumentType = table.Column<string>(nullable: false),
+                    Notes = table.Column<string>(nullable: true),
+                    Base64 = table.Column<string>(nullable: true),
+                    FileName = table.Column<string>(nullable: true),
+                    FileExtension = table.Column<string>(nullable: true),
+                    IsChecked = table.Column<bool>(nullable: false),
                     DocumentReferenceId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -320,6 +308,7 @@ namespace eDrsAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TitleNumberCode = table.Column<string>(maxLength: 150, nullable: true),
                     LesseeTitleNumber = table.Column<string>(nullable: true),
+                    AdditionalTitles = table.Column<string>(nullable: true),
                     CreatedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
                     UpdatedDate = table.Column<DateTime>(nullable: false),
                     Status = table.Column<bool>(nullable: false, defaultValue: true),
@@ -342,9 +331,10 @@ namespace eDrsAPI.Migrations
                 {
                     DocumentId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Base64 = table.Column<string>(nullable: true),
-                    FileName = table.Column<string>(nullable: true),
-                    FileExtension = table.Column<string>(nullable: true),
+                    AttachmentId = table.Column<long>(nullable: false),
+                    Base64 = table.Column<string>(nullable: false),
+                    FileName = table.Column<string>(nullable: false),
+                    FileExtension = table.Column<string>(nullable: false),
                     ApplicationFormId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -358,6 +348,40 @@ namespace eDrsAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    AddressId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(nullable: true),
+                    SubType = table.Column<string>(nullable: true),
+                    AddressLine1 = table.Column<string>(nullable: true),
+                    AddressLine2 = table.Column<string>(nullable: true),
+                    AddressLine3 = table.Column<string>(nullable: true),
+                    AddressLine4 = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    County = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true),
+                    PostCode = table.Column<string>(nullable: true),
+                    CareOfName = table.Column<string>(nullable: true),
+                    CareOfReference = table.Column<string>(nullable: true),
+                    DxNumber = table.Column<string>(nullable: true),
+                    DxExchange = table.Column<string>(nullable: true),
+                    EmailAddress = table.Column<string>(nullable: true),
+                    PartyId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.AddressId);
+                    table.ForeignKey(
+                        name: "FK_Addresses_Parties_PartyId",
+                        column: x => x.PartyId,
+                        principalTable: "Parties",
+                        principalColumn: "PartyId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "LrCredentials",
                 columns: new[] { "LrCredentialsId", "Password", "Username" },
@@ -368,29 +392,29 @@ namespace eDrsAPI.Migrations
                 columns: new[] { "RegistrationTypeId", "Status", "TypeCode", "TypeName", "UpdatedDate", "Url" },
                 values: new object[,]
                 {
-                    { 1L, true, "trns_chrge", "Transfer and charge", new DateTime(2021, 3, 18, 15, 52, 22, 424, DateTimeKind.Local).AddTicks(8506), "transfer-and-charge" },
-                    { 2L, true, "rem_gage", "Remortgage", new DateTime(2021, 3, 18, 15, 52, 22, 425, DateTimeKind.Local).AddTicks(6844), "remortgage" },
-                    { 3L, true, "trns_eqty", "Transfer of equity", new DateTime(2021, 3, 18, 15, 52, 22, 425, DateTimeKind.Local).AddTicks(6870), "transfer-equity" },
-                    { 4L, true, "rem_frm", "Restriction, hostile takeover", new DateTime(2021, 3, 18, 15, 52, 22, 425, DateTimeKind.Local).AddTicks(6872), "removal-form" },
-                    { 5L, true, "chngName", "Change of name", new DateTime(2021, 3, 18, 15, 52, 22, 425, DateTimeKind.Local).AddTicks(6874), "change-name" },
-                    { 6L, true, "dispositionary", "Dispositionary first lease", new DateTime(2021, 3, 18, 15, 52, 22, 425, DateTimeKind.Local).AddTicks(6875), "dispositionary" },
-                    { 7L, true, "transfer", "Transfer of part", new DateTime(2021, 3, 18, 15, 52, 22, 425, DateTimeKind.Local).AddTicks(6877), "transfer" },
-                    { 8L, true, "lease_ext", "Lease extension", new DateTime(2021, 3, 18, 15, 52, 22, 425, DateTimeKind.Local).AddTicks(6878), "lease-extension" }
+                    { 1L, true, "trns_chrge", "Transfer and charge", new DateTime(2021, 11, 16, 12, 49, 16, 742, DateTimeKind.Local).AddTicks(7346), "transfer-and-charge" },
+                    { 2L, true, "rem_gage", "Remortgage", new DateTime(2021, 11, 16, 12, 49, 16, 743, DateTimeKind.Local).AddTicks(6347), "remortgage" },
+                    { 3L, true, "trns_eqty", "Transfer of equity", new DateTime(2021, 11, 16, 12, 49, 16, 743, DateTimeKind.Local).AddTicks(6372), "transfer-equity" },
+                    { 4L, true, "rem_frm", "Restriction, hostile takeover", new DateTime(2021, 11, 16, 12, 49, 16, 743, DateTimeKind.Local).AddTicks(6375), "removal-form" },
+                    { 5L, true, "chngName", "Change of name", new DateTime(2021, 11, 16, 12, 49, 16, 743, DateTimeKind.Local).AddTicks(6376), "change-name" },
+                    { 6L, true, "dispositionary", "Dispositionary first lease", new DateTime(2021, 11, 16, 12, 49, 16, 743, DateTimeKind.Local).AddTicks(6378), "dispositionary" },
+                    { 7L, true, "transfer", "Transfer of part", new DateTime(2021, 11, 16, 12, 49, 16, 743, DateTimeKind.Local).AddTicks(6379), "transfer" },
+                    { 8L, true, "lease_ext", "Lease extension", new DateTime(2021, 11, 16, 12, 49, 16, 743, DateTimeKind.Local).AddTicks(6381), "lease-extension" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "Designation", "Email", "Firstname", "Lastname", "PasswordHash", "PasswordSalt", "Status", "UpdatedDate", "Username" },
-                values: new object[] { 1L, "admin", "dushyanthaccura@gmail.com", "Admin", null, new byte[] { 171, 97, 4, 246, 184, 214, 163, 128, 239, 183, 207, 159, 149, 61, 245, 31, 57, 108, 69, 65, 237, 66, 35, 57, 40, 36, 236, 179, 162, 76, 238, 128, 41, 145, 213, 100, 7, 43, 123, 46, 178, 45, 188, 92, 174, 97, 229, 64, 29, 145, 129, 188, 54, 144, 43, 254, 50, 156, 55, 89, 8, 218, 103, 129 }, new byte[] { 177, 226, 152, 130, 119, 167, 31, 27, 164, 218, 163, 235, 1, 37, 210, 54, 207, 201, 47, 197, 232, 61, 52, 129, 255, 228, 56, 246, 72, 196, 149, 219, 244, 219, 247, 20, 181, 64, 129, 202, 205, 0, 125, 231, 41, 67, 81, 13, 99, 76, 186, 205, 178, 77, 89, 56, 96, 76, 61, 26, 240, 152, 0, 36, 50, 162, 5, 176, 146, 69, 182, 93, 76, 219, 198, 156, 155, 147, 72, 166, 47, 43, 183, 90, 17, 194, 216, 62, 10, 91, 204, 68, 241, 228, 161, 59, 45, 41, 94, 99, 51, 127, 202, 182, 212, 201, 141, 1, 243, 213, 28, 252, 54, 141, 235, 141, 116, 71, 134, 237, 100, 122, 46, 194, 7, 200, 192, 112 }, true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "edrs-admin" });
+                values: new object[] { 1L, "admin", "dushyanthaccura@gmail.com", "Admin", null, new byte[] { 41, 186, 241, 85, 253, 190, 131, 62, 125, 168, 23, 27, 82, 22, 218, 100, 200, 106, 9, 73, 108, 160, 205, 9, 204, 45, 135, 157, 211, 67, 120, 149, 128, 5, 3, 18, 219, 17, 180, 196, 244, 96, 117, 73, 48, 234, 1, 87, 251, 75, 227, 120, 153, 91, 123, 171, 187, 173, 220, 183, 28, 100, 193, 5 }, new byte[] { 223, 220, 25, 241, 80, 40, 115, 27, 166, 7, 175, 201, 219, 186, 36, 67, 161, 97, 155, 16, 66, 162, 69, 123, 189, 223, 209, 240, 190, 166, 90, 44, 53, 38, 246, 180, 234, 138, 231, 5, 2, 202, 159, 97, 88, 126, 36, 51, 115, 243, 213, 159, 65, 231, 5, 30, 144, 38, 2, 225, 38, 66, 169, 239, 86, 220, 125, 115, 48, 131, 106, 148, 156, 66, 253, 251, 113, 218, 18, 130, 75, 182, 74, 212, 69, 24, 76, 110, 247, 202, 134, 58, 159, 150, 201, 188, 34, 3, 135, 133, 89, 107, 72, 179, 144, 208, 122, 46, 162, 100, 201, 106, 21, 204, 1, 163, 174, 48, 4, 136, 187, 247, 105, 252, 198, 188, 204, 26 }, true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "edrs-admin" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Addresses_PartyId",
+                table: "Addresses",
+                column: "PartyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ApplicationForms_DocumentReferenceId",
                 table: "ApplicationForms",
-                column: "DocumentReferenceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AttachmentNotes_DocumentReferenceId",
-                table: "AttachmentNotes",
                 column: "DocumentReferenceId");
 
             migrationBuilder.CreateIndex(
@@ -450,7 +474,7 @@ namespace eDrsAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AttachmentNotes");
+                name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "Documents");
@@ -465,9 +489,6 @@ namespace eDrsAPI.Migrations
                 name: "Outstanding");
 
             migrationBuilder.DropTable(
-                name: "Parties");
-
-            migrationBuilder.DropTable(
                 name: "Representations");
 
             migrationBuilder.DropTable(
@@ -478,6 +499,9 @@ namespace eDrsAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "TitleNumbers");
+
+            migrationBuilder.DropTable(
+                name: "Parties");
 
             migrationBuilder.DropTable(
                 name: "ApplicationForms");

@@ -451,6 +451,8 @@ namespace eDrsManagers.Managers
 
         public DocumentReference GetRegistration(long regId)
         {
+
+            char[] delimiterChars = { ',' };
             var documentReference =
                 _context.DocumentReferences.Include(x => x.SupportingDocuments)
                     .Include(x => x.Applications)
@@ -495,6 +497,7 @@ namespace eDrsManagers.Managers
                         LocalAuthority = sel.LocalAuthority,
                         TotalFeeInPence = sel.TotalFeeInPence,
                         TelephoneNumber = sel.TelephoneNumber,
+                        ServiceTitleType=sel.ServiceTitleType,
                         SupportingDocuments = sel.SupportingDocuments.Select(sup => new SupportingDocuments
                         {
                             CertifiedCopy = sup.CertifiedCopy,
@@ -526,7 +529,8 @@ namespace eDrsManagers.Managers
                             PartyId = party.PartyId,
                             Roles = party.Roles,
                             AddressForService = party.AddressForService,
-                            Addresses = party.Addresses
+                            Addresses = party.Addresses,
+                            ViewModelRoles = new List<string>{ party.Roles }
                         }).ToList(),
                         Status = sel.Status,
                         AdditionalProviderFilter = sel.AdditionalProviderFilter,
@@ -542,5 +546,102 @@ namespace eDrsManagers.Managers
 
         }
 
+
+        public DocumentReference GetRegistrationByReference(string refernce)
+        {
+
+            char[] delimiterChars = { ',' };
+            var documentReference =
+                _context.DocumentReferences.Include(x => x.SupportingDocuments)
+                    .Include(x => x.Applications)
+                    .Include(x => x.Parties)
+                    .Include(x => x.Titles)
+                    .Select(sel => new DocumentReference
+                    {
+                        DocumentReferenceId = sel.DocumentReferenceId,
+                        Email = sel.Email,
+                        AP1WarningUnderstood = sel.AP1WarningUnderstood,
+                        Titles = sel.Titles.Select(s => new TitleNumber
+                        {
+                            UpdatedDate = s.UpdatedDate,
+                            Status = s.Status,
+                            DocumentReferenceId = s.DocumentReferenceId,
+                            TitleNumberId = s.TitleNumberId,
+                            CreatedDate = s.CreatedDate,
+                            TitleNumberCode = s.TitleNumberCode,
+                        }).ToList(),
+                        RegistrationTypeId = sel.RegistrationTypeId,
+                        ApplicationAffects = sel.ApplicationAffects,
+                        ApplicationDate = sel.ApplicationDate,
+                        Applications = sel.Applications.Select(app => new ApplicationForm
+                        {
+                            ApplicationFormId = app.ApplicationFormId,
+                            DocumentReferenceId = app.DocumentReferenceId,
+                            FeeInPence = app.FeeInPence,
+                            Priority = app.Priority,
+                            Type = app.Type,
+                            Value = app.Value,
+                            ExternalReference = app.ExternalReference,
+                            Document = app.Document,
+                            CertifiedCopy = app.CertifiedCopy,
+                            IsMdRef = app.IsMdRef,
+                            MdRef = app.MdRef,
+                            SortCode = app.SortCode,
+                            ChargeDate = app.ChargeDate,
+                            Variety = app.Variety,
+                            IsChecked = app.IsChecked
+                        }).ToList(),
+                        DisclosableOveridingInterests = sel.DisclosableOveridingInterests,
+                        LocalAuthority = sel.LocalAuthority,
+                        TotalFeeInPence = sel.TotalFeeInPence,
+                        TelephoneNumber = sel.TelephoneNumber,
+                        ServiceTitleType = sel.ServiceTitleType,
+                        SupportingDocuments = sel.SupportingDocuments.Select(sup => new SupportingDocuments
+                        {
+                            CertifiedCopy = sup.CertifiedCopy,
+                            SupportingDocumentId = sup.SupportingDocumentId,
+                            DocumentReferenceId = sup.DocumentReferenceId,
+                            DocumentName = sup.DocumentName,
+                            DocumentId = sup.DocumentId,
+                            IsChecked = sup.IsChecked,
+                            Notes = sup.Notes,
+                            AdditionalProviderFilter = sup.AdditionalProviderFilter,
+                            ApplicationMessageId = sup.ApplicationMessageId,
+                            Base64 = sup.Base64,
+                            DocumentType = sup.DocumentType,
+                            ExternalReference = sup.ExternalReference,
+                            FileExtension = sup.FileExtension,
+                            FileName = sup.FileName,
+                            MessageId = sup.MessageId
+                        }).ToList(),
+                        PostcodeOfProperty = sel.PostcodeOfProperty,
+                        Reference = sel.Reference,
+                        MessageID = sel.MessageID,
+                        Parties = sel.Parties.Select(party => new Party
+                        {
+                            Surname = party.Surname,
+                            PartyType = party.PartyType,
+                            IsApplicant = party.IsApplicant,
+                            DocumentReferenceId = party.DocumentReferenceId,
+                            CompanyOrForeName = party.CompanyOrForeName,
+                            PartyId = party.PartyId,
+                            Roles = party.Roles,
+                            AddressForService = party.AddressForService,
+                            Addresses = party.Addresses,
+                            ViewModelRoles = new List<string> { party.Roles }
+                        }).ToList(),
+                        Status = sel.Status,
+                        AdditionalProviderFilter = sel.AdditionalProviderFilter,
+                        ExternalReference = sel.ExternalReference,
+                        RequestLogs = sel.RequestLogs,
+                        Representations = sel.Representations,
+                        Outstanding = sel.Outstanding,
+                        OverallStatus = sel.OverallStatus
+                    })
+                    .FirstOrDefault(s => s.Status && s.Reference == refernce);
+
+            return documentReference;
+
+        }
     }
 }

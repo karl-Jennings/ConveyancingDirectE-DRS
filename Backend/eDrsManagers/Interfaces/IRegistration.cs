@@ -17,6 +17,7 @@ namespace eDrsManagers.Interfaces
         RequestLog CreateRegistration(DocumentReferenceViewModel viewModel);
         List<DocumentReference> GetRegistrations(string regType);
         DocumentReference GetRegistration(long regId);
+        DocumentReference GetRegistrationByReference(string refernce);
         RequestLog UpdateRegistration(DocumentReferenceViewModel viewModel);
         bool DeleteRegistration(long regId);
         RegistrationType GetRegistrationType(long regType);
