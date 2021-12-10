@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace eDRS_Land_Registry.ApiConverters
             _product.ApplicationDate = docRef.ApplicationDate;
             _product.PostcodeOfProperty = docRef.PostcodeOfProperty;
             _product.DisclosableOveridingInterests = docRef.DisclosableOveridingInterests;
-            
+
 
 
             #region TitleNumbers
@@ -57,10 +58,11 @@ namespace eDRS_Land_Registry.ApiConverters
             docRef.Titles.ToList().ForEach(x =>
             {
                 additionalTitleList.Add(x.AdditionalTitles);
-            });      
+            });
 
 
-            if (docRef.ServiceTitleType == "Dealing") {
+            if (docRef.ServiceTitleType == "Dealing")
+            {
 
                 DealingType dealingType = new DealingType
                 {
@@ -77,7 +79,9 @@ namespace eDRS_Land_Registry.ApiConverters
 
                 _product.Titles = titlesType;
 
-            } else if (docRef.ServiceTitleType == "TransferOfPart") {
+            }
+            else if (docRef.ServiceTitleType == "TransferOfPart")
+            {
 
                 TransferOfPartType transferOfPartType = new TransferOfPartType
                 {
@@ -148,14 +152,14 @@ namespace eDRS_Land_Registry.ApiConverters
 
                 _product.Titles = titlesType;
 
-            }  
-
-                
-          
+            }
 
 
 
-          
+
+
+
+
             #endregion
 
             #region OtherApplication
@@ -202,7 +206,8 @@ namespace eDRS_Land_Registry.ApiConverters
             var supportingDocumentTypes = new List<SupportingDocumentType>();
 
 
-            if (docRef.SupportingDocuments!=null) {
+            if (docRef.SupportingDocuments != null)
+            {
                 docRef.SupportingDocuments.ToList().ForEach(x =>
                 {
                     supportingDocumentTypes.Add(new SupportingDocumentType()
@@ -217,7 +222,7 @@ namespace eDRS_Land_Registry.ApiConverters
 
                 _product.SupportingDocuments = supportingDocuments;
             }
-            
+
 
             #endregion
 
@@ -251,7 +256,7 @@ namespace eDRS_Land_Registry.ApiConverters
                         City = x.City,
                         Country = x.Country,
                         County = x.County,
-                        Postcode = x.AddressLine1
+                        Postcode = x.PostCode
                     };
 
                     representingConveyancerTypes.Add(new RepresentingConveyancerType
@@ -307,6 +312,140 @@ namespace eDRS_Land_Registry.ApiConverters
                     partyType.Item = new PersonType { Forenames = x.CompanyOrForeName, Surname = x.Surname };
 
 
+                //AddressForService
+
+                if (x.AddressForService != null && x.AddressForService.Count()>0)
+                {
+                    AddressForServiceType addressForService = new AddressForServiceType();
+                    ArrayList addressForServiceList = new ArrayList();
+
+                    foreach (var addressforservice in x.AddressForService) {                     
+                                             
+
+                        //POSTAL ADDRESS
+                        if (addressforservice.PostalAddress != null)
+                        {
+                            var p = addressforservice.PostalAddress;
+
+                            PostalAddressType PostalAddressType = new PostalAddressType
+                            {
+                                CareOfName = p.CareOfName,
+                                CareOfReference = p.CareOfReference,
+                                AddressLine1 = p.AddressLine1,
+                                AddressLine2 = p.AddressLine1,
+                                AddressLine3 = p.AddressLine1,
+                                AddressLine4 = p.AddressLine1,
+                                City = p.City,
+                                Country = p.Country,
+                                County = p.County,
+                                Postcode = p.Postcode,
+
+                            };
+
+                            addressForServiceList.Add(PostalAddressType);
+
+                        }
+                        //ADDITIONAL ADDRESSES
+                        //Only allowed if PostalAddress selected. Contains an additional address for service if appropriate.
+
+                        if (addressforservice.PostalAddress != null && addressforservice.AdditionalAddresses != null)
+                        {
+
+                            foreach (var AdditionalAddress in addressforservice.AdditionalAddresses)
+                            {
+
+                                // AdditionalAddressForServiceType
+                                AdditionalAddressForServiceType additionalAddressForServiceType = new AdditionalAddressForServiceType();
+
+                                ArrayList AdditionalAddresAarlist = new ArrayList();
+
+                                var _adPostal = AdditionalAddress.PostalAddress;
+
+                                PostalAddressType additionalPostalAddress = new PostalAddressType
+                                {
+                                    CareOfName = _adPostal.CareOfName,
+                                    CareOfReference = _adPostal.CareOfReference,
+                                    AddressLine1 = _adPostal.AddressLine1,
+                                    AddressLine2 = _adPostal.AddressLine1,
+                                    AddressLine3 = _adPostal.AddressLine1,
+                                    AddressLine4 = _adPostal.AddressLine1,
+                                    City = _adPostal.City,
+                                    Country = _adPostal.Country,
+                                    County = _adPostal.County,
+                                    Postcode = _adPostal.Postcode
+                                };
+
+                                AdditionalAddresAarlist.Add(additionalPostalAddress);
+
+                                if (AdditionalAddress.DXAddress != null)
+                                {
+                                    var _addDXAddress = AdditionalAddress.DXAddress;
+
+                                    DXAddressType dxAddress = new DXAddressType
+                                    {
+                                        DXNumber = _addDXAddress.DXNumber,
+                                        DXExchange = _addDXAddress.DXExchange,
+                                        CareOfName = _addDXAddress.CareOfName,
+                                        CareOfReference = _addDXAddress.CareOfReference
+
+                                    };
+
+                                    AdditionalAddresAarlist.Add(dxAddress);
+                                }
+
+
+                                if (AdditionalAddress.DXAddress == null)
+                                {
+                                    if (AdditionalAddress.EmailAddress != null)
+                                    {
+
+                                        var _addEmailAddress = AdditionalAddress.EmailAddress;
+
+                                        EmailAddressType emailAddress = new EmailAddressType
+                                        {
+                                            Email = _addEmailAddress.Email
+                                        };
+
+                                        AdditionalAddresAarlist.Add(emailAddress);
+                                    }
+                                }
+
+                                additionalAddressForServiceType.Items = AdditionalAddresAarlist.ToArray();
+
+                                addressForServiceList.Add(additionalAddressForServiceType);
+
+                            }
+
+                        }
+
+                        //ADDRESS FOR SERVICE OPTION
+                        if (addressforservice.PostalAddress == null)
+                        {
+                            if (addressforservice.AddressForServiceOption != null)
+                            {
+                                if (addressforservice.AddressForServiceOption == "A1")
+                                {
+                                    addressForServiceList.Add(AddressForServiceTypeContent.A1);
+                                }
+
+                                if (addressforservice.AddressForServiceOption == "B1")
+                                {
+                                    addressForServiceList.Add(AddressForServiceTypeContent.B1);
+                                }
+
+                                if (addressforservice.AddressForServiceOption == "TA")
+                                {
+                                    addressForServiceList.Add(AddressForServiceTypeContent.TA);
+                                }
+                            }
+                        }                      
+
+                       
+                    }
+                    addressForService.Items = addressForServiceList.ToArray();
+                    partyType.AddressForService = addressForService;
+                }
+
                 partyTypes.Add(partyType);
 
             });
@@ -335,7 +474,7 @@ namespace eDRS_Land_Registry.ApiConverters
             _request.AdditionalProviderFilter = additionalProviderFilter;
 
             BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentType attachment = null;
-            if (applicationForm != null || (supportingDocuments!=null && supportingDocuments.DocumentType == "SupDoc"))
+            if (applicationForm != null || (supportingDocuments != null && supportingDocuments.DocumentType == "SupDoc"))
             {
                 byte[] fileArray = Convert.FromBase64String(applicationForm != null
                     ? applicationForm.Document.Base64
@@ -351,7 +490,7 @@ namespace eDRS_Land_Registry.ApiConverters
 
             var ItemsElementName = new BusinessGatewayRepositories.AttachmentServiceRequestV2_1.ItemsChoiceType[3];
 
-            if (applicationForm != null ||(supportingDocuments != null && supportingDocuments.DocumentType == "SupDoc"))
+            if (applicationForm != null || (supportingDocuments != null && supportingDocuments.DocumentType == "SupDoc"))
             {
                 ItemsElementName[0] = BusinessGatewayRepositories.AttachmentServiceRequestV2_1.ItemsChoiceType.Attachment;
                 ItemsElementName[1] = BusinessGatewayRepositories.AttachmentServiceRequestV2_1.ItemsChoiceType.AttachmentId;
@@ -366,31 +505,31 @@ namespace eDRS_Land_Registry.ApiConverters
 
             object[] Items;
 
-            
 
-                if (applicationForm != null ||(supportingDocuments != null && supportingDocuments.DocumentType == "SupDoc"))
-                {
-                    Items = new object[] {
+
+            if (applicationForm != null || (supportingDocuments != null && supportingDocuments.DocumentType == "SupDoc"))
+            {
+                Items = new object[] {
                     attachment,
                     count.ToString(),
                     (BusinessGatewayRepositories.AttachmentServiceRequestV2_1.CertifiedTypeContent)Enum.Parse(typeof(BusinessGatewayRepositories.AttachmentServiceRequestV2_1.CertifiedTypeContent),
                         applicationForm != null ? applicationForm.CertifiedCopy : supportingDocuments.CertifiedCopy),
                 };
-                }
-                else
-                {
+            }
+            else
+            {
 
 
-                    Items = new object[] {
+                Items = new object[] {
                     supportingDocuments.Notes
                 };
-                }
+            }
 
-                _request.Items = Items;
-            
+            _request.Items = Items;
 
 
-          
+
+
             _request.ItemsElementName = ItemsElementName;
 
             return _request;

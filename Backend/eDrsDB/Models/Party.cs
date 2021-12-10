@@ -27,7 +27,9 @@ namespace eDrsDB.Models
 
         [Required]
         public string PartyType { get; set; }
-        public string AddressForService { get; set; }
+
+    
+        public ICollection<AddressForService> AddressForService { get; set; }
 
         public long DocumentReferenceId { get; set; }
         [JsonIgnore]

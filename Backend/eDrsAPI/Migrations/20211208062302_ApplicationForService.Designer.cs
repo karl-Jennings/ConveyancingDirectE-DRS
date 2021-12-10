@@ -3,90 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eDrsDB.Data;
 
 namespace eDrsAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211208062302_ApplicationForService")]
+    partial class ApplicationForService
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("eDrsDB.Models.AdditionalAddress_EmailAddress", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("AddressForService_AdditionalAddressId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AddressForService_AdditionalAddressId")
-                        .IsUnique();
-
-                    b.ToTable("AdditionalAddress_EmailAddress");
-                });
-
-            modelBuilder.Entity("eDrsDB.Models.AdditionalAddress_PostalAddress", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("AddressForService_AdditionalAddressId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("AddressLine1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AddressLine2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AddressLine3")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AddressLine4")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CareOfName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CareOfReference")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("County")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Postcode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AddressForService_AdditionalAddressId")
-                        .IsUnique();
-
-                    b.ToTable("AdditionalAddress_PostalAddress");
-                });
 
             modelBuilder.Entity("eDrsDB.Models.Address", b =>
                 {
@@ -148,124 +81,6 @@ namespace eDrsAPI.Migrations
                     b.HasIndex("PartyId");
 
                     b.ToTable("Addresses");
-                });
-
-            modelBuilder.Entity("eDrsDB.Models.AddressForService", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AddressForServiceOption")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("PartyId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PartyId");
-
-                    b.ToTable("AddressForService");
-                });
-
-            modelBuilder.Entity("eDrsDB.Models.AddressForService_AdditionalAddress", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("addressForServiceId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("addressForServiceId");
-
-                    b.ToTable("AddressForService_AdditionalAddress");
-                });
-
-            modelBuilder.Entity("eDrsDB.Models.AddressForService_DXAddress", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("AddressForService_AdditionalAddressId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("CareOfName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CareOfReference")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DXExchange")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DXNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AddressForService_AdditionalAddressId")
-                        .IsUnique();
-
-                    b.ToTable("AddressForService_DXAddress");
-                });
-
-            modelBuilder.Entity("eDrsDB.Models.AddressForService_PostalAddress", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AddressLine1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AddressLine2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AddressLine3")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AddressLine4")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CareOfName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CareOfReference")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("County")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Postcode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("addressForServiceId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("addressForServiceId")
-                        .IsUnique();
-
-                    b.ToTable("AddressForService_PostalAddress");
                 });
 
             modelBuilder.Entity("eDrsDB.Models.ApplicationForm", b =>
@@ -597,7 +412,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "trns_chrge",
                             TypeName = "Transfer and charge",
-                            UpdatedDate = new DateTime(2021, 12, 10, 12, 20, 37, 649, DateTimeKind.Local).AddTicks(9435),
+                            UpdatedDate = new DateTime(2021, 12, 8, 11, 53, 1, 336, DateTimeKind.Local).AddTicks(494),
                             Url = "transfer-and-charge"
                         },
                         new
@@ -606,7 +421,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "rem_gage",
                             TypeName = "Remortgage",
-                            UpdatedDate = new DateTime(2021, 12, 10, 12, 20, 37, 650, DateTimeKind.Local).AddTicks(7790),
+                            UpdatedDate = new DateTime(2021, 12, 8, 11, 53, 1, 336, DateTimeKind.Local).AddTicks(9461),
                             Url = "remortgage"
                         },
                         new
@@ -615,7 +430,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "trns_eqty",
                             TypeName = "Transfer of equity",
-                            UpdatedDate = new DateTime(2021, 12, 10, 12, 20, 37, 650, DateTimeKind.Local).AddTicks(7816),
+                            UpdatedDate = new DateTime(2021, 12, 8, 11, 53, 1, 336, DateTimeKind.Local).AddTicks(9489),
                             Url = "transfer-equity"
                         },
                         new
@@ -624,7 +439,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "rem_frm",
                             TypeName = "Restriction, hostile takeover",
-                            UpdatedDate = new DateTime(2021, 12, 10, 12, 20, 37, 650, DateTimeKind.Local).AddTicks(7818),
+                            UpdatedDate = new DateTime(2021, 12, 8, 11, 53, 1, 336, DateTimeKind.Local).AddTicks(9492),
                             Url = "removal-form"
                         },
                         new
@@ -633,7 +448,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "chngName",
                             TypeName = "Change of name",
-                            UpdatedDate = new DateTime(2021, 12, 10, 12, 20, 37, 650, DateTimeKind.Local).AddTicks(7820),
+                            UpdatedDate = new DateTime(2021, 12, 8, 11, 53, 1, 336, DateTimeKind.Local).AddTicks(9493),
                             Url = "change-name"
                         },
                         new
@@ -642,7 +457,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "dispositionary",
                             TypeName = "Dispositionary first lease",
-                            UpdatedDate = new DateTime(2021, 12, 10, 12, 20, 37, 650, DateTimeKind.Local).AddTicks(7822),
+                            UpdatedDate = new DateTime(2021, 12, 8, 11, 53, 1, 336, DateTimeKind.Local).AddTicks(9495),
                             Url = "dispositionary"
                         },
                         new
@@ -651,7 +466,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "transfer",
                             TypeName = "Transfer of part",
-                            UpdatedDate = new DateTime(2021, 12, 10, 12, 20, 37, 650, DateTimeKind.Local).AddTicks(7823),
+                            UpdatedDate = new DateTime(2021, 12, 8, 11, 53, 1, 336, DateTimeKind.Local).AddTicks(9497),
                             Url = "transfer"
                         },
                         new
@@ -660,7 +475,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "lease_ext",
                             TypeName = "Lease extension",
-                            UpdatedDate = new DateTime(2021, 12, 10, 12, 20, 37, 650, DateTimeKind.Local).AddTicks(7825),
+                            UpdatedDate = new DateTime(2021, 12, 8, 11, 53, 1, 336, DateTimeKind.Local).AddTicks(9498),
                             Url = "lease-extension"
                         });
                 });
@@ -958,30 +773,12 @@ namespace eDrsAPI.Migrations
                             Designation = "admin",
                             Email = "dushyanthaccura@gmail.com",
                             Firstname = "Admin",
-                            PasswordHash = new byte[] { 230, 19, 221, 66, 92, 208, 219, 24, 195, 6, 61, 3, 132, 214, 100, 8, 14, 58, 122, 242, 141, 135, 72, 37, 89, 80, 255, 200, 196, 132, 127, 54, 127, 18, 144, 117, 28, 13, 30, 53, 103, 201, 36, 123, 81, 129, 161, 169, 92, 111, 209, 164, 201, 51, 91, 124, 230, 23, 70, 29, 162, 75, 223, 253 },
-                            PasswordSalt = new byte[] { 206, 135, 163, 94, 12, 140, 51, 179, 156, 133, 243, 97, 18, 235, 7, 207, 219, 109, 163, 131, 3, 88, 93, 249, 88, 14, 214, 235, 90, 61, 18, 135, 59, 199, 181, 249, 51, 166, 15, 203, 172, 0, 57, 202, 107, 167, 250, 24, 136, 24, 18, 169, 70, 133, 210, 7, 235, 46, 144, 50, 23, 206, 187, 104, 251, 132, 211, 248, 36, 5, 213, 59, 24, 109, 132, 4, 162, 173, 57, 157, 121, 218, 131, 42, 160, 26, 73, 70, 148, 86, 170, 59, 79, 89, 48, 239, 160, 114, 208, 156, 14, 192, 154, 126, 182, 30, 37, 197, 189, 3, 105, 122, 142, 207, 74, 70, 37, 88, 253, 215, 18, 68, 49, 121, 24, 13, 231, 230 },
+                            PasswordHash = new byte[] { 41, 104, 119, 82, 171, 88, 52, 165, 41, 194, 232, 177, 62, 3, 166, 220, 97, 24, 141, 14, 158, 9, 219, 47, 135, 174, 219, 140, 69, 187, 213, 239, 187, 83, 96, 44, 228, 240, 80, 32, 249, 53, 36, 99, 244, 20, 37, 11, 32, 32, 119, 237, 96, 248, 181, 22, 143, 91, 148, 216, 101, 120, 187, 128 },
+                            PasswordSalt = new byte[] { 66, 158, 14, 255, 189, 42, 169, 142, 208, 175, 60, 60, 70, 99, 10, 127, 107, 74, 35, 162, 138, 12, 155, 6, 53, 93, 9, 194, 88, 11, 191, 12, 161, 86, 250, 152, 36, 134, 176, 226, 126, 102, 128, 112, 172, 50, 90, 71, 224, 22, 95, 46, 131, 221, 30, 201, 183, 4, 33, 99, 8, 24, 4, 98, 196, 236, 192, 171, 129, 238, 43, 162, 96, 112, 35, 188, 160, 13, 50, 153, 141, 126, 146, 96, 66, 109, 30, 154, 197, 204, 18, 158, 201, 11, 251, 240, 221, 154, 81, 246, 62, 10, 201, 45, 106, 8, 192, 96, 244, 70, 246, 104, 206, 157, 59, 84, 142, 175, 154, 58, 108, 139, 159, 229, 120, 221, 75, 28 },
                             Status = true,
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Username = "edrs-admin"
                         });
-                });
-
-            modelBuilder.Entity("eDrsDB.Models.AdditionalAddress_EmailAddress", b =>
-                {
-                    b.HasOne("eDrsDB.Models.AddressForService_AdditionalAddress", "AddressForService_AdditionalAddress")
-                        .WithOne("EmailAddress")
-                        .HasForeignKey("eDrsDB.Models.AdditionalAddress_EmailAddress", "AddressForService_AdditionalAddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("eDrsDB.Models.AdditionalAddress_PostalAddress", b =>
-                {
-                    b.HasOne("eDrsDB.Models.AddressForService_AdditionalAddress", "AddressForService_AdditionalAddress")
-                        .WithOne("PostalAddress")
-                        .HasForeignKey("eDrsDB.Models.AdditionalAddress_PostalAddress", "AddressForService_AdditionalAddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("eDrsDB.Models.Address", b =>
@@ -989,42 +786,6 @@ namespace eDrsAPI.Migrations
                     b.HasOne("eDrsDB.Models.Party", null)
                         .WithMany("Addresses")
                         .HasForeignKey("PartyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("eDrsDB.Models.AddressForService", b =>
-                {
-                    b.HasOne("eDrsDB.Models.Party", "Party")
-                        .WithMany("AddressForService")
-                        .HasForeignKey("PartyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("eDrsDB.Models.AddressForService_AdditionalAddress", b =>
-                {
-                    b.HasOne("eDrsDB.Models.AddressForService", "AddressForService")
-                        .WithMany("AdditionalAddresses")
-                        .HasForeignKey("addressForServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("eDrsDB.Models.AddressForService_DXAddress", b =>
-                {
-                    b.HasOne("eDrsDB.Models.AddressForService_AdditionalAddress", "AddressForService_AdditionalAddress")
-                        .WithOne("DXAddress")
-                        .HasForeignKey("eDrsDB.Models.AddressForService_DXAddress", "AddressForService_AdditionalAddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("eDrsDB.Models.AddressForService_PostalAddress", b =>
-                {
-                    b.HasOne("eDrsDB.Models.AddressForService", "AddressForService")
-                        .WithOne("PostalAddress")
-                        .HasForeignKey("eDrsDB.Models.AddressForService_PostalAddress", "addressForServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -123,9 +123,7 @@ namespace eDRS_Land_Registry.Controllers
 
                             attachmentResponse.Add(attachmentRequestLog);
                         });
-                    }
-                   
-
+                    }               
                 }
 
                 requestLog.Type = "Application";

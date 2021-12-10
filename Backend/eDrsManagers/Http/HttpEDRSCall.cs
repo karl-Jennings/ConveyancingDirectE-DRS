@@ -67,7 +67,7 @@ namespace eDrsManagers.Http
 
                 //IFormFile file = new FormFile(stream, 0, byteArray.Length, "edrs", "edrs");
 
-                request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel), lrCredentials.Password, lrCredentials.Username });
+                request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel ,Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling=PreserveReferencesHandling.Objects}), lrCredentials.Password, lrCredentials.Username });
                // request.AddObject(new { Value = file, lrCredentials.Password, lrCredentials.Username });
 
                 IRestResponse response = client.Execute(request);

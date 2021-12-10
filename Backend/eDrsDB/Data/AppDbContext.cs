@@ -29,6 +29,13 @@ namespace eDrsDB.Data
         public DbSet<LrCredential> LrCredentials { get; set; }
         public DbSet<Address> Addresses { get; set; }
 
+        public DbSet<AddressForService> AddressForService { get; set; }
+        public DbSet<AddressForService_PostalAddress> AddressForService_PostalAddress { get; set; }
+        public DbSet<AddressForService_AdditionalAddress> AddressForService_AdditionalAddress { get; set; }
+        public DbSet<AddressForService_DXAddress> AddressForService_DXAddress { get; set; }
+        public DbSet<AdditionalAddress_EmailAddress> AdditionalAddress_EmailAddress { get; set; }
+        public DbSet<AdditionalAddress_PostalAddress> AdditionalAddress_PostalAddress { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Party>().Ignore(c => c.ViewModelRoles);

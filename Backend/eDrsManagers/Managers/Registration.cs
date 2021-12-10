@@ -528,7 +528,7 @@ namespace eDrsManagers.Managers
                             CompanyOrForeName = party.CompanyOrForeName,
                             PartyId = party.PartyId,
                             Roles = party.Roles,
-                            AddressForService = party.AddressForService,
+                            //AddressForService = party.AddressForService,
                             Addresses = party.Addresses,
                             ViewModelRoles = new List<string>{ party.Roles }
                         }).ToList(),
@@ -626,7 +626,7 @@ namespace eDrsManagers.Managers
                             CompanyOrForeName = party.CompanyOrForeName,
                             PartyId = party.PartyId,
                             Roles = party.Roles,
-                            AddressForService = party.AddressForService,
+                            //AddressForService = party.AddressForService,
                             Addresses = party.Addresses,
                             ViewModelRoles = new List<string> { party.Roles }
                         }).ToList(),
