@@ -107,9 +107,7 @@ namespace eDrsManagers.Managers
 
             _context.SaveChanges();
 
-
             return requestLog;
-
         }
 
         public RequestLog UpdateRegistration(DocumentReferenceViewModel viewModel)

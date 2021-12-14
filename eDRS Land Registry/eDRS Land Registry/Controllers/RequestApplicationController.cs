@@ -12,6 +12,8 @@ using eDRS_Land_Registry.ApiConverters;
 using eDRS_Land_Registry.Models;
 using eDrsDB.Models;
 using Newtonsoft.Json;
+using System.Xml.Serialization;
+using BusinessGatewayRepositories.EDRSApplicationV2_1;
 
 namespace eDRS_Land_Registry.Controllers
 {
@@ -32,6 +34,8 @@ namespace eDRS_Land_Registry.Controllers
 
         public RequestLog Post([FromBody] TempClass tempClass)
         {
+
+            RequestApplicationToChangeRegisterV2_1Type apiModel = new RequestApplicationToChangeRegisterV2_1Type();
             try
             {
                 DocumentReference docRef = JsonConvert.DeserializeObject<DocumentReference>(tempClass.Value);
@@ -44,17 +48,23 @@ namespace eDRS_Land_Registry.Controllers
                 //var response = _services.eDRSApplicationRequest(tempClass.Username, tempClass.Password, apiModel);
 
                 //V2_1
-                var apiModel = _restrictionConverterV2_1.ArrangeLrApi(docRef);
+                apiModel = _restrictionConverterV2_1.ArrangeLrApi(docRef);
                 var response = _services.eDRSApplicationRequestV2_1(tempClass.Username, tempClass.Password, apiModel);
 
-             
-
-                var requestLog = new RequestLog();
+                             var requestLog = new RequestLog();
                 requestLog.IsSuccess = true;
 
+                //Convert Request to XML
+                if (apiModel!=null) {
+                    requestLog.CreateRegistrationXMLRequest = SerializeToXMLString(apiModel);
+                }
+               
+
                 List<RequestLog> attachmentResponse = new List<RequestLog>();
+
                 if (response.Successful)
-                {
+                {                  
+
                     var count = 1;
                     docRef.Applications.Where(x => x.IsChecked).ToList().ForEach(app =>
                     {
@@ -156,14 +166,34 @@ namespace eDRS_Land_Registry.Controllers
 
             }
             catch (Exception ex)
-            {
+            {                
+
                 var requestLog = new RequestLog();
+
+                if (apiModel!=null) {
+                    requestLog.CreateRegistrationXMLRequest = SerializeToXMLString(apiModel);
+                }              
+
                 requestLog.IsSuccess = false;
                 return requestLog;
             }
 
         }
 
+        private static string SerializeToXMLString<T>(T dataToSerialize)
+        {
+            try
+            {
+                var stringwriter = new System.IO.StringWriter();
+                var serializer = new XmlSerializer(typeof(T));
+                serializer.Serialize(stringwriter, dataToSerialize);
+                return stringwriter.ToString();
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
     }
 }

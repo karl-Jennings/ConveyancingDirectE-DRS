@@ -39,5 +39,7 @@ namespace eDrsDB.Models
         public string AttachmentName { get; set; }
         public string AttachmentId { get; set; }
 
+        public string CreateRegistrationXMLRequest { get; set; }
+
     }
 }
