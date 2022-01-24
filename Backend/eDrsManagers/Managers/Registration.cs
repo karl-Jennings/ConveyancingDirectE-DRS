@@ -183,6 +183,64 @@ namespace eDrsManagers.Managers
 
         }
 
+        public DocumentReference UpdateRegistrationForRequisition(DocumentReferenceViewModel viewModel)
+        {
+            viewModel.Parties.ToList().ForEach(party =>
+            {
+                party.Roles = string.Join(",", party.ViewModelRoles);
+            });
+
+            var count = 1;
+
+            viewModel.Applications.ToList().ForEach(x => x.Document.AttachmentId = count++);
+
+            if (viewModel.SupportingDocuments != null)
+            {
+                viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
+                {
+                    supDoc.DocumentId = count++;
+                });
+            }
+
+
+            var deletingTitle = _context.TitleNumbers
+                .Where(x => !viewModel.Titles.Select(s => s.TitleNumberId).ToList().Contains(x.TitleNumberId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
+
+            var deletingApplications = _context.ApplicationForms
+                .Where(x => !viewModel.Applications.Select(s => s.ApplicationFormId).ToList().Contains(x.ApplicationFormId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
+
+            var deletingSupportingDocuments = _context.SupportingDocuments
+                .Where(x => !viewModel.SupportingDocuments.Select(s => s.SupportingDocumentId).ToList().Contains(x.SupportingDocumentId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
+
+            var deletingParties = _context.Parties
+                .Where(x => !viewModel.Parties.Select(s => s.PartyId).ToList().Contains(x.PartyId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
+
+            if (viewModel.Representations != null)
+            {
+                var representations = _context.Representations
+                    .Where(x => !viewModel.Representations.Select(s => s.RepresentationId).ToList().Contains(x.RepresentationId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
+                _context.Representations.RemoveRange(representations);
+            }
+
+            _context.TitleNumbers.RemoveRange(deletingTitle);
+            _context.ApplicationForms.RemoveRange(deletingApplications);
+            _context.SupportingDocuments.RemoveRange(deletingSupportingDocuments);
+            _context.Parties.RemoveRange(deletingParties);
+
+            if (string.IsNullOrEmpty(viewModel.MessageID))
+                viewModel.MessageID = Guid.NewGuid().ToString();
+
+            viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
+            var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
+
+            _context.DocumentReferences.Update(model);    
+                 
+            _context.SaveChanges();
+
+            return model;
+
+        }
+
 
         public bool DeleteRegistration(long regId)
         {
@@ -553,12 +611,13 @@ namespace eDrsManagers.Managers
                 _context.DocumentReferences.Include(x => x.SupportingDocuments)
                     .Include(x => x.Applications)
                     .Include(x => x.Parties)
-                    .Include(x => x.Titles)
+                    .Include(x => x.Titles)                   
                     .Select(sel => new DocumentReference
                     {
                         DocumentReferenceId = sel.DocumentReferenceId,
                         Email = sel.Email,
                         AP1WarningUnderstood = sel.AP1WarningUnderstood,
+                        UserId=sel.UserId,
                         Titles = sel.Titles.Select(s => new TitleNumber
                         {
                             UpdatedDate = s.UpdatedDate,

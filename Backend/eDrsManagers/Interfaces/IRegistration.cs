@@ -19,6 +19,7 @@ namespace eDrsManagers.Interfaces
         DocumentReference GetRegistration(long regId);
         DocumentReference GetRegistrationByReference(string refernce);
         RequestLog UpdateRegistration(DocumentReferenceViewModel viewModel);
+        DocumentReference UpdateRegistrationForRequisition(DocumentReferenceViewModel viewModel);
         bool DeleteRegistration(long regId);
         RegistrationType GetRegistrationType(long regType);
         dynamic GetPollResponse(long docRefId);

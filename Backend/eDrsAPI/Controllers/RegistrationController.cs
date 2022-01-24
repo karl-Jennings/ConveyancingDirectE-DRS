@@ -98,6 +98,20 @@ namespace eDrsAPI.Controllers
 
         }
 
+        [HttpPost]
+        public IActionResult UpdateRegistrationForRequisition(DocumentReferenceViewModel viewModel)
+        {
+            try
+            {
+                return Ok(_registration.UpdateRegistrationForRequisition(viewModel));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
         /// <summary>
         /// Get Registrations
         /// </summary>
