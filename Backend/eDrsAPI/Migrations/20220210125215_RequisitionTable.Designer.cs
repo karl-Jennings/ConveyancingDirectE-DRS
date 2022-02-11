@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eDrsDB.Data;
 
 namespace eDrsAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220210125215_RequisitionTable")]
+    partial class RequisitionTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -335,9 +337,6 @@ namespace eDrsAPI.Migrations
                     b.Property<long>("ApplicationFormId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("ApplicationMessageId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long>("AttachmentId")
                         .HasColumnType("bigint");
 
@@ -600,7 +599,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "trns_chrge",
                             TypeName = "Transfer and charge",
-                            UpdatedDate = new DateTime(2022, 2, 11, 14, 52, 36, 58, DateTimeKind.Local).AddTicks(6395),
+                            UpdatedDate = new DateTime(2022, 2, 10, 18, 22, 15, 22, DateTimeKind.Local).AddTicks(2425),
                             Url = "transfer-and-charge"
                         },
                         new
@@ -609,7 +608,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "rem_gage",
                             TypeName = "Remortgage",
-                            UpdatedDate = new DateTime(2022, 2, 11, 14, 52, 36, 59, DateTimeKind.Local).AddTicks(4949),
+                            UpdatedDate = new DateTime(2022, 2, 10, 18, 22, 15, 23, DateTimeKind.Local).AddTicks(1292),
                             Url = "remortgage"
                         },
                         new
@@ -618,7 +617,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "trns_eqty",
                             TypeName = "Transfer of equity",
-                            UpdatedDate = new DateTime(2022, 2, 11, 14, 52, 36, 59, DateTimeKind.Local).AddTicks(4979),
+                            UpdatedDate = new DateTime(2022, 2, 10, 18, 22, 15, 23, DateTimeKind.Local).AddTicks(1319),
                             Url = "transfer-equity"
                         },
                         new
@@ -627,7 +626,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "rem_frm",
                             TypeName = "Restriction, hostile takeover",
-                            UpdatedDate = new DateTime(2022, 2, 11, 14, 52, 36, 59, DateTimeKind.Local).AddTicks(4981),
+                            UpdatedDate = new DateTime(2022, 2, 10, 18, 22, 15, 23, DateTimeKind.Local).AddTicks(1322),
                             Url = "removal-form"
                         },
                         new
@@ -636,7 +635,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "chngName",
                             TypeName = "Change of name",
-                            UpdatedDate = new DateTime(2022, 2, 11, 14, 52, 36, 59, DateTimeKind.Local).AddTicks(4983),
+                            UpdatedDate = new DateTime(2022, 2, 10, 18, 22, 15, 23, DateTimeKind.Local).AddTicks(1324),
                             Url = "change-name"
                         },
                         new
@@ -645,7 +644,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "dispositionary",
                             TypeName = "Dispositionary first lease",
-                            UpdatedDate = new DateTime(2022, 2, 11, 14, 52, 36, 59, DateTimeKind.Local).AddTicks(4984),
+                            UpdatedDate = new DateTime(2022, 2, 10, 18, 22, 15, 23, DateTimeKind.Local).AddTicks(1325),
                             Url = "dispositionary"
                         },
                         new
@@ -654,7 +653,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "transfer",
                             TypeName = "Transfer of part",
-                            UpdatedDate = new DateTime(2022, 2, 11, 14, 52, 36, 59, DateTimeKind.Local).AddTicks(4986),
+                            UpdatedDate = new DateTime(2022, 2, 10, 18, 22, 15, 23, DateTimeKind.Local).AddTicks(1327),
                             Url = "transfer"
                         },
                         new
@@ -663,7 +662,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "lease_ext",
                             TypeName = "Lease extension",
-                            UpdatedDate = new DateTime(2022, 2, 11, 14, 52, 36, 59, DateTimeKind.Local).AddTicks(4987),
+                            UpdatedDate = new DateTime(2022, 2, 10, 18, 22, 15, 23, DateTimeKind.Local).AddTicks(1328),
                             Url = "lease-extension"
                         });
                 });
@@ -847,9 +846,6 @@ namespace eDrsAPI.Migrations
                     b.Property<string>("ResponseType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Status")
-                        .HasColumnType("int");
-
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
@@ -1030,8 +1026,8 @@ namespace eDrsAPI.Migrations
                             Designation = "admin",
                             Email = "dushyanthaccura@gmail.com",
                             Firstname = "Admin",
-                            PasswordHash = new byte[] { 164, 126, 71, 58, 119, 208, 217, 98, 50, 189, 177, 48, 79, 249, 190, 229, 150, 28, 212, 217, 193, 85, 155, 47, 60, 143, 52, 187, 255, 66, 133, 143, 64, 12, 14, 186, 135, 232, 1, 79, 214, 243, 226, 219, 60, 51, 133, 51, 116, 82, 228, 167, 233, 114, 160, 167, 28, 171, 66, 194, 78, 214, 161, 236 },
-                            PasswordSalt = new byte[] { 7, 97, 172, 26, 240, 51, 141, 43, 120, 188, 192, 50, 97, 132, 65, 167, 100, 240, 186, 15, 209, 236, 213, 23, 24, 71, 49, 172, 150, 64, 206, 186, 29, 202, 165, 13, 6, 32, 40, 251, 209, 108, 80, 103, 211, 196, 145, 152, 249, 115, 83, 116, 223, 152, 25, 250, 209, 91, 90, 201, 44, 89, 52, 176, 190, 225, 240, 251, 241, 46, 97, 135, 62, 172, 23, 67, 30, 229, 11, 175, 129, 233, 156, 168, 251, 215, 35, 228, 28, 100, 227, 211, 245, 187, 14, 119, 135, 101, 215, 206, 209, 144, 42, 66, 31, 181, 152, 119, 216, 134, 60, 109, 239, 239, 52, 49, 50, 186, 68, 105, 69, 243, 44, 184, 239, 19, 162, 44 },
+                            PasswordHash = new byte[] { 241, 143, 215, 107, 197, 63, 177, 187, 141, 229, 97, 227, 69, 82, 234, 155, 11, 25, 161, 107, 131, 27, 36, 152, 193, 102, 205, 51, 66, 65, 31, 217, 189, 26, 59, 49, 39, 1, 131, 166, 26, 46, 111, 96, 255, 235, 231, 232, 115, 241, 126, 77, 43, 252, 42, 242, 111, 237, 52, 44, 228, 200, 20, 55 },
+                            PasswordSalt = new byte[] { 237, 23, 12, 77, 123, 222, 118, 137, 58, 109, 247, 80, 2, 121, 81, 58, 188, 67, 10, 24, 175, 150, 104, 105, 66, 237, 55, 194, 62, 40, 244, 68, 133, 238, 21, 144, 25, 67, 141, 207, 207, 3, 188, 186, 5, 40, 180, 244, 95, 54, 93, 159, 54, 79, 233, 87, 83, 114, 134, 220, 78, 254, 190, 242, 191, 215, 239, 194, 136, 231, 63, 230, 30, 210, 14, 46, 143, 125, 165, 102, 79, 64, 202, 228, 182, 119, 231, 78, 241, 118, 53, 35, 223, 215, 40, 128, 126, 42, 86, 50, 224, 116, 120, 96, 160, 13, 59, 26, 9, 42, 67, 79, 51, 149, 173, 195, 42, 49, 215, 165, 198, 105, 41, 28, 226, 150, 96, 37 },
                             Status = true,
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Username = "edrs-admin"

@@ -70,8 +70,9 @@ namespace eDRS_Land_Registry.Controllers
                     {
                         // var attchemnt = _restrictionConverter.ArrangeAttachmentApi(app, null, docRef.MessageID, count++);
                         // var attachmentRequest = _services.AttachmentRequest(tempClass.Username, tempClass.Password, attchemnt);
+                   
 
-                        var attchemnt = _restrictionConverterV2_1.ArrangeAttachmentApi(app, null, docRef.MessageID, count++,docRef.AdditionalProviderFilter);
+                        var attchemnt = _restrictionConverterV2_1.ArrangeAttachmentApi(app, null, docRef.MessageID, docRef.MessageID, count++,docRef.AdditionalProviderFilter);
                         var attachmentRequest = _services.AttachmentRequestV2_1(tempClass.Username, tempClass.Password, attchemnt);
                        
                         var attachmentRequestLog = new RequestLog() { Type = "Attachment" };
@@ -106,7 +107,7 @@ namespace eDRS_Land_Registry.Controllers
                             //var attResponse = _restrictionConverter.ArrangeAttachmentApi(null, supDoc, docRef.MessageID, count++);
                             //var attachmentRequest = _services.AttachmentRequest(tempClass.Username, tempClass.Password, attResponse);
 
-                            var attResponse = _restrictionConverterV2_1.ArrangeAttachmentApi(null, supDoc, docRef.MessageID, count++, docRef.AdditionalProviderFilter);
+                            var attResponse = _restrictionConverterV2_1.ArrangeAttachmentApi(null, supDoc, docRef.MessageID, docRef.MessageID, count++, docRef.AdditionalProviderFilter);
                             var attachmentRequest = _services.AttachmentRequestV2_1(tempClass.Username, tempClass.Password, attResponse);
 
                             var attachmentRequestLog = new RequestLog() { Type = "Attachment" };

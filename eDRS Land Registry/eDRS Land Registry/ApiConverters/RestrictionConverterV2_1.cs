@@ -459,7 +459,7 @@ namespace eDRS_Land_Registry.ApiConverters
             return _request;
         }
 
-        public AttachmentV2_1Type ArrangeAttachmentApi(ApplicationForm applicationForm, SupportingDocuments supportingDocuments, string messageId, int count, string additionalProviderFilter)
+        public AttachmentV2_1Type ArrangeAttachmentApi(ApplicationForm applicationForm, SupportingDocuments supportingDocuments, string messageId,string applicationMessageId, int count, string additionalProviderFilter)
         {
 
             BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
@@ -469,9 +469,10 @@ namespace eDRS_Land_Registry.ApiConverters
 
             _request.MessageId = messageId;
             _request.ExternalReference = applicationForm != null ? applicationForm.ExternalReference : supportingDocuments.ExternalReference;
-            _request.ApplicationMessageId = messageId;
+            _request.ApplicationMessageId = applicationMessageId;
             _request.ApplicationService = "104";
             _request.AdditionalProviderFilter = additionalProviderFilter;
+            
 
             BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentType attachment = null;
             if (applicationForm != null || (supportingDocuments != null && supportingDocuments.DocumentType == "SupDoc"))

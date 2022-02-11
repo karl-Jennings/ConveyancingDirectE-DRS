@@ -35,6 +35,7 @@ namespace eDrsDB.Data
         public DbSet<AddressForService_DXAddress> AddressForService_DXAddress { get; set; }
         public DbSet<AdditionalAddress_EmailAddress> AdditionalAddress_EmailAddress { get; set; }
         public DbSet<AdditionalAddress_PostalAddress> AdditionalAddress_PostalAddress { get; set; }
+        public DbSet<Requisition> Requisition { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

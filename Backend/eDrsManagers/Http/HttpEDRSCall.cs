@@ -118,7 +118,7 @@ namespace eDrsManagers.Http
 
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
-            RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
+             RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
 
             return apiResponse;
 
@@ -128,6 +128,7 @@ namespace eDrsManagers.Http
         /// Application Poll Request
         /// </summary>
         /// <param name="viewModel"></param>
+        /// 
         /// <returns></returns>
         public RequestLog CallApplicationPollRequestApi(ApplicationPollRequest viewModel)
         {

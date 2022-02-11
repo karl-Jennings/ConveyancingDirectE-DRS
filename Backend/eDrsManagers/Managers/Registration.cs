@@ -48,14 +48,15 @@ namespace eDrsManagers.Managers
             });
 
             var count = viewModel.Applications.Count();
-             
-            if (viewModel.SupportingDocuments!=null && viewModel.SupportingDocuments.Count()>0) {
+
+            if (viewModel.SupportingDocuments != null && viewModel.SupportingDocuments.Count() > 0)
+            {
 
                 viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
                 {
                     supDoc.DocumentId = ++count;
                 });
-            }           
+            }
 
             viewModel.MessageID = Guid.NewGuid().ToString();
 
@@ -80,11 +81,11 @@ namespace eDrsManagers.Managers
             var requestLog = _httpInterceptor.CallRegistrationApi(viewModel);
             /********** Calling LR Api backend ***********/
 
-             if (requestLog == null)
+            if (requestLog == null)
             {
                 model.IsApiSuccess = false;
             }
-            else if(requestLog.IsSuccess)
+            else if (requestLog.IsSuccess)
             {
                 model.IsApiSuccess = true;
 
@@ -121,13 +122,14 @@ namespace eDrsManagers.Managers
 
             viewModel.Applications.ToList().ForEach(x => x.Document.AttachmentId = count++);
 
-            if (viewModel.SupportingDocuments!=null) {
+            if (viewModel.SupportingDocuments != null)
+            {
                 viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
                 {
                     supDoc.DocumentId = count++;
                 });
             }
-           
+
 
             var deletingTitle = _context.TitleNumbers
                 .Where(x => !viewModel.Titles.Select(s => s.TitleNumberId).ToList().Contains(x.TitleNumberId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
@@ -167,7 +169,7 @@ namespace eDrsManagers.Managers
             {
                 model.IsApiSuccess = false;
             }
-            else if(viewModel.DocumentReferenceId!=null)
+            else if (viewModel.DocumentReferenceId != null)
             {
                 requestLog.DocumentReferenceId = viewModel.DocumentReferenceId;
 
@@ -233,8 +235,8 @@ namespace eDrsManagers.Managers
             viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
             var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
 
-            _context.DocumentReferences.Update(model);    
-                 
+            _context.DocumentReferences.Update(model);
+
             _context.SaveChanges();
 
             return model;
@@ -269,7 +271,7 @@ namespace eDrsManagers.Managers
                 // outstaningRequest.Username = "BGUser001";
                 outstaningRequest.Username = lrCredentials.Username;
 
-                
+
                 if (docRef != null)
                 {
                     outstaningRequest.Service = 70;
@@ -395,6 +397,8 @@ namespace eDrsManagers.Managers
             //outstaningRequest.Username = "BGUser001";
             outstaningRequest.Username = lrCredentials.Username;
 
+            List<RequestLog> RequestLogs = new List<RequestLog>();
+
             if (docRef != null)
             {
                 outstaningRequest.Service = serviceId;
@@ -406,20 +410,47 @@ namespace eDrsManagers.Managers
 
             if (response != null && response.Successful)
             {
-                var outResponse = response.Requests.FirstOrDefault();
 
-                CorrospondanceRequestViewModel corrospondanceRequestViewModel = new CorrospondanceRequestViewModel();
-                corrospondanceRequestViewModel.Username = "BGUser001";
-                if (outResponse != null) corrospondanceRequestViewModel.MessageId = outResponse.Id;
-
-                var correspondenceResponse = _httpInterceptor.CallCorrespondenceRequestApi(corrospondanceRequestViewModel);
-
-                if (correspondenceResponse.IsSuccess)
+                if (response.Requests != null && response.Requests.Count() > 0)
                 {
-                    correspondenceResponse.DocumentReferenceId = docRef.DocumentReferenceId;
-                    _context.RequestLogs.Add(correspondenceResponse);
+
+                    response.Requests.ForEach(outstandingResponse =>
+                    {
+
+
+                        var outResponse = outstandingResponse;
+
+                        CorrospondanceRequestViewModel corrospondanceRequestViewModel = new CorrospondanceRequestViewModel();
+
+                        // corrospondanceRequestViewModel.Username = "BGUser001";
+
+                        if (outResponse != null) corrospondanceRequestViewModel.MessageId = outResponse.Id;
+
+                        var correspondenceResponse = _httpInterceptor.CallCorrespondenceRequestApi(corrospondanceRequestViewModel);
+
+                        if (correspondenceResponse.IsSuccess)
+                        {
+                            correspondenceResponse.DocumentReferenceId = docRef.DocumentReferenceId;
+                            _context.RequestLogs.Add(correspondenceResponse);
+
+
+                            RequestLogs.Add(correspondenceResponse);
+                        }
+
+
+
+                    });
+
                     _context.SaveChanges();
-                    return correspondenceResponse;
+
+                    if (RequestLogs!=null) {
+
+                      var requisitions=  AddRecordsToRequisition(RequestLogs);
+
+                     return requisitions;
+                    }
+
+                    return RequestLogs;
                 }
 
                 return false;
@@ -430,6 +461,55 @@ namespace eDrsManagers.Managers
             }
         }
 
+
+        public List<Requisition> AddRecordsToRequisition(List<RequestLog> RequestLogs)
+        {
+            try
+            {
+                List<Requisition> requisitionsList = new List<Requisition>();
+
+                var requisitions = RequestLogs.Select(a => new Requisition()
+                {
+                    Type = a.Type,
+                    TypeCode = a.TypeCode,
+                    Description = a.Description,
+                    CreatedDate = a.CreatedDate,
+                    File = a.File,
+                    FileName = a.FileName,
+                    FileExtension = a.FileExtension,
+                    AppMessageId = a.AppMessageId,
+                    RejectionReason = a.RejectionReason,
+                    ValidationErrors = a.ValidationErrors,
+                    ResponseType = a.ResponseType,
+                    ResponseJson = a.ResponseJson,
+                    DocumentReferenceId = a.DocumentReferenceId,
+                    IsSuccess = a.IsSuccess,
+                    AttachmentName = a.AttachmentName,
+                    AttachmentId = a.AttachmentId,
+                    CreateRegistrationXMLRequest = a.CreateRegistrationXMLRequest,
+                    Status=0
+
+                }).ToList();
+
+                requisitions.ForEach( req=> {
+
+                    _context.Requisition.Add(req);
+                    requisitionsList.Add(req);
+
+                });
+
+                _context.SaveChanges();
+
+                return requisitionsList;
+
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+
+        }
 
         public dynamic GetFinalResult(long docRefId, int serviceId)
         {
@@ -455,7 +535,7 @@ namespace eDrsManagers.Managers
                 {
                     var earlyCompletionRequest = new EarlyCompletionRequest
                     {
-                        Username =  lrCredentials.Username,
+                        Username = lrCredentials.Username,
                         MessageId = outResponse.Id
                     };
 
@@ -553,7 +633,7 @@ namespace eDrsManagers.Managers
                         LocalAuthority = sel.LocalAuthority,
                         TotalFeeInPence = sel.TotalFeeInPence,
                         TelephoneNumber = sel.TelephoneNumber,
-                        ServiceTitleType=sel.ServiceTitleType,
+                        ServiceTitleType = sel.ServiceTitleType,
                         SupportingDocuments = sel.SupportingDocuments.Select(sup => new SupportingDocuments
                         {
                             CertifiedCopy = sup.CertifiedCopy,
@@ -586,7 +666,7 @@ namespace eDrsManagers.Managers
                             Roles = party.Roles,
                             //AddressForService = party.AddressForService,
                             Addresses = party.Addresses,
-                            ViewModelRoles = new List<string>{ party.Roles }
+                            ViewModelRoles = new List<string> { party.Roles }
                         }).ToList(),
                         Status = sel.Status,
                         AdditionalProviderFilter = sel.AdditionalProviderFilter,
@@ -611,13 +691,13 @@ namespace eDrsManagers.Managers
                 _context.DocumentReferences.Include(x => x.SupportingDocuments)
                     .Include(x => x.Applications)
                     .Include(x => x.Parties)
-                    .Include(x => x.Titles)                   
+                    .Include(x => x.Titles)
                     .Select(sel => new DocumentReference
                     {
                         DocumentReferenceId = sel.DocumentReferenceId,
                         Email = sel.Email,
                         AP1WarningUnderstood = sel.AP1WarningUnderstood,
-                        UserId=sel.UserId,
+                        UserId = sel.UserId,
                         Titles = sel.Titles.Select(s => new TitleNumber
                         {
                             UpdatedDate = s.UpdatedDate,

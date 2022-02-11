@@ -9,7 +9,7 @@ namespace eDRS_Land_Registry.Models
         public long DocumentReferenceId { get; set; }
         public string Reference { get; set; }
         public int TotalFeeInPence { get; set; }
-        public string MessageID { get; set; }
+        public string MessageID { get; set; }       
         public string Email { get; set; }
         public string Password { get; set; }
         public long TelephoneNumber { get; set; }

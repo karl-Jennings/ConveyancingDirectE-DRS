@@ -34,5 +34,7 @@ namespace eDRS_Land_Registry.Models
 
         public long ApplicationFormId { get; set; }
 
+        public string ApplicationMessageId { get; set; }
+
     }
 }

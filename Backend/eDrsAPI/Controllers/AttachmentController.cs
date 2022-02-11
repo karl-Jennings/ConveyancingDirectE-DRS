@@ -76,7 +76,19 @@ namespace eDrsAPI.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult CollectAttachmentResults(long docRefId)
+        {
+            try
+            {
+                return Ok(_attachment.CollectAttachmentResults(docRefId));
 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+        }
         [HttpPost]
         public IActionResult DirectRespondToRequisition(DocumentReferenceViewModel viewModel)
         {

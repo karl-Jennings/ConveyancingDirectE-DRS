@@ -72,6 +72,8 @@ namespace eDrsDB.Models
 
         public long ApplicationFormId { get; set; }
 
+        public string ApplicationMessageId { get; set; }
+
         [JsonIgnore]
         internal ApplicationForm ApplicationForm { get; set; }
 
