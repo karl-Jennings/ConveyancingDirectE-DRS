@@ -198,6 +198,20 @@ namespace eDrsAPI.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult GetApplicationPollRequest(long docRefId,int service)
+        {
+            try
+            {
+                return Ok(_registration.ApplicationPollRequest(docRefId, service));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
         /// <summary>
         /// Getting poll request
         /// </summary>

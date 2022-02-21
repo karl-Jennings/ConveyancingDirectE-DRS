@@ -61,7 +61,7 @@ namespace eDrsManagers.Managers
 
                 docRef.RequestLogs = attachmentRequest;
 
-                _context.RequestLogs.AddRange(attachmentRequest);
+                 _context.RequestLogs.AddRange(attachmentRequest);
 
                 _context.SaveChanges();
 

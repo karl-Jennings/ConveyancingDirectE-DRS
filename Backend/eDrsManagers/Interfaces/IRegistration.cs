@@ -23,6 +23,7 @@ namespace eDrsManagers.Interfaces
         bool DeleteRegistration(long regId);
         RegistrationType GetRegistrationType(long regType);
         dynamic GetPollResponse(long docRefId);
+        dynamic ApplicationPollRequest(long docRefId, int service);
         bool AutomatePollRequest();
         dynamic GetOutStandingPollRequest(long docRefId, int serviceId);
         dynamic GetRequisition(long docRefId, int serviceId);

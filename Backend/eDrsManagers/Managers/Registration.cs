@@ -283,25 +283,30 @@ namespace eDrsManagers.Managers
                 if (response != null)
                     if (response.Successful)
                     {
-                        var outResponse = response.Requests.FirstOrDefault();
 
-                        ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
-                        applicationPollRequest.MessageId = outResponse.Id;
+                        if (response.Requests!=null && response.Requests.Count>0) {
 
-                        var responseEarlyCompletionApi = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
+                            var outResponse = response.Requests.FirstOrDefault();
 
-                        if (responseEarlyCompletionApi.IsSuccess)
-                        {
-                            if (!string.IsNullOrEmpty(responseEarlyCompletionApi.File))
+                            ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
+                            applicationPollRequest.MessageId = outResponse.Id;
+
+                            var responseEarlyCompletionApi = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
+
+                            if (responseEarlyCompletionApi.IsSuccess)
                             {
-                                docRef.OverallStatus = 10; // Overall Process is completed
-                            }
+                                if (!string.IsNullOrEmpty(responseEarlyCompletionApi.File))
+                                {
+                                    docRef.OverallStatus = 10; // Overall Process is completed
+                                }
 
-                            responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
-                            _context.RequestLogs.Add(responseEarlyCompletionApi);
-                            _context.SaveChanges();
-                            return responseEarlyCompletionApi;
+                                responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
+                                _context.RequestLogs.Add(responseEarlyCompletionApi);
+                                _context.SaveChanges();
+                                return responseEarlyCompletionApi;
+                            }
                         }
+                       
 
                     }
                 return false;
@@ -312,6 +317,78 @@ namespace eDrsManagers.Managers
             }
         }
 
+
+        public dynamic ApplicationPollRequest(long docRefId,int service)
+        {
+            try
+            {
+                var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
+
+                OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
+
+                List<RequestLog> _responselist = new List<RequestLog>();
+      
+                outstaningRequest.Username = lrCredentials.Username;
+
+
+                if (docRef != null)
+                {
+                    outstaningRequest.Service = service;
+                    outstaningRequest.MessageId = docRef.MessageID;
+                    outstaningRequest.AdditionalProviderFilter = docRef.AdditionalProviderFilter;
+                }
+
+                var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
+
+                //Call Poll Request
+                if (response != null)
+                    if (response.Successful)
+                    {
+
+                        if (response.Requests != null && response.Requests.Count > 0)
+                        {
+
+                            response.Requests.ForEach(request =>
+                            {
+
+                                var outResponse = request;
+
+                                ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
+                                applicationPollRequest.MessageId = outResponse.Id;
+
+                                var responseEarlyCompletionApi = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
+
+                                if (responseEarlyCompletionApi.IsSuccess)
+                                {
+                                    if (!string.IsNullOrEmpty(responseEarlyCompletionApi.File))
+                                    {
+                                        docRef.OverallStatus = 10; // Overall Process is completed
+                                    }
+
+                                    responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
+                                    _context.RequestLogs.Add(responseEarlyCompletionApi);
+                                    _context.SaveChanges();
+
+                                    _responselist.Add(responseEarlyCompletionApi);
+
+
+                                }
+
+                            });
+
+
+                           
+                        }
+
+
+                    }
+                return _responselist;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
         public bool AutomatePollRequest()
         {
             try
