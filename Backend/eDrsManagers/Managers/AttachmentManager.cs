@@ -249,14 +249,26 @@ namespace eDrsManagers.Managers
 
                 var pollResponse = _httpInterceptor.CallAttachmentPollApi(attachmentPoll);
 
-                pollResponse.DocumentReferenceId = docRef.DocumentReferenceId;
+                if (pollResponse!=null) {
 
-                requestLogList.Add(pollResponse);
+                    pollResponse.DocumentReferenceId = docRef.DocumentReferenceId;
+
+                    requestLogList.Add(pollResponse);
+
+                }            
 
             });
 
-            _context.Outstanding.AddRange(outstanding);
-            _context.RequestLogs.AddRange(requestLogList);
+            if (outstanding!=null && outstanding.Count>0) {
+
+                _context.Outstanding.AddRange(outstanding);
+            }
+
+            if (requestLogList!=null && requestLogList.Count>0) {
+
+                _context.RequestLogs.AddRange(requestLogList);
+            }         
+           
             _context.SaveChanges();
 
             return requestLogList;

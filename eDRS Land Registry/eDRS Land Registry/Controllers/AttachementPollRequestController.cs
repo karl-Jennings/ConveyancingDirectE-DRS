@@ -22,7 +22,6 @@ namespace eDRS_Land_Registry.Controllers
 
     }
 
-
     public partial class AttachementPollController : ApiController
     {
 
@@ -40,9 +39,14 @@ namespace eDRS_Land_Registry.Controllers
                 var requestLog = new RequestLog();
                 requestLog.IsSuccess = true;
                 requestLog.Type = "attachment_poll";
-                requestLog.TypeCode = _reponse.GatewayResponse.GatewayResponse.TypeCode.ToString();
-                requestLog.Description = _reponse.GatewayResponse.GatewayResponse.Results.MessageDetails;
-                requestLog.AttachmentId = _reponse.GatewayResponse.GatewayResponse.Results.AttachmentID;
+
+                if (_reponse.GatewayResponse!=null) {
+
+                    requestLog.TypeCode = _reponse.GatewayResponse.GatewayResponse.TypeCode.ToString();
+                    requestLog.Description = _reponse.GatewayResponse.GatewayResponse.Results.MessageDetails;
+                    requestLog.AttachmentId = _reponse.GatewayResponse.GatewayResponse.Results.AttachmentID;
+                }
+               
 
                 return requestLog;
 
