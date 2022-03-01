@@ -432,40 +432,48 @@ namespace eDrsManagers.Managers
 
             var outstanding = new List<Outstanding>();
 
-            response.Requests.ForEach(x =>
-            {
-                outstanding.Add(new Outstanding
+            if (response.Requests != null && response.Requests.Count > 0) {
+
+                response.Requests.ForEach(x =>
                 {
-                    LandRegistryId = x.Id,
-                    NewResponse = x.NewResponse,
-                    Type = "attachment_outstanding",
-                    DocumentReferenceId = docRef.DocumentReferenceId,
-                    TypeCode = x.TypeCode,
-                    ServiceType = x.ServiceType
+                    outstanding.Add(new Outstanding
+                    {
+                        LandRegistryId = x.Id,
+                        NewResponse = x.NewResponse,
+                        Type = "attachment_outstanding",
+                        DocumentReferenceId = docRef.DocumentReferenceId,
+                        TypeCode = x.TypeCode,
+                        ServiceType = x.ServiceType
+                    });
                 });
-            });
+            }
 
             var requestLogList = new List<RequestLog>();
-            outstanding.ForEach(x =>
-            {
-                AttachmentPollRequestViewModel attachmentPoll = new AttachmentPollRequestViewModel();
-                attachmentPoll.Username = lrCredentials.Username;
-                if (docRef != null)
+
+            if (outstanding!=null && outstanding.Count>0) {
+
+                outstanding.ForEach(x =>
                 {
-                    attachmentPoll.MessageId = docRef.MessageID;
-                }
+                    AttachmentPollRequestViewModel attachmentPoll = new AttachmentPollRequestViewModel();
+                    attachmentPoll.Username = lrCredentials.Username;
+                    if (docRef != null)
+                    {
+                        attachmentPoll.MessageId = docRef.MessageID;
+                    }
 
-                var pollResponse = _httpInterceptor.CallAttachmentPollApi(attachmentPoll);
+                    var pollResponse = _httpInterceptor.CallAttachmentPollApi(attachmentPoll);
 
-                pollResponse.DocumentReferenceId = docRef.DocumentReferenceId;
+                    pollResponse.DocumentReferenceId = docRef.DocumentReferenceId;
 
-                requestLogList.Add(pollResponse);
+                    requestLogList.Add(pollResponse);
 
-            });
+                });
 
-            _context.Outstanding.AddRange(outstanding);
-            _context.RequestLogs.AddRange(requestLogList);
-            _context.SaveChanges();
+                _context.Outstanding.AddRange(outstanding);
+                _context.RequestLogs.AddRange(requestLogList);
+                _context.SaveChanges();
+            }
+           
 
             return response;
 
