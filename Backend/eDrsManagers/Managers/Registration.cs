@@ -393,10 +393,15 @@ namespace eDrsManagers.Managers
         {
             try
             {
-                var messageIds = _context.DocumentReferences.Where(x => x.Status && x.OverallStatus == 1).Select(x => x.DocumentReferenceId).ToList();
-                messageIds.ForEach(x =>
+                var DocumentReferenceIds = _context.DocumentReferences.Where(x => x.Status && x.OverallStatus == 1 && x.OverallStatus !=10).Select(x => x.DocumentReferenceId).ToList();
+                DocumentReferenceIds.ForEach(x =>
                 {
-                    GetPollResponse(x);
+                    //GetPollResponse(x);
+                    // - Collect attachment results 
+                    GetAttachmentPollRequest(x,105);
+
+                    //- Collect final result
+                    GetFinalResult(x, 104);
                 });
 
                 return true;
@@ -408,7 +413,7 @@ namespace eDrsManagers.Managers
 
         }
 
-        public dynamic GetOutStandingPollRequest(long docRefId, int serviceId)
+        public dynamic GetAttachmentPollRequest(long docRefId, int serviceId)
         {
             var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
 
@@ -593,6 +598,9 @@ namespace eDrsManagers.Managers
             var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
 
             OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
+
+            List<RequestLog> RequestLogs = new List<RequestLog>();
+
             // outstaningRequest.Username = "BGUser001";
             outstaningRequest.Username = lrCredentials.Username;
             if (docRef != null)
@@ -606,54 +614,78 @@ namespace eDrsManagers.Managers
 
             if (response.Successful)
             {
-                var outResponse = response.Requests.FirstOrDefault();
+                //var outResponse = response.Requests.FirstOrDefault();
 
-                if (outResponse != null && outResponse.TypeCode == 30)
-                {
-                    var earlyCompletionRequest = new EarlyCompletionRequest
+
+                if (response.Requests!=null && response.Requests.Count>0) {
+
+
+                    response.Requests.ForEach(outResponse =>
                     {
-                        Username = lrCredentials.Username,
-                        MessageId = outResponse.Id
-                    };
 
-                    var responseEarlyCompletionApi = _httpInterceptor.CallEarlyCompletionApi(earlyCompletionRequest);
-
-                    if (responseEarlyCompletionApi.IsSuccess)
-                    {
-                        if (!string.IsNullOrEmpty(responseEarlyCompletionApi.File))
+                        if (outResponse != null && outResponse.TypeCode == 30)
                         {
-                            if (docRef != null) docRef.OverallStatus = 10; // Overall Process is completed
+                            var earlyCompletionRequest = new EarlyCompletionRequest
+                            {
+                                Username = lrCredentials.Username,
+                                MessageId = outResponse.Id
+                            };
+
+                            var responseEarlyCompletionApi = _httpInterceptor.CallEarlyCompletionApi(earlyCompletionRequest);
+
+                            if (responseEarlyCompletionApi.IsSuccess)
+                            {
+                                if (!string.IsNullOrEmpty(responseEarlyCompletionApi.File))
+                                {
+                                    if (docRef != null) docRef.OverallStatus = 10; // Overall Process is completed
+
+                                    // Update Overall status of Docreff table
+                                    docRef.OverallStatus = 10;                                    
+                                   _context.DocumentReferences.Update(docRef);
+
+                                }
+                                responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
+                                _context.RequestLogs.Add(responseEarlyCompletionApi);                            
+
+                                _context.SaveChanges();
+
+                                RequestLogs.Add( responseEarlyCompletionApi);
+                            }
                         }
-                        responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
-                        _context.RequestLogs.Add(responseEarlyCompletionApi);
-                        _context.SaveChanges();
-                        return responseEarlyCompletionApi;
-                    }
-                }
-                else if (outResponse != null && outResponse.TypeCode == 20)
-                {
-                    var applicationPollRequest = new ApplicationPollRequest
-                    {
-                        Username = lrCredentials.Username,
-                        MessageId = outResponse.Id
-                    };
-
-                    var responseEarlyCompletionApi = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
-
-                    if (responseEarlyCompletionApi.IsSuccess)
-                    {
-                        if (!string.IsNullOrEmpty(responseEarlyCompletionApi.File))
+                        else if (outResponse != null && outResponse.TypeCode == 20)
                         {
-                            if (docRef != null) docRef.OverallStatus = 10; // Overall Process is completed
-                        }
-                        responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
-                        _context.RequestLogs.Add(responseEarlyCompletionApi);
-                        _context.SaveChanges();
-                        return responseEarlyCompletionApi;
-                    }
-                }
+                            var applicationPollRequest = new ApplicationPollRequest
+                            {
+                                Username = lrCredentials.Username,
+                                MessageId = outResponse.Id
+                            };
 
-                return false;
+                            var responseEarlyCompletionApi = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
+
+                            if (responseEarlyCompletionApi.IsSuccess)
+                            {
+                                if (!string.IsNullOrEmpty(responseEarlyCompletionApi.File))
+                                {
+                                    if (docRef != null) docRef.OverallStatus = 10; // Overall Process is completed
+
+                                    // Update Overall status of Docreff table
+                                    docRef.OverallStatus = 10;
+                                    _context.DocumentReferences.Update(docRef);
+                                }
+                                responseEarlyCompletionApi.DocumentReferenceId = docRef.DocumentReferenceId;
+                                _context.RequestLogs.Add(responseEarlyCompletionApi);
+                                _context.SaveChanges();
+                                RequestLogs.Add(responseEarlyCompletionApi);
+                            }
+                        }
+
+                    });
+                    
+                 }
+
+
+
+                return RequestLogs;
             }
             else
             {

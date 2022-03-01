@@ -25,7 +25,7 @@ namespace eDrsManagers.Interfaces
         dynamic GetPollResponse(long docRefId);
         dynamic ApplicationPollRequest(long docRefId, int service);
         bool AutomatePollRequest();
-        dynamic GetOutStandingPollRequest(long docRefId, int serviceId);
+        dynamic GetAttachmentPollRequest(long docRefId, int serviceId);
         dynamic GetRequisition(long docRefId, int serviceId);
         dynamic GetFinalResult(long docRefId, int serviceId);
     }

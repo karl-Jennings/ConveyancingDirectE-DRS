@@ -221,7 +221,7 @@ namespace eDrsAPI.Controllers
         {
             try
             {
-                return Ok(_registration.GetOutStandingPollRequest(docRefId, serviceId));
+                return Ok(_registration.GetAttachmentPollRequest(docRefId, serviceId));
             }
             catch (Exception ex)
             {
