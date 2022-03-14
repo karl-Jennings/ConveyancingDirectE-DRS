@@ -11,15 +11,14 @@ namespace eDrsDB.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long OutstandingId { get; set; }
-         
+        public long OutstandingId { get; set; }        
         public string LandRegistryId { get; set; }
         public string ServiceType { get; set; }
         public bool NewResponse { get; set; }
         public int TypeCode { get; set; }
         public string Type { get; set; }
-
-        public long DocumentReferenceId { get; set; }
+        public long? DocumentReferenceId { get; set; }
+        public string MessageId { get; set; }
 
         [JsonIgnore]
         internal DocumentReference DocumentReference { get; set; }

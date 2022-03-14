@@ -215,30 +215,31 @@ namespace eDrsManagers.Managers
             if (docRef != null)
             {
                 outstaningRequest.Service = serviceId;
-                outstaningRequest.MessageId = docRef.MessageID;
+                outstaningRequest.MessageId = Guid.NewGuid().ToString();
                 outstaningRequest.AdditionalProviderFilter = docRef.AdditionalProviderFilter;
             }
 
-            var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
+            var outstandingResponse = _httpInterceptor.CallOutstandingApi(outstaningRequest);
 
-            var outstanding = new List<Outstanding>();
+            var outstandings = new List<Outstanding>();
 
-            response.Requests.ForEach(x =>
+            outstandingResponse.Requests.ForEach(x =>
             {
-                outstanding.Add(new Outstanding
+                outstandings.Add(new Outstanding
                 {
                     LandRegistryId = x.Id,
                     NewResponse = x.NewResponse,
                     Type = "attachment_outstanding",
                     DocumentReferenceId = docRef.DocumentReferenceId,
                     TypeCode = x.TypeCode,
-                    ServiceType = x.ServiceType
-                   
+                    ServiceType = x.ServiceType,
+                    MessageId = outstaningRequest.MessageId
+
                 });
             });
 
             var requestLogList = new List<RequestLog>();
-            outstanding.ForEach(x =>
+            outstandings.ForEach(x =>
             {
                 AttachmentPollRequestViewModel attachmentPoll = new AttachmentPollRequestViewModel();
                 attachmentPoll.Username = lrCredentials.Username;
@@ -259,9 +260,9 @@ namespace eDrsManagers.Managers
 
             });
 
-            if (outstanding!=null && outstanding.Count>0) {
+            if (outstandings!=null && outstandings.Count>0) {
 
-                _context.Outstanding.AddRange(outstanding);
+                _context.Outstanding.AddRange(outstandings);
             }
 
             if (requestLogList!=null && requestLogList.Count>0) {

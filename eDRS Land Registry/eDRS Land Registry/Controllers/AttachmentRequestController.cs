@@ -44,7 +44,7 @@ namespace eDRS_Land_Registry.Controllers
                           _applicationMessageId = app.Document.ApplicationMessageId;
                       }
 
-                      var attResponse = _restrictionConverterV2_1.ArrangeAttachmentApi(app, null, docRef.MessageID, _applicationMessageId, count++, docRef.AdditionalProviderFilter);
+                      var attResponse = _restrictionConverterV2_1.ArrangeAttachmentApi(app, null,  _applicationMessageId, count++, docRef.AdditionalProviderFilter);
                       var attachmentRequest = services.AttachmentRequestV2_1(attachmentViewModel.Username, attachmentViewModel.Password, attResponse);
 
 
@@ -85,7 +85,7 @@ namespace eDRS_Land_Registry.Controllers
                         _applicationMessageId = supDoc.ApplicationMessageId;
                     }
 
-                    var attResponse = _restrictionConverterV2_1.ArrangeAttachmentApi(null, supDoc, docRef.MessageID, _applicationMessageId, count++,docRef.AdditionalProviderFilter);
+                    var attResponse = _restrictionConverterV2_1.ArrangeAttachmentApi(null, supDoc,_applicationMessageId, count++,docRef.AdditionalProviderFilter);
                     var attachmentRequest = services.AttachmentRequestV2_1(attachmentViewModel.Username, attachmentViewModel.Password, attResponse);
 
                     var attachmentRequestLog = new RequestLog() { Type = "Attachment" };

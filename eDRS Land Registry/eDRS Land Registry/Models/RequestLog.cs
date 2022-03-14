@@ -8,7 +8,7 @@ namespace eDrsDB.Models
 {
     public class RequestLog
     {
-
+        public string MessageId { get; set; }
         public long RequestLogId { get; set; }
         public string Type { get; set; }
         public string TypeCode { get; set; }
@@ -26,15 +26,13 @@ namespace eDrsDB.Models
         public string ResponseJson  { get; set; }
 
         public bool IsSuccess  { get; set; }
-        public List<RequestLog> AttachmentResponse { get; set; }
-         
+        public List<RequestLog> AttachmentResponse { get; set; }        
 
         public long DocumentReferenceId { get; set; }
-
         public string AttachmentName { get; set; } 
         public string AttachmentId { get; set; }
         public string CreateRegistrationXMLRequest { get; set; }
-
+        public string ExternalReference { get; set; }
 
     }
 }

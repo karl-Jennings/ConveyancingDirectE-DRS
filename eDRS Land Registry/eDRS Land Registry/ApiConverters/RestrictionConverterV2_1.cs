@@ -459,7 +459,7 @@ namespace eDRS_Land_Registry.ApiConverters
             return _request;
         }
 
-        public AttachmentV2_1Type ArrangeAttachmentApi(ApplicationForm applicationForm, SupportingDocuments supportingDocuments, string messageId,string applicationMessageId, int count, string additionalProviderFilter)
+        public AttachmentV2_1Type ArrangeAttachmentApi(ApplicationForm applicationForm, SupportingDocuments supportingDocument,string applicationMessageId, int count, string additionalProviderFilter)
         {
 
             BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
@@ -467,31 +467,32 @@ namespace eDRS_Land_Registry.ApiConverters
 
             AttachmentV2_1Type _request = new AttachmentV2_1Type();
 
-            _request.MessageId = messageId;
-            _request.ExternalReference = applicationForm != null ? applicationForm.ExternalReference : supportingDocuments.ExternalReference;
+            _request.MessageId = supportingDocument.MessageId;
+            _request.ExternalReference = applicationForm != null ? applicationForm.ExternalReference : supportingDocument.ExternalReference;
             _request.ApplicationMessageId = applicationMessageId;
             _request.ApplicationService = "104";
             _request.AdditionalProviderFilter = additionalProviderFilter;
             
 
             BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentType attachment = null;
-            if (applicationForm != null || (supportingDocuments != null && supportingDocuments.DocumentType == "SupDoc"))
+            if (applicationForm != null || (supportingDocument != null && supportingDocument.DocumentType == "SupDoc"))
             {
                 byte[] fileArray = Convert.FromBase64String(applicationForm != null
                     ? applicationForm.Document.Base64
-                    : supportingDocuments.Base64);
+                    : supportingDocument.Base64);
 
                 attachment = new BusinessGatewayRepositories.AttachmentServiceRequestV2_1.AttachmentType
                 {
-                    filename = Path.GetFileNameWithoutExtension(applicationForm != null ? applicationForm.Document.FileName : supportingDocuments.FileName),
-                    format = applicationForm != null ? applicationForm.Document.FileExtension : supportingDocuments.FileExtension,
-                    Value = fileArray,
+                    filename = Path.GetFileNameWithoutExtension(applicationForm != null ? applicationForm.Document.FileName : supportingDocument.FileName),
+                    format = applicationForm != null ? applicationForm.Document.FileExtension : supportingDocument.FileExtension,
+                    Value = fileArray,    
+                   
                 };
             }
 
             var ItemsElementName = new BusinessGatewayRepositories.AttachmentServiceRequestV2_1.ItemsChoiceType[3];
 
-            if (applicationForm != null || (supportingDocuments != null && supportingDocuments.DocumentType == "SupDoc"))
+            if (applicationForm != null || (supportingDocument != null && supportingDocument.DocumentType == "SupDoc"))
             {
                 ItemsElementName[0] = BusinessGatewayRepositories.AttachmentServiceRequestV2_1.ItemsChoiceType.Attachment;
                 ItemsElementName[1] = BusinessGatewayRepositories.AttachmentServiceRequestV2_1.ItemsChoiceType.AttachmentId;
@@ -508,27 +509,23 @@ namespace eDRS_Land_Registry.ApiConverters
 
 
 
-            if (applicationForm != null || (supportingDocuments != null && supportingDocuments.DocumentType == "SupDoc"))
+            if (applicationForm != null || (supportingDocument != null && supportingDocument.DocumentType == "SupDoc"))
             {
                 Items = new object[] {
                     attachment,
-                    count.ToString(),
+                    supportingDocument.DocumentId.ToString(),
                     (BusinessGatewayRepositories.AttachmentServiceRequestV2_1.CertifiedTypeContent)Enum.Parse(typeof(BusinessGatewayRepositories.AttachmentServiceRequestV2_1.CertifiedTypeContent),
-                        applicationForm != null ? applicationForm.CertifiedCopy : supportingDocuments.CertifiedCopy),
+                        applicationForm != null ? applicationForm.CertifiedCopy : supportingDocument.CertifiedCopy),
                 };
             }
             else
             {
-
-
                 Items = new object[] {
-                    supportingDocuments.Notes
+                    supportingDocument.Notes
                 };
             }
 
             _request.Items = Items;
-
-
 
 
             _request.ItemsElementName = ItemsElementName;

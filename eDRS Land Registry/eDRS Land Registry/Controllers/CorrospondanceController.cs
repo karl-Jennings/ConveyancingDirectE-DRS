@@ -39,16 +39,23 @@ namespace eDRS_Land_Registry.Controllers
                 var requestLog = new RequestLog();
                 requestLog.IsSuccess = true;
                 requestLog.Type = "correspondence";
-                requestLog.TypeCode = response.GatewayResponse.GatewayResponse.TypeCode.ToString();
-                requestLog.AppMessageId = response.GatewayResponse.GatewayResponse.ApplicationMessageId;
 
-                byte[] bytes = response.GatewayResponse.GatewayResponse.Correspondence.Value;
-                string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+                if (response.GatewayResponse.GatewayResponse!=null) {
 
-                requestLog.FileName = response.GatewayResponse.GatewayResponse.Correspondence.filename;
-                requestLog.FileExtension = response.GatewayResponse.GatewayResponse.Correspondence.format;
+                    requestLog.TypeCode = response.GatewayResponse.GatewayResponse.TypeCode.ToString();
+                    requestLog.AppMessageId = response.GatewayResponse.GatewayResponse.ApplicationMessageId;
+                    requestLog.ExternalReference = response.GatewayResponse.GatewayResponse.ExternalReference;
 
-                requestLog.File = base64String;
+                    byte[] bytes = response.GatewayResponse.GatewayResponse.Correspondence.Value;
+                    string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+
+                    requestLog.FileName = response.GatewayResponse.GatewayResponse.Correspondence.filename;
+                    requestLog.FileExtension = response.GatewayResponse.GatewayResponse.Correspondence.format;
+
+                    requestLog.File = base64String;
+                }
+
+              
                 return requestLog;
 
             }

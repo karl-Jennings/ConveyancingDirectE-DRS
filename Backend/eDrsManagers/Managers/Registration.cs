@@ -49,16 +49,27 @@ namespace eDrsManagers.Managers
 
             var count = viewModel.Applications.Count();
 
+           
+
+            viewModel.MessageID = Guid.NewGuid().ToString();
+
             if (viewModel.SupportingDocuments != null && viewModel.SupportingDocuments.Count() > 0)
             {
 
+                //Get final Supporting Document from table
+
+                var _lastSupDocId = _context.SupportingDocuments.Max(x => x.SupportingDocumentId);                
+
+                
                 viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
                 {
-                    supDoc.DocumentId = ++count;
+                    supDoc.DocumentId =++_lastSupDocId;
+                    supDoc.MessageId= Guid.NewGuid().ToString();
+                    supDoc.ApplicationMessageId = viewModel.MessageID;
                 });
             }
 
-            viewModel.MessageID = Guid.NewGuid().ToString();
+            
 
             viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
 
@@ -93,6 +104,7 @@ namespace eDrsManagers.Managers
                 model.OverallStatus = 1;
 
                 requestLog.DocumentReferenceId = model.DocumentReferenceId;
+                requestLog.MessageId = viewModel.MessageID;
                 var requestLogList = requestLog.AttachmentResponse;
                 if (requestLogList != null)
                 {
@@ -243,7 +255,6 @@ namespace eDrsManagers.Managers
 
         }
 
-
         public bool DeleteRegistration(long regId)
         {
             var deleteObject = _context.DocumentReferences.FirstOrDefault(s => s.DocumentReferenceId == regId);
@@ -393,16 +404,16 @@ namespace eDrsManagers.Managers
         {
             try
             {
-                var DocumentReferenceIds = _context.DocumentReferences.Where(x => x.Status && x.OverallStatus == 1 && x.OverallStatus !=10).Select(x => x.DocumentReferenceId).ToList();
-                DocumentReferenceIds.ForEach(x =>
-                {
-                    //GetPollResponse(x);
-                    // - Collect attachment results 
-                    GetAttachmentPollRequest(x,105);
+                //var DocumentReferenceIds = _context.DocumentReferences.Where(x => x.Status && x.OverallStatus == 1 && x.OverallStatus !=10).Select(x => x.DocumentReferenceId).ToList();
+                //DocumentReferenceIds.ForEach(x =>
+                //{
+                //    //GetPollResponse(x);
+                //    // - Collect attachment results 
+                //    GetAttachmentPollRequest(x,105);
 
-                    //- Collect final result
-                    GetFinalResult(x, 104);
-                });
+                //    //- Collect final result
+                //    GetFinalResult(x, 104);
+                //});
 
                 return true;
             }
@@ -479,9 +490,9 @@ namespace eDrsManagers.Managers
 
         }
 
-        public dynamic GetRequisition(long docRefId, int serviceId)
+        public dynamic GetRequisition(string AdditionalProviderFilter)
         {
-            var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
+            //var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
 
             OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
             //outstaningRequest.Username = "BGUser001";
@@ -489,12 +500,11 @@ namespace eDrsManagers.Managers
 
             List<RequestLog> RequestLogs = new List<RequestLog>();
 
-            if (docRef != null)
-            {
-                outstaningRequest.Service = serviceId;
-                outstaningRequest.MessageId = docRef.MessageID;
-                outstaningRequest.AdditionalProviderFilter = docRef.AdditionalProviderFilter;
-            }
+           
+                outstaningRequest.Service = 107;
+                outstaningRequest.MessageId = Guid.NewGuid().ToString(); 
+                outstaningRequest.AdditionalProviderFilter =AdditionalProviderFilter;
+            
 
             var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
 
@@ -506,7 +516,6 @@ namespace eDrsManagers.Managers
 
                     response.Requests.ForEach(outstandingResponse =>
                     {
-
 
                         var outResponse = outstandingResponse;
 
@@ -520,14 +529,14 @@ namespace eDrsManagers.Managers
 
                         if (correspondenceResponse.IsSuccess)
                         {
-                            correspondenceResponse.DocumentReferenceId = docRef.DocumentReferenceId;
-                            _context.RequestLogs.Add(correspondenceResponse);
 
+                            correspondenceResponse.DocumentReferenceId = null;
+                            correspondenceResponse.MessageId = outResponse.Id;
+                            correspondenceResponse.ExternalReference = correspondenceResponse.ExternalReference;
+                            _context.RequestLogs.Add(correspondenceResponse);
 
                             RequestLogs.Add(correspondenceResponse);
                         }
-
-
 
                     });
 
@@ -571,13 +580,13 @@ namespace eDrsManagers.Managers
                     RejectionReason = a.RejectionReason,
                     ValidationErrors = a.ValidationErrors,
                     ResponseType = a.ResponseType,
-                    ResponseJson = a.ResponseJson,
-                    DocumentReferenceId = a.DocumentReferenceId,
+                    ResponseJson = a.ResponseJson,                   
                     IsSuccess = a.IsSuccess,
                     AttachmentName = a.AttachmentName,
                     AttachmentId = a.AttachmentId,
                     CreateRegistrationXMLRequest = a.CreateRegistrationXMLRequest,
-                    Status=0
+                    Status=0,
+                    ExternalReference=a.ExternalReference
 
                 }).ToList();
 
@@ -701,6 +710,87 @@ namespace eDrsManagers.Managers
             }
         }
 
+        public dynamic CollectResults(string AdditionalProviderFilter)
+        {
+            //AdditionalProviderFilter => MB7, KH5 and CT8
+
+            OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();            
+
+            // outstaningRequest.Username = "BGUser001";
+            outstaningRequest.Username = lrCredentials.Username;
+            outstaningRequest.Service = 104;
+            outstaningRequest.MessageId = Guid.NewGuid().ToString(); 
+            outstaningRequest.AdditionalProviderFilter = AdditionalProviderFilter;
+
+            var outstandings = new List<Outstanding>();
+            List<RequestLog> RequestLogs = new List<RequestLog>();
+
+            var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
+
+            if (response !=null &&  response.Successful)
+            {
+
+                if (response.Requests != null && response.Requests.Count > 0)
+                {                   
+
+                    response.Requests.ForEach(x =>
+                    {
+                        outstandings.Add(new Outstanding
+                        {
+                            LandRegistryId = x.Id,
+                            NewResponse = x.NewResponse,
+                            Type = "collect_result",                          
+                            TypeCode = x.TypeCode,
+                            ServiceType = x.ServiceType,
+                            MessageId= outstaningRequest.MessageId,
+                            DocumentReferenceId=null
+                           
+                        });
+                    });
+
+                    _context.Outstanding.AddRange(outstandings);
+
+                    response.Requests.ForEach(outstandingResponse =>
+                    {
+
+                        var outResponse = outstandingResponse;
+
+                            CorrospondanceRequestViewModel corrospondanceRequestViewModel = new CorrospondanceRequestViewModel();
+
+                            // corrospondanceRequestViewModel.Username = "BGUser001";
+
+                            if (outResponse != null) corrospondanceRequestViewModel.MessageId = outResponse.Id;
+
+                            var correspondenceResponse = _httpInterceptor.CallCorrespondenceRequestApi(corrospondanceRequestViewModel);
+
+                            if (correspondenceResponse.IsSuccess)
+                            {
+
+                                correspondenceResponse.DocumentReferenceId = null;
+                                correspondenceResponse.MessageId = outResponse.Id;
+                                correspondenceResponse.ExternalReference = correspondenceResponse.ExternalReference;
+                                correspondenceResponse.AppMessageId = correspondenceResponse.AppMessageId;
+                                correspondenceResponse.CreatedDate = DateTime.Now;
+
+                                _context.RequestLogs.Add(correspondenceResponse);
+
+                                RequestLogs.Add(correspondenceResponse);
+
+                            }
+
+                    });
+
+                    _context.SaveChanges();
+                       
+                    return RequestLogs;
+                    
+                }
+
+            }
+            
+            return outstandings;           
+            
+        }
 
         public DocumentReference GetRegistration(long regId)
         {

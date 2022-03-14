@@ -9,7 +9,7 @@
         public string DocumentName { get; set; }
 
         public string AdditionalProviderFilter { get; set; }
-        public long MessageId { get; set; }
+        public string MessageId { get; set; }
         public string ExternalReference { get; set; }
         public string ApplicationMessageId { get; set; }
         public string ApplicationService { get; set; }

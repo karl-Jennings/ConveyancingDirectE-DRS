@@ -28,7 +28,7 @@ namespace eDrsDB.Models
         public string ResponseType { get; set; }
         public string ResponseJson { get; set; }
 
-        public long DocumentReferenceId { get; set; }
+        public long? DocumentReferenceId { get; set; }
 
         [JsonIgnore]
         internal DocumentReference DocumentReference { get; set; }
@@ -40,6 +40,7 @@ namespace eDrsDB.Models
         public string AttachmentId { get; set; }
 
         public string CreateRegistrationXMLRequest { get; set; }
-
+        public string MessageId { get; set; }
+        public string ExternalReference { get; set; }
     }
 }

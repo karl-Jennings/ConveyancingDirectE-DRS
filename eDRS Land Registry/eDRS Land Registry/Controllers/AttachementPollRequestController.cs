@@ -45,6 +45,7 @@ namespace eDRS_Land_Registry.Controllers
                     requestLog.TypeCode = _reponse.GatewayResponse.GatewayResponse.TypeCode.ToString();
                     requestLog.Description = _reponse.GatewayResponse.GatewayResponse.Results.MessageDetails;
                     requestLog.AttachmentId = _reponse.GatewayResponse.GatewayResponse.Results.AttachmentID;
+                    requestLog.ExternalReference= _reponse.GatewayResponse.GatewayResponse.Results.ExternalReference;
                 }
                
 

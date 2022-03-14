@@ -24,7 +24,7 @@ namespace eDrsDB.Models
 
         [Required]
         public string AdditionalProviderFilter { get; set; }
-        public long MessageId { get; set; }
+        public string MessageId { get; set; }
 
         [Required]
         public string ExternalReference { get; set; }

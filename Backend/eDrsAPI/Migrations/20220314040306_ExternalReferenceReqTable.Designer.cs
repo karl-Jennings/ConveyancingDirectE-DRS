@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eDrsDB.Data;
 
 namespace eDrsAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220314040306_ExternalReferenceReqTable")]
+    partial class ExternalReferenceReqTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -503,7 +505,7 @@ namespace eDrsAPI.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("DocumentReferenceId")
+                    b.Property<long>("DocumentReferenceId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("LandRegistryId")
@@ -603,7 +605,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "trns_chrge",
                             TypeName = "Transfer and charge",
-                            UpdatedDate = new DateTime(2022, 3, 14, 18, 5, 46, 614, DateTimeKind.Local).AddTicks(5041),
+                            UpdatedDate = new DateTime(2022, 3, 14, 9, 33, 5, 577, DateTimeKind.Local).AddTicks(6718),
                             Url = "transfer-and-charge"
                         },
                         new
@@ -612,7 +614,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "rem_gage",
                             TypeName = "Remortgage",
-                            UpdatedDate = new DateTime(2022, 3, 14, 18, 5, 46, 615, DateTimeKind.Local).AddTicks(4206),
+                            UpdatedDate = new DateTime(2022, 3, 14, 9, 33, 5, 578, DateTimeKind.Local).AddTicks(5673),
                             Url = "remortgage"
                         },
                         new
@@ -621,7 +623,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "trns_eqty",
                             TypeName = "Transfer of equity",
-                            UpdatedDate = new DateTime(2022, 3, 14, 18, 5, 46, 615, DateTimeKind.Local).AddTicks(4235),
+                            UpdatedDate = new DateTime(2022, 3, 14, 9, 33, 5, 578, DateTimeKind.Local).AddTicks(5704),
                             Url = "transfer-equity"
                         },
                         new
@@ -630,7 +632,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "rem_frm",
                             TypeName = "Restriction, hostile takeover",
-                            UpdatedDate = new DateTime(2022, 3, 14, 18, 5, 46, 615, DateTimeKind.Local).AddTicks(4237),
+                            UpdatedDate = new DateTime(2022, 3, 14, 9, 33, 5, 578, DateTimeKind.Local).AddTicks(5707),
                             Url = "removal-form"
                         },
                         new
@@ -639,7 +641,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "chngName",
                             TypeName = "Change of name",
-                            UpdatedDate = new DateTime(2022, 3, 14, 18, 5, 46, 615, DateTimeKind.Local).AddTicks(4238),
+                            UpdatedDate = new DateTime(2022, 3, 14, 9, 33, 5, 578, DateTimeKind.Local).AddTicks(5708),
                             Url = "change-name"
                         },
                         new
@@ -648,7 +650,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "dispositionary",
                             TypeName = "Dispositionary first lease",
-                            UpdatedDate = new DateTime(2022, 3, 14, 18, 5, 46, 615, DateTimeKind.Local).AddTicks(4240),
+                            UpdatedDate = new DateTime(2022, 3, 14, 9, 33, 5, 578, DateTimeKind.Local).AddTicks(5710),
                             Url = "dispositionary"
                         },
                         new
@@ -657,7 +659,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "transfer",
                             TypeName = "Transfer of part",
-                            UpdatedDate = new DateTime(2022, 3, 14, 18, 5, 46, 615, DateTimeKind.Local).AddTicks(4241),
+                            UpdatedDate = new DateTime(2022, 3, 14, 9, 33, 5, 578, DateTimeKind.Local).AddTicks(5712),
                             Url = "transfer"
                         },
                         new
@@ -666,7 +668,7 @@ namespace eDrsAPI.Migrations
                             Status = true,
                             TypeCode = "lease_ext",
                             TypeName = "Lease extension",
-                            UpdatedDate = new DateTime(2022, 3, 14, 18, 5, 46, 615, DateTimeKind.Local).AddTicks(4243),
+                            UpdatedDate = new DateTime(2022, 3, 14, 9, 33, 5, 578, DateTimeKind.Local).AddTicks(5713),
                             Url = "lease-extension"
                         });
                 });
@@ -928,8 +930,8 @@ namespace eDrsAPI.Migrations
                     b.Property<bool>("IsChecked")
                         .HasColumnType("bit");
 
-                    b.Property<string>("MessageId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("MessageId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -1045,8 +1047,8 @@ namespace eDrsAPI.Migrations
                             Designation = "admin",
                             Email = "dushyanthaccura@gmail.com",
                             Firstname = "Admin",
-                            PasswordHash = new byte[] { 17, 255, 60, 69, 147, 135, 57, 254, 174, 137, 126, 206, 213, 87, 154, 182, 196, 163, 15, 181, 220, 74, 73, 132, 70, 39, 77, 65, 143, 151, 168, 189, 207, 198, 95, 80, 145, 174, 10, 119, 22, 250, 47, 79, 148, 78, 116, 144, 243, 117, 233, 87, 212, 160, 196, 5, 111, 36, 8, 137, 216, 238, 93, 172 },
-                            PasswordSalt = new byte[] { 167, 94, 154, 90, 157, 56, 107, 73, 122, 33, 105, 146, 33, 49, 249, 193, 199, 6, 61, 157, 30, 171, 196, 78, 131, 35, 153, 41, 155, 74, 52, 90, 52, 219, 207, 167, 10, 89, 61, 228, 124, 109, 108, 224, 145, 19, 254, 111, 146, 152, 7, 71, 12, 242, 149, 20, 150, 160, 52, 72, 81, 106, 235, 53, 60, 194, 14, 20, 174, 33, 169, 193, 218, 47, 78, 28, 12, 134, 251, 118, 120, 187, 44, 131, 120, 190, 205, 93, 8, 198, 164, 16, 32, 46, 179, 247, 98, 108, 126, 0, 7, 167, 65, 156, 25, 129, 69, 134, 244, 243, 169, 41, 160, 37, 134, 170, 185, 25, 217, 197, 62, 144, 253, 184, 125, 29, 128, 248 },
+                            PasswordHash = new byte[] { 5, 178, 145, 157, 116, 254, 102, 82, 126, 187, 14, 244, 186, 183, 247, 196, 86, 176, 165, 210, 118, 196, 239, 20, 63, 39, 74, 224, 76, 251, 44, 24, 24, 49, 220, 140, 150, 164, 248, 99, 173, 75, 228, 133, 71, 25, 208, 185, 129, 75, 46, 204, 9, 2, 239, 225, 50, 132, 16, 61, 60, 130, 178, 118 },
+                            PasswordSalt = new byte[] { 0, 175, 96, 204, 144, 243, 215, 201, 115, 63, 34, 229, 156, 252, 78, 172, 166, 35, 196, 215, 20, 221, 212, 27, 122, 36, 6, 35, 66, 68, 61, 22, 204, 130, 121, 94, 36, 79, 78, 98, 17, 26, 236, 178, 42, 174, 200, 221, 143, 239, 162, 82, 108, 9, 31, 136, 96, 60, 16, 179, 44, 208, 65, 85, 32, 243, 186, 11, 56, 190, 103, 84, 100, 94, 110, 202, 57, 232, 30, 242, 34, 186, 202, 209, 155, 233, 248, 21, 202, 192, 229, 131, 4, 100, 101, 66, 73, 223, 41, 112, 16, 80, 98, 247, 119, 62, 29, 232, 142, 49, 48, 88, 200, 7, 95, 90, 138, 187, 202, 138, 34, 88, 19, 142, 187, 182, 113, 195 },
                             Status = true,
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Username = "edrs-admin"
@@ -1153,7 +1155,9 @@ namespace eDrsAPI.Migrations
                 {
                     b.HasOne("eDrsDB.Models.DocumentReference", null)
                         .WithMany("Outstanding")
-                        .HasForeignKey("DocumentReferenceId");
+                        .HasForeignKey("DocumentReferenceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("eDrsDB.Models.Party", b =>

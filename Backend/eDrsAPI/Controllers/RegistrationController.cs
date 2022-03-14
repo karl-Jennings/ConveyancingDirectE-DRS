@@ -235,11 +235,11 @@ namespace eDrsAPI.Controllers
         /// </summary>
         /// <returns>RestrictionPoolResponse</returns>
         [HttpGet]
-        public IActionResult GetRequisition(long docRefId, int serviceId)
+        public IActionResult GetRequisition(string AdditionalProviderFilter)
         {
             try
             {
-                return Ok(_registration.GetRequisition(docRefId, serviceId));
+                return Ok(_registration.GetRequisition(AdditionalProviderFilter));
             }
             catch (Exception ex)
             {
@@ -258,6 +258,20 @@ namespace eDrsAPI.Controllers
             try
             {
                 return Ok(_registration.GetFinalResult(docRefId, serviceId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
+        [HttpGet]
+        public IActionResult CollectResults(string AdditionalProviderFilter)
+        {
+            try
+            {
+                return Ok(_registration.CollectResults( AdditionalProviderFilter));
             }
             catch (Exception ex)
             {
