@@ -180,6 +180,8 @@ namespace eDRS_Land_Registry.Controllers
                 }              
 
                 requestLog.IsSuccess = false;
+                requestLog.ResponseJson = JsonConvert.SerializeObject(ex.InnerException);
+
                 return requestLog;
             }
 

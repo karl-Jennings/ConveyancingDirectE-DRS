@@ -1,4 +1,5 @@
 ﻿using eDrsManagers.ViewModels;
+using System.Threading.Tasks;
 
 namespace eDrsManagers.Interfaces
 {
@@ -8,6 +9,6 @@ namespace eDrsManagers.Interfaces
         object RespondToRequisition(long docRefId);
         object RespondToRequisitionByReference(string reference);
         object DirectRespondToRequisition(DocumentReferenceViewModel viewModel);
-        dynamic CollectAttachmentResults(long docRefId);
+        Task<dynamic> CollectAttachmentResultsAsync(string AdditionalProviderFilter);
     }
 }

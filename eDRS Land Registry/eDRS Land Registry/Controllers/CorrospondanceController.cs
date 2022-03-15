@@ -40,7 +40,7 @@ namespace eDRS_Land_Registry.Controllers
                 requestLog.IsSuccess = true;
                 requestLog.Type = "correspondence";
 
-                if (response.GatewayResponse.GatewayResponse!=null) {
+                if (response.GatewayResponse !=null && response.GatewayResponse.GatewayResponse!=null) {
 
                     requestLog.TypeCode = response.GatewayResponse.GatewayResponse.TypeCode.ToString();
                     requestLog.AppMessageId = response.GatewayResponse.GatewayResponse.ApplicationMessageId;
@@ -53,6 +53,8 @@ namespace eDRS_Land_Registry.Controllers
                     requestLog.FileExtension = response.GatewayResponse.GatewayResponse.Correspondence.format;
 
                     requestLog.File = base64String;
+
+                    requestLog.ResponseJson = JsonConvert.SerializeObject(response.GatewayResponse.GatewayResponse);
                 }
 
               
@@ -61,7 +63,10 @@ namespace eDRS_Land_Registry.Controllers
             }
             catch (Exception ex)
             {
-                return new RequestLog { IsSuccess = false };
+                return new RequestLog { IsSuccess = false , 
+                    
+                    ResponseJson= JsonConvert.SerializeObject(ex.InnerException)
+                };
             }
 
         }

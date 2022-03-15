@@ -252,12 +252,26 @@ namespace eDrsAPI.Controllers
         /// Getting Requisition request
         /// </summary>
         /// <returns>RestrictionPoolResponse</returns>
+        //[HttpGet]
+        //public IActionResult GetFinalResult(long docRefId, int serviceId)
+        //{
+        //    try
+        //    {
+        //        return Ok(_registration.GetFinalResult(docRefId, serviceId));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(_logsManager.LogErrors(ex));
+        //    }
+
+        //}
+
         [HttpGet]
-        public IActionResult GetFinalResult(long docRefId, int serviceId)
+        public IActionResult CollectResults(string AdditionalProviderFilter)
         {
             try
             {
-                return Ok(_registration.GetFinalResult(docRefId, serviceId));
+                return Ok(_registration.CollectResultsAsync( AdditionalProviderFilter));
             }
             catch (Exception ex)
             {
@@ -267,11 +281,11 @@ namespace eDrsAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult CollectResults(string AdditionalProviderFilter)
+        public IActionResult GetEarlyCompletion(string AdditionalProviderFilter)
         {
             try
             {
-                return Ok(_registration.CollectResults( AdditionalProviderFilter));
+                return Ok(_registration.EarlyCompletionAsync(AdditionalProviderFilter));
             }
             catch (Exception ex)
             {

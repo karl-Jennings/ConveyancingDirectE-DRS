@@ -19,6 +19,7 @@ namespace eDrsDB.Models
         public string Type { get; set; }
         public long? DocumentReferenceId { get; set; }
         public string MessageId { get; set; }
+        public DateTime? DateCreated { get; set; }
 
         [JsonIgnore]
         internal DocumentReference DocumentReference { get; set; }

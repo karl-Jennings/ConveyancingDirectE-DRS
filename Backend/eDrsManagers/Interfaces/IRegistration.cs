@@ -7,6 +7,7 @@ using BusinessGatewayRepositories.EDRSApplication;
 using eDrsDB.Models;
 using LrApiManager.XMLClases;
 using LrApiManager.XMLClases.Restriction;
+using System.Threading.Tasks;
 
 namespace eDrsManagers.Interfaces
 {
@@ -28,6 +29,7 @@ namespace eDrsManagers.Interfaces
         dynamic GetAttachmentPollRequest(long docRefId, int serviceId);
         dynamic GetRequisition(string AdditionalProviderFilter);
         dynamic GetFinalResult(long docRefId, int serviceId);
-        dynamic CollectResults(string AdditionalProviderFilter);
+        Task<dynamic> CollectResultsAsync(string AdditionalProviderFilter);
+        Task<dynamic> EarlyCompletionAsync(string AdditionalProviderFilter);
     }
 }

@@ -77,11 +77,11 @@ namespace eDrsAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult CollectAttachmentResults(long docRefId)
+        public IActionResult CollectAttachmentResults(string AdditionalProviderFilter)
         {
             try
             {
-                return Ok(_attachment.CollectAttachmentResults(docRefId));
+                return Ok(_attachment.CollectAttachmentResultsAsync(AdditionalProviderFilter));
 
             }
             catch (Exception ex)
