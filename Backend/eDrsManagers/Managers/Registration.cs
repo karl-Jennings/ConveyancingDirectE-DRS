@@ -565,7 +565,6 @@ namespace eDrsManagers.Managers
             }
         }
 
-
         public List<Requisition> AddRecordsToRequisition(List<RequestLog> RequestLogs)
         {
             try
@@ -758,57 +757,50 @@ namespace eDrsManagers.Managers
 
                     _context.SaveChanges();
 
-                    response.Requests.ForEach(outstandingResponse =>
-                    {
-                        var outResponse = outstandingResponse;
+                    //Call Application to cahnge register poll service
+                    if (response.Requests != null && response.Requests.Count > 0)
+                    {                      
 
-                        CorrospondanceRequestViewModel corrospondanceRequestViewModel = new CorrospondanceRequestViewModel();
+                        ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
+                        applicationPollRequest.MessageId = Guid.NewGuid().ToString(); 
 
-                        // corrospondanceRequestViewModel.Username = "BGUser001";
+                        var responseApplicationPoll = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
 
-                        if (outResponse != null) corrospondanceRequestViewModel.MessageId = outResponse.Id;
-
-                        var correspondenceResponse = _httpInterceptor.CallCorrespondenceRequestApi(corrospondanceRequestViewModel);
-
-                        if (correspondenceResponse.IsSuccess)
+                        if (responseApplicationPoll.IsSuccess)
                         {
-                            correspondenceResponse.DocumentReferenceId = null;
-                            correspondenceResponse.MessageId = outResponse.Id;
-                            correspondenceResponse.ExternalReference = correspondenceResponse.ExternalReference;
-                            correspondenceResponse.AppMessageId = correspondenceResponse.AppMessageId;
-                            correspondenceResponse.CreatedDate = DateTime.Now;
+                            if (!string.IsNullOrEmpty(responseApplicationPoll.File))
+                            {
+                               // docRef.OverallStatus = 10; // Overall Process is completed
+                            }
 
                             CollectedResult collectedResult = new CollectedResult
                             {
-                                MessageId = outResponse.Id,
-                                AppMessageId = correspondenceResponse.AppMessageId,
-                                ExternalReference = correspondenceResponse.ExternalReference,
+                                MessageId = applicationPollRequest.MessageId,
+                                AppMessageId = responseApplicationPoll.AppMessageId,
+                                ExternalReference = responseApplicationPoll.ExternalReference,
                                 Type = "completed-result",
-                                TypeCode = correspondenceResponse.TypeCode,
-                                Description = correspondenceResponse.Description,
+                                TypeCode = responseApplicationPoll.TypeCode,
+                                Description = responseApplicationPoll.Description,
                                 CreatedDate = DateTime.Now,
-                                File = correspondenceResponse.File,
-                                FileName = correspondenceResponse.FileName,
-                                FileExtension = correspondenceResponse.FileExtension,
-                                RejectionReason = correspondenceResponse.RejectionReason,
-                                ValidationErrors = correspondenceResponse.ValidationErrors,
-                                ResponseType = correspondenceResponse.ResponseType,
-                                ResponseJson = correspondenceResponse.ResponseJson,
+                                File = responseApplicationPoll.File,
+                                FileName = responseApplicationPoll.FileName,
+                                FileExtension = responseApplicationPoll.FileExtension,
+                                RejectionReason = responseApplicationPoll.RejectionReason,
+                                ValidationErrors = responseApplicationPoll.ValidationErrors,
+                                ResponseType = responseApplicationPoll.ResponseType,
+                                ResponseJson = responseApplicationPoll.ResponseJson,
                                 IsSuccess = true,
-                                AttachmentName = correspondenceResponse.AttachmentName,
-                                AttachmentId = correspondenceResponse.AttachmentId
+                                AttachmentName = responseApplicationPoll.AttachmentName,
+                                AttachmentId = responseApplicationPoll.AttachmentId
                             };
-                            CollectedResults.Add(collectedResult);
+
+                            // responseApplicationPoll.DocumentReferenceId = responseApplicationPoll.DocumentReferenceId;
                             _context.CollectedResult.Add(collectedResult);
+                            _context.SaveChanges();
+                            return responseApplicationPoll;
                         }
+                    }
 
-                    });
-
-                    //_context.RequestLogs.AddRange(RequestLogs);
-
-                    _context.SaveChanges();
-
-                    return CollectedResults;
                 }
             }
 
