@@ -758,11 +758,10 @@ namespace eDrsManagers.Managers
                     _context.SaveChanges();
 
                     //Call Application to cahnge register poll service
-                    if (response.Requests != null && response.Requests.Count > 0)
-                    {                      
-
+                    outstandings.ForEach(outstanding =>
+                    {
                         ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
-                        applicationPollRequest.MessageId = Guid.NewGuid().ToString(); 
+                        applicationPollRequest.MessageId = outstanding.LandRegistryId;
 
                         var responseApplicationPoll = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
 
@@ -770,9 +769,8 @@ namespace eDrsManagers.Managers
                         {
                             if (!string.IsNullOrEmpty(responseApplicationPoll.File))
                             {
-                               // docRef.OverallStatus = 10; // Overall Process is completed
+                                // docRef.OverallStatus = 10; // Overall Process is completed
                             }
-
                             CollectedResult collectedResult = new CollectedResult
                             {
                                 MessageId = applicationPollRequest.MessageId,
@@ -795,16 +793,17 @@ namespace eDrsManagers.Managers
                             };
 
                             // responseApplicationPoll.DocumentReferenceId = responseApplicationPoll.DocumentReferenceId;
+                            CollectedResults.Add(collectedResult);
                             _context.CollectedResult.Add(collectedResult);
-                            _context.SaveChanges();
-                            return responseApplicationPoll;
                         }
                     }
 
+                    );
+                    _context.SaveChanges();
                 }
             }
 
-            return outstandings;
+            return CollectedResults;
         }
 
 

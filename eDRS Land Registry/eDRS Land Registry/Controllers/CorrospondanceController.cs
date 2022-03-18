@@ -40,21 +40,33 @@ namespace eDRS_Land_Registry.Controllers
                 requestLog.IsSuccess = true;
                 requestLog.Type = "correspondence";
 
-                if (response.GatewayResponse !=null && response.GatewayResponse.GatewayResponse!=null) {
+                if (response != null &&
+                    response.GatewayResponse != null
+                    && response.GatewayResponse.GatewayResponse != null)
+                {
 
                     requestLog.TypeCode = response.GatewayResponse.GatewayResponse.TypeCode.ToString();
                     requestLog.AppMessageId = response.GatewayResponse.GatewayResponse.ApplicationMessageId;
                     requestLog.ExternalReference = response.GatewayResponse.GatewayResponse.ExternalReference;
 
-                    byte[] bytes = response.GatewayResponse.GatewayResponse.Correspondence.Value;
-                    string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+                    if (response.GatewayResponse.GatewayResponse.Correspondence != null)
+                    {
 
-                    requestLog.FileName = response.GatewayResponse.GatewayResponse.Correspondence.filename;
-                    requestLog.FileExtension = response.GatewayResponse.GatewayResponse.Correspondence.format;
+                        byte[] bytes = response.GatewayResponse.GatewayResponse.Correspondence.Value;
+                        string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
 
-                    requestLog.File = base64String;
+                        requestLog.FileName = response.GatewayResponse.GatewayResponse.Correspondence.filename;
+                        requestLog.FileExtension = response.GatewayResponse.GatewayResponse.Correspondence.format;
+
+                        requestLog.File = base64String;
+                    }
 
                     requestLog.ResponseJson = JsonConvert.SerializeObject(response.GatewayResponse.GatewayResponse);
+                }
+                else {
+
+                    requestLog.IsSuccess = false;
+
                 }
 
               

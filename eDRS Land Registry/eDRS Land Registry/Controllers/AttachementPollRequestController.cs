@@ -40,17 +40,28 @@ namespace eDRS_Land_Registry.Controllers
                 requestLog.IsSuccess = true;
                 requestLog.Type = "attachment_poll";
 
-                if (_reponse.GatewayResponse!=null) {
+                if (_reponse != null &&
+                    _reponse.GatewayResponse != null &&
+                    _reponse.GatewayResponse.GatewayResponse != null
+                    )
+                {
 
                     requestLog.TypeCode = _reponse.GatewayResponse.GatewayResponse.TypeCode.ToString();
-                    requestLog.Description = _reponse.GatewayResponse.GatewayResponse.Results.MessageDetails;
-                    requestLog.AttachmentId = _reponse.GatewayResponse.GatewayResponse.Results.AttachmentID;
-                    requestLog.ExternalReference= _reponse.GatewayResponse.GatewayResponse.Results.ExternalReference;
+
+                    if (_reponse.GatewayResponse.GatewayResponse.Results != null)
+                    {
+
+                        requestLog.Description = _reponse.GatewayResponse.GatewayResponse.Results.MessageDetails;
+                        requestLog.AttachmentId = _reponse.GatewayResponse.GatewayResponse.Results.AttachmentID;
+                        requestLog.ExternalReference = _reponse.GatewayResponse.GatewayResponse.Results.ExternalReference;
+                    }
+
+                    requestLog.ResponseJson = JsonConvert.SerializeObject(_reponse.GatewayResponse.GatewayResponse);
+
                 }
-               
+                else { requestLog.IsSuccess = false; }
 
                 return requestLog;
-
             }
             catch (Exception ex)
             {

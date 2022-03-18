@@ -34,23 +34,43 @@ namespace eDRS_Land_Registry.Controllers
                 Services _services = new Services();
 
                 response = _services.EarlyCompletionRequest(request.Username, request.Password, request.MessageId);
-
+               
                 var requestLog = new RequestLog();
-                requestLog.IsSuccess = true;
+                
                 requestLog.Type = "earlyCompletion";
-                requestLog.TypeCode = response.GatewayResponse.GatewayResponse.TypeCode.ToString();
-                requestLog.AppMessageId = response.GatewayResponse.GatewayResponse.EarlyCompletion.ApplicationMessageId;
 
-                byte[] bytes = response.GatewayResponse.GatewayResponse.EarlyCompletion.DespatchDocument.Value;
-                string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+                if (response != null &&
+                    response.GatewayResponse!=null &&
+                    response.GatewayResponse.GatewayResponse != null)
+                {
+                    requestLog.IsSuccess = true;
+                    requestLog.TypeCode = response.GatewayResponse.GatewayResponse.TypeCode.ToString();
 
-                requestLog.FileName = response.GatewayResponse.GatewayResponse.EarlyCompletion.DespatchDocument.filename;
-                requestLog.FileExtension = response.GatewayResponse.GatewayResponse.EarlyCompletion.DespatchDocument.format;
+                    if (response.GatewayResponse.GatewayResponse.EarlyCompletion != null)
+                    {
+                        requestLog.AppMessageId = response.GatewayResponse.GatewayResponse.EarlyCompletion.ApplicationMessageId;
 
-                requestLog.File = base64String;
+                        byte[] bytes = response.GatewayResponse.GatewayResponse.EarlyCompletion.DespatchDocument.Value;
+                        string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+
+                        requestLog.FileName = (!response.GatewayResponse.GatewayResponse.EarlyCompletion.DespatchDocument.Equals(null)) ?
+                                                response.GatewayResponse.GatewayResponse.EarlyCompletion.DespatchDocument.filename : null;
+                        requestLog.FileExtension = (!response.GatewayResponse.GatewayResponse.EarlyCompletion.DespatchDocument.Equals(null)) ?
+                                                response.GatewayResponse.GatewayResponse.EarlyCompletion.DespatchDocument.format : null;
+
+                        requestLog.File = base64String;
+                        requestLog.ExternalReference = response.GatewayResponse.GatewayResponse.EarlyCompletion.ExternalReference;
+                    }
+
+                    requestLog.ResponseJson = JsonConvert.SerializeObject(response.GatewayResponse.GatewayResponse);
+
+                }
+                else {
+
+                    requestLog.IsSuccess = false;
+                }
 
                 return requestLog;
-
             }
             catch (Exception ex)
             {

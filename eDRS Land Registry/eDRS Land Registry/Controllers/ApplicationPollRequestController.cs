@@ -36,21 +36,40 @@ namespace eDRS_Land_Registry.Controllers
                 var response = _services.PollRequest(Request.Username, Request.Password, Request.MessageId);
 
                 var requestLog = new RequestLog();
-                requestLog.IsSuccess = true;
-                requestLog.Type = "Poll";
-                requestLog.TypeCode = response.GatewayResponse.GatewayResponse.TypeCode.ToString();
-                requestLog.Description = response.GatewayResponse.GatewayResponse.Results.MessageDetails;
 
-                byte[] bytes = response.GatewayResponse.GatewayResponse.Results.DespatchDocument.Value;
-                string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+                if (response != null 
+                    && response.GatewayResponse != null 
+                    && response.GatewayResponse.GatewayResponse != null
+                    )
+                {
 
-                requestLog.FileName = response.GatewayResponse.GatewayResponse.Results.DespatchDocument.filename;
-                requestLog.FileExtension = response.GatewayResponse.GatewayResponse.Results.DespatchDocument.format;
+                    requestLog.IsSuccess = true;
+                    requestLog.Type = "Poll";
+                    requestLog.TypeCode = response.GatewayResponse.GatewayResponse.TypeCode.ToString();
 
-                requestLog.File = base64String;
+                    if (response.GatewayResponse.GatewayResponse.Results != null) {
+
+                        requestLog.Description = response.GatewayResponse.GatewayResponse.Results.MessageDetails;
+
+                        byte[] bytes = response.GatewayResponse.GatewayResponse.Results.DespatchDocument.Value;
+                        string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+
+                        requestLog.FileName = response.GatewayResponse.GatewayResponse.Results.DespatchDocument.filename;
+                        requestLog.FileExtension = response.GatewayResponse.GatewayResponse.Results.DespatchDocument.format;
+                        requestLog.File = base64String;
+
+                        requestLog.ExternalReference = response.GatewayResponse.GatewayResponse.Results.ExternalReference;
+
+                    }
+
+                    requestLog.ResponseJson = JsonConvert.SerializeObject(response.GatewayResponse.GatewayResponse);
+                }
+                else {
+
+                    requestLog.IsSuccess = false;                    
+                }
 
                 return requestLog;
-
             }
             catch (Exception ex)
             {
