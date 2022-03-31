@@ -848,54 +848,48 @@ namespace eDrsManagers.Managers
 
                     _context.SaveChanges();
 
-                    response.Requests.ForEach(outstandingResponse =>
+                    //Call Early completion poll service
+                    outstandings.ForEach(outstanding =>
                     {
-                        var outResponse = outstandingResponse;
+                        EarlyCompletionRequest earlyCompletionRequest = new EarlyCompletionRequest();
+                        earlyCompletionRequest.MessageId = outstanding.LandRegistryId;
 
-                        CorrospondanceRequestViewModel corrospondanceRequestViewModel = new CorrospondanceRequestViewModel();
+                        var responseEarlyCompletionPoll = _httpInterceptor.CallEarlyCompletionApi(earlyCompletionRequest);
 
-                        // corrospondanceRequestViewModel.Username = "BGUser001";
-
-                        if (outResponse != null) corrospondanceRequestViewModel.MessageId = outResponse.Id;
-
-                        var correspondenceResponse = _httpInterceptor.CallCorrespondenceRequestApi(corrospondanceRequestViewModel);
-
-                        if (correspondenceResponse.IsSuccess)
+                        if (responseEarlyCompletionPoll.IsSuccess)
                         {
-                            correspondenceResponse.DocumentReferenceId = null;
-                            correspondenceResponse.MessageId = outResponse.Id;
-                            correspondenceResponse.ExternalReference = correspondenceResponse.ExternalReference;
-                            correspondenceResponse.AppMessageId = correspondenceResponse.AppMessageId;
-                            correspondenceResponse.CreatedDate = DateTime.Now;
-
+                            if (!string.IsNullOrEmpty(responseEarlyCompletionPoll.File))
+                            {
+                                // docRef.OverallStatus = 10; // Overall Process is completed
+                            }
                             CollectedResult collectedResult = new CollectedResult
                             {
-                                MessageId = outResponse.Id,
-                                AppMessageId = correspondenceResponse.AppMessageId,
-                                ExternalReference = correspondenceResponse.ExternalReference,
-                                Type = "Early-Completion",
-                                TypeCode = correspondenceResponse.TypeCode,
-                                Description = correspondenceResponse.Description,
+                                MessageId = responseEarlyCompletionPoll.MessageId,
+                                AppMessageId = responseEarlyCompletionPoll.AppMessageId,
+                                ExternalReference = responseEarlyCompletionPoll.ExternalReference,
+                                Type = "early-completion",
+                                TypeCode = responseEarlyCompletionPoll.TypeCode,
+                                Description = responseEarlyCompletionPoll.Description,
                                 CreatedDate = DateTime.Now,
-                                File = correspondenceResponse.File,
-                                FileName = correspondenceResponse.FileName,
-                                FileExtension = correspondenceResponse.FileExtension,
-                                RejectionReason = correspondenceResponse.RejectionReason,
-                                ValidationErrors = correspondenceResponse.ValidationErrors,
-                                ResponseType = correspondenceResponse.ResponseType,
-                                ResponseJson = correspondenceResponse.ResponseJson,
+                                File = responseEarlyCompletionPoll.File,
+                                FileName = responseEarlyCompletionPoll.FileName,
+                                FileExtension = responseEarlyCompletionPoll.FileExtension,
+                                RejectionReason = responseEarlyCompletionPoll.RejectionReason,
+                                ValidationErrors = responseEarlyCompletionPoll.ValidationErrors,
+                                ResponseType = responseEarlyCompletionPoll.ResponseType,
+                                ResponseJson = responseEarlyCompletionPoll.ResponseJson,
                                 IsSuccess = true,
-                                AttachmentName = correspondenceResponse.AttachmentName,
-                                AttachmentId = correspondenceResponse.AttachmentId
+                                AttachmentName = responseEarlyCompletionPoll.AttachmentName,
+                                AttachmentId = responseEarlyCompletionPoll.AttachmentId
                             };
+
+                            // responseApplicationPoll.DocumentReferenceId = responseApplicationPoll.DocumentReferenceId;
                             CollectedResults.Add(collectedResult);
                             _context.CollectedResult.Add(collectedResult);
                         }
+                    }
 
-                    });
-
-                    //_context.RequestLogs.AddRange(RequestLogs);
-
+                    );
                     _context.SaveChanges();
 
                     return CollectedResults;
