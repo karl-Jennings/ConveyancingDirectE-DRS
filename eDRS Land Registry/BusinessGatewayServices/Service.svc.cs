@@ -174,7 +174,7 @@ namespace BusinessGatewayServices
             OutstandingRespositoryV2_1 _outstanding = new OutstandingRespositoryV2_1();
             try
             {
-                ResponseOutstandingV2_1 _response = new ResponseOutstandingV2_1(_outstanding.GetRequests(MessageId, service, Username, Password, additionalProviderFilter));
+                ResponseOutstandingV2_1 _response = new ResponseOutstandingV2_1(_outstanding.GetRequests(MessageId, Username, Password, additionalProviderFilter, service));
 
                 _response.Successful = true;
                 return _response;

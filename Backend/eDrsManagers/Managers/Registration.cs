@@ -884,7 +884,6 @@ namespace eDrsManagers.Managers
             return outstandings;
         }
 
-
         public DocumentReference GetRegistration(long regId)
         {
 
@@ -982,7 +981,6 @@ namespace eDrsManagers.Managers
 
         }
 
-
         public DocumentReference GetRegistrationByReference(string refernce)
         {
 
@@ -1079,6 +1077,53 @@ namespace eDrsManagers.Managers
 
             return documentReference;
 
+        }
+
+        //Call Outstanding  Requests without service
+        public async Task<dynamic> CollectAllOutstandingsAsync(string AdditionalProviderFilter)
+        {
+            //AdditionalProviderFilter => MB7, KH5 and CT8
+
+            OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
+           
+            outstaningRequest.Username = lrCredentials.Username;
+            outstaningRequest.Service = 0;
+            outstaningRequest.MessageId = Guid.NewGuid().ToString();
+            outstaningRequest.AdditionalProviderFilter = AdditionalProviderFilter;
+
+            var outstandings = new List<Outstanding>();
+            List<CollectedResult> CollectedResults = new List<CollectedResult>();
+
+            var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
+
+            if (response != null && response.Successful)
+            {
+                if (response.Requests != null && response.Requests.Count > 0)
+                {
+                    response.Requests.ForEach(x =>
+                    {
+                        var outstanding = new Outstanding
+                        {
+                            LandRegistryId = x.Id,
+                            NewResponse = x.NewResponse,
+                            Type = "all_outstaning",
+                            TypeCode = x.TypeCode,
+                            ServiceType = x.ServiceType,
+                            MessageId = outstaningRequest.MessageId,
+                            DocumentReferenceId = null,
+                            DateCreated = DateTime.Now
+                        };
+
+                        outstandings.Add(outstanding);
+                        _context.Outstanding.Add(outstanding);
+                    });
+
+                   await _context.SaveChangesAsync();                
+                  
+                }
+            }
+
+            return CollectedResults;
         }
     }
 }

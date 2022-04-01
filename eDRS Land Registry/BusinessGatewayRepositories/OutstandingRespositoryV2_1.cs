@@ -8,16 +8,23 @@ namespace BusinessGatewayRepositories
 {
     public class OutstandingRespositoryV2_1
     {
-        public OutstandingRequestsV2_1.ResponseOutstandingRequestsType GetRequests(string MessageId,int service,string Username, string Password,string additionalProviderFilter)
+        public OutstandingRequestsV2_1.ResponseOutstandingRequestsType GetRequests(string MessageId,string Username, string Password,string additionalProviderFilter,int service=0)
         {
             OutstandingRequestsV2_1.RequestOutstandingRequestsType _request = new OutstandingRequestsV2_1.RequestOutstandingRequestsType();
             OutstandingRequestsV2_1.Q1OutstandingRequestsProductType _product = new OutstandingRequestsV2_1.Q1OutstandingRequestsProductType();
             OutstandingRequestsV2_1.OutstandingRequestsV2_1ServiceClient _service = new OutstandingRequestsV2_1.OutstandingRequestsV2_1ServiceClient();
             _product.ShowOnlyNewResponses = new OutstandingRequestsV2_1.IndicatorType{ Value = true};
             _request.ID = new OutstandingRequestsV2_1.Q1IdentifierType { MessageID = new OutstandingRequestsV2_1.Q1TextType { Value = MessageId } };
+
+            if (service > 0)
+            {
+                _product.SpecificService = service;
+                _product.SpecificServiceSpecified = true;
+            }
+            else {
+                _product.SpecificServiceSpecified = false;
+            }
           
-            _product.SpecificService = service;
-            _product.SpecificServiceSpecified = true;
             _product.AdditionalProviderFilter = additionalProviderFilter;
 
             _request.Product = _product;

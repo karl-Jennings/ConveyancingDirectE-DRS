@@ -52,8 +52,6 @@ namespace eDRS_Land_Registry.Controllers
 
                 BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
 
-                //V1_0
-                // var response = _services.Outstanding(request.MessageId, request.Service, request.Username, request.Password);
                 var response = _services.OutstandingV2_1(request.MessageId, request.Service, request.Username, request.Password,request.AdditionalProviderFilter);
 
                 responseOutstanding.Requests = response.Requests;

@@ -37,7 +37,7 @@ namespace eDrsManagers.FluentValidation.Validators
                 .NotNull().NotEmpty().WithMessage("ApplicationDate should not be Empty");
 
             RuleFor(x => x.DisclosableOveridingInterests)
-                .NotNull().NotEmpty().WithMessage("DisclosableOveridingInterests should not be Empty");
+                .NotNull().WithMessage("DisclosableOveridingInterests should not be Empty");
 
             RuleFor(x => x.RegistrationTypeId)
                 .NotNull().NotEmpty().WithMessage("RegistrationTypeId should not be Empty");

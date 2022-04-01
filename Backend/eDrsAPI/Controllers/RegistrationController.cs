@@ -71,7 +71,7 @@ namespace eDrsAPI.Controllers
         public IActionResult CreateRegistration(DocumentReferenceViewModel viewModel)
         {
             try
-            { 
+            {
                 return Ok(_registration.CreateRegistration(viewModel));
             }
             catch (Exception ex)
@@ -199,7 +199,7 @@ namespace eDrsAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetApplicationPollRequest(long docRefId,int service)
+        public IActionResult GetApplicationPollRequest(long docRefId, int service)
         {
             try
             {
@@ -271,7 +271,7 @@ namespace eDrsAPI.Controllers
         {
             try
             {
-                return Ok(_registration.CollectResultsAsync( AdditionalProviderFilter));
+                return Ok(_registration.CollectResultsAsync(AdditionalProviderFilter));
             }
             catch (Exception ex)
             {
@@ -294,5 +294,18 @@ namespace eDrsAPI.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult CollectAllOutstandingsAsync(string AdditionalProviderFilter)
+        {
+            try
+            {
+                return Ok(_registration.CollectAllOutstandingsAsync(AdditionalProviderFilter));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
     }
 }

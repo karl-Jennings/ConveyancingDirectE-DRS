@@ -30,5 +30,6 @@ namespace eDrsManagers.Interfaces
         dynamic GetFinalResult(long docRefId, int serviceId);
         Task<dynamic> CollectResultsAsync(string AdditionalProviderFilter);
         Task<dynamic> EarlyCompletionAsync(string AdditionalProviderFilter);
+        Task<dynamic> CollectAllOutstandingsAsync(string AdditionalProviderFilter);
     }
 }
