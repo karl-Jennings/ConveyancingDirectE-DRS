@@ -13,11 +13,19 @@ namespace eDrsDB.Models
         public bool IsApplicant { get; set; }
         public string CompanyOrForeName { get; set; }
         public string Surname { get; set; }
-        public string Roles { get; set; }
+        public List<Role> Roles { get; set; }
         public List<string> ViewModelRoles { get; set; }
         public string PartyType { get; set; }
         public List<AddressForService> AddressForService { get; set; }
 
         public long DocumentReferenceId { get; set; }
      }
+
+
+    public class Role { 
+    
+        public string RoleType { get; set; }
+        public int Priority { get; set; }
+
+    }
 }

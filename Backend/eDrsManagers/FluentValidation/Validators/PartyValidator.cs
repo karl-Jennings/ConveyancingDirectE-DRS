@@ -20,14 +20,13 @@ namespace eDrsManagers.FluentValidation.Validators
             RuleFor(x => x.CompanyOrForeName)
                 .NotNull().NotEmpty().WithMessage("CompanyOrForeName should not be Empty");
             
-            RuleFor(x => x.ViewModelRoles)
-                .NotNull().NotEmpty().WithMessage("ViewModelRoles should not be Empty");
+            RuleFor(x => x.Roles)
+                .NotNull().NotEmpty().WithMessage("Roles should not be Empty");
             
             //RuleFor(x => x.AddressForService)
             //    .NotNull().NotEmpty().WithMessage("AddressForService should not be Empty");
             
-            RuleFor(x => x.Addresses)
-                .NotNull().NotEmpty().WithMessage("Addresses should not be Empty");
+           
 
             When(x => x.PartyType == "person", () =>
             {

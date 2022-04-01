@@ -39,18 +39,11 @@ namespace eDrsManagers.Managers
             return _context.RegistrationTypes.Where(s => s.Status).ToList();
         }
 
-        public RequestLog CreateRegistration(DocumentReferenceViewModel viewModel)
+        public async Task<RequestLog> CreateRegistration(DocumentReferenceViewModel viewModel)
         {
 
-            viewModel.Parties.ToList().ForEach(party =>
-            {
-                party.Roles = string.Join(",", party.ViewModelRoles);
-
-            });
-
+          
             var count = viewModel.Applications.Count();
-
-
 
             viewModel.MessageID = Guid.NewGuid().ToString();
 
@@ -85,8 +78,7 @@ namespace eDrsManagers.Managers
             var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
 
             _context.DocumentReferences.Add(model);
-
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
 
 
             /********** Calling LR Api backend ***********/
@@ -126,10 +118,7 @@ namespace eDrsManagers.Managers
 
         public RequestLog UpdateRegistration(DocumentReferenceViewModel viewModel)
         {
-            viewModel.Parties.ToList().ForEach(party =>
-            {
-                party.Roles = string.Join(",", party.ViewModelRoles);
-            });
+            
 
             var count = 1;
 
@@ -200,11 +189,7 @@ namespace eDrsManagers.Managers
 
         public DocumentReference UpdateRegistrationForRequisition(DocumentReferenceViewModel viewModel)
         {
-            viewModel.Parties.ToList().ForEach(party =>
-            {
-                party.Roles = string.Join(",", party.ViewModelRoles);
-            });
-
+           
             var count = 1;
 
             viewModel.Applications.ToList().ForEach(x => x.Document.AttachmentId = count++);
@@ -979,9 +964,9 @@ namespace eDrsManagers.Managers
                             CompanyOrForeName = party.CompanyOrForeName,
                             PartyId = party.PartyId,
                             Roles = party.Roles,
-                            //AddressForService = party.AddressForService,
-                            Addresses = party.Addresses,
-                            ViewModelRoles = new List<string> { party.Roles }
+                            AddressForService = party.AddressForService,
+                            //Addresses = party.Addresses,
+
                         }).ToList(),
                         Status = sel.Status,
                         AdditionalProviderFilter = sel.AdditionalProviderFilter,
@@ -1078,9 +1063,9 @@ namespace eDrsManagers.Managers
                             CompanyOrForeName = party.CompanyOrForeName,
                             PartyId = party.PartyId,
                             Roles = party.Roles,
-                            //AddressForService = party.AddressForService,
-                            Addresses = party.Addresses,
-                            ViewModelRoles = new List<string> { party.Roles }
+                            AddressForService = party.AddressForService,
+                            //Addresses = party.Addresses,
+
                         }).ToList(),
                         Status = sel.Status,
                         AdditionalProviderFilter = sel.AdditionalProviderFilter,

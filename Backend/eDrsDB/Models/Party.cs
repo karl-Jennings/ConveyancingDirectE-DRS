@@ -18,17 +18,14 @@ namespace eDrsDB.Models
 
         [Required]
         public string CompanyOrForeName { get; set; }
-        public string Surname { get; set; }
-
-        public string Roles { get; set; }
-
-        [Required]
-        public List<string> ViewModelRoles { get; set; }
+        public string Surname { get; set; }   
+      
 
         [Required]
         public string PartyType { get; set; }
 
-    
+        [Required]
+        public ICollection<Role> Roles { get; set; }
         public ICollection<AddressForService> AddressForService { get; set; }
 
         public long DocumentReferenceId { get; set; }

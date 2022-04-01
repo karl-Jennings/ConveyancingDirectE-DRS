@@ -40,8 +40,7 @@ namespace eDrsDB.Data
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Party>().Ignore(c => c.ViewModelRoles);
-
+          
             modelBuilder.Entity<RequestLog>().Ignore(c => c.IsSuccess);
             modelBuilder.Entity<RequestLog>().Ignore(c => c.AttachmentResponse);
             modelBuilder.Entity<RequestLog>().Ignore(c => c.AttachmentName);

@@ -185,7 +185,7 @@ namespace eDRS_Land_Registry.ApiConverters
 
             docRef.Parties.ToList().ForEach(x =>
             {
-                var roles = x.Roles.Split(',');
+                var roles = x.Roles;
                 var partyType = new PartyType { IsApplicant = x.IsApplicant, representativeId = "1" };
 
                 List<PartyRoleType> partyRoleType = new List<PartyRoleType>();
@@ -193,8 +193,8 @@ namespace eDRS_Land_Registry.ApiConverters
                 {
                     partyRoleType.Add(new PartyRoleType
                     {
-                        Priority = 1.ToString(),
-                        RoleType = (RoleTypeContent)Enum.Parse(typeof(RoleTypeContent), r)
+                        Priority = r.Priority.ToString(),
+                        RoleType = (RoleTypeContent)Enum.Parse(typeof(RoleTypeContent), r.RoleType)
                     });
                 });
                 partyType.Roles = partyRoleType.ToArray();

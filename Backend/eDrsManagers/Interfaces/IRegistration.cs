@@ -14,8 +14,7 @@ namespace eDrsManagers.Interfaces
     public interface IRegistration
     {
         List<RegistrationType> GetRegistrationTypes();
-
-        RequestLog CreateRegistration(DocumentReferenceViewModel viewModel);
+        Task<RequestLog> CreateRegistration(DocumentReferenceViewModel viewModel);
         List<DocumentReference> GetRegistrations(string regType);
         DocumentReference GetRegistration(long regId);
         DocumentReference GetRegistrationByReference(string refernce);

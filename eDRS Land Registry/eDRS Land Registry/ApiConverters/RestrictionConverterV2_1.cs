@@ -154,12 +154,6 @@ namespace eDRS_Land_Registry.ApiConverters
 
             }
 
-
-
-
-
-
-
             #endregion
 
             #region OtherApplication
@@ -289,20 +283,21 @@ namespace eDRS_Land_Registry.ApiConverters
             PartiesType parties = new PartiesType();
 
             List<PartyType> partyTypes = new List<PartyType>();
-
+            
             docRef.Parties.ToList().ForEach(x =>
             {
-                var roles = x.Roles.Split(',');
+                var roles = x.Roles;
                 var partyType = new PartyType { IsApplicant = x.IsApplicant, representativeId = "1" };
 
                 List<PartyRoleType> partyRoleType = new List<PartyRoleType>();
+               
                 roles.ToList().ForEach(r =>
                 {
                     partyRoleType.Add(new PartyRoleType
                     {
-                        Priority = 1.ToString(),
-                        RoleType = (RoleTypeContent)Enum.Parse(typeof(RoleTypeContent), r)
-                    });
+                        Priority = r.Priority.ToString(),
+                        RoleType = (RoleTypeContent)Enum.Parse(typeof(RoleTypeContent), r.RoleType)
+                    }); 
                 });
                 partyType.Roles = partyRoleType.ToArray();
 
