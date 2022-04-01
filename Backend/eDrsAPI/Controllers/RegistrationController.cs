@@ -179,57 +179,7 @@ namespace eDrsAPI.Controllers
             }
 
         }
-
-        /// <summary>
-        /// Getting poll request
-        /// </summary>
-        /// <returns>RestrictionPoolResponse</returns>
-        [HttpGet]
-        public IActionResult GetPoolResponse(long docRefId)
-        {
-            try
-            {
-                return Ok(_registration.GetPollResponse(docRefId));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
-
-        }
-
-        [HttpGet]
-        public IActionResult GetApplicationPollRequest(long docRefId, int service)
-        {
-            try
-            {
-                return Ok(_registration.ApplicationPollRequest(docRefId, service));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
-
-        }
-
-        /// <summary>
-        /// Getting poll request
-        /// </summary>
-        /// <returns>RestrictionPoolResponse</returns>
-        [HttpGet]
-        public IActionResult GetOutStandingPollRequest(long docRefId, int serviceId)
-        {
-            try
-            {
-                return Ok(_registration.GetAttachmentPollRequest(docRefId, serviceId));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
-
-        }
-
+    
         /// <summary>
         /// Getting Requisition request
         /// </summary>
@@ -300,6 +250,48 @@ namespace eDrsAPI.Controllers
             try
             {
                 return Ok(_registration.CollectAllOutstandingsAsync(AdditionalProviderFilter));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult CorrespondencePollRequest(List<Outstanding> outstandings)
+        {
+            try
+            {
+                return Ok(_registration.CorrespondencePollRequest( outstandings));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult ApplicationPollRequest(List<Outstanding> outstandings)
+        {
+            try
+            {
+                return Ok(_registration.ApplicationPollRequest(outstandings));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult EarlyCompletionPollRequest(List<Outstanding> outstandings)
+        {
+            try
+            {
+                return Ok(_registration.EarlyCompletionPollRequest(outstandings));
             }
             catch (Exception ex)
             {

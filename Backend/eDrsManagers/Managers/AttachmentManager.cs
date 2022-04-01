@@ -274,6 +274,35 @@ namespace eDrsManagers.Managers
             return requestLogList;
 
         }
+
+
+        public async Task<dynamic> AttachmentPollRequest(List<Outstanding> outstandings)
+        {        
+
+            var requestLogList = new List<RequestLog>();
+            outstandings.ForEach(async x =>
+            {
+                AttachmentPollRequestViewModel attachmentPoll = new AttachmentPollRequestViewModel();
+                attachmentPoll.Username = lrCredentials.Username;
+                attachmentPoll.MessageId = x.LandRegistryId;
+
+                var pollResponse = _httpInterceptor.CallAttachmentPollApi(attachmentPoll);
+
+                if (pollResponse != null)
+                {
+
+                    pollResponse.DocumentReferenceId = null;
+                    requestLogList.Add(pollResponse);
+                    _context.RequestLogs.Add(pollResponse);
+                }
+
+            });
+
+            await _context.SaveChangesAsync();
+
+            return requestLogList;
+
+        }
     }
 
 

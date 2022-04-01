@@ -1,4 +1,6 @@
-﻿using eDrsManagers.ViewModels;
+﻿using eDrsDB.Models;
+using eDrsManagers.ViewModels;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace eDrsManagers.Interfaces
@@ -10,5 +12,6 @@ namespace eDrsManagers.Interfaces
         object RespondToRequisitionByReference(string reference);
         object DirectRespondToRequisition(DocumentReferenceViewModel viewModel);
         Task<dynamic> CollectAttachmentResultsAsync(string AdditionalProviderFilter);
+        Task<dynamic> AttachmentPollRequest(List<Outstanding> outstandings);
     }
 }

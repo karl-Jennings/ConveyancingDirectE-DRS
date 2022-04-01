@@ -42,7 +42,7 @@ namespace eDrsManagers.Managers
         public async Task<RequestLog> CreateRegistration(DocumentReferenceViewModel viewModel)
         {
 
-          
+
             var count = viewModel.Applications.Count();
 
             viewModel.MessageID = Guid.NewGuid().ToString();
@@ -78,7 +78,7 @@ namespace eDrsManagers.Managers
             var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
 
             _context.DocumentReferences.Add(model);
-           await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
 
             /********** Calling LR Api backend ***********/
@@ -118,7 +118,7 @@ namespace eDrsManagers.Managers
 
         public RequestLog UpdateRegistration(DocumentReferenceViewModel viewModel)
         {
-            
+
 
             var count = 1;
 
@@ -189,7 +189,7 @@ namespace eDrsManagers.Managers
 
         public DocumentReference UpdateRegistrationForRequisition(DocumentReferenceViewModel viewModel)
         {
-           
+
             var count = 1;
 
             viewModel.Applications.ToList().ForEach(x => x.Document.AttachmentId = count++);
@@ -315,7 +315,6 @@ namespace eDrsManagers.Managers
             }
         }
 
-
         public dynamic ApplicationPollRequest(long docRefId, int service)
         {
             try
@@ -387,22 +386,26 @@ namespace eDrsManagers.Managers
                 return false;
             }
         }
-        public bool AutomatePollRequest()
+        public async Task<bool> AutomatePollRequest()
         {
             try
             {
-                //var DocumentReferenceIds = _context.DocumentReferences.Where(x => x.Status && x.OverallStatus == 1 && x.OverallStatus !=10).Select(x => x.DocumentReferenceId).ToList();
-                //DocumentReferenceIds.ForEach(x =>
-                //{
-                //    //GetPollResponse(x);
-                //    // - Collect attachment results 
-                //    GetAttachmentPollRequest(x,105);
+                //Get Unique 'additionalProviderFilter' from DocumentReferences
+                var additionalProviderFilters = _context.DocumentReferences.Where(x => x.Status && x.OverallStatus == 1 && x.OverallStatus != 10).Select(x => x.AdditionalProviderFilter).ToList();
 
-                //    //- Collect final result
-                //    GetFinalResult(x, 104);
-                //});
+                if (additionalProviderFilters != null)
+                {
 
-                return true;
+                    additionalProviderFilters = additionalProviderFilters.Distinct().ToList();
+
+                    additionalProviderFilters.ForEach(async x =>
+                    {
+                        await CollectAllOutstandingsAsync(x);
+                    });
+
+                    return true;
+                }
+                return false;
             }
             catch (Exception)
             {
@@ -548,6 +551,46 @@ namespace eDrsManagers.Managers
             {
                 return false;
             }
+        }
+
+        public async Task<dynamic> CorrespondencePollRequest(List<Outstanding> outstandings)
+        {
+            List<RequestLog> RequestLogs = new List<RequestLog>();
+
+            outstandings.ForEach(outstandingResponse =>
+            {
+                var outResponse = outstandingResponse;
+
+                CorrospondanceRequestViewModel corrospondanceRequestViewModel = new CorrospondanceRequestViewModel();
+
+                if (outResponse != null) corrospondanceRequestViewModel.MessageId = outResponse.LandRegistryId;
+
+                var correspondenceResponse = _httpInterceptor.CallCorrespondenceRequestApi(corrospondanceRequestViewModel);
+
+                if (correspondenceResponse.IsSuccess)
+                {
+
+                    correspondenceResponse.DocumentReferenceId = null;
+                    correspondenceResponse.MessageId = outResponse.LandRegistryId;
+                    correspondenceResponse.ExternalReference = correspondenceResponse.ExternalReference;
+                    _context.RequestLogs.Add(correspondenceResponse);
+
+                    RequestLogs.Add(correspondenceResponse);
+                }
+
+            });
+
+            await _context.SaveChangesAsync();
+
+            if (RequestLogs != null)
+            {
+                var requisitions = AddRecordsToRequisition(RequestLogs);
+
+                return requisitions;
+            }
+
+            return RequestLogs;
+
         }
 
         public List<Requisition> AddRecordsToRequisition(List<RequestLog> RequestLogs)
@@ -737,13 +780,13 @@ namespace eDrsManagers.Managers
                         };
 
                         outstandings.Add(outstanding);
-                        _context.Outstanding.Add(outstanding);
+                        _context.Outstanding.AddAsync(outstanding);
                     });
 
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
 
                     //Call Application to cahnge register poll service
-                    outstandings.ForEach(outstanding =>
+                    outstandings.ForEach(async outstanding =>
                     {
                         ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
                         applicationPollRequest.MessageId = outstanding.LandRegistryId;
@@ -754,8 +797,16 @@ namespace eDrsManagers.Managers
                         {
                             if (!string.IsNullOrEmpty(responseApplicationPoll.File))
                             {
-                                // docRef.OverallStatus = 10; // Overall Process is completed
+                                //Get DocumentReference by ExternalReference
+                                var docRef = await _context.DocumentReferences.FirstOrDefaultAsync(x => x.ExternalReference == responseApplicationPoll.ExternalReference);
+
+                                if (docRef != null)
+                                {
+                                    docRef.OverallStatus = 10; // Overall Process is completed
+                                }
+
                             }
+
                             CollectedResult collectedResult = new CollectedResult
                             {
                                 MessageId = applicationPollRequest.MessageId,
@@ -774,27 +825,24 @@ namespace eDrsManagers.Managers
                                 ResponseJson = responseApplicationPoll.ResponseJson,
                                 IsSuccess = true,
                                 AttachmentName = responseApplicationPoll.AttachmentName,
-                                AttachmentId = responseApplicationPoll.AttachmentId
+                                AttachmentId = responseApplicationPoll.AttachmentId,
+
                             };
 
-                            // responseApplicationPoll.DocumentReferenceId = responseApplicationPoll.DocumentReferenceId;
                             CollectedResults.Add(collectedResult);
-                            _context.CollectedResult.Add(collectedResult);
+                            await _context.CollectedResult.AddAsync(collectedResult);
                         }
                     }
 
                     );
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                 }
             }
 
             return CollectedResults;
         }
-
-
         public async Task<dynamic> EarlyCompletionAsync(string AdditionalProviderFilter)
         {
-            //AdditionalProviderFilter => MB7, KH5 and CT8
 
             OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
 
@@ -828,13 +876,13 @@ namespace eDrsManagers.Managers
                         };
 
                         outstandings.Add(outstanding);
-                        _context.Outstanding.Add(outstanding);
+                        _context.Outstanding.AddAsync(outstanding);
                     });
 
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
 
                     //Call Early completion poll service
-                    outstandings.ForEach(outstanding =>
+                    outstandings.ForEach(async outstanding =>
                     {
                         EarlyCompletionRequest earlyCompletionRequest = new EarlyCompletionRequest();
                         earlyCompletionRequest.MessageId = outstanding.LandRegistryId;
@@ -845,7 +893,13 @@ namespace eDrsManagers.Managers
                         {
                             if (!string.IsNullOrEmpty(responseEarlyCompletionPoll.File))
                             {
-                                // docRef.OverallStatus = 10; // Overall Process is completed
+                                //Get DocumentReference by ExternalReference
+                                //var docRef = await _context.DocumentReferences.FirstOrDefaultAsync(x => x.ExternalReference == responseApplicationPoll.ExternalReference);
+
+                                //if (docRef != null)
+                                //{
+                                //    docRef.OverallStatus = 10; // Overall Process is completed
+                                //}
                             }
                             CollectedResult collectedResult = new CollectedResult
                             {
@@ -870,12 +924,12 @@ namespace eDrsManagers.Managers
 
                             // responseApplicationPoll.DocumentReferenceId = responseApplicationPoll.DocumentReferenceId;
                             CollectedResults.Add(collectedResult);
-                            _context.CollectedResult.Add(collectedResult);
+                            _context.CollectedResult.AddAsync(collectedResult);
                         }
                     }
 
                     );
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
 
                     return CollectedResults;
                 }
@@ -1082,10 +1136,9 @@ namespace eDrsManagers.Managers
         //Call Outstanding  Requests without service
         public async Task<dynamic> CollectAllOutstandingsAsync(string AdditionalProviderFilter)
         {
-            //AdditionalProviderFilter => MB7, KH5 and CT8
 
             OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
-           
+
             outstaningRequest.Username = lrCredentials.Username;
             outstaningRequest.Service = 0;
             outstaningRequest.MessageId = Guid.NewGuid().ToString();
@@ -1106,24 +1159,143 @@ namespace eDrsManagers.Managers
                         {
                             LandRegistryId = x.Id,
                             NewResponse = x.NewResponse,
-                            Type = "all_outstaning",
+                            Type = "all_outstandings",
                             TypeCode = x.TypeCode,
                             ServiceType = x.ServiceType,
                             MessageId = outstaningRequest.MessageId,
                             DocumentReferenceId = null,
-                            DateCreated = DateTime.Now
+                            DateCreated = DateTime.Now                           
                         };
 
                         outstandings.Add(outstanding);
                         _context.Outstanding.Add(outstanding);
                     });
 
-                   await _context.SaveChangesAsync();                
-                  
+                    await _context.SaveChangesAsync();
+
+                }
+            }
+            return CollectedResults;
+        }
+
+        public async Task<dynamic> ApplicationPollRequest(List<Outstanding> outstandings)
+        {
+            List<CollectedResult> CollectedResults = new List<CollectedResult>();
+
+            //Call Application to cahnge register poll service
+            outstandings.ForEach(async outstanding =>
+            {
+                ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
+                applicationPollRequest.MessageId = outstanding.LandRegistryId;
+
+                var responseApplicationPoll = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
+
+                if (responseApplicationPoll.IsSuccess)
+                {
+                    if (!string.IsNullOrEmpty(responseApplicationPoll.File))
+                    {
+                        //Get DocumentReference by ExternalReference
+                        var docRef = await _context.DocumentReferences.FirstOrDefaultAsync(x => x.ExternalReference == responseApplicationPoll.ExternalReference);
+
+                        if (docRef != null)
+                        {
+                            docRef.OverallStatus = 10; // Overall Process is completed
+                        }
+
+                    }
+
+                    CollectedResult collectedResult = new CollectedResult
+                    {
+                        MessageId = applicationPollRequest.MessageId,
+                        AppMessageId = responseApplicationPoll.AppMessageId,
+                        ExternalReference = responseApplicationPoll.ExternalReference,
+                        Type = "completed-result",
+                        TypeCode = responseApplicationPoll.TypeCode,
+                        Description = responseApplicationPoll.Description,
+                        CreatedDate = DateTime.Now,
+                        File = responseApplicationPoll.File,
+                        FileName = responseApplicationPoll.FileName,
+                        FileExtension = responseApplicationPoll.FileExtension,
+                        RejectionReason = responseApplicationPoll.RejectionReason,
+                        ValidationErrors = responseApplicationPoll.ValidationErrors,
+                        ResponseType = responseApplicationPoll.ResponseType,
+                        ResponseJson = responseApplicationPoll.ResponseJson,
+                        IsSuccess = true,
+                        AttachmentName = responseApplicationPoll.AttachmentName,
+                        AttachmentId = responseApplicationPoll.AttachmentId,
+
+                    };
+
+                    CollectedResults.Add(collectedResult);
+                    await _context.CollectedResult.AddAsync(collectedResult);
                 }
             }
 
+            );
+            await _context.SaveChangesAsync();
+
             return CollectedResults;
         }
+
+        public async Task<dynamic> EarlyCompletionPollRequest(List<Outstanding> outstandings)
+        {
+            List<CollectedResult> CollectedResults = new List<CollectedResult>();
+
+            //Call Early completion poll service
+            outstandings.ForEach(async outstanding =>
+            {
+                EarlyCompletionRequest earlyCompletionRequest = new EarlyCompletionRequest();
+                earlyCompletionRequest.MessageId = outstanding.LandRegistryId;
+
+                var responseEarlyCompletionPoll = _httpInterceptor.CallEarlyCompletionApi(earlyCompletionRequest);
+
+                if (responseEarlyCompletionPoll.IsSuccess)
+                {
+                    if (!string.IsNullOrEmpty(responseEarlyCompletionPoll.File))
+                    {
+                        //Get DocumentReference by ExternalReference
+                        //var docRef = await _context.DocumentReferences.FirstOrDefaultAsync(x => x.DocumentReferenceId == outstanding.DocumentReferenceId);
+
+                        //if (docRef != null)
+                        //{
+                        //    docRef.OverallStatus = 10; // Overall Process is completed
+                        //}
+                    }
+                    CollectedResult collectedResult = new CollectedResult
+                    {
+                        MessageId = responseEarlyCompletionPoll.MessageId,
+                        AppMessageId = responseEarlyCompletionPoll.AppMessageId,
+                        ExternalReference = responseEarlyCompletionPoll.ExternalReference,
+                        Type = "early-completion",
+                        TypeCode = responseEarlyCompletionPoll.TypeCode,
+                        Description = responseEarlyCompletionPoll.Description,
+                        CreatedDate = DateTime.Now,
+                        File = responseEarlyCompletionPoll.File,
+                        FileName = responseEarlyCompletionPoll.FileName,
+                        FileExtension = responseEarlyCompletionPoll.FileExtension,
+                        RejectionReason = responseEarlyCompletionPoll.RejectionReason,
+                        ValidationErrors = responseEarlyCompletionPoll.ValidationErrors,
+                        ResponseType = responseEarlyCompletionPoll.ResponseType,
+                        ResponseJson = responseEarlyCompletionPoll.ResponseJson,
+                        IsSuccess = true,
+                        AttachmentName = responseEarlyCompletionPoll.AttachmentName,
+                        AttachmentId = responseEarlyCompletionPoll.AttachmentId
+                    };
+
+                            // responseApplicationPoll.DocumentReferenceId = responseApplicationPoll.DocumentReferenceId;
+                     CollectedResults.Add(collectedResult);
+                    await _context.CollectedResult.AddAsync(collectedResult);
+                }
+            }
+
+            );
+            await _context.SaveChangesAsync();
+
+            return CollectedResults;
+
+
+           
+        }
+
     }
 }

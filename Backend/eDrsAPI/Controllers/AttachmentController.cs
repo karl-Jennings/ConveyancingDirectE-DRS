@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using eDrsManagers.Interfaces;
 using eDrsManagers.ViewModels;
+using eDrsDB.Models;
 
 namespace eDrsAPI.Controllers
 {
@@ -95,6 +96,19 @@ namespace eDrsAPI.Controllers
             try
             {
                 return Ok(_attachment.DirectRespondToRequisition(viewModel));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+        }
+
+        [HttpPost]
+        public IActionResult AttachmentPollRequest(List<Outstanding> outstandings)
+        {
+            try
+            {
+                return Ok(_attachment.AttachmentPollRequest(outstandings));
             }
             catch (Exception ex)
             {
