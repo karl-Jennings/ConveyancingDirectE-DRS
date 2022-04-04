@@ -54,7 +54,6 @@ namespace eDrsManagers.Managers
 
                 var _lastSupDocId = _context.SupportingDocuments.Max(x => x.SupportingDocumentId);
 
-
                 viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
                 {
                     supDoc.DocumentId = ++_lastSupDocId;
@@ -62,8 +61,6 @@ namespace eDrsManagers.Managers
                     supDoc.ApplicationMessageId = viewModel.MessageID;
                 });
             }
-
-
 
             viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
 
@@ -78,7 +75,7 @@ namespace eDrsManagers.Managers
             var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
 
             _context.DocumentReferences.Add(model);
-           await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
 
             /********** Calling LR Api backend ***********/
@@ -391,16 +388,14 @@ namespace eDrsManagers.Managers
         {
             try
             {
-                //var DocumentReferenceIds = _context.DocumentReferences.Where(x => x.Status && x.OverallStatus == 1 && x.OverallStatus !=10).Select(x => x.DocumentReferenceId).ToList();
-                //DocumentReferenceIds.ForEach(x =>
-                //{
-                //    //GetPollResponse(x);
-                //    // - Collect attachment results 
-                //    GetAttachmentPollRequest(x,105);
+                var additionalProviderFilters = _context.DocumentReferences.Where(x => x.Status && x.OverallStatus == 1 && x.OverallStatus != 10).Select(x => x.AdditionalProviderFilter).ToList();
 
-                //    //- Collect final result
-                //    GetFinalResult(x, 104);
-                //});
+                additionalProviderFilters = additionalProviderFilters.Distinct().ToList();
+
+                additionalProviderFilters.ForEach(async x =>
+                {
+                   await CollectAllOutstandingsAsync(x);
+                });
 
                 return true;
             }
@@ -410,74 +405,7 @@ namespace eDrsManagers.Managers
             }
 
         }
-
-        public dynamic GetAttachmentPollRequest(long docRefId, int serviceId)
-        {
-            var docRef = _context.DocumentReferences.FirstOrDefault(x => x.DocumentReferenceId == docRefId);
-
-            OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
-            //outstaningRequest.Username = "BGUser001";
-            outstaningRequest.Username = lrCredentials.Username;
-
-            if (docRef != null)
-            {
-                outstaningRequest.Service = serviceId;
-                outstaningRequest.MessageId = docRef.MessageID;
-                outstaningRequest.AdditionalProviderFilter = docRef.AdditionalProviderFilter;
-            }
-
-            var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
-
-            var outstanding = new List<Outstanding>();
-
-            if (response.Requests != null && response.Requests.Count > 0)
-            {
-
-                response.Requests.ForEach(x =>
-                {
-                    outstanding.Add(new Outstanding
-                    {
-                        LandRegistryId = x.Id,
-                        NewResponse = x.NewResponse,
-                        Type = "attachment_outstanding",
-                        DocumentReferenceId = docRef.DocumentReferenceId,
-                        TypeCode = x.TypeCode,
-                        ServiceType = x.ServiceType
-                    });
-                });
-            }
-
-            var requestLogList = new List<RequestLog>();
-
-            if (outstanding != null && outstanding.Count > 0)
-            {
-
-                outstanding.ForEach(x =>
-                {
-                    AttachmentPollRequestViewModel attachmentPoll = new AttachmentPollRequestViewModel();
-                    attachmentPoll.Username = lrCredentials.Username;
-                    if (docRef != null)
-                    {
-                        attachmentPoll.MessageId = docRef.MessageID;
-                    }
-
-                    var pollResponse = _httpInterceptor.CallAttachmentPollApi(attachmentPoll);
-
-                    pollResponse.DocumentReferenceId = docRef.DocumentReferenceId;
-
-                    requestLogList.Add(pollResponse);
-
-                });
-
-                _context.Outstanding.AddRange(outstanding);
-                _context.RequestLogs.AddRange(requestLogList);
-                _context.SaveChanges();
-            }
-
-
-            return response;
-
-        }
+      
 
         public dynamic GetRequisition(string AdditionalProviderFilter)
         {
@@ -702,8 +630,7 @@ namespace eDrsManagers.Managers
         }
 
         public async Task<dynamic> CollectResultsAsync(string AdditionalProviderFilter)
-        {
-            //AdditionalProviderFilter => MB7, KH5 and CT8
+        {            
 
             OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
 
@@ -1106,7 +1033,7 @@ namespace eDrsManagers.Managers
                         {
                             LandRegistryId = x.Id,
                             NewResponse = x.NewResponse,
-                            Type = "all_outstaning",
+                            Type = "all_outstanding",
                             TypeCode = x.TypeCode,
                             ServiceType = x.ServiceType,
                             MessageId = outstaningRequest.MessageId,

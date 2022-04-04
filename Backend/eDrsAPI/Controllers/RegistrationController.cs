@@ -24,6 +24,98 @@ namespace eDrsAPI.Controllers
             _registration = registration;
             _logsManager = logsManager;
         }
+       
+        /// <summary>
+        /// Create Application Request : STEP 01
+        /// </summary>
+        /// <returns>boolean</returns>
+        [HttpPost]
+        public IActionResult CreateRegistration(DocumentReferenceViewModel viewModel)
+        {
+            try
+            {
+                return Ok(_registration.CreateRegistration(viewModel));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetRegistrationByReference(string reference)
+        {
+            try
+            {
+                return Ok(_registration.GetRegistrationByReference(reference));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
+
+        /// <summary>
+        /// Getting Requisition request
+        /// </summary>
+        /// <returns>RestrictionPoolResponse</returns>
+        [HttpGet]
+        public IActionResult GetRequisition(string AdditionalProviderFilter)
+        {
+            try
+            {
+                return Ok(_registration.GetRequisition(AdditionalProviderFilter));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
+        [HttpGet]
+        public IActionResult CollectResults(string AdditionalProviderFilter)
+        {
+            try
+            {
+                return Ok(_registration.CollectResultsAsync(AdditionalProviderFilter));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
+        [HttpGet]
+        public IActionResult GetEarlyCompletion(string AdditionalProviderFilter)
+        {
+            try
+            {
+                return Ok(_registration.EarlyCompletionAsync(AdditionalProviderFilter));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
+        [HttpGet]
+        public IActionResult CollectAllOutstandingsAsync(string AdditionalProviderFilter)
+        {
+            try
+            {
+                return Ok(_registration.CollectAllOutstandingsAsync(AdditionalProviderFilter));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
 
         /// <summary>
         /// Getting Registration types
@@ -63,23 +155,7 @@ namespace eDrsAPI.Controllers
 
         }
 
-        /// <summary>
-        /// Create Application Request : STEP 01
-        /// </summary>
-        /// <returns>boolean</returns>
-        [HttpPost]
-        public IActionResult CreateRegistration(DocumentReferenceViewModel viewModel)
-        {
-            try
-            {
-                return Ok(_registration.CreateRegistration(viewModel));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
-        }
-
+      
         /// <summary>
         /// Update Registration 
         /// </summary>
@@ -166,146 +242,8 @@ namespace eDrsAPI.Controllers
 
         }
 
-        [HttpGet]
-        public IActionResult GetRegistrationByReference(string reference)
-        {
-            try
-            {
-                return Ok(_registration.GetRegistrationByReference(reference));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
+       
 
-        }
-
-        /// <summary>
-        /// Getting poll request
-        /// </summary>
-        /// <returns>RestrictionPoolResponse</returns>
-        [HttpGet]
-        public IActionResult GetPoolResponse(long docRefId)
-        {
-            try
-            {
-                return Ok(_registration.GetPollResponse(docRefId));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
-
-        }
-
-        [HttpGet]
-        public IActionResult GetApplicationPollRequest(long docRefId, int service)
-        {
-            try
-            {
-                return Ok(_registration.ApplicationPollRequest(docRefId, service));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
-
-        }
-
-        /// <summary>
-        /// Getting poll request
-        /// </summary>
-        /// <returns>RestrictionPoolResponse</returns>
-        [HttpGet]
-        public IActionResult GetOutStandingPollRequest(long docRefId, int serviceId)
-        {
-            try
-            {
-                return Ok(_registration.GetAttachmentPollRequest(docRefId, serviceId));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
-
-        }
-
-        /// <summary>
-        /// Getting Requisition request
-        /// </summary>
-        /// <returns>RestrictionPoolResponse</returns>
-        [HttpGet]
-        public IActionResult GetRequisition(string AdditionalProviderFilter)
-        {
-            try
-            {
-                return Ok(_registration.GetRequisition(AdditionalProviderFilter));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
-
-        }
-
-        /// <summary>
-        /// Getting Requisition request
-        /// </summary>
-        /// <returns>RestrictionPoolResponse</returns>
-        //[HttpGet]
-        //public IActionResult GetFinalResult(long docRefId, int serviceId)
-        //{
-        //    try
-        //    {
-        //        return Ok(_registration.GetFinalResult(docRefId, serviceId));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(_logsManager.LogErrors(ex));
-        //    }
-
-        //}
-
-        [HttpGet]
-        public IActionResult CollectResults(string AdditionalProviderFilter)
-        {
-            try
-            {
-                return Ok(_registration.CollectResultsAsync(AdditionalProviderFilter));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
-
-        }
-
-        [HttpGet]
-        public IActionResult GetEarlyCompletion(string AdditionalProviderFilter)
-        {
-            try
-            {
-                return Ok(_registration.EarlyCompletionAsync(AdditionalProviderFilter));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
-
-        }
-
-        [HttpGet]
-        public IActionResult CollectAllOutstandingsAsync(string AdditionalProviderFilter)
-        {
-            try
-            {
-                return Ok(_registration.CollectAllOutstandingsAsync(AdditionalProviderFilter));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
-
-        }
+    
     }
 }

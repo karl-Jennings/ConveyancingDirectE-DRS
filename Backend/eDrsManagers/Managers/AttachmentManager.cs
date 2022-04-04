@@ -248,8 +248,7 @@ namespace eDrsManagers.Managers
 
              _context.SaveChanges();
 
-
-            var requestLogList = new List<RequestLog>();
+            var resultList = new List<AttachmentResult>();
             outstandings.ForEach(async x =>
             {
                 AttachmentPollRequestViewModel attachmentPoll = new AttachmentPollRequestViewModel();
@@ -260,21 +259,16 @@ namespace eDrsManagers.Managers
 
                 if (pollResponse != null)
                 {
-
                      pollResponse.DocumentReferenceId = null;
-                     requestLogList.Add(pollResponse);
-                    _context.RequestLogs.Add(pollResponse);
+                     resultList.Add(pollResponse);
+                    _context.AttachmentResult.Add(pollResponse);
                 }
 
-            });
-            
+            });            
 
              _context.SaveChanges();
 
-            return requestLogList;
-
+            return resultList;
         }
     }
-
-
 }
