@@ -27,7 +27,7 @@ namespace eDrsManagers.Http
     {
         RequestLog CallRegistrationApi(DocumentReferenceViewModel viewModel);
         OutstandingResponse CallOutstandingApi(OutstaningRequestViewModel viewModel);
-        RequestLog CallAttachmentPollApi(AttachmentPollRequestViewModel viewModel);
+        AttachmentResult CallAttachmentPollApi(AttachmentPollRequestViewModel viewModel);
         RequestLog CallApplicationPollRequestApi(ApplicationPollRequest viewModel);
         RequestLog CallEarlyCompletionApi(EarlyCompletionRequest viewModel);
         RequestLog CallCorrespondenceRequestApi(CorrospondanceRequestViewModel viewModel);
@@ -104,7 +104,7 @@ namespace eDrsManagers.Http
         }
 
 
-        public RequestLog CallAttachmentPollApi(AttachmentPollRequestViewModel viewModel)
+        public AttachmentResult CallAttachmentPollApi(AttachmentPollRequestViewModel viewModel)
         {
 
             var client = new RestClient(baseUrl + "AttachementPoll");
@@ -118,7 +118,7 @@ namespace eDrsManagers.Http
 
             request.AddObject(new { Value = JsonConvert.SerializeObject(viewModel) });
             IRestResponse response = client.Execute(request);
-             RequestLog apiResponse = JsonConvert.DeserializeObject<RequestLog>(response.Content);
+            AttachmentResult apiResponse = JsonConvert.DeserializeObject<AttachmentResult>(response.Content);
 
             return apiResponse;
 

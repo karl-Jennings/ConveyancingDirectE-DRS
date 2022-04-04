@@ -15,7 +15,7 @@ using DocumentNameContent = BusinessGatewayRepositories.EDRSApplicationV2_1.Docu
 namespace eDRS_Land_Registry.ApiConverters
 {
 
-    public class RestrictionConverterV2_1
+    public class ApiConverter
     {
         Services _services = new Services();
         Search[] _search_array = new Search[1];
@@ -23,7 +23,7 @@ namespace eDRS_Land_Registry.ApiConverters
         ProductType _product = new ProductType();
 
 
-        public RestrictionConverterV2_1()
+        public ApiConverter()
         {
         }
 
@@ -454,7 +454,7 @@ namespace eDRS_Land_Registry.ApiConverters
             return _request;
         }
 
-        public AttachmentV2_1Type ArrangeAttachmentApi(ApplicationForm applicationForm, SupportingDocuments supportingDocument,string applicationMessageId, int count, string additionalProviderFilter)
+        public AttachmentV2_1Type ArrangeAttachmentApi(ApplicationForm applicationForm, SupportingDocuments supportingDocument,string applicationMessageId,string additionalProviderFilter)
         {
 
             BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
@@ -462,7 +462,7 @@ namespace eDRS_Land_Registry.ApiConverters
 
             AttachmentV2_1Type _request = new AttachmentV2_1Type();
 
-            _request.MessageId = supportingDocument.MessageId;
+            _request.MessageId = Guid.NewGuid().ToString();
             _request.ExternalReference = applicationForm != null ? applicationForm.ExternalReference : supportingDocument.ExternalReference;
             _request.ApplicationMessageId = applicationMessageId;
             _request.ApplicationService = "104";
@@ -508,7 +508,7 @@ namespace eDRS_Land_Registry.ApiConverters
             {
                 Items = new object[] {
                     attachment,
-                    supportingDocument.DocumentId.ToString(),
+                    applicationForm != null ? applicationForm.Document.DocumentId.ToString() :supportingDocument.DocumentId.ToString(),
                     (BusinessGatewayRepositories.AttachmentServiceRequestV2_1.CertifiedTypeContent)Enum.Parse(typeof(BusinessGatewayRepositories.AttachmentServiceRequestV2_1.CertifiedTypeContent),
                         applicationForm != null ? applicationForm.CertifiedCopy : supportingDocument.CertifiedCopy),
                 };
