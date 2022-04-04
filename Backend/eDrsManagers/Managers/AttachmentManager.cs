@@ -243,39 +243,12 @@ namespace eDrsManagers.Managers
 
                 outstandings.Add(_outstanding);
                 _context.Outstanding.Add(_outstanding);
-               
+
             });
 
-             _context.SaveChanges();
+            _context.SaveChanges();
 
             var resultList = new List<AttachmentResult>();
-            outstandings.ForEach(async x =>
-            {
-                AttachmentPollRequestViewModel attachmentPoll = new AttachmentPollRequestViewModel();
-                attachmentPoll.Username = lrCredentials.Username;
-                attachmentPoll.MessageId = x.LandRegistryId;                
-
-                var pollResponse = _httpInterceptor.CallAttachmentPollApi(attachmentPoll);
-
-                if (pollResponse != null)
-                {
-                     pollResponse.DocumentReferenceId = null;
-                     resultList.Add(pollResponse);
-                    _context.AttachmentResult.Add(pollResponse);
-                }
-
-            });            
-
-             _context.SaveChanges();
-
-            return resultList;
-        }
-
-
-        public async Task<dynamic> AttachmentPollRequest(List<Outstanding> outstandings)
-        {        
-
-            var requestLogList = new List<RequestLog>();
             outstandings.ForEach(async x =>
             {
                 AttachmentPollRequestViewModel attachmentPoll = new AttachmentPollRequestViewModel();
@@ -286,18 +259,16 @@ namespace eDrsManagers.Managers
 
                 if (pollResponse != null)
                 {
-
                     pollResponse.DocumentReferenceId = null;
-                    requestLogList.Add(pollResponse);
-                    _context.RequestLogs.Add(pollResponse);
+                    resultList.Add(pollResponse);
+                    _context.AttachmentResult.Add(pollResponse);
                 }
 
             });
 
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
-            return requestLogList;
-
+            return resultList;
         }
     }
 }
