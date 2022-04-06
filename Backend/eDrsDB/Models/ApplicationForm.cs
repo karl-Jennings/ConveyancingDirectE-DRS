@@ -23,8 +23,7 @@ namespace eDrsDB.Models
 
         [Required]
         public int FeeInPence { get; set; }
-
-        [Required]
+        
         public string Type { get; set; }
 
         //[Required]
