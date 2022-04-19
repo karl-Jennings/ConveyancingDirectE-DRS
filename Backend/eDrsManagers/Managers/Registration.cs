@@ -72,10 +72,11 @@ namespace eDrsManagers.Managers
                 };
             }
 
+            
             var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
 
-            _context.DocumentReferences.Add(model);
-            await _context.SaveChangesAsync();
+            _context.Add(model);
+            _context.SaveChanges();
 
 
             /********** Calling LR Api backend ***********/
