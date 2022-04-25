@@ -42,7 +42,7 @@ namespace eDrsManagers.Managers
         public async Task<RequestLog> CreateRegistration(DocumentReferenceViewModel viewModel)
         {
 
-          
+
             var count = viewModel.Applications.Count();
 
             viewModel.MessageID = Guid.NewGuid().ToString();
@@ -72,7 +72,7 @@ namespace eDrsManagers.Managers
                 };
             }
 
-            
+
             var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
 
             _context.Add(model);
@@ -116,7 +116,7 @@ namespace eDrsManagers.Managers
 
         public RequestLog UpdateRegistration(DocumentReferenceViewModel viewModel)
         {
-            
+
 
             var count = 1;
 
@@ -187,7 +187,7 @@ namespace eDrsManagers.Managers
 
         public DocumentReference UpdateRegistrationForRequisition(DocumentReferenceViewModel viewModel)
         {
-           
+
             var count = 1;
 
             viewModel.Applications.ToList().ForEach(x => x.Document.AttachmentId = count++);
@@ -388,6 +388,7 @@ namespace eDrsManagers.Managers
         public bool AutomatePollRequest()
         {
             try
+
             {
                 var additionalProviderFilters = _context.DocumentReferences.Where(x => x.Status && x.OverallStatus == 1 && x.OverallStatus != 10).Select(x => x.AdditionalProviderFilter).ToList();
 
@@ -395,7 +396,164 @@ namespace eDrsManagers.Managers
 
                 additionalProviderFilters.ForEach(async x =>
                 {
-                   await CollectAllOutstandingsAsync(x);
+                    var outstandings = await CollectAllOutstandingsAsync(x);
+
+                    if (outstandings != null && outstandings.Count > 0)
+                    {
+
+                        // call seperate poll services
+                        //1.api / Attachemnt / AttachmentPollRequest
+                        //2.api / Registration/CorrespondencePollRequest
+                        //3.api / Registration / ApplicationPollRequest
+                        //4.api / Registration / EarlyCompletionPollRequest
+
+                        outstandings.ForEach(outstanding =>
+                        {
+                            if (outstanding.ServiceType == "105") //AttachmentPollRequest
+                            {                               
+
+                                AttachmentPollRequestViewModel attachmentPoll = new AttachmentPollRequestViewModel();
+                                attachmentPoll.Username = lrCredentials.Username;
+                                attachmentPoll.MessageId = outstanding.LandRegistryId;
+
+                                var pollResponse = _httpInterceptor.CallAttachmentPollApi(attachmentPoll);
+
+                                if (pollResponse != null)
+                                {
+                                    pollResponse.DocumentReferenceId = null;
+                                    pollResponse.Type= "attachment-poll-automate";
+                                    _context.AttachmentResult.Add(pollResponse);
+                                }
+
+                               // _context.SaveChanges();
+
+                            }
+
+                            else if (outstanding.ServiceType == "107") // Find requisitions
+                            {
+
+                                CorrospondanceRequestViewModel corrospondanceRequestViewModel = new CorrospondanceRequestViewModel();
+
+                                List<RequestLog> RequestLogs = new List<RequestLog>();
+
+                                corrospondanceRequestViewModel.MessageId = outstanding.LandRegistryId;
+
+                                var correspondenceResponse = _httpInterceptor.CallCorrespondenceRequestApi(corrospondanceRequestViewModel);
+
+                                if (correspondenceResponse.IsSuccess)
+                                {
+
+                                    correspondenceResponse.DocumentReferenceId = null;
+                                    correspondenceResponse.MessageId = outstanding.LandRegistryId;
+                                    correspondenceResponse.ExternalReference = correspondenceResponse.ExternalReference;
+                                    correspondenceResponse.Type = "corrospondance-poll-automate";
+
+                                    RequestLogs.Add(correspondenceResponse);
+                                }
+
+                                if (RequestLogs != null)
+                                {
+                                    var requisitions = AddRecordsToRequisition(RequestLogs);
+                                }
+                            }
+
+                            else if (outstanding.ServiceType == "104") //ApplicationPollRequest
+                            {
+                                ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
+                                applicationPollRequest.MessageId = outstanding.LandRegistryId;
+
+                                var responseApplicationPoll = _httpInterceptor.CallApplicationPollRequestApi(applicationPollRequest);
+
+                                if (responseApplicationPoll.IsSuccess)
+                                {
+
+                                    if (!string.IsNullOrEmpty(responseApplicationPoll.File))
+                                    {
+                                        var docRef = _context.DocumentReferences.FirstOrDefault(r => r.Reference == responseApplicationPoll.ExternalReference);
+
+                                        if (docRef != null)
+                                        {
+                                            docRef.OverallStatus = 10; // Overall Process is completed
+                                        }
+                                    }
+
+                                    CollectedResult collectedResult = new CollectedResult
+                                    {
+                                        MessageId = applicationPollRequest.MessageId,
+                                        AppMessageId = responseApplicationPoll.AppMessageId,
+                                        ExternalReference = responseApplicationPoll.ExternalReference,
+                                        Type = "application-poll-automate",
+                                        TypeCode = responseApplicationPoll.TypeCode,
+                                        Description = responseApplicationPoll.Description,
+                                        CreatedDate = DateTime.Now,
+                                        File = responseApplicationPoll.File,
+                                        FileName = responseApplicationPoll.FileName,
+                                        FileExtension = responseApplicationPoll.FileExtension,
+                                        RejectionReason = responseApplicationPoll.RejectionReason,
+                                        ValidationErrors = responseApplicationPoll.ValidationErrors,
+                                        ResponseType = responseApplicationPoll.ResponseType,
+                                        ResponseJson = responseApplicationPoll.ResponseJson,
+                                        IsSuccess = true,
+                                        AttachmentName = responseApplicationPoll.AttachmentName,
+                                        AttachmentId = responseApplicationPoll.AttachmentId
+                                    };
+
+                                    _context.CollectedResult.Add(collectedResult);
+                                   // _context.SaveChanges();
+                                }
+
+                            }
+
+                            else if (outstanding.ServiceType == "108")
+                            { //Call Early completion poll service
+
+                                EarlyCompletionRequest earlyCompletionRequest = new EarlyCompletionRequest();
+                                earlyCompletionRequest.MessageId = outstanding.LandRegistryId;
+
+                                var responseEarlyCompletionPoll = _httpInterceptor.CallEarlyCompletionApi(earlyCompletionRequest);
+
+                                if (responseEarlyCompletionPoll.IsSuccess)
+                                {
+                                    if (!string.IsNullOrEmpty(responseEarlyCompletionPoll.File))
+                                    {
+                                        var docRef = _context.DocumentReferences.FirstOrDefault(r => r.Reference == responseEarlyCompletionPoll.ExternalReference);
+
+                                        if (docRef != null)
+                                        {
+                                            docRef.OverallStatus = 10; // Overall Process is completed
+                                        }
+                                    }                                       
+
+                                    CollectedResult collectedResult = new CollectedResult
+                                    {
+                                        MessageId = responseEarlyCompletionPoll.MessageId,
+                                        AppMessageId = responseEarlyCompletionPoll.AppMessageId,
+                                        ExternalReference = responseEarlyCompletionPoll.ExternalReference,
+                                        Type = "early-completion-automate",
+                                        TypeCode = responseEarlyCompletionPoll.TypeCode,
+                                        Description = responseEarlyCompletionPoll.Description,
+                                        CreatedDate = DateTime.Now,
+                                        File = responseEarlyCompletionPoll.File,
+                                        FileName = responseEarlyCompletionPoll.FileName,
+                                        FileExtension = responseEarlyCompletionPoll.FileExtension,
+                                        RejectionReason = responseEarlyCompletionPoll.RejectionReason,
+                                        ValidationErrors = responseEarlyCompletionPoll.ValidationErrors,
+                                        ResponseType = responseEarlyCompletionPoll.ResponseType,
+                                        ResponseJson = responseEarlyCompletionPoll.ResponseJson,
+                                        IsSuccess = true,
+                                        AttachmentName = responseEarlyCompletionPoll.AttachmentName,
+                                        AttachmentId = responseEarlyCompletionPoll.AttachmentId
+                                    };
+                                    
+                                    _context.CollectedResult.Add(collectedResult);
+                                   // _context.SaveChanges();
+                                }                               
+                            }
+
+                        });
+
+                        _context.SaveChanges();
+                    }
                 });
 
                 return true;
@@ -406,7 +564,6 @@ namespace eDrsManagers.Managers
             }
 
         }
-      
 
         public dynamic GetRequisition(string AdditionalProviderFilter)
         {
@@ -523,7 +680,6 @@ namespace eDrsManagers.Managers
             }
             catch (Exception ex)
             {
-
                 return null;
             }
 
@@ -552,11 +708,8 @@ namespace eDrsManagers.Managers
             {
                 //var outResponse = response.Requests.FirstOrDefault();
 
-
                 if (response.Requests != null && response.Requests.Count > 0)
                 {
-
-
                     response.Requests.ForEach(outResponse =>
                     {
 
@@ -631,7 +784,7 @@ namespace eDrsManagers.Managers
         }
 
         public async Task<dynamic> CollectResultsAsync(string AdditionalProviderFilter)
-        {            
+        {
 
             OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
 
@@ -682,7 +835,13 @@ namespace eDrsManagers.Managers
                         {
                             if (!string.IsNullOrEmpty(responseApplicationPoll.File))
                             {
-                                // docRef.OverallStatus = 10; // Overall Process is completed
+                                var docRef = _context.DocumentReferences.FirstOrDefault(r => r.Reference == responseApplicationPoll.ExternalReference);
+
+                                if (docRef != null) {
+
+                                    docRef.OverallStatus = 10; // Overall Process is completed
+                                }
+
                             }
                             CollectedResult collectedResult = new CollectedResult
                             {
@@ -773,7 +932,13 @@ namespace eDrsManagers.Managers
                         {
                             if (!string.IsNullOrEmpty(responseEarlyCompletionPoll.File))
                             {
-                                // docRef.OverallStatus = 10; // Overall Process is completed
+                                var docRef = _context.DocumentReferences.FirstOrDefault(r => r.Reference == responseEarlyCompletionPoll.ExternalReference);
+
+                                if (docRef != null)
+                                {
+
+                                    docRef.OverallStatus = 10; // Overall Process is completed
+                                }
                             }
                             CollectedResult collectedResult = new CollectedResult
                             {
@@ -1008,19 +1173,18 @@ namespace eDrsManagers.Managers
         }
 
         //Call Outstanding  Requests without service
-        public async Task<dynamic> CollectAllOutstandingsAsync(string AdditionalProviderFilter)
+        public async Task<List<Outstanding>> CollectAllOutstandingsAsync(string AdditionalProviderFilter)
         {
             //AdditionalProviderFilter => MB7, KH5 and CT8
 
             OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
-           
+
             outstaningRequest.Username = lrCredentials.Username;
             outstaningRequest.Service = 0;
             outstaningRequest.MessageId = Guid.NewGuid().ToString();
             outstaningRequest.AdditionalProviderFilter = AdditionalProviderFilter;
 
             var outstandings = new List<Outstanding>();
-            List<CollectedResult> CollectedResults = new List<CollectedResult>();
 
             var response = _httpInterceptor.CallOutstandingApi(outstaningRequest);
 
@@ -1046,12 +1210,12 @@ namespace eDrsManagers.Managers
                         _context.Outstanding.Add(outstanding);
                     });
 
-                   await _context.SaveChangesAsync();                
-                  
+                    await _context.SaveChangesAsync();
+
                 }
             }
 
-            return CollectedResults;
+            return outstandings;
         }
     }
 }
