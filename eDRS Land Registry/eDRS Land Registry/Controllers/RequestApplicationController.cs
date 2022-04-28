@@ -54,6 +54,7 @@ namespace eDRS_Land_Registry.Controllers
 
                 var requestLog = new RequestLog();
                 requestLog.IsSuccess = true;
+                requestLog.Type = "Application";
 
                 //Convert Request to XML
                 if (apiModel!=null) {
@@ -64,7 +65,11 @@ namespace eDRS_Land_Registry.Controllers
                 List<RequestLog> attachmentResponse = new List<RequestLog>();
 
                 //Sent Attachments to the Attachment service
-                if (response.Successful)
+                if (response.Successful 
+                    && response.GatewayResponse!=null
+                    && response.GatewayResponse.GatewayResponse!=null 
+                    && ( response.GatewayResponse.GatewayResponse.TypeCode.ToString()=="Item10" ||
+                    response.GatewayResponse.GatewayResponse.TypeCode.ToString() == "Item30"))
                 {                 
                 
                     docRef.Applications.Where(x => x.IsChecked).ToList().ForEach(app =>
@@ -87,32 +92,46 @@ namespace eDRS_Land_Registry.Controllers
                     }               
                 }
 
-                requestLog.Type = "Application";
-                requestLog.TypeCode = response.GatewayResponse.GatewayResponse.TypeCode.ToString();
-                requestLog.ResponseJson = JsonConvert.SerializeObject(response.GatewayResponse.GatewayResponse);
-                if (response.GatewayResponse.GatewayResponse.Acknowledgement != null)
+              
+
+                if (response.GatewayResponse != null && response.GatewayResponse.GatewayResponse != null)
                 {
-                    requestLog.Description = response.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription;
-                    requestLog.CreatedDate = Convert.ToDateTime(response.GatewayResponse.GatewayResponse.Acknowledgement.Items[0].ToString());
-                    requestLog.ResponseType = "Acknowledgement";
+                    requestLog.TypeCode = response.GatewayResponse.GatewayResponse.TypeCode.ToString();
+                    requestLog.ResponseJson = JsonConvert.SerializeObject(response.GatewayResponse.GatewayResponse);
+                    if (response.GatewayResponse.GatewayResponse.Acknowledgement != null)
+                    {
+                        requestLog.Description = response.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription;
+                        requestLog.CreatedDate = Convert.ToDateTime(response.GatewayResponse.GatewayResponse.Acknowledgement.Items[0].ToString());
+                        requestLog.ResponseType = "Acknowledgement";
 
-                }
-                else if (response.GatewayResponse.GatewayResponse.Rejection != null)
-                {
-                    requestLog.Description = response.GatewayResponse.GatewayResponse.Rejection.RejectionResponse.Code;
-                    requestLog.RejectionReason = response.GatewayResponse.GatewayResponse.Rejection.RejectionResponse.Reason;
+                    }
+                    else if (response.GatewayResponse.GatewayResponse.Rejection != null)
+                    {
+                        requestLog.Description = response.GatewayResponse.GatewayResponse.Rejection.RejectionResponse.Code;
+                        requestLog.RejectionReason = response.GatewayResponse.GatewayResponse.Rejection.RejectionResponse.Reason;
 
-                    requestLog.ValidationErrors = JsonConvert.SerializeObject(response.GatewayResponse.GatewayResponse.Rejection.RejectionResponse.ValidationErrors);
+                        requestLog.ValidationErrors = JsonConvert.SerializeObject(response.GatewayResponse.GatewayResponse.Rejection.RejectionResponse.ValidationErrors);
 
-                    requestLog.ResponseType = "Rejection";
+                        requestLog.ResponseType = "Rejection";
 
-                }
-                else if (response.GatewayResponse.GatewayResponse.Results != null)
-                {
-                    requestLog.ResponseType = "Results";
+                    }
+                    else if (response.GatewayResponse.GatewayResponse.Results != null)
+                    {
+                        requestLog.ResponseType = "Results";
+                    }
                 }
 
                 requestLog.AttachmentResponse = attachmentResponse;
+
+                if (!response.Successful)
+                {
+
+                    requestLog.IsSuccess = false;
+                    requestLog.Description = response.Error.Message;
+                    requestLog.ValidationErrors = JsonConvert.SerializeObject(response.Error);
+
+                }
+
                 return requestLog;
 
             }
@@ -138,27 +157,32 @@ namespace eDRS_Land_Registry.Controllers
             BusinessGatewayServices.Services _services = new BusinessGatewayServices.Services();
             RequestLog attachmentRespons = new RequestLog();
 
-            var attachmentRequest = _services.AttachmentRequestV2_1(username, Password, attchemnt);
+            var attachmentResponse = _services.AttachmentRequestV2_1(username, Password, attchemnt);
 
             var attachmentRequestLog = new RequestLog() { Type = "Attachment" };
 
             attachmentRequestLog.MessageId = attchemnt.MessageId;
-            attachmentRequestLog.TypeCode = attachmentRequest.GatewayResponse.GatewayResponse.TypeCode.ToString();
-            attachmentRequestLog.ResponseJson = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse);
-            attachmentRequestLog.AttachmentName = filename;
-            if (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement != null)
-            {
-                attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription;
-                attachmentRequestLog.CreatedDate = (attachmentRequest.GatewayResponse.GatewayResponse.Acknowledgement.ExpectedResponseDateTime);
-                attachmentRequestLog.ResponseType = "Acknowledgement";
-            }
-            else if (attachmentRequest.GatewayResponse.GatewayResponse.Rejection != null)
-            {
-                attachmentRequestLog.Description = attachmentRequest.GatewayResponse.GatewayResponse.Rejection.Code;
-                attachmentRequestLog.RejectionReason = attachmentRequest.GatewayResponse.GatewayResponse.Rejection.Reason;
-                attachmentRequestLog.ValidationErrors = JsonConvert.SerializeObject(attachmentRequest.GatewayResponse.GatewayResponse.Rejection.ValidationErrors);
-                attachmentRequestLog.ResponseType = "Rejection";
-            }
+            
+            if (attachmentResponse.GatewayResponse!=null
+                && attachmentResponse.GatewayResponse.GatewayResponse!=null) {
+
+                attachmentRequestLog.TypeCode = attachmentResponse.GatewayResponse.GatewayResponse.TypeCode.ToString();
+                attachmentRequestLog.ResponseJson = JsonConvert.SerializeObject(attachmentResponse.GatewayResponse.GatewayResponse);
+                attachmentRequestLog.AttachmentName = filename;
+                if (attachmentResponse.GatewayResponse.GatewayResponse.Acknowledgement != null)
+                {
+                    attachmentRequestLog.Description = attachmentResponse.GatewayResponse.GatewayResponse.Acknowledgement.MessageDescription;
+                    attachmentRequestLog.CreatedDate = (attachmentResponse.GatewayResponse.GatewayResponse.Acknowledgement.ExpectedResponseDateTime);
+                    attachmentRequestLog.ResponseType = "Acknowledgement";
+                }
+                else if (attachmentResponse.GatewayResponse.GatewayResponse.Rejection != null)
+                {
+                    attachmentRequestLog.Description = attachmentResponse.GatewayResponse.GatewayResponse.Rejection.Code;
+                    attachmentRequestLog.RejectionReason = attachmentResponse.GatewayResponse.GatewayResponse.Rejection.Reason;
+                    attachmentRequestLog.ValidationErrors = JsonConvert.SerializeObject(attachmentResponse.GatewayResponse.GatewayResponse.Rejection.ValidationErrors);
+                    attachmentRequestLog.ResponseType = "Rejection";
+                }
+            }            
          
             return attachmentRequestLog;
         }

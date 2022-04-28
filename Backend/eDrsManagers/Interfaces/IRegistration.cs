@@ -26,7 +26,8 @@ namespace eDrsManagers.Interfaces
         dynamic ApplicationPollRequest(long docRefId, int service);
         bool AutomatePollRequest();        
         dynamic GetRequisition(string AdditionalProviderFilter);
-        dynamic GetFinalResult(long docRefId, int serviceId);
+
+       //dynamic GetFinalResult(long docRefId, int serviceId);
         Task<dynamic> CollectResultsAsync(string AdditionalProviderFilter);
         Task<dynamic> EarlyCompletionAsync(string AdditionalProviderFilter);
         Task<List<Outstanding>> CollectAllOutstandingsAsync(string AdditionalProviderFilter);

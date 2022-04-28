@@ -20,6 +20,9 @@ namespace eDrsManagers.FluentValidation
             {
                 RuleFor(x => x.Type)
                     .NotNull().NotEmpty().WithMessage("Type should not be Empty");
+
+                RuleFor(x => x.Document)
+                    .NotNull().NotEmpty().WithMessage("Other Type Applications must be supported by a document");
             });
 
             When(x => x.Variety == "charge", () =>

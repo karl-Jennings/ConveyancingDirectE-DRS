@@ -162,17 +162,8 @@ namespace eDRS_Land_Registry.ApiConverters
 
             docRef.Applications.ToList().ForEach(x =>
             {
-                if (x.Variety == "other")
-                {
-                    applications.Add(new OtherApplicationType()
-                    {
-                        Document = new DocumentType { CertifiedCopy = (CertifiedTypeContent)Enum.Parse(typeof(CertifiedTypeContent), x.CertifiedCopy) },
-                        Priority = x.Priority.ToString(),
-                        Value = x.Value,
-                        FeeInPence = x.FeeInPence.ToString()
-                    });
-                }
-                else if (x.Variety == "charge")
+                
+                if (x.Variety == "charge" || x.Variety == "discharge")
                 {
                     object item = x.IsMdRef == "no" ? x.MdRef : new NoMDRefType().ToString();
                     applications.Add(new ChargeApplicationType()
@@ -184,6 +175,16 @@ namespace eDRS_Land_Registry.ApiConverters
                         ChargeDate = x.ChargeDate,
                         SortCode = x.SortCode,
                         Item = item
+                    });
+                }
+                else if (x.Variety == "other")
+                {
+                    applications.Add(new OtherApplicationType()
+                    {
+                        Document = new DocumentType { CertifiedCopy = (CertifiedTypeContent)Enum.Parse(typeof(CertifiedTypeContent), x.CertifiedCopy) },
+                        Priority = x.Priority.ToString(),
+                        Value = x.Value,
+                        FeeInPence = x.FeeInPence.ToString()
                     });
                 }
 
@@ -228,6 +229,8 @@ namespace eDRS_Land_Registry.ApiConverters
 
             List<RepresentingConveyancerType> representingConveyancerTypes = new List<RepresentingConveyancerType>();
             LodgingConveyancerType lodgingConveyancer = new LodgingConveyancerType();
+            IdentityEvidenceType identityEvidence = new IdentityEvidenceType();
+
             docRef.Representations.ForEach(x =>
             {
                 if (x.Type == "RepresentingConveyancer")
@@ -265,13 +268,25 @@ namespace eDRS_Land_Registry.ApiConverters
                 {
                     lodgingConveyancer = new LodgingConveyancerType
                     {
-                        RepresentativeId = docRef.Representations.ToList().Select(w => w.RepresentativeId).FirstOrDefault().ToString()
+                        RepresentativeId = docRef.Representations.ToList().Select(w => w.RepresentativeId).FirstOrDefault().ToString(),
+                                   
+                       
                     };
+
+                    if (x.IdentityEvidence_RepresentativeId!=null) {
+
+                        identityEvidence.RepresentativeId = x.IdentityEvidence_RepresentativeId.ToString();                        
+                    }
+
                 }
             });
 
             representations.LodgingConveyancer = lodgingConveyancer;
             representations.RepresentingConveyancer = representingConveyancerTypes.ToArray();
+
+            if (identityEvidence!=null && !String.IsNullOrEmpty(identityEvidence.RepresentativeId)) {
+                representations.IdentityEvidence = identityEvidence;
+            }
 
             _product.Representations = representations;
 

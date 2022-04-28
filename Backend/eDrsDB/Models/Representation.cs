@@ -43,7 +43,7 @@ namespace eDrsDB.Models
         public string County { get; set; }
         public string Country { get; set; }
         public string PostCode { get; set; }
-
+        public int? IdentityEvidence_RepresentativeId { get; set; }
     }
 
 }
