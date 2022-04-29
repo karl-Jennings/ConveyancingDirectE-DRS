@@ -35,36 +35,36 @@ namespace eDrsAPI.Controllers
         /// Setting minute to automate Poll Request
         /// </summary>
         /// <returns>bool</returns>
-        //[HttpGet]
-        //public IActionResult AutomatePollRequest(int minute)
-        //{
-        //    try
-        //    {
-        //        var manager = new RecurringJobManager();
-        //        //manager.RemoveIfExists("poll_request");
-        //        manager.AddOrUpdate("poll_request",
-        //            Job.FromExpression(() => _registration.AutomatePollRequest()), $"*/{minute} * * * *"
-        //        );
+        [HttpGet]
+        public IActionResult AutomatePollRequest(int minute)
+        {
+            try
+            {
+                var manager = new RecurringJobManager();
+                //manager.RemoveIfExists("poll_request");
+                manager.AddOrUpdate("poll_request",
+                    Job.FromExpression(() => _registration.AutomatePollRequest()), $"*/{minute} * * * *"
+                );
 
 
-        //        using (var command = _context.Database.GetDbConnection().CreateCommand())
-        //        {
-        //            command.CommandText = $"SELECT * From HangFire.Hash where [Key] = 'recurring-job:poll_request' and Field = 'Cron'";
-        //            _context.Database.OpenConnection();
-        //            using var result = command.ExecuteReader();
-        //            if (result.Read())
-        //            {
-        //                var temp = result["Value"];
-        //            }
-        //        }
+                using (var command = _context.Database.GetDbConnection().CreateCommand())
+                {
+                    command.CommandText = $"SELECT * From HangFire.Hash where [Key] = 'recurring-job:poll_request' and Field = 'Cron'";
+                    _context.Database.OpenConnection();
+                    using var result = command.ExecuteReader();
+                    if (result.Read())
+                    {
+                        var temp = result["Value"];
+                    }
+                }
 
-        //        return Ok();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(_logsManager.LogErrors(ex));
-        //    }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
 
-        //}
+        }
     }
 }

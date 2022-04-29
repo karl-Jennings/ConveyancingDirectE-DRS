@@ -45,22 +45,7 @@ namespace eDrsManagers.Managers
 
             var count = viewModel.Applications.Count();
 
-            viewModel.MessageID = Guid.NewGuid().ToString();
-
-            if (viewModel.SupportingDocuments != null && viewModel.SupportingDocuments.Count() > 0)
-            {
-
-                //Get final Supporting Document from table
-
-                var _lastSupDocId = _context.SupportingDocuments.Max(x => x.SupportingDocumentId);
-
-                viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
-                {
-                    supDoc.DocumentId = ++_lastSupDocId;
-                    supDoc.MessageId = Guid.NewGuid().ToString();
-                    supDoc.ApplicationMessageId = viewModel.MessageID;
-                });
-            }
+            viewModel.MessageID = Guid.NewGuid().ToString();          
 
             viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
 
@@ -76,7 +61,7 @@ namespace eDrsManagers.Managers
             var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
 
             _context.Add(model);
-            //_context.SaveChanges();
+            _context.SaveChanges();
 
 
             /********** Calling LR Api backend ***********/
@@ -109,7 +94,7 @@ namespace eDrsManagers.Managers
                 }
             }
 
-           //_context.SaveChanges();
+           _context.SaveChanges();
 
             return requestLog;
         }
