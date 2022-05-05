@@ -2,6 +2,7 @@
 using eDrsManagers.FluentValidation.Validators;
 using eDrsManagers.ViewModels;
 using FluentValidation;
+using System.Linq;
 
 namespace eDrsManagers.FluentValidation.Validators
 {
@@ -73,6 +74,14 @@ namespace eDrsManagers.FluentValidation.Validators
 
             RuleForEach(x => x.Parties).SetValidator(new PartyValidator());
 
+
+            When(x => x.Representations.Where(r=>r.IdentityEvidence_RepresentativeId>0).Count()>0, () =>
+            {
+                RuleFor(x => x.SupportingDocuments)
+                    .NotNull().NotEmpty().WithMessage("An Identity Form must be provided");
+
+
+            });
         }
 
     }
