@@ -21,9 +21,7 @@ namespace eDrsManagers.Interfaces
         RequestLog UpdateRegistration(DocumentReferenceViewModel viewModel);
         DocumentReference UpdateRegistrationForRequisition(DocumentReferenceViewModel viewModel);
         bool DeleteRegistration(long regId);
-        RegistrationType GetRegistrationType(long regType);
-        dynamic GetPollResponse(long docRefId);
-        dynamic ApplicationPollRequest(long docRefId, int service);
+        RegistrationType GetRegistrationType(long regType);     
         bool AutomatePollRequest();        
         dynamic GetRequisition(string AdditionalProviderFilter);
 
