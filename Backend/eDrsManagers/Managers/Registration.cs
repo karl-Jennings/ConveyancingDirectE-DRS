@@ -468,7 +468,7 @@ namespace eDrsManagers.Managers
 
                             correspondenceResponse.DocumentReferenceId = null;
                             correspondenceResponse.MessageId = outResponse.Id;
-                            correspondenceResponse.Type = "requisition";                           
+                            correspondenceResponse.Type = "requisition-poll";                           
 
                             _context.RequestLogs.Add(correspondenceResponse);
 
