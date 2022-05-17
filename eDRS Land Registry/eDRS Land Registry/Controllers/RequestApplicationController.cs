@@ -73,11 +73,14 @@ namespace eDRS_Land_Registry.Controllers
                 {                 
                 
                     docRef.Applications.Where(x => x.IsChecked).ToList().ForEach(app =>
-                    {                    
-                        var attchemnt = _apiConverter.ArrangeAttachmentApi(app, null, docRef.MessageID, docRef.AdditionalProviderFilter);
-                        var attachmentRequest= AttachmentRequest(attchemnt, tempClass.Username, tempClass.Password, app.Document.FileName);
-                     
-                        attachmentResponse.Add(attachmentRequest);
+                    {
+                        if (app.Document!=null) {
+
+                            var attchemnt = _apiConverter.ArrangeAttachmentApi(app, null, docRef.MessageID, docRef.AdditionalProviderFilter);
+                            var attachmentRequest = AttachmentRequest(attchemnt, tempClass.Username, tempClass.Password, app.Document.FileName);
+
+                            attachmentResponse.Add(attachmentRequest);
+                        }                       
                     });
 
                     if (docRef.SupportingDocuments!=null) {
