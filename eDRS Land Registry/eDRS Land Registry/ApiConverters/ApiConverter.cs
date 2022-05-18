@@ -523,7 +523,7 @@ namespace eDRS_Land_Registry.ApiConverters
             {
                 Items = new object[] {
                     attachment,
-                    applicationForm != null ? applicationForm.Document.DocumentId.ToString() :supportingDocument.DocumentId.ToString(),
+                    applicationForm != null ? applicationForm.Document.AttachmentId.ToString() :supportingDocument.DocumentId.ToString(),
                     (BusinessGatewayRepositories.AttachmentServiceRequestV2_1.CertifiedTypeContent)Enum.Parse(typeof(BusinessGatewayRepositories.AttachmentServiceRequestV2_1.CertifiedTypeContent),
                         applicationForm != null ? applicationForm.CertifiedCopy : supportingDocument.CertifiedCopy),
                 };
