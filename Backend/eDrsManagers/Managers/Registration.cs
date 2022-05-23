@@ -90,9 +90,79 @@ namespace eDrsManagers.Managers
             return requestLog;
         }
 
-        public RequestLog UpdateRegistration(DocumentReferenceViewModel viewModel)
-        {
+        //public RequestLog UpdateRegistration(DocumentReferenceViewModel viewModel)
+        //{
 
+
+        //    var count = 1;
+
+        //    viewModel.Applications.ToList().ForEach(x => x.Document.AttachmentId = count++);
+
+        //    if (viewModel.SupportingDocuments != null)
+        //    {
+        //        viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
+        //        {
+        //            supDoc.DocumentId = count++;
+        //        });
+        //    }
+
+
+        //    var deletingTitle = _context.TitleNumbers
+        //        .Where(x => !viewModel.Titles.Select(s => s.TitleNumberId).ToList().Contains(x.TitleNumberId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
+
+        //    var deletingApplications = _context.ApplicationForms
+        //        .Where(x => !viewModel.Applications.Select(s => s.ApplicationFormId).ToList().Contains(x.ApplicationFormId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
+
+        //    var deletingSupportingDocuments = _context.SupportingDocuments
+        //        .Where(x => !viewModel.SupportingDocuments.Select(s => s.SupportingDocumentId).ToList().Contains(x.SupportingDocumentId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
+
+        //    var deletingParties = _context.Parties
+        //        .Where(x => !viewModel.Parties.Select(s => s.PartyId).ToList().Contains(x.PartyId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
+
+        //    if (viewModel.Representations != null)
+        //    {
+        //        var representations = _context.Representations
+        //            .Where(x => !viewModel.Representations.Select(s => s.RepresentationId).ToList().Contains(x.RepresentationId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
+        //        _context.Representations.RemoveRange(representations);
+        //    }
+
+        //    _context.TitleNumbers.RemoveRange(deletingTitle);
+        //    _context.ApplicationForms.RemoveRange(deletingApplications);
+        //    _context.SupportingDocuments.RemoveRange(deletingSupportingDocuments);
+        //    _context.Parties.RemoveRange(deletingParties);
+
+        //    if (string.IsNullOrEmpty(viewModel.MessageID))
+        //        viewModel.MessageID = Guid.NewGuid().ToString();
+
+        //    viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
+        //    var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
+
+        //    _context.DocumentReferences.Update(model);
+
+        //    var requestLog = _httpInterceptor.CallRegistrationApi(viewModel);
+
+        //    if (requestLog == null)
+        //    {
+        //        model.IsApiSuccess = false;
+        //    }
+        //    else if (viewModel.DocumentReferenceId != null)
+        //    {
+        //        requestLog.DocumentReferenceId = viewModel.DocumentReferenceId;
+
+        //        var requestLogList = requestLog.AttachmentResponse;
+        //        requestLogList.ForEach(s =>
+        //        {
+        //            model.RequestLogs.Add(s);
+        //        });
+        //        model.RequestLogs.Add(requestLog);
+        //    }
+        //    _context.SaveChanges();
+        //    return requestLog;
+
+        //}
+
+        public async Task<DocumentReference> UpdateRegistration(DocumentReferenceViewModel viewModel)
+        {
 
             var count = 1;
 
@@ -134,77 +204,7 @@ namespace eDrsManagers.Managers
             if (string.IsNullOrEmpty(viewModel.MessageID))
                 viewModel.MessageID = Guid.NewGuid().ToString();
 
-            viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
-            var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
-
-            _context.DocumentReferences.Update(model);
-
-            var requestLog = _httpInterceptor.CallRegistrationApi(viewModel);
-
-            if (requestLog == null)
-            {
-                model.IsApiSuccess = false;
-            }
-            else if (viewModel.DocumentReferenceId != null)
-            {
-                requestLog.DocumentReferenceId = viewModel.DocumentReferenceId;
-
-                var requestLogList = requestLog.AttachmentResponse;
-                requestLogList.ForEach(s =>
-                {
-                    model.RequestLogs.Add(s);
-                });
-                model.RequestLogs.Add(requestLog);
-            }
-            _context.SaveChanges();
-            return requestLog;
-
-        }
-
-        public DocumentReference UpdateRegistrationForRequisition(DocumentReferenceViewModel viewModel)
-        {
-
-            var count = 1;
-
-            viewModel.Applications.ToList().ForEach(x => x.Document.AttachmentId = count++);
-
-            if (viewModel.SupportingDocuments != null)
-            {
-                viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
-                {
-                    supDoc.DocumentId = count++;
-                });
-            }
-
-
-            var deletingTitle = _context.TitleNumbers
-                .Where(x => !viewModel.Titles.Select(s => s.TitleNumberId).ToList().Contains(x.TitleNumberId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
-
-            var deletingApplications = _context.ApplicationForms
-                .Where(x => !viewModel.Applications.Select(s => s.ApplicationFormId).ToList().Contains(x.ApplicationFormId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
-
-            var deletingSupportingDocuments = _context.SupportingDocuments
-                .Where(x => !viewModel.SupportingDocuments.Select(s => s.SupportingDocumentId).ToList().Contains(x.SupportingDocumentId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
-
-            var deletingParties = _context.Parties
-                .Where(x => !viewModel.Parties.Select(s => s.PartyId).ToList().Contains(x.PartyId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
-
-            if (viewModel.Representations != null)
-            {
-                var representations = _context.Representations
-                    .Where(x => !viewModel.Representations.Select(s => s.RepresentationId).ToList().Contains(x.RepresentationId) && x.DocumentReferenceId == viewModel.DocumentReferenceId).ToList();
-                _context.Representations.RemoveRange(representations);
-            }
-
-            _context.TitleNumbers.RemoveRange(deletingTitle);
-            _context.ApplicationForms.RemoveRange(deletingApplications);
-            _context.SupportingDocuments.RemoveRange(deletingSupportingDocuments);
-            _context.Parties.RemoveRange(deletingParties);
-
-            if (string.IsNullOrEmpty(viewModel.MessageID))
-                viewModel.MessageID = Guid.NewGuid().ToString();
-
-            viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
+            viewModel.User = await _context.Users.FirstOrDefaultAsync(x => x.UserId == viewModel.UserId);
             var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
 
             _context.DocumentReferences.Update(model);
@@ -758,7 +758,7 @@ namespace eDrsManagers.Managers
             return outstandings;
         }
 
-        public DocumentReference GetRegistration(long regId)
+        public DocumentReferenceViewModel GetRegistration(long regId)
         {
 
             char[] delimiterChars = { ',' };
@@ -767,11 +767,13 @@ namespace eDrsManagers.Managers
                     .Include(x => x.Applications)
                     .Include(x => x.Parties)
                     .Include(x => x.Titles)
+                    
                     .Select(sel => new DocumentReference
                     {
                         DocumentReferenceId = sel.DocumentReferenceId,
                         Email = sel.Email,
                         AP1WarningUnderstood = sel.AP1WarningUnderstood,
+                        UserId=sel.UserId,
                         Titles = sel.Titles.Select(s => new TitleNumber
                         {
                             UpdatedDate = s.UpdatedDate,
@@ -851,7 +853,9 @@ namespace eDrsManagers.Managers
                     })
                     .FirstOrDefault(s => s.Status && s.DocumentReferenceId == regId);
 
-            return documentReference;
+            var model = _mapper.Map<DocumentReference, DocumentReferenceViewModel>(documentReference);
+
+            return model;
 
         }
 
@@ -956,8 +960,7 @@ namespace eDrsManagers.Managers
         //Call Outstanding  Requests without service
         public async Task<List<Outstanding>> CollectAllOutstandingsAsync(string AdditionalProviderFilter)
         {
-            //AdditionalProviderFilter => MB7, KH5 and CT8
-
+         
             OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
 
             outstaningRequest.Username = lrCredentials.Username;
@@ -991,7 +994,7 @@ namespace eDrsManagers.Managers
                         _context.Outstanding.Add(outstanding);
                     });
 
-                    await _context.SaveChangesAsync();
+                     _context.SaveChanges();
 
                 }
             }

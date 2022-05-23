@@ -16,10 +16,10 @@ namespace eDrsManagers.Interfaces
         List<RegistrationType> GetRegistrationTypes();
         Task<RequestLog> CreateRegistration(DocumentReferenceViewModel viewModel);
         List<DocumentReference> GetRegistrations(string regType);
-        DocumentReference GetRegistration(long regId);
+        DocumentReferenceViewModel GetRegistration(long regId);
         DocumentReference GetRegistrationByReference(string refernce);
-        RequestLog UpdateRegistration(DocumentReferenceViewModel viewModel);
-        DocumentReference UpdateRegistrationForRequisition(DocumentReferenceViewModel viewModel);
+        // RequestLog UpdateRegistration(DocumentReferenceViewModel viewModel);
+        Task<DocumentReference> UpdateRegistration(DocumentReferenceViewModel viewModel);
         bool DeleteRegistration(long regId);
         RegistrationType GetRegistrationType(long regType);     
         bool AutomatePollRequest();        

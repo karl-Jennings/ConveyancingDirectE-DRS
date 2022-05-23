@@ -101,5 +101,25 @@ namespace eDrsAPI.Controllers
                 return BadRequest(_logsManager.LogErrors(ex));
             }
         }
+
+        /// <summary>
+        /// Send Application Documents and Supporting documents to the LR Attachment service 
+        /// </summary>
+        /// <param name="docRefId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult SendAttachments(long docRefId)
+        {
+            try
+            {
+                return Ok(_attachment.SendAttachments(docRefId));
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+        }
+
     }
 }

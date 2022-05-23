@@ -42,6 +42,26 @@ namespace eDrsAPI.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Update Registration 
+        /// </summary>
+        /// <returns>boolean</returns>
+        [HttpPost]
+        public IActionResult UpdateRegistration(DocumentReferenceViewModel viewModel)
+        {
+            try
+            {
+                return Ok(_registration.UpdateRegistration(viewModel));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_logsManager.LogErrors(ex));
+            }
+
+        }
+
+
         [HttpGet]
         public IActionResult GetRegistrationByReference(string reference)
         {
@@ -156,37 +176,21 @@ namespace eDrsAPI.Controllers
         }
 
       
-        /// <summary>
-        /// Update Registration 
-        /// </summary>
-        /// <returns>boolean</returns>
-        [HttpPost]
-        public IActionResult UpdateRegistration(DocumentReferenceViewModel viewModel)
-        {
-            try
-            {
-                return Ok(_registration.UpdateRegistration(viewModel));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
+       
 
-        }
+        //[HttpPost]
+        //public IActionResult UpdateRegistrationForRequisition(DocumentReferenceViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        return Ok(_registration.UpdateRegistrationForRequisition(viewModel));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(_logsManager.LogErrors(ex));
+        //    }
 
-        [HttpPost]
-        public IActionResult UpdateRegistrationForRequisition(DocumentReferenceViewModel viewModel)
-        {
-            try
-            {
-                return Ok(_registration.UpdateRegistrationForRequisition(viewModel));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
-
-        }
+        //}
 
         /// <summary>
         /// Get Registrations

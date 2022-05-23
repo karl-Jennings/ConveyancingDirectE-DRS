@@ -12,5 +12,6 @@ namespace eDrsManagers.Interfaces
         object RespondToRequisitionByReference(string reference);
         object DirectRespondToRequisition(DocumentReferenceViewModel viewModel);
         Task<dynamic> CollectAttachmentResultsAsync(string AdditionalProviderFilter);
+        Task<dynamic> SendAttachments(long docRefId);
     }
 }

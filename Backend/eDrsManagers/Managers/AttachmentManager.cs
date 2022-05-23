@@ -191,11 +191,11 @@ namespace eDrsManagers.Managers
 
                 attachmentViewModel.DocumentReference = docRef;
 
-                var attachmentRequest = _httpInterceptor.CallAttachmentRequestApi(attachmentViewModel);
+                var attachmentResponse = _httpInterceptor.CallAttachmentRequestApi(attachmentViewModel);
 
-                docRef.RequestLogs = attachmentRequest;
+                docRef.RequestLogs = attachmentResponse;
 
-                _context.RequestLogs.AddRange(attachmentRequest);
+                _context.RequestLogs.AddRange(attachmentResponse);
 
                 _context.SaveChanges();
 
@@ -270,5 +270,41 @@ namespace eDrsManagers.Managers
 
             return resultList;
         }
+
+        public async Task<dynamic> SendAttachments(long docRefId)
+        {
+            try
+            {
+                //Get DocumentReference by Reference
+
+                var _documentReference =  _context.DocumentReferences.FirstOrDefault(r => r.DocumentReferenceId == docRefId);
+
+                if (_documentReference != null)
+                {
+                    var application = _context.ApplicationForms.Include(x => x.Document).Where(x => x.DocumentReferenceId == _documentReference.DocumentReferenceId).ToList();
+                    var docRef = _context.DocumentReferences.Include(s => s.SupportingDocuments)
+                        .FirstOrDefault(x => x.DocumentReferenceId == _documentReference.DocumentReferenceId);
+                    AttachmentViewModel attachmentViewModel = new AttachmentViewModel();
+                    docRef.Applications = application;
+                    attachmentViewModel.DocumentReference = docRef;
+
+                    var attachmentResponse = _httpInterceptor.CallAttachmentRequestApi(attachmentViewModel);
+
+                    docRef.RequestLogs = attachmentResponse;
+
+                    _context.RequestLogs.AddRange(attachmentResponse);
+                    _context.SaveChanges();
+                    return attachmentResponse;
+                }
+
+                return false;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+        }
+
     }
 }
