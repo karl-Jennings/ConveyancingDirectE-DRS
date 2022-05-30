@@ -41,12 +41,12 @@ namespace eDrsDB.Models
         public string FileName { get; set; }
         public string FileExtension { get; set; }
 
-
         public bool IsChecked { get; set; }
 
         public long DocumentReferenceId { get; set; }
         [JsonIgnore]
         internal DocumentReference DocumentReference { get; set; }
+        public bool? ApplyToRespondToRequisition { get; set; }
 
     }
 }

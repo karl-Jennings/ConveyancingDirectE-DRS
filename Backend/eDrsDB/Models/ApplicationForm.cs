@@ -76,5 +76,6 @@ namespace eDrsDB.Models
         [JsonIgnore]
         internal ApplicationForm ApplicationForm { get; set; }
 
+        public bool? ApplyToRespondToRequisition { get; set; }
     }
 }

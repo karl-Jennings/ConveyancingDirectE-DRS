@@ -48,10 +48,26 @@ namespace eDrsManagers.Managers
             try
             {
                 var application = _context.ApplicationForms.Include(x => x.Document).Where(x => x.DocumentReferenceId == docRefId).ToList();
+              
                 var docRef = _context.DocumentReferences.Include(s => s.SupportingDocuments)
                     .FirstOrDefault(x => x.DocumentReferenceId == docRefId);
                 AttachmentViewModel attachmentViewModel = new AttachmentViewModel();
                 docRef.Applications = application;
+
+                //Select only the attachements whitch need to send Requisition
+
+                docRef.Applications.ToList().ForEach(application =>
+                {
+                    if (application.Document.ApplyToRespondToRequisition==null 
+                    || application.Document.ApplyToRespondToRequisition != true) {
+
+                        application.Document = null;
+
+                    }                
+                }                
+                );
+
+                docRef.SupportingDocuments = docRef.SupportingDocuments.Where(r => r.ApplyToRespondToRequisition == true).ToList();
 
                 //Get ApplicationMessageID from Requisition Table
                 docRef = SetApplicationMessageIDForREquisition(docRef);
@@ -63,6 +79,11 @@ namespace eDrsManagers.Managers
                 docRef.RequestLogs = attachmentRequest;
 
                 _context.RequestLogs.AddRange(attachmentRequest);
+
+                //Update Requisition status
+                var _requisition = _context.Requisition.FirstOrDefault(r => r.AppMessageId == docRef.MessageID && r.Status == 0);
+
+                _requisition.Status = 1; // Responded to requisition
 
                 _context.SaveChanges();
 
@@ -76,38 +97,20 @@ namespace eDrsManagers.Managers
 
 
         public DocumentReference SetApplicationMessageIDForREquisition(DocumentReference docref)
-        {
-
-            //Get Requisitions
-
-            var _requisitions = _context.Requisition.Where(r => r.DocumentReferenceId == docref.DocumentReferenceId && r.Status == 0);
-
-            if (_requisitions != null)
-            {
-
+        {        
+          
                 // set  ApplicationMessageID in ApplicationDocuments
-
                 var _applications = docref.Applications;
 
                 if (_applications != null)
                 {
-
                     _applications.ToList().ForEach(app =>
                     {
-
-
-                        //Get ApplocationMessageID frm Requisitions
-
-                        var _file = _requisitions.Where(r => r.FileName == app.Document.FileName);
-
-                        if (_file != null && _file.Count() > 0)
+                        if (app.Document != null)
                         {
-
-                            app.Document.ApplicationMessageId = _file.FirstOrDefault().AppMessageId;
+                            app.Document.ApplicationMessageId = docref.MessageID;
                         }
-
                     });
-
                 }
 
                 // set  ApplicationMessageID in SupportingDocuments
@@ -116,25 +119,14 @@ namespace eDrsManagers.Managers
 
                 if (_supportingDocuments != null)
                 {
-
-
                     _supportingDocuments.ToList().ForEach(doc =>
                     {
-
-                        //Get ApplocationMessageID frm Requisitions
-
-                        var _file = _requisitions.Where(r => r.FileName == doc.FileName);
-
-                        if (_file != null && _file.Count() > 0)
-                        {
-                            doc.ApplicationMessageId = _file.FirstOrDefault().AppMessageId;
-                        }
+                        //Get ApplocationMessageID from Requisitions                     
+                        doc.ApplicationMessageId = docref.MessageID;
 
                     });
+                }          
 
-                }
-
-            }
 
             return docref;
         }
