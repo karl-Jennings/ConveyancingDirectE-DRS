@@ -62,19 +62,19 @@ namespace eDrsAPI.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult RespondToRequisitionByReference(string reference)
-        {
-            try
-            {
-                return Ok(_attachment.RespondToRequisitionByReference(reference));
+        //[HttpGet]
+        //public IActionResult RespondToRequisitionByReference(string reference)
+        //{
+        //    try
+        //    {
+        //        return Ok(_attachment.RespondToRequisitionByReference(reference));
 
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(_logsManager.LogErrors(ex));
+        //    }
+        //}
 
         [HttpGet]
         public IActionResult CollectAttachmentResults(string AdditionalProviderFilter)
@@ -89,18 +89,18 @@ namespace eDrsAPI.Controllers
                 return BadRequest(_logsManager.LogErrors(ex));
             }
         }
-        [HttpPost]
-        public IActionResult DirectRespondToRequisition(DocumentReferenceViewModel viewModel)
-        {
-            try
-            {
-                return Ok(_attachment.DirectRespondToRequisition(viewModel));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(_logsManager.LogErrors(ex));
-            }
-        }
+        //[HttpPost]
+        //public IActionResult DirectRespondToRequisition(DocumentReferenceViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        return Ok(_attachment.DirectRespondToRequisition(viewModel));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(_logsManager.LogErrors(ex));
+        //    }
+        //}
 
         /// <summary>
         /// Send Application Documents and Supporting documents to the LR Attachment service 
