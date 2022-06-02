@@ -172,7 +172,13 @@ namespace eDrsManagers.Managers
             {
                 viewModel.SupportingDocuments.ToList().ForEach(supDoc =>
                 {
-                    supDoc.DocumentId = count++;
+                    count++;
+
+                    if (supDoc.DocumentId==0) {
+
+                        supDoc.DocumentId = count;
+
+                    }
                 });
             }
 
@@ -204,7 +210,7 @@ namespace eDrsManagers.Managers
             if (string.IsNullOrEmpty(viewModel.MessageID))
                 viewModel.MessageID = Guid.NewGuid().ToString();
 
-            viewModel.User = await _context.Users.FirstOrDefaultAsync(x => x.UserId == viewModel.UserId);
+            viewModel.User = await _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
             var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
 
             _context.DocumentReferences.Update(model);
