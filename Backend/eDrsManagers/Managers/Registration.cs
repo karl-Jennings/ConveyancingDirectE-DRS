@@ -204,7 +204,7 @@ namespace eDrsManagers.Managers
             if (string.IsNullOrEmpty(viewModel.MessageID))
                 viewModel.MessageID = Guid.NewGuid().ToString();
 
-            viewModel.User = await _context.Users.FirstOrDefaultAsync(x => x.UserId == viewModel.UserId);
+            viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
             var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
 
             _context.DocumentReferences.Update(model);
@@ -825,7 +825,8 @@ namespace eDrsManagers.Managers
                             ExternalReference = sup.ExternalReference,
                             FileExtension = sup.FileExtension,
                             FileName = sup.FileName,
-                            MessageId = sup.MessageId
+                            MessageId = sup.MessageId,
+                            ApplyToRespondToRequisition=sup.ApplyToRespondToRequisition
                         }).ToList(),
                         PostcodeOfProperty = sel.PostcodeOfProperty,
                         Reference = sel.Reference,

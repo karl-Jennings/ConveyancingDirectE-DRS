@@ -83,7 +83,9 @@ namespace eDrsManagers.Managers
                 //Update Requisition status
                 var _requisition = _context.Requisition.FirstOrDefault(r => r.AppMessageId == docRef.MessageID && r.Status == 0);
 
-                _requisition.Status = 1; // Responded to requisition
+                if (_requisition!=null) {
+                    _requisition.Status = 1; // Responded to requisition
+                }                
 
                 _context.SaveChanges();
 
