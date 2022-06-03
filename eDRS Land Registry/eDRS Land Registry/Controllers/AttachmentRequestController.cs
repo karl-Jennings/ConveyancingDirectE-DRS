@@ -34,16 +34,19 @@ namespace eDRS_Land_Registry.Controllers
                 docRef.Applications.Where(x => x.IsChecked).ToList().ForEach(app =>
                   {
 
-                      string _applicationMessageId = docRef.MessageID;
+                      if (app.Document!=null) {
 
-                      if (!String.IsNullOrEmpty(app.Document.ApplicationMessageId))
-                      {
-                          _applicationMessageId = app.Document.ApplicationMessageId;
-                      }
+                          string _applicationMessageId = docRef.MessageID;
 
-                      var attchemnt = _apiConverter.ArrangeAttachmentApi(app, null, _applicationMessageId, docRef.AdditionalProviderFilter);
-                      var attachmentRequest = AttachmentRequest(attchemnt, attachmentViewModel.Username, attachmentViewModel.Password, app.Document.FileName);
-                      attachmentResponse.Add(attachmentRequest);
+                          if (!String.IsNullOrEmpty(app.Document.ApplicationMessageId))
+                          {
+                              _applicationMessageId = app.Document.ApplicationMessageId;
+                          }
+
+                          var attchemnt = _apiConverter.ArrangeAttachmentApi(app, null, _applicationMessageId, docRef.AdditionalProviderFilter);
+                          var attachmentRequest = AttachmentRequest(attchemnt, attachmentViewModel.Username, attachmentViewModel.Password, app.Document.FileName);
+                          attachmentResponse.Add(attachmentRequest);
+                      }                     
 
                   });
 
