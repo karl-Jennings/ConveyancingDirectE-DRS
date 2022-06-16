@@ -372,24 +372,26 @@ namespace eDRS_Land_Registry.ApiConverters
 
                                 ArrayList AdditionalAddresAarlist = new ArrayList();
 
-                                var _adPostal = AdditionalAddress.PostalAddress;
-
-                                PostalAddressType additionalPostalAddress = new PostalAddressType
+                                if (AdditionalAddress.PostalAddress != null)
                                 {
-                                    CareOfName = _adPostal.CareOfName,
-                                    CareOfReference = _adPostal.CareOfReference,
-                                    AddressLine1 = _adPostal.AddressLine1,
-                                    AddressLine2 = _adPostal.AddressLine1,
-                                    AddressLine3 = _adPostal.AddressLine1,
-                                    AddressLine4 = _adPostal.AddressLine1,
-                                    City = _adPostal.City,
-                                    Country = _adPostal.Country,
-                                    County = _adPostal.County,
-                                    Postcode = _adPostal.Postcode
-                                };
+                                    var _adPostal = AdditionalAddress.PostalAddress;
 
-                                AdditionalAddresAarlist.Add(additionalPostalAddress);
+                                    PostalAddressType additionalPostalAddress = new PostalAddressType
+                                    {
+                                        CareOfName = _adPostal.CareOfName,
+                                        CareOfReference = _adPostal.CareOfReference,
+                                        AddressLine1 = _adPostal.AddressLine1,
+                                        AddressLine2 = _adPostal.AddressLine1,
+                                        AddressLine3 = _adPostal.AddressLine1,
+                                        AddressLine4 = _adPostal.AddressLine1,
+                                        City = _adPostal.City,
+                                        Country = _adPostal.Country,
+                                        County = _adPostal.County,
+                                        Postcode = _adPostal.Postcode
+                                    };
 
+                                    AdditionalAddresAarlist.Add(additionalPostalAddress);
+                                }
                                 if (AdditionalAddress.DXAddress != null)
                                 {
                                     var _addDXAddress = AdditionalAddress.DXAddress;
