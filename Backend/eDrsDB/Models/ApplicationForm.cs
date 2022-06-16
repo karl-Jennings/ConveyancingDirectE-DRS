@@ -31,7 +31,7 @@ namespace eDrsDB.Models
 
         [Required]
         public string CertifiedCopy { get; set; }
-        public DateTime ChargeDate { get; set; }
+        public DateTime? ChargeDate { get; set; }
 
        // [Required]
         public string IsMdRef { get; set; }
