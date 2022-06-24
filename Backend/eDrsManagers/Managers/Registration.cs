@@ -45,9 +45,9 @@ namespace eDrsManagers.Managers
 
             var count = viewModel.Applications.Count();
 
-            viewModel.MessageID = Guid.NewGuid().ToString();             
+            viewModel.MessageID = Guid.NewGuid().ToString();
 
-            viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);          
+            viewModel.User = _context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
 
             var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
 
@@ -256,10 +256,18 @@ namespace eDrsManagers.Managers
                         //3.api / Registration / ApplicationPollRequest
                         //4.api / Registration / EarlyCompletionPollRequest
 
+                        outstandings = outstandings.Where(r =>
+                         r.ServiceType == "Attachment V2_1" ||
+                         r.ServiceType == "Correspondence V2_1" ||
+                         r.ServiceType == "Application to Change Register V2_1" ||
+                         r.ServiceType == "Early Completion V2_1"
+                        ).ToList();
+
                         outstandings.ForEach(outstanding =>
                         {
-                            if (outstanding.ServiceType == "105") //AttachmentPollRequest
-                            {                               
+                            //105
+                            if (outstanding.ServiceType == "Attachment V2_1") //AttachmentPollRequest
+                            {
 
                                 AttachmentPollRequestViewModel attachmentPoll = new AttachmentPollRequestViewModel();
                                 attachmentPoll.Username = lrCredentials.Username;
@@ -270,15 +278,15 @@ namespace eDrsManagers.Managers
                                 if (pollResponse != null)
                                 {
                                     pollResponse.DocumentReferenceId = null;
-                                    pollResponse.Type= "attachment-poll-automate";
+                                    pollResponse.Type = "attachment-poll-automate";
                                     _context.AttachmentResult.Add(pollResponse);
                                 }
 
-                               // _context.SaveChanges();
+                                // _context.SaveChanges();
 
                             }
-
-                            else if (outstanding.ServiceType == "107") // Find requisitions
+                            //107
+                            else if (outstanding.ServiceType == "Correspondence V2_1") // Find requisitions
                             {
 
                                 CorrospondanceRequestViewModel corrospondanceRequestViewModel = new CorrospondanceRequestViewModel();
@@ -302,8 +310,8 @@ namespace eDrsManagers.Managers
                                     var requisitions = AddRecordsToRequisition(RequestLogs);
                                 }
                             }
-
-                            else if (outstanding.ServiceType == "104") //ApplicationPollRequest
+                            //104
+                            else if (outstanding.ServiceType == "Application to Change Register V2_1") //ApplicationPollRequest
                             {
                                 ApplicationPollRequest applicationPollRequest = new ApplicationPollRequest();
                                 applicationPollRequest.MessageId = outstanding.LandRegistryId;
@@ -326,7 +334,7 @@ namespace eDrsManagers.Managers
                                     //Add record to RequestLog Table
 
                                     responseApplicationPoll.DocumentReferenceId = null;
-                                    responseApplicationPoll.MessageId = outstanding.LandRegistryId;                                   
+                                    responseApplicationPoll.MessageId = outstanding.LandRegistryId;
                                     responseApplicationPoll.Type = "application-poll-automate";
 
                                     RequestLogs.Add(responseApplicationPoll);
@@ -354,12 +362,12 @@ namespace eDrsManagers.Managers
                                     };
 
                                     _context.CollectedResult.Add(collectedResult);
-                                 
+
                                 }
 
                             }
-
-                            else if (outstanding.ServiceType == "108")
+                            //108
+                            else if (outstanding.ServiceType == "Early Completion V2_1")
                             { //Call Early completion poll service
 
                                 EarlyCompletionRequest earlyCompletionRequest = new EarlyCompletionRequest();
@@ -382,7 +390,7 @@ namespace eDrsManagers.Managers
                                     //Add record to RequestLog Table
 
                                     responseEarlyCompletionPoll.DocumentReferenceId = null;
-                                    responseEarlyCompletionPoll.MessageId = outstanding.LandRegistryId;                                   
+                                    responseEarlyCompletionPoll.MessageId = outstanding.LandRegistryId;
                                     responseEarlyCompletionPoll.Type = "earlycompletion-poll-automate";
 
                                     RequestLogs.Add(responseEarlyCompletionPoll);
@@ -407,10 +415,10 @@ namespace eDrsManagers.Managers
                                         AttachmentName = responseEarlyCompletionPoll.AttachmentName,
                                         AttachmentId = responseEarlyCompletionPoll.AttachmentId
                                     };
-                                    
+
                                     _context.CollectedResult.Add(collectedResult);
-                                   
-                                }                               
+
+                                }
                             }
 
                         });
@@ -458,7 +466,7 @@ namespace eDrsManagers.Managers
                         var outResponse = outstandingResponse;
 
                         CorrospondanceRequestViewModel corrospondanceRequestViewModel = new CorrospondanceRequestViewModel();
-                     
+
                         if (outResponse != null) corrospondanceRequestViewModel.MessageId = outResponse.Id;
 
                         var correspondenceResponse = _httpInterceptor.CallCorrespondenceRequestApi(corrospondanceRequestViewModel);
@@ -468,7 +476,7 @@ namespace eDrsManagers.Managers
 
                             correspondenceResponse.DocumentReferenceId = null;
                             correspondenceResponse.MessageId = outResponse.Id;
-                            correspondenceResponse.Type = "requisition-poll";                           
+                            correspondenceResponse.Type = "requisition-poll";
 
                             _context.RequestLogs.Add(correspondenceResponse);
 
@@ -551,7 +559,7 @@ namespace eDrsManagers.Managers
         {
 
             OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
-           
+
             outstaningRequest.Username = lrCredentials.Username;
             outstaningRequest.Service = 104;
             outstaningRequest.MessageId = Guid.NewGuid().ToString();
@@ -600,7 +608,8 @@ namespace eDrsManagers.Managers
                             {
                                 var docRef = _context.DocumentReferences.FirstOrDefault(r => r.Reference == responseApplicationPoll.ExternalReference);
 
-                                if (docRef != null) {
+                                if (docRef != null)
+                                {
 
                                     docRef.OverallStatus = 10; // Overall Process is completed
                                 }
@@ -638,9 +647,9 @@ namespace eDrsManagers.Managers
                             };
 
                             _context.CollectedResult.Add(collectedResult);
-                            
+
                             CollectedResults.Add(collectedResult);
-                           
+
                         }
                     }
 
@@ -742,7 +751,7 @@ namespace eDrsManagers.Managers
                                 AttachmentName = responseEarlyCompletionPoll.AttachmentName,
                                 AttachmentId = responseEarlyCompletionPoll.AttachmentId
                             };
-                            
+
                             _context.CollectedResult.Add(collectedResult);
                             CollectedResults.Add(collectedResult);
                         }
@@ -767,13 +776,13 @@ namespace eDrsManagers.Managers
                     .Include(x => x.Applications)
                     .Include(x => x.Parties)
                     .Include(x => x.Titles)
-                    
+
                     .Select(sel => new DocumentReference
                     {
                         DocumentReferenceId = sel.DocumentReferenceId,
                         Email = sel.Email,
                         AP1WarningUnderstood = sel.AP1WarningUnderstood,
-                        UserId=sel.UserId,
+                        UserId = sel.UserId,
                         Titles = sel.Titles.Select(s => new TitleNumber
                         {
                             UpdatedDate = s.UpdatedDate,
@@ -826,7 +835,7 @@ namespace eDrsManagers.Managers
                             FileExtension = sup.FileExtension,
                             FileName = sup.FileName,
                             MessageId = sup.MessageId,
-                            ApplyToRespondToRequisition=sup.ApplyToRespondToRequisition
+                            ApplyToRespondToRequisition = sup.ApplyToRespondToRequisition
                         }).ToList(),
                         PostcodeOfProperty = sel.PostcodeOfProperty,
                         Reference = sel.Reference,
@@ -961,7 +970,7 @@ namespace eDrsManagers.Managers
         //Call Outstanding  Requests without service
         public async Task<List<Outstanding>> CollectAllOutstandingsAsync(string AdditionalProviderFilter)
         {
-         
+
             OutstaningRequestViewModel outstaningRequest = new OutstaningRequestViewModel();
 
             outstaningRequest.Username = lrCredentials.Username;
@@ -995,7 +1004,7 @@ namespace eDrsManagers.Managers
                         _context.Outstanding.Add(outstanding);
                     });
 
-                     _context.SaveChanges();
+                    _context.SaveChanges();
 
                 }
             }
