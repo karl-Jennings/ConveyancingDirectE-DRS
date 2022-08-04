@@ -17,6 +17,7 @@ namespace eDrsManagers.FluentValidation.Validators
             RuleFor(x => x.RepresentativeId)
                 .NotNull().NotEmpty().WithMessage("RepresentativeId should not be Empty");
 
+
             When(x => x.Type == "RepresentingConveyancer", () =>
             {
                 RuleFor(x => x.Name)
@@ -45,8 +46,8 @@ namespace eDrsManagers.FluentValidation.Validators
                     RuleFor(x => x.AddressLine1)
                         .NotNull().NotEmpty().WithMessage("AddressLine1 should not be Empty");
 
-                    RuleFor(x => x.DxExchange)
-                     .NotNull().NotEmpty().WithMessage("DxExchange should not be Empty");
+                    //RuleFor(x => x.DxExchange)
+                    // .NotNull().NotEmpty().WithMessage("DxExchange should not be Empty");
 
                 });
             });
