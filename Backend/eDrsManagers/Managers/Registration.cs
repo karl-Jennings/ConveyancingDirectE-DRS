@@ -52,7 +52,7 @@ namespace eDrsManagers.Managers
             var model = _mapper.Map<DocumentReferenceViewModel, DocumentReference>(viewModel);
 
             _context.Add(model);
-           /// _context.SaveChanges();
+            _context.SaveChanges();
 
 
             /********** Calling LR Api backend ***********/
