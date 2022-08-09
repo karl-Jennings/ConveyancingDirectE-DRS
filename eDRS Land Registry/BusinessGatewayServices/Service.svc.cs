@@ -11,6 +11,7 @@ using BusinessGatewayRepositories.EDRSApplication;
 using BusinessGatewayRepositories.AttachmentServiceRequest;
 using BusinessGatewayRepositories.AttachmentServiceRequestV2_1;
 using BusinessGatewayRepositories.EDRSApplicationV2_1;
+using System.Xml.Serialization;
 
 namespace BusinessGatewayServices
 {
@@ -219,6 +220,8 @@ namespace BusinessGatewayServices
             }
             catch (Exception ex)
             {
+               var responseXML= SerializeToXMLString(ex.Message);
+
                 responseEDRSAppRequest.Successful = false;
                 responseEDRSAppRequest.Error = ex;
                 return responseEDRSAppRequest;
@@ -348,6 +351,21 @@ namespace BusinessGatewayServices
                 responsePollRequest.Successful = false;
                 responsePollRequest.Error = ex.Message;
                 return responsePollRequest;
+            }
+        }
+
+        private static string SerializeToXMLString<T>(T dataToSerialize)
+        {
+            try
+            {
+                var stringwriter = new System.IO.StringWriter();
+                var serializer = new XmlSerializer(typeof(T));
+                serializer.Serialize(stringwriter, dataToSerialize);
+                return stringwriter.ToString();
+            }
+            catch
+            {
+                throw;
             }
         }
     }

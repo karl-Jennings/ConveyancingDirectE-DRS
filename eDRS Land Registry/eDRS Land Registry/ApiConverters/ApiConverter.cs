@@ -9,6 +9,7 @@ using BusinessGatewayRepositories.EDRSApplicationV2_1;
 using BusinessGatewayServices;
 using eDRS_Land_Registry.Models;
 using eDrsDB.Models;
+using ApplicationTypeContent = BusinessGatewayRepositories.EDRSApplicationV2_1.ApplicationTypeContent;
 using CertifiedTypeContent = BusinessGatewayRepositories.EDRSApplicationV2_1.CertifiedTypeContent;
 using DocumentNameContent = BusinessGatewayRepositories.EDRSApplicationV2_1.DocumentNameContent;
 
@@ -184,8 +185,9 @@ namespace eDRS_Land_Registry.ApiConverters
                         Document = new DocumentType { CertifiedCopy = (CertifiedTypeContent)Enum.Parse(typeof(CertifiedTypeContent), x.CertifiedCopy) },
                         Priority = x.Priority.ToString(),
                         Value = x.Value,
-                        FeeInPence = x.FeeInPence.ToString()
-                    });
+                        FeeInPence = x.FeeInPence.ToString(),
+                        Type = GetApplicationType(x.Type)
+                    }); 
                 }
 
             });
@@ -238,14 +240,15 @@ namespace eDRS_Land_Registry.ApiConverters
                     CareOfAddressType tempDx = new DXAddressType()
                     {
                         DXNumber = x.DxNumber,
-                        DXExchange = x.DxExchange,
-                        CareOfName = x.CareOfName,
-                        CareOfReference = x.CareOfReference
+                        DXExchange = x.DxExchange,                    
+                        CareOfName = !String.IsNullOrEmpty(x.CareOfName) ? x.CareOfName : null,
+                        CareOfReference = !String.IsNullOrEmpty(x.CareOfReference) ? x.CareOfReference : null,
+
                     };
                     CareOfAddressType tempPostal = new PostalAddressType()
                     {
-                        CareOfName = x.CareOfName,
-                        CareOfReference = x.CareOfReference,
+                        CareOfName = !String.IsNullOrEmpty(x.CareOfName) ? x.CareOfName : null,
+                        CareOfReference = !String.IsNullOrEmpty(x.CareOfReference) ? x.CareOfReference : null,
                         AddressLine1 = x.AddressLine1,
                         AddressLine2 = x.AddressLine1,
                         AddressLine3 = x.AddressLine1,
@@ -342,8 +345,8 @@ namespace eDRS_Land_Registry.ApiConverters
 
                             PostalAddressType PostalAddressType = new PostalAddressType
                             {
-                                CareOfName = p.CareOfName,
-                                CareOfReference = p.CareOfReference,
+                                CareOfName = !String.IsNullOrEmpty( p.CareOfName) ? p.CareOfName : null,
+                                CareOfReference = !String.IsNullOrEmpty(p.CareOfReference) ? p.CareOfReference:null ,
                                 AddressLine1 = p.AddressLine1,
                                 AddressLine2 = p.AddressLine1,
                                 AddressLine3 = p.AddressLine1,
@@ -378,8 +381,8 @@ namespace eDRS_Land_Registry.ApiConverters
 
                                     PostalAddressType additionalPostalAddress = new PostalAddressType
                                     {
-                                        CareOfName = _adPostal.CareOfName,
-                                        CareOfReference = _adPostal.CareOfReference,
+                                        CareOfName = !String.IsNullOrEmpty(_adPostal.CareOfName) ? _adPostal.CareOfName : null,
+                                        CareOfReference = !String.IsNullOrEmpty(_adPostal.CareOfReference) ? _adPostal.CareOfReference : null,
                                         AddressLine1 = _adPostal.AddressLine1,
                                         AddressLine2 = _adPostal.AddressLine1,
                                         AddressLine3 = _adPostal.AddressLine1,
@@ -399,9 +402,9 @@ namespace eDRS_Land_Registry.ApiConverters
                                     DXAddressType dxAddress = new DXAddressType
                                     {
                                         DXNumber = _addDXAddress.DXNumber,
-                                        DXExchange = _addDXAddress.DXExchange,
-                                        CareOfName = _addDXAddress.CareOfName,
-                                        CareOfReference = _addDXAddress.CareOfReference
+                                        DXExchange = _addDXAddress.DXExchange,                                  
+                                        CareOfName = !String.IsNullOrEmpty(_addDXAddress.CareOfName) ? _addDXAddress.CareOfName : null,
+                                        CareOfReference = !String.IsNullOrEmpty(_addDXAddress.CareOfReference) ? _addDXAddress.CareOfReference : null,
 
                                     };
 
@@ -568,5 +571,88 @@ namespace eDRS_Land_Registry.ApiConverters
 
 
         }
+
+
+        public ApplicationTypeContent GetApplicationType(string type) {
+
+            switch (type) {
+
+                case "Adverse possession of registered land": return ApplicationTypeContent.ADV1;
+                case "Notification of adverse possession": return ApplicationTypeContent.ADV2;
+                case "Agreed Notice": return ApplicationTypeContent.AN1;
+                case "Alteration of Register": return ApplicationTypeContent.AP1;
+                case "Appointment of New Trustee":return ApplicationTypeContent.APT;
+                case "Assent": return ApplicationTypeContent.AS1;
+                case "Assent of Charge":return ApplicationTypeContent.AS2;
+                case "Assent of Part": return ApplicationTypeContent.AS3;
+                case "Cancellation of Caution": return ApplicationTypeContent.CCD;
+                case "Obligation to make Further Advances(CH2)": return ApplicationTypeContent.CH2;
+                case "Note Agreed Maximum Amount of Security()CH3)": return ApplicationTypeContent.CH3;
+                case "Change of Name": return ApplicationTypeContent.CN;
+                case "Cancellation of Noted Lease":return ApplicationTypeContent.CNL;
+                case "Cancel Notice": return ApplicationTypeContent.CN1;
+                case "Change of Address": return ApplicationTypeContent.COA;
+                case "Change of Property Description(CPD)": return ApplicationTypeContent.CPD;
+                case "Determine the exact line of boundary": return ApplicationTypeContent.DB;
+                case "Discharge": return ApplicationTypeContent.DIS;
+                case "Death of Joint Proprietor": return ApplicationTypeContent.DJP;
+                case "Determination of a Lease": return ApplicationTypeContent.DOL;
+                case "Death of Sole Proprietor": return ApplicationTypeContent.DSP;
+                case "Exempt Information Document(EX1)": return ApplicationTypeContent.EX1;
+                case "Remove Exempt Information Document(EX3)": return ApplicationTypeContent.EX3;
+                case "Notice of Home Rights(HR1)": return ApplicationTypeContent.HR1;
+                case "Renew notice of Home Rights(HR2)": return ApplicationTypeContent.HR2;
+                case "Cancel notice of Home Rights(HR4)": return ApplicationTypeContent.HR4;
+                case "Lease": return ApplicationTypeContent.LEASE;
+                case "Noting of Easement": return ApplicationTypeContent.NOE;
+                case "Noting of Lease": return ApplicationTypeContent.NOL;
+                case "Postponement of Charge": return ApplicationTypeContent.PC;
+                case "Entry of Restrictive Covenant": return ApplicationTypeContent.RC;
+                case "Rectification of Register": return ApplicationTypeContent.RFN;
+                case "Registration of Easements": return ApplicationTypeContent.RGOE;
+                case "Release of Covenants - Agreed Notice": return ApplicationTypeContent.ROCA;
+                case "Release of Covenants - Cancellation": return ApplicationTypeContent.ROCC;
+                case "Release of Covenants -Unilateral Notice": return ApplicationTypeContent.ROCU;
+                case "Release of Easements": return ApplicationTypeContent.ROE;
+                case "Restriction(Standard)": return ApplicationTypeContent.RX1;
+                case "Restriction(Non Standard)": return ApplicationTypeContent.RX2;
+                case "Cancel a Restriction": return ApplicationTypeContent.RX3;
+                case "Withdraw a Restriction": return ApplicationTypeContent.RX4;
+                case "Sub Charge": return ApplicationTypeContent.SBC;
+                case "Note overriding priority of a statutory charge": return ApplicationTypeContent.SC;
+                case "Severance of Joint Tenancy": return ApplicationTypeContent.SEV;
+                case "Surrender of Lease": return ApplicationTypeContent.SL;
+                case "Transfer not for Value": return ApplicationTypeContent.TNV;
+                case "Transfer of Part": return ApplicationTypeContent.TP1;
+                case "Transfer of Part Under Power of Sale": return ApplicationTypeContent.TP2;
+                case "Transfer": return ApplicationTypeContent.TR1;
+                case "Transfer Under Power of Sale": return ApplicationTypeContent.TR2;
+                case "Transfer of Charge": return ApplicationTypeContent.TR4;
+                case "Transfer by Operation of Law(On Death)": return ApplicationTypeContent.TRM;
+                case "Transfer Subject to a Charge": return ApplicationTypeContent.TSC;
+                case "Unilateral Notice": return ApplicationTypeContent.UN1;
+                case "Remove Unilateral Notice(UN2)": return ApplicationTypeContent.UN2;
+                case "Register Beneficiary of Unilateral Notice(UN3)": return ApplicationTypeContent.UN3;
+                case "Cancellation of a Unilateral Notice(UN4)": return ApplicationTypeContent.UN4;
+                case "Upgrade Title(UT1)": return ApplicationTypeContent.UT1;
+                case "Variation of Charge": return ApplicationTypeContent.VC;
+                case "Variation of Lease - Agreed Notice": return ApplicationTypeContent.VLAN;
+                case "Variation of Lease": return ApplicationTypeContent.VLAP;
+                case "Variation of Lease - Unilateral Notice": return ApplicationTypeContent.VLUN;
+                case "Variation of Covenants - Agreed Notice": return ApplicationTypeContent.VOCA;
+                case "Variation of Covenants - Unilateral Notice": return ApplicationTypeContent.VOCU;
+                case "Variation of Easements": return ApplicationTypeContent.VOE;
+                case "Variation of Easements - Agreed Notice": return ApplicationTypeContent.VOEA;
+                case "Variation of Easements - Unilateral Notice": return ApplicationTypeContent.VOEU;
+                case "Withdraw a Caution": return ApplicationTypeContent.WCT;
+
+                
+            }
+
+            return ApplicationTypeContent.ADV1;
+
+        }
+
     }
+
 }
